@@ -34,9 +34,7 @@ int	main(void)
 {
 	t_vars	*vars;
 	void	*image;
-	int		i;
 
-	i = 0;
 	vars->mlx = mlx_init();
 	if (!vars->mlx)
 		return(0);
