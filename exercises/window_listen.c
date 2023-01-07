@@ -1,6 +1,7 @@
 // Exercise to open a window and record events.
 // Using minilibx-opengl-20191021
 // From root: cc -framework OpenGL -framework AppKit exercises/window_listen.c -lmlx
+// From root: cc -framework OpenGL -framework AppKit exercises/window_listen.c minilibx_opengl_20191021/libmlx.a
 
 #include "../minilibx_opengl_20191021/mlx.h"
 #include <stdio.h>
