@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   line_sphere_enchanced.c                            :+:      :+:    :+:   */
+/*   ray_sphere.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 12:42:52 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/01/12 15:54:19 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/01/12 19:24:00 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /*
 Added a funcition that normalizes the direction courtesy of Pablo.
 use:
-cc line_sphere_enchanced.c -lm
+cc ray_sphere.c operations.c input.c -lm
 */
-
+#include "./exercise.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
@@ -38,58 +38,7 @@ typedef struct s_point
 #define SPHERE_CENTER_Z 10
 #define SPHERE_RADIUS 10
 
-double	length_two_points(t_point *point_one, t_point *point_two)
-{
-	double	distance;
 
-	distance = sqrt(pow(point_two->x - point_one->x, 2)
-			+ pow(point_two->y - point_one->y, 2)
-			+ pow(point_two->z - point_one->z, 2));
-	return (distance);
-}
-
-t_point	*direction_two_points(t_point *start, t_point *end)
-{
-	t_point	*new;
-
-	if (start == end || (start->x == end->x
-			&& start->y == end->y
-			&& start->z == end->z))
-		return (NULL);
-	new = (t_point *)malloc(sizeof(t_point));
-	if (!new)
-		return (NULL);
-	new->x = (end->x - start->x) / length_two_points(start, end);
-	new->y = (end->y - start->y) / length_two_points(start, end);
-	new->z = (end->z - start->z) / length_two_points(start, end);
-	return (new);
-}
-
-double	dot(t_point *first, t_point *second)
-{
-	return ((first->x * second->x) + \
-	(first->y * second->y) + \
-	(first->z * second->z));
-}
-
-/*The return value of this function needs to have memory allocated to it.*/
-t_point *substract_vectors(t_point *V, t_point *W)
-{
-	t_point *ret_val;
-
-	ret_val = malloc(sizeof(t_point));
-	ret_val->x = V->x - W->x;
-	ret_val->y = V->y - W->y;
-	ret_val->z = V->z - W->z;
-	return (ret_val);
-}
-
-void populate_point(t_point *to_fill, double x, double y, double z)
-{
-	to_fill->x = x;
-	to_fill->y = y;
-	to_fill->z = z;
-}
 
 t_point *zero_sphere_intersection(t_point *zero_point, t_point *direction, double distance)
 {
@@ -117,9 +66,7 @@ int main(void)
 
 	ray_start = malloc(sizeof(t_point));
 	ray_direction_point = malloc(sizeof(t_point));
-	// ray_direction = malloc(sizeof(t_point));
 	sphere_center = malloc(sizeof(t_point));
-	// return(printf("seg check\n"));
 	populate_point(ray_start, RAY_START_X, RAY_START_Y, RAY_START_Z);
 	populate_point(ray_direction_point, RAY_DIRECTION_X, RAY_DIRECTION_Y, RAY_DIRECTION_Z);
 	populate_point(sphere_center, SPHERE_CENTER_X, SPHERE_CENTER_Y, SPHERE_CENTER_Z);
