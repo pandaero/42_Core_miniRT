@@ -1,17 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_elements.c                                    :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 17:47:39 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/10 21:27:51 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/12 18:54:47 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minirt.h"
 #include <stdlib.h>
+
+//Function frees a pointer and returns NULL.
+void	*free_null(void *ptr)
+{
+	free(ptr);
+	return (NULL);
+}
 
 //Function frees all the allocations belonging to a point object.
 void	free_point(t_point *point)
