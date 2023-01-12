@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 17:40:24 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/01/12 19:24:27 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/01/12 19:30:48 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./exercise.h"
+#include "./exercises.h"
 
 void populate_point(t_point *to_fill, double x, double y, double z)
 {

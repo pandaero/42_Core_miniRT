@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   operations.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 17:35:01 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/01/12 19:24:22 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/01/12 19:34:27 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./exercise.h"
+#include "./exercises.h"
 
 /*The return value of this function needs to have memory allocated to it.*/
 t_point *substract_vectors(t_point *V, t_point *W)

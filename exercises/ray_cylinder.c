@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ray_cylinder.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 18:40:09 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/01/12 19:24:12 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/01/12 19:34:32 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./exercise.h"
+#include "./exercises.h"
 
 /*
 Now let's talk about the intersection of a ray and a cylinder.

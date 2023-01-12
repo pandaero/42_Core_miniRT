@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_plane.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:54:59 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/01/12 19:24:09 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/01/12 19:34:37 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ and the point of intersection is given by: P = R + tD
 cc ray_plane.c operations.c input.c -lm
 */
 
-#include "./exercise.h"
+#include "./exercises.h"
 
 # define PLANE_POINT_INPUT_X 1
 # define PLANE_POINT_INPUT_Y 0

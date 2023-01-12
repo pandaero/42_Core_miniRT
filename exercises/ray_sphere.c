@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_sphere.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 12:42:52 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/01/12 19:24:00 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/01/12 19:34:40 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@ Added a funcition that normalizes the direction courtesy of Pablo.
 use:
 cc ray_sphere.c operations.c input.c -lm
 */
-#include "./exercise.h"
+#include "./exercises.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
