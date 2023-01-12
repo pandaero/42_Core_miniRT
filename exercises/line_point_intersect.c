@@ -1,12 +1,27 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   line_point_intersect.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/11 12:44:06 by pbiederm          #+#    #+#             */
+/*   Updated: 2023/01/12 14:14:50 by pbiederm         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/*
+Checks if the given point x1 and y2 intersects with the function a*x = y
+Simple introduction to the concept of intersection. This implementation would be too resource heavy.
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
-
 
 #define a 2
 #define coordinate_x 1
 #define coordinate_y 2
-/*Checks if the given point x1 and y2 intersects with the function a*x = y
-Simple introduction to the concept of intersection. This implementation would be too resource heavy.*/
+
 int	main(void)
 {
 	int		x1;
