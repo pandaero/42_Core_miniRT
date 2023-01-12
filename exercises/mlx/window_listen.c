@@ -1,6 +1,7 @@
 // Exercise to open a window and record events.
 // Using minilibx-opengl-20191021
-// From root: cc -framework OpenGL -framework AppKit exercises/window_listen.c -lmlx
+// From root: cc -framework OpenGL -framework AppKit exercises/mlx/window_listen.c -lmlx
+// From root: cc -framework OpenGL -framework AppKit exercises/mlx/window_listen.c minilibx_opengl_20191021/libmlx.a
 
 #include "../minilibx_opengl_20191021/mlx.h"
 #include <stdio.h>
@@ -34,12 +35,16 @@ int	main(void)
 {
 	t_vars	*vars;
 	void	*image;
+	int		width;
+	int		height;
 
+	width = 300;
+	height = 500;
 	vars->mlx = mlx_init();
 	if (!vars->mlx)
 		return(0);
-	vars->window = mlx_new_window(vars->mlx, 500, 500, "Title");
-	image = mlx_new_image(vars->mlx, 500, 500);
+	vars->window = mlx_new_window(vars->mlx, width, height, "Title");
+	image = mlx_new_image(vars->mlx, width, height);
 	mlx_put_image_to_window(vars->mlx, vars->window, image, 0, 0);
 	mlx_hook(vars->window, 17, 0, closing, vars);
 	mlx_hook(vars->window, 3, 0, keys, vars);
