@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/13 02:59:17 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/13 12:20:05 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,6 +237,8 @@ double		magnitude_components(double x_comp, double y_comp, double z_comp);
 t_direction	*direction_cross(t_direction *first, t_direction *second);
 //Function returns the cross product with a positive z-axis component.
 t_direction	*direction_cross_up(t_direction *first, t_direction *second);
+//Function works out the vector cross product of two vectors.
+t_vector	*vector_cross(t_vector *first, t_vector *second);
 //Function works out the screen-up direction.
 t_direction	*screen_up(t_camera *camera);
 
