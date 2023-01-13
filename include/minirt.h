@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/13 12:51:49 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/13 13:00:13 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,7 @@ t_ray		*ray_start_dir(t_point *origin, t_direction *dir);
 //Function creates a defined ray object from a starting and directing point.
 t_ray		*ray_two_points(t_point *start, t_point *end);
 //Function creates a defined ray object from a vector.
-t_ray		*ray_vector(t_vector *vector);
+t_ray		*ray_start_vector(t_point *start, t_vector *vector);
 
 //Function creates and initialises a camera.
 t_camera 	*camera_create(void);
