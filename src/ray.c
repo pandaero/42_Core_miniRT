@@ -6,11 +6,11 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 19:12:21 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/12 18:01:04 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/13 01:56:31 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minirt.h"
+#include "../include/minirt.h"
 #include <stdlib.h>
 
 //Function creates and initialises a ray.
@@ -31,7 +31,7 @@ t_ray	*ray_copy(t_ray *ray)
 {
 	t_ray	*new;
 
-	if (ray->ray_orig == NULL || ray->ray_dir == NULL)
+	if (!ray || ray->ray_orig == NULL || ray->ray_dir == NULL)
 		return (NULL);
 	new = ray_create();
 	if (!new)

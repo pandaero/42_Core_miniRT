@@ -6,11 +6,11 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 17:02:49 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/12 17:58:17 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/13 01:01:52 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minirt.h"
+#include "../include/minirt.h"
 #include <stdlib.h>
 #include <math.h>
 

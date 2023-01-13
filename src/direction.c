@@ -6,11 +6,11 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 18:00:47 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/12 18:51:24 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/13 02:06:37 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minirt.h"
+#include "../include/minirt.h"
 #include <stdlib.h>
 
 //Function creates and initialises a direction.

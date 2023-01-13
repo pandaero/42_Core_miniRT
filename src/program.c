@@ -6,11 +6,11 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 17:49:31 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/12 18:01:41 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/13 01:02:05 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minirt.h"
+#include "../include/minirt.h"
 #include <stdlib.h>
 
 //Function creates a new program data structure.

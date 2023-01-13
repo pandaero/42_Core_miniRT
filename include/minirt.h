@@ -6,15 +6,23 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/12 18:48:20 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/13 02:59:17 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
 
-# include "libft/libft.h"
-# include "minilibx_opengl_20191021/mlx.h"
+# include "../libft/libft.h"
+# if defined (__APPLE__)
+#  include "../minilibx_opengl_20191021/mlx.h"
+# endif
+# if defined (__linux__)
+#  include "../minilibx-linux/mlx.h"
+# endif
+
+# define WIN_WIDTH 1920
+# define WIN_HEIGHT 1080
 
 // ================================= TYPE PROTOTYPES ===========================
 typedef enum element		t_element;
@@ -70,6 +78,28 @@ typedef struct s_ray
 	t_point		*ray_orig;
 	t_direction	*ray_dir;
 }				t_ray;
+
+// ================================= 3D COMPOSITES =============================
+//Typedef describes a pixel screen.
+typedef struct s_screen
+{
+	int			width;
+	int			height;
+	t_point		*centre;
+	t_direction	*normal;
+	t_point		**pixel_centres;
+}			t_screen;
+
+// ================================= SCENE ELEMENTS =============================
+//Typedef describes ambient lighting.
+//Typedef describes the camera.
+typedef struct s_camera
+{
+	double		horiz_fov;
+	t_point		*location;
+	t_direction	*view_dir;
+}			t_camera;
+//Typedef describes a spot light.
 
 // =============================== OBJECT LINKED LIST ==========================
 //Typedef describes an object in a linked list.
@@ -136,6 +166,11 @@ t_ray		*ray_start_dir(t_point *origin, t_direction *dir);
 t_ray		*ray_two_points(t_point *start, t_point *end);
 //Function creates a defined ray object from a vector.
 t_ray		*ray_vector(t_vector *vector);
+
+//Function creates and initialises a camera.
+t_camera 	*camera_create(void);
+
+// -------------------------------- GENERIC OBJECT -----------------------------
 //Function creates and initialises an object.
 t_obj		*object_create(void);
 //Function copies an object's properties to a new one.
@@ -151,15 +186,25 @@ t_obj		*object_ray(t_ray *ray);
 
 // ================================ MEMORY FREEING =============================
 //Function frees a pointer and returns NULL.
-void		*free_null(void *ptr);
+void		*free_void_null(void *ptr);
 //Function frees all the allocations belonging to a point object.
 void		free_point(t_point *point);
+//Function frees all the allocations belonging to a point object, returns NULL.
+void		*free_point_null(t_point *point);
 //Function frees all the allocations belonging to a direction object.
 void		free_direction(t_direction *direction);
+//Function frees all the allocations in a direction object, returns NULL.
+void		*free_direction_null(t_direction *direction);
 //Function frees all the allocations belonging to a vector object.
 void		free_vector(t_vector *vector);
+//Function frees all the allocations belonging to a vector object, returns null.
+void		*free_vector_null(t_vector *vector);
 //Function frees all the allocations belonging to a ray object.
 void		free_ray(t_ray *ray);
+//Function frees all the allocations belonging to a ray object, returns null.
+void		*free_ray_null(t_ray *ray);
+//Function frees all the allocations belonging to a camera.
+void		free_camera(t_camera *camera);
 //Function frees the program struct.
 void		free_program(t_program *program);
 //Function frees all the object linked lists.
@@ -182,8 +227,19 @@ void		list_add_object(t_objlist *list, t_obj *object);
 void		list_remove_object(t_objlist *list, t_obj *object);
 
 // =================================== OPERATIONS ==============================
+//Function converts degrees to radians.
+double		radians_degrees(double deg);
 //Function works out the length/distance between two points.
 double		distance_two_points(t_point *point_one, t_point *point_two);
+//Function works out the magnitude of a vector from its components.
+double		magnitude_components(double x_comp, double y_comp, double z_comp);
+//Function works out the vector cross product of two directions.
+t_direction	*direction_cross(t_direction *first, t_direction *second);
+//Function returns the cross product with a positive z-axis component.
+t_direction	*direction_cross_up(t_direction *first, t_direction *second);
+//Function works out the screen-up direction.
+t_direction	*screen_up(t_camera *camera);
+
 
 // ================================= ERROR HANDLING ============================
 //Function handles cleanly an error that requires the program to exit.

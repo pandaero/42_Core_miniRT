@@ -6,11 +6,11 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 17:12:04 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/12 17:35:30 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/13 01:55:59 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minirt.h"
+#include "../include/minirt.h"
 #include <stdlib.h>
 
 //Function creates and initialises a point.
@@ -32,6 +32,8 @@ t_point	*point_copy(t_point *point)
 {
 	t_point	*new;
 
+	if (!point)
+		return (NULL);
 	new = point_create();
 	if (!new)
 		return (NULL);
