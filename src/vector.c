@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 17:02:49 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/13 01:01:52 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/13 12:54:22 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ t_vector	*vector_create(void)
 	new->y_comp = 0;
 	new->z_comp = 0;
 	new->dir = NULL;
-	new->start = NULL;
-	new->end = NULL;
 	return (new);
 }
 
@@ -42,10 +40,11 @@ t_vector	*vector_copy(t_vector *vector)
 	new = vector_create();
 	if (!new)
 		return (NULL);
-	new->start = point_copy(vector->start);
-	new->end = point_copy(vector->end);
 	new->dir = direction_copy(vector->dir);
 	new->mag = vector->mag;
+	new->x_comp = vector->x_comp;
+	new->y_comp = vector->y_comp;
+	new->z_comp = vector->z_comp;
 	return (new);
 }
 
@@ -54,35 +53,34 @@ t_vector	*vector_two_points(t_point *start, t_point *end)
 {
 	t_vector	*new;
 
-	if (start == end || (start->x_co == end->x_co
-			&& start->y_co == end->y_co
+	if (start == end || (start->x_co == end->x_co && start->y_co == end->y_co
 			&& start->z_co == end->z_co))
 		return (NULL);
 	new = vector_create();
 	if (!new)
 		return (NULL);
-	new->start = point_copy(start);
-	new->end = point_copy(end);
 	new->dir = direction_two_points(start, end);
 	new->mag = distance_two_points(start, end);
+	new->x_comp = new->mag * new->dir->x_comp;
+	new->y_comp = new->mag * new->dir->y_comp;
+	new->z_comp = new->mag * new->dir->z_comp;
 	return (new);
 }
 
-//Function creates a new defined vector object from starting point, mag, dir.
-t_vector	*vector_start_mag_dir(t_point *start, double mag, t_direction *dir)
+//Function creates a new defined vector object from magnitude and direction.
+t_vector	*vector_mag_dir(double mag, t_direction *dir)
 {
 	t_vector	*new;
 
-	if (mag == 0 || !start || start == NULL || !dir || dir == NULL)
+	if (mag == 0 || !dir)
 		return (NULL);
 	new = vector_create();
 	if (!new)
 		return (NULL);
-	new->start = point_copy(start);
 	new->dir = direction_copy(dir);
 	new->mag = mag;
-	new->end = point_coords((start->x_co + mag * dir->x_comp),
-			(start->y_co + mag * dir->y_comp),
-			(start->z_co + mag * dir->z_comp));
+	new->x_comp = mag * dir->x_comp;
+	new->y_comp = mag * dir->y_comp;
+	new->z_comp = mag * dir->z_comp;
 	return (new);
 }

@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/13 12:20:05 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/13 12:51:49 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,11 @@ typedef struct s_direction
 //Typedef describes a vector and its properties in 3D space.
 typedef struct s_vector
 {
-	double		mag;
 	double		x_comp;
 	double		y_comp;
 	double		z_comp;
+	double		mag;
 	t_direction	*dir;
-	t_point		*start;
-	t_point		*end;
 }				t_vector;
 
 //Typedef describes a ray in 3D space.
@@ -154,8 +152,8 @@ t_vector	*vector_create(void);
 t_vector	*vector_copy(t_vector *vector);
 //Function creates a new defined vector object from two points.
 t_vector	*vector_two_points(t_point *start, t_point *end);
-//Function creates a new defined vector object from starting point, mag, dir.
-t_vector	*vector_start_mag_dir(t_point *start, double mag, t_direction *dir);
+//Function creates a new defined vector object from magnitude and direction.
+t_vector	*vector_mag_dir(double mag, t_direction *dir);
 //Function creates and initialises a ray.
 t_ray		*ray_create(void);
 //Function copies a defined ray object's properties to a new one.

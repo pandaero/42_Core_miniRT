@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 00:29:56 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/13 02:58:58 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/13 12:54:46 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@
 //Function frees all the allocations belonging to a vector object.
 void	free_vector(t_vector *vector)
 {
-	free_point(vector->start);
-	free_point(vector->end);
 	free_direction(vector->dir);
 	free(vector);
 }
@@ -25,8 +23,6 @@ void	free_vector(t_vector *vector)
 //Function frees all the allocations belonging to a vector object, returns null.
 void	*free_vector_null(t_vector *vector)
 {
-	free_point(vector->start);
-	free_point(vector->end);
 	free_direction(vector->dir);
 	free(vector);
 	return (NULL);
