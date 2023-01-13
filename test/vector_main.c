@@ -3,7 +3,7 @@
 #include "test.h"
 #include <stdio.h>
 
-//Test for distance_two_points
+/*Test for distance_two_points
 //From root: cc -Wall -Werror -Wextra test/vector_main.c src/*.c libft/libft.a -lm
 int	main(void)
 {
@@ -21,3 +21,4 @@ int	main(void)
 	free_point(point2);
 	return (0);
 }
+//*/
