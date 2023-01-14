@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 00:29:56 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/13 12:54:46 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/14 19:27:56 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	free_ray(t_ray *ray)
 	free(ray);
 }
 
-//Function frees all the allocations belonging to a ray object, returns null.
+//Function frees all the allocations belonging to a ray, returns null.
 void	*free_ray_null(t_ray *ray)
 {
 	free_point(ray->ray_orig);

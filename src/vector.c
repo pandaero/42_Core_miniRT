@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 17:02:49 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/13 12:54:22 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/13 15:52:33 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,20 @@ t_vector	*vector_copy(t_vector *vector)
 	new->x_comp = vector->x_comp;
 	new->y_comp = vector->y_comp;
 	new->z_comp = vector->z_comp;
+	return (new);
+}
+
+//Function creates a new defined vector from a scalar and a direction.
+t_vector	*vector_scale_direction(double scalar, t_direction *dir)
+{
+	t_vector	*new;
+
+	new = vector_create();
+	new->mag = scalar;
+	new->dir = direction_copy(dir);
+	new->x_comp = scalar * dir->x_comp;
+	new->y_comp = scalar * dir->y_comp;
+	new->z_comp = scalar * dir->z_comp;
 	return (new);
 }
 

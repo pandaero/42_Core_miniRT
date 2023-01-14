@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:17:22 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/13 01:56:10 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/14 18:57:15 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ t_obj	*object_create(void)
 	new->direction = NULL;
 	new->vector = NULL;
 	new->ray = NULL;
+	new->camera = NULL;
+	new->screen = NULL;
 	new->prev = NULL;
 	new->next = NULL;
 	return (new);
@@ -75,7 +77,7 @@ t_obj	*object_direction(t_direction *direction)
 	return (new);
 }
 
-//Function creates a direction object.
+//Function creates a vector object.
 t_obj	*object_vector(t_vector *vector)
 {
 	t_obj	*new;

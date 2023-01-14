@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:30:27 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/13 12:11:44 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/13 15:04:56 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ t_direction	*direction_cross_up(t_direction *first, t_direction *second)
 		free_direction(cross2);
 		return (cross1);
 	}
-	else if (cross2->z_comp > 0)
+	else if (cross2->z_comp >= 0)
 	{
 		free_direction(cross1);
 		return (cross2);

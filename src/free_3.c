@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 18:53:38 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/13 01:02:26 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/14 20:25:05 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,9 @@ void	free_object(t_obj *object)
 		free_vector(object->vector);
 	if (object->elem == RAY)
 		free_ray(object->ray);
+	if (object->elem == CAMERA)
+		free_camera(object->camera);
+	if (object->elem == SCREEN)
+		free_screen(object->screen);
 	free(object);
 }

@@ -6,11 +6,53 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 12:07:02 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/13 12:19:33 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/14 18:30:32 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minirt.h"
+
+//Function adds two vectors together.
+t_vector	*vector_add(t_vector *first, t_vector *second)
+{
+	t_vector	*new;
+
+	new = vector_create();
+	new->x_comp = first->x_comp + second->x_comp;
+	new->y_comp = first->y_comp + second->y_comp;
+	new->z_comp = first->z_comp + second->z_comp;
+	new->dir = direction_components(new->x_comp, new->y_comp, new->z_comp);
+	new->mag = magnitude_components(new->x_comp, new->y_comp, new->z_comp);
+	return (new);
+}
+
+//Function subtracts two vectors.
+t_vector	*vector_subtract(t_vector *first, t_vector *second)
+{
+	t_vector	*new;
+
+	new = vector_create();
+	new->x_comp = first->x_comp - second->x_comp;
+	new->y_comp = first->y_comp - second->y_comp;
+	new->z_comp = first->z_comp - second->z_comp;
+	new->dir = direction_components(new->x_comp, new->y_comp, new->z_comp);
+	new->mag = magnitude_components(new->x_comp, new->y_comp, new->z_comp);
+	return (new);
+}
+
+//Function scales a vector.
+t_vector	*vector_scale(double scalar, t_vector *vector)
+{
+	t_vector	*new;
+
+	new = vector_create();
+	new->mag = scalar * vector->mag;
+	new->dir = direction_copy(vector->dir);
+	new->x_comp = scalar * vector->x_comp;
+	new->y_comp = scalar * vector->y_comp;
+	new->z_comp = scalar * vector->z_comp;
+	return (new);
+}
 
 //Function works out the vector cross product of two vectors.
 t_vector	*vector_cross(t_vector *first, t_vector *second)
