@@ -16,6 +16,17 @@ void	object_print(t_obj *object)
 		printf("VECTOR: comps:(%4.2f, %4.2f, %4.2f) mag:%4.2f dir:(%4.2f, %4.2f, %4.2f)\n", object->vector->x_comp, object->vector->y_comp, object->vector->z_comp, object->vector->mag, object->vector->dir->x_comp, object->vector->dir->y_comp, object->vector->dir->z_comp);
 	if (object->elem == RAY)
 		printf("RAY: origin:(%4.2f, %4.2f, %4.2f) dir:(%4.2f, %4.2f, %4.2f)\n", object->ray->ray_orig->x_co, object->ray->ray_orig->y_co, object->ray->ray_orig->z_co, object->ray->ray_dir->x_comp, object->ray->ray_dir->y_comp, object->ray->ray_dir->z_comp);
+	if (object->elem == CAMERA)
+		printf("CAMERA: hfov:%f point:(%4.2f, %4.2f, %4.2f) dir:(%4.2f, %4.2f, %4.2f)\n", object->camera->horiz_fov, object->camera->location->x_co, object->camera->location->y_co, object->camera->location->z_co, object->camera->view_dir->x_comp, object->camera->view_dir->y_comp, object->camera->view_dir->z_comp);
+	if (object->elem == SCREEN)
+	{
+		printf("SCREEN: ");
+		printf("width:%d height:%d ", object->screen->width, object->screen->height);
+		printf("centre:(%4.2f, %4.2f, %4.2f)\n", object->screen->pts->centre->x_co, object->screen->pts->centre->y_co, object->screen->pts->centre->z_co);
+		printf("        dir_into:(%4.2f, %4.2f, %4.2f) ", object->screen->vecs->normal->x_comp, object->screen->vecs->normal->y_comp, object->screen->vecs->normal->z_comp);
+		printf("top_left:(%4.2f, %4.2f, %4.2f)\n", object->screen->pts->tl_corner->x_co, object->screen->pts->tl_corner->y_co, object->screen->pts->tl_corner->z_co);
+		printf("        first_px:(%4.2f, %4.2f, %4.2f)\n", object->screen->pts->first_px->x_co, object->screen->pts->first_px->y_co, object->screen->pts->first_px->z_co);
+	}
 }
 
 //Function displays the objects within an object linked list on STDOUT.
