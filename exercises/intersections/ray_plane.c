@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:54:59 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/01/13 18:11:58 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/01/15 15:26:37 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ cc ray_plane.c operations.c input.c -lm
 # define PLANE_POINT_INPUT_X 1
 # define PLANE_POINT_INPUT_Y 0
 # define PLANE_POINT_INPUT_Z 100
-# define PLANE_NOT_NORMAL_INPUT_POINT_X 0
-# define PLANE_NOT_NORMAL_INPUT_POINT_Y 0
-# define PLANE_NOT_NORMAL_INPUT_POINT_Z 1
+# define PLANE_NOT_NORMAL_INPUt_Vector3_X 0
+# define PLANE_NOT_NORMAL_INPUt_Vector3_Y 0
+# define PLANE_NOT_NORMAL_INPUt_Vector3_Z 1
 # define RAY_START_X 0
 # define RAY_START_Y 0
 # define RAY_START_Z 0
@@ -40,11 +40,11 @@ cc ray_plane.c operations.c input.c -lm
 # define RAY_DIRECTION_INPUT_Y 0
 # define RAY_DIRECTION_INPUT_Z -1000000
 
-t_point *calculate_ray_plane_intersection(t_point *zero_point, t_point *direction, double distance)
+t_Vector3 *calculate_ray_plane_intersection(t_Vector3 *zero_point, t_Vector3 *direction, double distance)
 {
-	t_point *point_of_intersection;
+	t_Vector3 *point_of_intersection;
 
-	point_of_intersection = malloc(sizeof(t_point));
+	point_of_intersection = malloc(sizeof(t_Vector3));
 	
 	point_of_intersection->x = (zero_point->x + direction->x * distance);
 	point_of_intersection->y = (zero_point->y + direction->y * distance);
@@ -52,22 +52,22 @@ t_point *calculate_ray_plane_intersection(t_point *zero_point, t_point *directio
 }
 void ray_plane_intersection(void)
 {
-	t_point	*plane_point;
-	t_point	*plane_normal_input;
-	t_point *plane_normal;
-	t_point *ray_start;
-	t_point *ray_direction_input;
-	t_point *ray_direction;
-	t_point *L; //(P - R) is the vector pointing from the origin of the ray to a point on the plane 
-	t_point *point_of_intersection;
+	t_Vector3	*plane_point;
+	t_Vector3	*plane_normal_input;
+	t_Vector3 *plane_normal;
+	t_Vector3 *ray_start;
+	t_Vector3 *ray_direction_input;
+	t_Vector3 *ray_direction;
+	t_Vector3 *L; //(P - R) is the vector pointing from the origin of the ray to a point on the plane 
+	t_Vector3 *point_of_intersection;
 	double	t;
 
-	plane_point = malloc(sizeof(t_point));
-	plane_normal_input = malloc(sizeof(t_point));
-	ray_start = malloc(sizeof(t_point));
-	ray_direction_input = malloc(sizeof(t_point));
+	plane_point = malloc(sizeof(t_Vector3));
+	plane_normal_input = malloc(sizeof(t_Vector3));
+	ray_start = malloc(sizeof(t_Vector3));
+	ray_direction_input = malloc(sizeof(t_Vector3));
 	populate_point(plane_point, PLANE_POINT_INPUT_X, PLANE_POINT_INPUT_Y, PLANE_POINT_INPUT_Z);
-	populate_point(plane_normal_input, PLANE_NOT_NORMAL_INPUT_POINT_X, PLANE_NOT_NORMAL_INPUT_POINT_Y, PLANE_NOT_NORMAL_INPUT_POINT_Z);
+	populate_point(plane_normal_input, PLANE_NOT_NORMAL_INPUt_Vector3_X, PLANE_NOT_NORMAL_INPUt_Vector3_Y, PLANE_NOT_NORMAL_INPUt_Vector3_Z);
 	populate_point(ray_start, RAY_START_X, RAY_START_Y, RAY_START_Z);
 	populate_point(ray_direction_input, RAY_DIRECTION_INPUT_X, RAY_DIRECTION_INPUT_Y, RAY_DIRECTION_INPUT_Z);
 	ray_direction = direction_two_points_local(ray_start, ray_direction_input);

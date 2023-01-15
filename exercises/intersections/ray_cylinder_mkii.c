@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 13:31:47 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/01/15 14:43:47 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/01/15 15:26:35 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,23 +47,25 @@ c=(w⋅w)−(w⋅h^)2−r2
 #define CYLINDER_INPUT_DIRECTION_Y 1
 #define CYLINDER_INPUT_DIRECTION_Z 0
 #define CYLINDER_DIAMETER 5
+// #define BG_COLOR
+// #define OBJ_COLOR
 
 void	ray_cylinder_intersection()
 {
-	t_point	*ray_start;
-	t_point	*ray_direction_input;
-	t_point	*ray_direction;
-	t_point	*cylinder_center;
-	t_point	*cylinder_direction_input;
-	t_point *w; //vector difference between L0 and C
+	t_Vector3	*ray_start;
+	t_Vector3	*ray_direction_input;
+	t_Vector3	*ray_direction;
+	t_Vector3	*cylinder_center;
+	t_Vector3	*cylinder_direction_input;
+	t_Vector3 *w; //vector difference between L0 and C
 	double	a;
 	double	b;
 	double	c;
 
-	ray_start = malloc(sizeof(t_point));
-	ray_direction_input = malloc(sizeof(t_point));
-	cylinder_center = malloc(sizeof(t_point));
-	cylinder_direction_input = malloc(sizeof(t_point));
+	ray_start = malloc(sizeof(t_Vector3));
+	ray_direction_input = malloc(sizeof(t_Vector3));
+	cylinder_center = malloc(sizeof(t_Vector3));
+	cylinder_direction_input = malloc(sizeof(t_Vector3));
 	populate_point(ray_start, RAY_START_X, RAY_START_Y, RAY_START_Z);
 	populate_point(ray_direction_input, RAY_INPUT_DIRECTION_X, RAY_INPUT_DIRECTION_Y, RAY_INPUT_DIRECTION_Z);
 	populate_point(cylinder_center, CYLINDER_CENTER_X, CYLINDER_CENTER_Y, CYLINDER_CENTER_Z);
