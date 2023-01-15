@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:54:59 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/01/15 15:26:37 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/01/15 17:02:50 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,17 +50,17 @@ t_Vector3 *calculate_ray_plane_intersection(t_Vector3 *zero_point, t_Vector3 *di
 	point_of_intersection->y = (zero_point->y + direction->y * distance);
 	point_of_intersection->z = (zero_point->z + direction->z * distance);
 }
-void ray_plane_intersection(void)
+t_intersect *ray_plane_intersection(t_ray	*ray)
 {
 	t_Vector3	*plane_point;
 	t_Vector3	*plane_normal_input;
-	t_Vector3 *plane_normal;
-	t_Vector3 *ray_start;
-	t_Vector3 *ray_direction_input;
-	t_Vector3 *ray_direction;
-	t_Vector3 *L; //(P - R) is the vector pointing from the origin of the ray to a point on the plane 
-	t_Vector3 *point_of_intersection;
-	double	t;
+	t_Vector3	*plane_normal;
+	t_Vector3	*ray_start;
+	t_Vector3	*ray_direction_input;
+	t_Vector3	*ray_direction;
+	t_Vector3	*L; //(P - R) is the vector pointing from the origin of the ray to a point on the plane 
+	t_Vector3	*point_of_intersection;
+	double		t;
 
 	plane_point = malloc(sizeof(t_Vector3));
 	plane_normal_input = malloc(sizeof(t_Vector3));

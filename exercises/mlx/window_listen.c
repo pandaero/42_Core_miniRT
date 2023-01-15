@@ -48,6 +48,7 @@ int	main(void)
 
 	width = 500;
 	height = 500;
+	vars = (t_vars *)malloc(sizeof(t_vars));
 	vars->mlx = mlx_init();
 	if (!vars->mlx)
 		return(0);
@@ -57,5 +58,6 @@ int	main(void)
 	mlx_hook(vars->window, 17, NO_EVENT, closing, vars);
 	mlx_hook(vars->window, 3, KEY_RELEASE, keys, vars);
 	mlx_loop(vars->mlx);
+	free(vars);
 	return (0);
 }

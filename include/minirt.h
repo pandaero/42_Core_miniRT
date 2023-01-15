@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/14 22:35:46 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/15 20:15:53 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINIRT_H
 
 # include "../libft/libft.h"
+// # include "./intersections.h"
 # if defined (__APPLE__)
 #  include "../minilibx_opengl_20191021/mlx.h"
 # endif
@@ -21,11 +22,17 @@
 #  include "../minilibx-linux/mlx.h"
 # endif
 
+# include <stdbool.h>
+
 // Screen resolution
-# define WIN_WIDTH 800
-# define WIN_HEIGHT 600
+// # define WIN_WIDTH 800
+// # define WIN_HEIGHT 600
 // Factor for screen-pixel coordinate sizing. 
 # define VIEW_SCALING 0.5
+# define SPHERE_CENTER_X 0
+# define SPHERE_CENTER_Y 50
+# define SPHERE_CENTER_Z 0
+# define SPHERE_RADIUS 10
 
 // ================================= TYPE PROTOTYPES ===========================
 typedef enum element		t_element;
@@ -75,12 +82,26 @@ typedef struct s_vector
 	t_direction	*dir;
 }				t_vector;
 
+typedef struct s_Vector3
+{
+	double	x;
+	double	y;
+	double	z;
+}			t_Vector3;
+
 //Typedef describes a ray in 3D space.
 typedef struct s_ray
 {
 	t_point		*ray_orig;
 	t_direction	*ray_dir;
 }				t_ray;
+
+//state shows if the ray intesects with the object or not
+typedef struct s_intersect
+{
+    bool    state;
+    t_point    *point;
+}            t_intersect;
 
 // ================================= 3D COMPOSITES =============================
 //Typedef describes points required to define the pixels composing a screen.
@@ -297,6 +318,15 @@ t_vector	*vector_subtract(t_vector *first, t_vector *second);
 t_vector	*vector_cross(t_vector *first, t_vector *second);
 //Function scales a vector.
 t_vector	*vector_scale(double scalar, t_vector *vector);
+// --------------------------------- INTERSECTIONS -----------------------------
+double		length_two_points_local(t_Vector3 *point_one, t_Vector3 *point_two);
+t_Vector3	*direction_two_points_local(t_Vector3 *start, t_Vector3 *end);
+double		dot(t_Vector3 *first, t_Vector3 *second);
+t_Vector3	*substract_vectors(t_Vector3 *V, t_Vector3 *W);
+void		populate_point(t_Vector3 *to_fill, double x, double y, double z);
+t_Vector3	*scalar_times_vector(double scalar, t_Vector3 *v);
+void 		solveQuadratic(double a, double b, double c);
+// t_intersect *ray_sphere_intersection(t_ray	*ray);
 
 // ============================= CAMERA/VIEW PROJECTION ========================
 //Function works out the screen-up direction.
@@ -312,5 +342,6 @@ void		screen_pixel_centres(int width, int height, t_camera *camera, \
 int			error_exit(t_program *program, char *str);
 //Function prints an memory allocation error message.
 void		error_malloc_print(char *str);
+int 		ray_sphere_intersection(t_ray	*ray);
 
 #endif

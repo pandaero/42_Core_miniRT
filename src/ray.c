@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ray.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 19:12:21 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/13 12:58:17 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/15 16:27:12 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minirt.h"
 #include <stdlib.h>
+
 
 //Function creates and initialises a ray.
 t_ray	*ray_create(void)
