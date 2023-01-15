@@ -6,3 +6,9 @@
 
 # Debug files
 *.dSYM/
+
+# MLX Linux non-source files
+minilibx-linux/test/
+minilibx-linux/libmlx_*.a
+minilibx-linux/libmlx.a
+minilibx-linux/Makefile.gen
