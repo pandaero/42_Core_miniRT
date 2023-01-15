@@ -7,6 +7,10 @@
 # Debug files
 *.dSYM/
 
+# LibFT non-source files
+libft/obj/
+libft/libft.a
+
 # MLX Linux non-source files
 minilibx-linux/test/
 minilibx-linux/libmlx_*.a
