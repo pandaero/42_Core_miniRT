@@ -6,11 +6,12 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 16:21:32 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/15 16:37:57 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/15 22:38:17 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minirt.h"
+#include <stdlib.h>
 
 //Function creates and initialises a sphere.
 t_sphere	*sphere_create(void)

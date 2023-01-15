@@ -6,11 +6,12 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 15:22:24 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/15 16:41:12 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/15 22:38:32 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minirt.h"
+#include <stdlib.h>
 
 //Function creates and initialises a plane.
 t_plane	*plane_create(void)

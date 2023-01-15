@@ -6,11 +6,12 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 16:31:42 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/15 16:40:08 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/15 22:44:01 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minirt.h"
+#include <stdlib.h>
 
 //Function creates and initialises a cylinder.
 t_cylinder	*cylinder_create(void)
@@ -33,7 +34,6 @@ t_cylinder	*cylinder_centre_orient_radius_height(t_point *centre, \
 	t_cylinder	*cylinder;
 
 	cylinder = cylinder_create();
-	cylinder->colour = colour;
 	cylinder->radius = radius;
 	cylinder->height = height;
 	cylinder->centre = point_copy(centre);
