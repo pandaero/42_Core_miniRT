@@ -5,63 +5,50 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/12 18:53:38 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/12 18:55:23 by pandalaf         ###   ########.fr       */
+/*   Created: 2023/01/13 00:29:56 by pandalaf          #+#    #+#             */
+/*   Updated: 2023/01/14 19:27:56 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minirt.h"
+#include "../include/minirt.h"
 #include <stdlib.h>
 
-//Function frees the program struct.
-void	free_program(t_program *program)
+//Function frees all the allocations belonging to a vector object.
+void	free_vector(t_vector *vector)
 {
-	free_obj_lists(program->first_objlist);
-	free(program);
+	free_direction(vector->dir);
+	free(vector);
 }
 
-//Function frees all the object linked lists.
-void	free_obj_lists(t_objlist *first)
+//Function frees all the allocations belonging to a vector object, returns null.
+void	*free_vector_null(t_vector *vector)
 {
-	t_objlist	*curr;
-
-	curr = first;
-	while (curr != NULL)
-	{
-		free_list(curr);
-		curr = curr->next;
-	}
+	free_direction(vector->dir);
+	free(vector);
+	return (NULL);
 }
 
-//Function frees an entire object linked list.
-void	free_list(t_objlist *list)
+//Function frees all the allocations belonging to a ray object.
+void	free_ray(t_ray *ray)
 {
-	t_obj	*curr;
-
-	curr = list->first;
-	while (curr != NULL)
-	{
-		free_object(curr);
-		curr = curr->next;
-	}
-	free(list);
+	free_point(ray->ray_orig);
+	free_direction(ray->ray_dir);
+	free(ray);
 }
 
-//Function frees an object.
-void	free_object(t_obj *object)
+//Function frees all the allocations belonging to a ray, returns null.
+void	*free_ray_null(t_ray *ray)
 {
-	if (object->elem == EMPTY)
-	{
-		free(object);
-		return ;
-	}
-	if (object->elem == POINT)
-		free_point(object->point);
-	if (object->elem == DIRECTION)
-		free_direction(object->direction);
-	if (object->elem == VECTOR)
-		free_vector(object->vector);
-	if (object->elem == RAY)
-		free_ray(object->ray);
-	free(object);
+	free_point(ray->ray_orig);
+	free_direction(ray->ray_dir);
+	free(ray);
+	return (NULL);
+}
+
+//Function frees all the allocations belonging to a camera.
+void	free_camera(t_camera *camera)
+{
+	free_point(camera->location);
+	free_direction(camera->view_dir);
+	free(camera);
 }

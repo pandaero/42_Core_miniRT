@@ -6,11 +6,11 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 12:02:10 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/12 18:30:36 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/13 01:02:19 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minirt.h"
+#include "../include/minirt.h"
 #include <stdlib.h>
 
 //Function creates and initialises a new object linked list in the program.

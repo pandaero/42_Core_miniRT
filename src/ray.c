@@ -6,11 +6,11 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 19:12:21 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/12 18:01:04 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/13 12:58:17 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minirt.h"
+#include "../include/minirt.h"
 #include <stdlib.h>
 
 //Function creates and initialises a ray.
@@ -31,7 +31,7 @@ t_ray	*ray_copy(t_ray *ray)
 {
 	t_ray	*new;
 
-	if (ray->ray_orig == NULL || ray->ray_dir == NULL)
+	if (!ray || ray->ray_orig == NULL || ray->ray_dir == NULL)
 		return (NULL);
 	new = ray_create();
 	if (!new)
@@ -72,7 +72,7 @@ t_ray	*ray_two_points(t_point *start, t_point *end)
 }
 
 //Function creates a defined ray object from a vector.
-t_ray	*ray_vector(t_vector *vector)
+t_ray	*ray_start_vector(t_point *start, t_vector *vector)
 {
 	t_ray	*new;
 
@@ -81,7 +81,7 @@ t_ray	*ray_vector(t_vector *vector)
 	new = ray_create();
 	if (!new)
 		return (NULL);
-	new->ray_orig = point_copy(vector->start);
+	new->ray_orig = point_copy(start);
 	new->ray_dir = direction_copy(vector->dir);
 	return (new);
 }

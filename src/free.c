@@ -6,15 +6,15 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 17:47:39 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/12 18:54:47 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/13 01:02:23 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minirt.h"
+#include "../include/minirt.h"
 #include <stdlib.h>
 
 //Function frees a pointer and returns NULL.
-void	*free_null(void *ptr)
+void	*free_void_null(void *ptr)
 {
 	free(ptr);
 	return (NULL);
@@ -26,25 +26,22 @@ void	free_point(t_point *point)
 	free(point);
 }
 
+//Function frees all the allocations belonging to a point object, returns NULL.
+void	*free_point_null(t_point *point)
+{
+	free(point);
+	return (NULL);
+}
+
 //Function frees all the allocations belonging to a direction object.
 void	free_direction(t_direction *direction)
 {
 	free(direction);
 }
 
-//Function frees all the allocations belonging to a vector object.
-void	free_vector(t_vector *vector)
+//Function frees all the allocations in a direction object, returns NULL.
+void	*free_direction_null(t_direction *direction)
 {
-	free_point(vector->start);
-	free_point(vector->end);
-	free_direction(vector->dir);
-	free(vector);
-}
-
-//Function frees all the allocations belonging to a ray object.
-void	free_ray(t_ray *ray)
-{
-	free_point(ray->ray_orig);
-	free_direction(ray->ray_dir);
-	free(ray);
+	free(direction);
+	return (NULL);
 }

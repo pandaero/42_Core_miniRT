@@ -1,7 +1,7 @@
 #ifndef TEST_H
 # define TEST_H
 
-# include "../minirt.h"
+# include "../include/minirt.h"
 
 //Function displays the objects within an object linked list on STDOUT.
 void	list_print(t_objlist *list);

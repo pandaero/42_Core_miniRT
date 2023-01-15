@@ -3,7 +3,7 @@
 #include "test.h"
 #include <stdio.h>
 
-//Test for list_create
+/*Test for list_create
 //From root: cc -Wall -Werror -Wextra test/list_main.c src/*.c test/test.c libft/libft.a -lm
 int	main(void)
 {
@@ -70,3 +70,4 @@ int	main(void)
 	free_program(program);
 	return (0);
 }
+//*/

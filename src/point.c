@@ -6,11 +6,11 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 17:12:04 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/12 17:35:30 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/13 16:19:45 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minirt.h"
+#include "../include/minirt.h"
 #include <stdlib.h>
 
 //Function creates and initialises a point.
@@ -32,6 +32,8 @@ t_point	*point_copy(t_point *point)
 {
 	t_point	*new;
 
+	if (!point)
+		return (NULL);
 	new = point_create();
 	if (!new)
 		return (NULL);
@@ -52,5 +54,19 @@ t_point	*point_coords(double x_coord, double y_coord, double z_coord)
 	new->x_co = x_coord;
 	new->y_co = y_coord;
 	new->z_co = z_coord;
+	return (new);
+}
+
+//Function creates a point resulting from a vector and a starting point.
+t_point	*point_point_vector(t_point *start, t_vector *vector)
+{
+	t_point	*new;
+
+	if (!vector || vector->mag == 0)
+		return (NULL);
+	new = point_create();
+	new->x_co = start->x_co + vector->x_comp;
+	new->y_co = start->y_co + vector->y_comp;
+	new->z_co = start->z_co + vector->z_comp;
 	return (new);
 }

@@ -11,7 +11,7 @@
 # include "../../minilibx_opengl_20191021/mlx.h"
 #endif
 #if defined (__linux__)
-# include "../../linux_mlx.h"
+# include "../../include/linux_mlx.h"
 # include "../../minilibx-linux/mlx.h"
 #endif
 #include <stdio.h>
