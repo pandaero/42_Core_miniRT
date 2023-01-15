@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 18:52:47 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/14 19:00:00 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/15 16:19:58 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,31 @@ t_obj	*object_screen(t_screen *screen)
 		return (NULL);
 	new->elem = SCREEN;
 	new->screen = screen;
+	return (new);
+}
+
+//Function creates a plane object.
+t_obj	*object_plane(t_plane *plane)
+{
+	t_obj	*new;
+
+	new = object_create();
+	if (!new)
+		return (NULL);
+	new->elem = PLANE;
+	new->plane = plane;
+	return (new);
+}
+
+//Function creates a sphere object.
+t_obj	*object_sphere(t_sphere *sphere)
+{
+	t_obj	*new;
+
+	new = object_create();
+	if (!new)
+		return (NULL);
+	new->elem = SPHERE;
+	new->sphere = sphere;
 	return (new);
 }

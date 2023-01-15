@@ -48,14 +48,24 @@ int	main(void)
 
 	width = 500;
 	height = 500;
+	vars = (t_vars *)malloc(sizeof(t_vars));
+	if (!vars)
+	{
+		printf("Couldn't allocate.\n");
+		return (1);
+	}
 	vars->mlx = mlx_init();
 	if (!vars->mlx)
-		return(0);
+	{
+		printf("Couldn't initialise MLX.\n");
+		return (1);
+	}
 	vars->window = mlx_new_window(vars->mlx, width, height, "Title");
 	image = mlx_new_image(vars->mlx, width, height);
 	mlx_put_image_to_window(vars->mlx, vars->window, image, 0, 0);
 	mlx_hook(vars->window, 17, NO_EVENT, closing, vars);
 	mlx_hook(vars->window, 3, KEY_RELEASE, keys, vars);
 	mlx_loop(vars->mlx);
+	free(vars);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 17:30:24 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/14 20:20:58 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/15 16:15:21 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,19 @@ void	free_screen(t_screen *screen)
 	free_scr_vec(screen->vecs);
 	free_scr_pts(screen->pts, screen);
 	free(screen);
+}
+
+//Function frees a plane.
+void	free_plane(t_plane *plane)
+{
+	free_point(plane->point);
+	free_direction(plane->normal);
+	free(plane);
+}
+
+//Function frees a sphere.
+void	free_sphere(t_sphere *sphere)
+{
+	free_point(sphere->centre);
+	free(sphere);
 }

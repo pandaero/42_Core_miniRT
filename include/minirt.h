@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/14 22:35:46 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/15 16:59:44 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # if defined (__linux__)
 #  include "../minilibx-linux/mlx.h"
 # endif
+# include <stdbool.h>
 
 // Screen resolution
 # define WIN_WIDTH 800
@@ -36,6 +37,10 @@ typedef struct s_ray		t_ray;
 typedef struct s_obj		t_obj;
 typedef struct s_objlist	t_objlist;
 
+// ============================== 3D ELEMENT PROPERTIES ========================
+//Typedef defines a colour. Channels are TRGB in range 0x00000000 to 0xFFFFFFFF.
+typedef int					t_colour;
+
 // =================================== 3D ELEMENTS =============================
 //Typedef defines different types of elements for a 3D scene.
 typedef enum element
@@ -45,6 +50,9 @@ typedef enum element
 	DIRECTION,
 	VECTOR,
 	RAY,
+	PLANE,
+	SPHERE,
+	CYLINDER,
 	CAMERA,
 	SCREEN
 }	t_element;
@@ -81,6 +89,41 @@ typedef struct s_ray
 	t_point		*ray_orig;
 	t_direction	*ray_dir;
 }				t_ray;
+
+//Typedef describes a plane in 3D space.
+typedef struct s_plane
+{
+	t_colour	colour;
+	t_point		*point;
+	t_direction	*normal;
+}				t_plane;
+
+//Typedef describes a sphere in 3D space.
+typedef struct s_sphere
+{
+	t_colour	colour;
+	double		radius;
+	t_point		*centre;
+}				t_sphere;
+
+//Typedef describes a cyclinder in 3D space.
+typedef struct s_cylinder
+{
+	t_colour	colour;
+	double		radius;
+	double		height;
+	t_point		*centre;
+	t_direction	*orientation;
+}				t_cylinder;
+
+// =============================  3D DERIVED ELEMENTS ==========================
+//Typedef describes an intersection.
+typedef struct s_intersect
+{
+	bool		state;
+	t_colour	colour;
+	t_point		*point;
+}				t_intersect;
 
 // ================================= 3D COMPOSITES =============================
 //Typedef describes points required to define the pixels composing a screen.
@@ -120,6 +163,12 @@ typedef struct s_screen
 
 // ================================= SCENE ELEMENTS ============================
 //Typedef describes ambient lighting.
+typedef struct s_ambient
+{
+	double		ratio;
+	t_colour	colour;
+}				t_ambient;
+
 //Typedef describes the camera.
 typedef struct s_camera
 {
@@ -127,6 +176,7 @@ typedef struct s_camera
 	t_point		*location;
 	t_direction	*view_dir;
 }			t_camera;
+
 //Typedef describes a spot light.
 
 // =============================== OBJECT LINKED LIST ==========================
@@ -140,6 +190,9 @@ typedef struct s_obj
 	t_ray		*ray;
 	t_camera	*camera;
 	t_screen	*screen;
+	t_plane		*plane;
+	t_sphere	*sphere;
+	t_cylinder	*cylinder;
 	t_obj		*prev;
 	t_obj		*next;
 }				t_obj;
@@ -202,6 +255,24 @@ t_ray		*ray_start_dir(t_point *origin, t_direction *dir);
 t_ray		*ray_two_points(t_point *start, t_point *end);
 //Function creates a defined ray object from a vector.
 t_ray		*ray_start_vector(t_point *start, t_vector *vector);
+//Function creates and initialises a plane.
+t_plane		*plane_create(void);
+//Function creates a defined plane from a colour, point and normal direction.
+t_plane		*plane_point_normal_dir(t_colour colour, t_point *point, \
+									t_direction *normal);
+//Function creates a defined plane from a colour, point and normal vector.
+t_plane		*plane_point_normal_vec(t_colour colour, t_point *point, \
+									t_vector *normal);
+//Function creates and initialises a sphere.
+t_sphere	*sphere_create(void);
+//Function creates a defined sphere from colour, centre and radius.
+t_sphere	*sphere_col_centre_radius(t_colour colour, t_point *centre, \
+									double radius);
+//Function creates and initialises a cylinder.
+t_cylinder	*cylinder_create(void);
+//Function creates a defined cylinder from centre, radius and height.
+t_cylinder	*cylinder_centre_orient_radius_height(t_point *centre, \
+				t_direction *orientation, double radius, double height);
 // -------------------------------- SCENE OBJECTS ------------------------------
 //Function creates and initialises a camera.
 t_camera	*camera_create(void);
@@ -215,7 +286,6 @@ t_scr_vec	*screen_vecs_create(void);
 t_screen	*screen_create(void);
 //Function defines a screen based on a camera element.
 t_screen	*screen_camera(int width, int height, t_camera *camera);
-
 // -------------------------------- GENERIC OBJECT -----------------------------
 //Function creates and initialises an object.
 t_obj		*object_create(void);
@@ -233,6 +303,12 @@ t_obj		*object_ray(t_ray *ray);
 t_obj		*object_camera(t_camera *camera);
 //Function creates a screen object.
 t_obj		*object_screen(t_screen *screen);
+//Function creates a plane object.
+t_obj		*object_plane(t_plane *plane);
+//Function creates a sphere object.
+t_obj		*object_sphere(t_sphere *sphere);
+//Function creates a cylinder object.
+t_obj		*object_cylinder(t_cylinder *cylinder);
 
 // ================================ MEMORY FREEING =============================
 //Function frees a pointer and returns NULL.
@@ -257,6 +333,12 @@ void		*free_ray_null(t_ray *ray);
 void		free_camera(t_camera *camera);
 //Function frees a screen.
 void		free_screen(t_screen *screen);
+//Function frees a plane.
+void		free_plane(t_plane *plane);
+//Function frees a sphere.
+void		free_sphere(t_sphere *sphere);
+//Function frees a cylinder.
+void		free_cylinder(t_cylinder *cylinder);
 //Function frees the program struct.
 void		free_program(t_program *program);
 //Function frees all the object linked lists.
@@ -289,6 +371,7 @@ double		magnitude_components(double x_comp, double y_comp, double z_comp);
 t_direction	*direction_cross(t_direction *first, t_direction *second);
 //Function returns the cross product with a positive z-axis component.
 t_direction	*direction_cross_up(t_direction *first, t_direction *second);
+// ------------------------------- VECTOR OPERATIONS ---------------------------
 //Function adds two vectors together.
 t_vector	*vector_add(t_vector *first, t_vector *second);
 //Function subtracts two vectors.
@@ -297,6 +380,11 @@ t_vector	*vector_subtract(t_vector *first, t_vector *second);
 t_vector	*vector_cross(t_vector *first, t_vector *second);
 //Function scales a vector.
 t_vector	*vector_scale(double scalar, t_vector *vector);
+// ------------------------------- COLOUR OPERATIONS ---------------------------
+//Function adds ambient light to a colour.
+t_colour	colour_ambient(t_colour colour, t_ambient ambient);
+//Function assigns a colour to an existing cylinder.
+void		cylinder_colour(t_colour colour, t_cylinder *cylinder);
 
 // ============================= CAMERA/VIEW PROJECTION ========================
 //Function works out the screen-up direction.

@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 18:53:38 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/14 20:25:05 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/15 16:12:52 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,11 @@ void	free_object(t_obj *object)
 		free_camera(object->camera);
 	if (object->elem == SCREEN)
 		free_screen(object->screen);
+	if (object->elem == PLANE)
+		free_plane(object->plane);
+	if (object->elem == SPHERE)
+		free_sphere(object->sphere);
+	if (object->elem == CYLINDER)
+		free_cylinder(object->cylinder);
 	free(object);
 }
