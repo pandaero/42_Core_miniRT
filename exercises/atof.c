@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 16:01:12 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/01/14 23:07:28 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/15 15:18:16 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ static t_atof_vars	*init_values(const char *str)
 	t_atof_vars	*vars;
 
 	vars = (t_atof_vars *)malloc(sizeof(t_atof_vars));
+	if (!vars)
+		return (NULL);
 	vars->divide = 1;
 	vars->i = skip_spacing((char *)str);
 	vars->sign = 1;
@@ -90,6 +92,8 @@ double	ft_atof(const char *str)
 	double		ret;
 
 	vars = init_values(str);
+	if (!vars)
+		return ((double) -1);
 	if (str[vars->i] == '-')
 		vars->sign = -1;
 	if (str[vars->i] == '-' || str[vars->i] == '+')
