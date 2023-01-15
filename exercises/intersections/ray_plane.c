@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_plane.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:54:59 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/01/12 19:34:37 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/13 18:11:58 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ and the point of intersection is given by: P = R + tD
 cc ray_plane.c operations.c input.c -lm
 */
 
-#include "./exercises.h"
+#include "./intersections.h"
 
 # define PLANE_POINT_INPUT_X 1
 # define PLANE_POINT_INPUT_Y 0
@@ -40,7 +40,7 @@ cc ray_plane.c operations.c input.c -lm
 # define RAY_DIRECTION_INPUT_Y 0
 # define RAY_DIRECTION_INPUT_Z -1000000
 
-t_point *ray_plane_intersection(t_point *zero_point, t_point *direction, double distance)
+t_point *calculate_ray_plane_intersection(t_point *zero_point, t_point *direction, double distance)
 {
 	t_point *point_of_intersection;
 
@@ -50,7 +50,7 @@ t_point *ray_plane_intersection(t_point *zero_point, t_point *direction, double 
 	point_of_intersection->y = (zero_point->y + direction->y * distance);
 	point_of_intersection->z = (zero_point->z + direction->z * distance);
 }
-int main (void)
+void ray_plane_intersection(void)
 {
 	t_point	*plane_point;
 	t_point	*plane_normal_input;
@@ -70,13 +70,13 @@ int main (void)
 	populate_point(plane_normal_input, PLANE_NOT_NORMAL_INPUT_POINT_X, PLANE_NOT_NORMAL_INPUT_POINT_Y, PLANE_NOT_NORMAL_INPUT_POINT_Z);
 	populate_point(ray_start, RAY_START_X, RAY_START_Y, RAY_START_Z);
 	populate_point(ray_direction_input, RAY_DIRECTION_INPUT_X, RAY_DIRECTION_INPUT_Y, RAY_DIRECTION_INPUT_Z);
-	ray_direction = direction_two_points(ray_start, ray_direction_input);
-	plane_normal = direction_two_points(plane_point, plane_normal_input);
+	ray_direction = direction_two_points_local(ray_start, ray_direction_input);
+	plane_normal = direction_two_points_local(plane_point, plane_normal_input);
 	L = substract_vectors(plane_point, ray_start);
 	t = dot(L, plane_normal) / dot(ray_direction, plane_normal);
 	if (t >= 0)
 	{
-		point_of_intersection = ray_plane_intersection(ray_start, ray_direction, t);
+		point_of_intersection = calculate_ray_plane_intersection(ray_start, ray_direction, t);
 		printf("point of intersection: [%f:%f:%f]\n", point_of_intersection->x, point_of_intersection->y, point_of_intersection->z);
 		free(point_of_intersection);
 	}

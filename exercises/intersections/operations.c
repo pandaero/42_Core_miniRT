@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   operations.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 17:35:01 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/01/12 19:34:27 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/13 20:12:14 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./exercises.h"
+#include "./intersections.h"
 
 /*The return value of this function needs to have memory allocated to it.*/
 t_point *substract_vectors(t_point *V, t_point *W)
@@ -31,7 +31,7 @@ double	dot(t_point *first, t_point *second)
 	(first->z * second->z));
 }
 
-double	length_two_points(t_point *point_one, t_point *point_two)
+double	length_two_points_local(t_point *point_one, t_point *point_two)
 {
 	double	distance;
 
@@ -41,7 +41,7 @@ double	length_two_points(t_point *point_one, t_point *point_two)
 	return (distance);
 }
 
-t_point	*direction_two_points(t_point *start, t_point *end)
+t_point	*direction_two_points_local(t_point *start, t_point *end)
 {
 	t_point	*new;
 
@@ -52,8 +52,19 @@ t_point	*direction_two_points(t_point *start, t_point *end)
 	new = (t_point *)malloc(sizeof(t_point));
 	if (!new)
 		return (NULL);
-	new->x = (end->x - start->x) / length_two_points(start, end);
-	new->y = (end->y - start->y) / length_two_points(start, end);
-	new->z = (end->z - start->z) / length_two_points(start, end);
+	new->x = (end->x - start->x) / length_two_points_local(start, end);
+	new->y = (end->y - start->y) / length_two_points_local(start, end);
+	new->z = (end->z - start->z) / length_two_points_local(start, end);
 	return (new);
+}
+
+t_point	*scalar_times_vector(double scalar, t_point *vector)
+{
+	t_point *product;
+
+	product = malloc(sizeof(t_point));
+	product->x = scalar * vector->x;
+	product->y = scalar * vector->y;
+	product->z = scalar * vector->z;
+	return (product);
 }

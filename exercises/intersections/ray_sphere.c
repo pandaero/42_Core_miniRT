@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_sphere.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 12:42:52 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/01/12 19:34:40 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/13 18:02:15 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@ Added a funcition that normalizes the direction courtesy of Pablo.
 use:
 cc ray_sphere.c operations.c input.c -lm
 */
-#include "./exercises.h"
+#include "./intersections.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
@@ -51,7 +51,7 @@ t_point *zero_sphere_intersection(t_point *zero_point, t_point *direction, doubl
 	point_of_intersection->z = -1 * (zero_point->z + direction->z * distance);
 }
 
-int main(void)
+void ray_sphere_intersection(void)
 {
 	t_point	*ray_start;
 	t_point	*ray_direction_point;
@@ -70,7 +70,7 @@ int main(void)
 	populate_point(ray_start, RAY_START_X, RAY_START_Y, RAY_START_Z);
 	populate_point(ray_direction_point, RAY_DIRECTION_X, RAY_DIRECTION_Y, RAY_DIRECTION_Z);
 	populate_point(sphere_center, SPHERE_CENTER_X, SPHERE_CENTER_Y, SPHERE_CENTER_Z);
-	ray_direction = direction_two_points(ray_start, ray_direction_point);
+	ray_direction = direction_two_points_local(ray_start, ray_direction_point);
 	Rp = substract_vectors(ray_start, sphere_center);
 	y = pow(dot(Rp, ray_direction), 2) - (dot(Rp, Rp)) + pow(SPHERE_RADIUS, 2);
 	printf("y = %f\n", y);

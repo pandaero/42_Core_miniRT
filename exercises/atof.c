@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   atof.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 16:01:12 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/01/14 23:07:28 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/15 14:42:44 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ static t_atof_vars	*init_values(const char *str)
 	t_atof_vars	*vars;
 
 	vars = (t_atof_vars *)malloc(sizeof(t_atof_vars));
+	if(!vars)
+		exit(-1);
 	vars->divide = 1;
 	vars->i = skip_spacing((char *)str);
 	vars->sign = 1;
@@ -101,17 +103,20 @@ double	ft_atof(const char *str)
 	int_digs(str, vars);
 	frac_digs(str, vars);
 	if (vars->non_zero_out == 0)
+	{
+		free(vars);
 		return (0);
+	}
 	ret = vars->sign * (vars->int_digs + vars->frac_digs);
 	free(vars);
 	return (ret);
 }
 
-//*
+/*
 int main(void)
 {
 	char	in[] = "71234.12341551";
 
 	printf("in: \"%s\", atof: %f\n", in, ft_atof(in));
 }
-//*/
+*/
