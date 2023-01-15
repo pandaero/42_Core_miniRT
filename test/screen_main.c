@@ -64,10 +64,11 @@ int	main(void)
 	printf("Screen Corner: (%f, %f, %f)\n", screen->pts->tl_corner->x_co, screen->pts->tl_corner->y_co, screen->pts->tl_corner->z_co);
 	printf("Screen Top Corner Vec: (%f, %f, %f)\n", screen->vecs->vec_corner_up->x_comp, screen->vecs->vec_corner_up->y_comp, screen->vecs->vec_corner_up->z_comp);
 	printf("Screen Left Corner Vec: (%f, %f, %f)\n", screen->vecs->vec_corner_left->x_comp, screen->vecs->vec_corner_left->y_comp, screen->vecs->vec_corner_left->z_comp);
-	printf("Point [0, 0]: (%f, %f, %f)\n", screen->pts->px_coords[0][0]->x_co, screen->pts->px_coords[0][0]->y_co, screen->pts->px_coords[0][0]->z_co);
-	printf("Point [0, w - 1]: (%f, %f, %f)\n", screen->pts->px_coords[0][width - 1]->x_co, screen->pts->px_coords[0][width - 1]->y_co, screen->pts->px_coords[0][width - 1]->z_co);
-	printf("Point [h - 1, 0]: (%f, %f, %f)\n", screen->pts->px_coords[height - 1][0]->x_co, screen->pts->px_coords[height - 1][0]->y_co, screen->pts->px_coords[height - 1][0]->z_co);
-	printf("Point [h - 1, w - 1]: (%f, %f, %f)\n", screen->pts->px_coords[height - 1][width - 1]->x_co, screen->pts->px_coords[height - 1][width - 1]->y_co, screen->pts->px_coords[height - 1][width - 1]->z_co);
+	printf("Arr [0, 0]: (%f, %f, %f)\n", screen->pts->px_coords[0][0]->x_co, screen->pts->px_coords[0][0]->y_co, screen->pts->px_coords[0][0]->z_co);
+	printf("Arr [0, w - 1]: (%f, %f, %f)\n", screen->pts->px_coords[0][width - 1]->x_co, screen->pts->px_coords[0][width - 1]->y_co, screen->pts->px_coords[0][width - 1]->z_co);
+	printf("Arr [h - 1, 0]: (%f, %f, %f)\n", screen->pts->px_coords[height - 1][0]->x_co, screen->pts->px_coords[height - 1][0]->y_co, screen->pts->px_coords[height - 1][0]->z_co);
+	printf("Arr [h - 1, w - 1]: (%f, %f, %f)\n", screen->pts->px_coords[height - 1][width - 1]->x_co, screen->pts->px_coords[height - 1][width - 1]->y_co, screen->pts->px_coords[height - 1][width - 1]->z_co);
+	
 	free_point(cam_loc);
 	free_point(cam_point);
 	free_direction(cam_view_dir);
