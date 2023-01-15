@@ -6,23 +6,18 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 16:41:50 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/15 22:42:49 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/15 23:39:22 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minirt.h"
 
 //Function adds ambient light to a colour.
-t_colour	colour_ambient(t_colour colour, t_ambient ambient)
+t_colour	colour_ambient(t_colour colour, t_ambient *ambient)
 {
 	t_colour	resulting;
 
-	if (colour > (int) 0.5 * ambient.colour)
-		resulting = colour + (int) ambient.ratio * ambient.colour;
-	else if (colour < (int) 0.5 * ambient.colour)
-		resulting = colour - (int) ambient.ratio * ambient.colour;
-	else
-		resulting = colour;
+	resulting = colour + (int) (ambient->ratio * ambient->colour);
 	if (resulting > WHITE)
 		resulting = WHITE;
 	if (resulting < BLACK)
