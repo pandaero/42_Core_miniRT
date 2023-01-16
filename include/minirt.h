@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/16 14:20:14 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/16 15:04:33 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,16 @@ typedef struct s_vector		t_vector;
 typedef struct s_ray		t_ray;
 typedef struct s_obj		t_obj;
 typedef struct s_objlist	t_objlist;
+
+// =============================== FUNCTION REFACTORING ========================
+//Typedef contains several variables for the ray-sphere intersection function.
+typedef struct s_rs
+{
+	double		t0;
+	double		t1;
+	double		y;
+	bool		intersect;
+}				t_rs;
 
 // ======================================= MLX =================================
 //Typedef contains MLX pointers.
@@ -436,6 +446,6 @@ int			error_exit(t_program *program, char *str);
 //Function prints an memory allocation error message.
 void		error_malloc_print(char *str);
 
-int			ray_sphere_intersection(t_ray *ray, t_sphere *sphere);
+bool		ray_sphere_intersection(t_ray *ray, t_sphere *sphere);
 
 #endif

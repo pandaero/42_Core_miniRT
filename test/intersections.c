@@ -68,7 +68,7 @@ int	main(void)
 	cam = camera_input(cam_loc, cam_view_dir, 90);
 	screen = screen_camera(WIN_WIDTH, WIN_HEIGHT, cam);
 	sphere_centre = point_coords(10, 20, 0);
-	sphere = sphere_col_centre_radius(BLACK, sphere_centre, 5);
+	sphere = sphere_col_centre_radius(GREEN, sphere_centre, 5);
 	free_point(cam_loc);
 	free_point(cam_point);
 	free_direction(cam_view_dir);
@@ -89,10 +89,10 @@ int	main(void)
 		{
 			ray = ray_two_points(cam->location, screen->pts->px_coords[i][j]);
 			pixel = ray_sphere_intersection(ray, sphere);
-			if (pixel == 0)
+			if (pixel == false)
 				quick_put_pixel(imdt, j, i, ambient->ratio * ambient->colour);
-			else if (pixel == 1)
-				quick_put_pixel(imdt, j, i, BLACK);
+			else if (pixel == true)
+				quick_put_pixel(imdt, j, i, colour_ambient((sphere->colour), ambient));
 			free(ray->ray_dir);
 			free(ray->ray_orig);
 			free(ray);
