@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/15 23:51:00 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/16 14:20:14 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 # define VIEW_SCALING 1
 // Colours
 # define BLACK 0x00000000
-# define WHITE 0xFFFFFFFF
+# define WHITE 0x00FFFFFF
 
 // ================================= TYPE PROTOTYPES ===========================
 typedef enum element		t_element;
