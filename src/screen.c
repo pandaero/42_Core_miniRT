@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 22:26:40 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/15 23:49:53 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/16 15:26:27 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ t_scr_pts	*screen_pts_create(void)
 	new->top_centre = NULL;
 	new->tl_corner = NULL;
 	new->first_px = NULL;
-	new->px_coords = NULL;
 	return (new);
 }
 
@@ -58,6 +57,7 @@ t_screen	*screen_create(void)
 	new->vecs = screen_vecs_create();
 	new->width = 0;
 	new->height = 0;
+	new->pixels = NULL;
 	return (new);
 }
 

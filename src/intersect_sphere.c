@@ -3,39 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   intersect_sphere.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 22:22:24 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/16 14:36:14 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/01/16 15:22:15 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minirt.h"
+#include <stdlib.h>
+#include <stdbool.h>
+#include <math.h>
 
 /*
 Added a funcition that normalizes the direction courtesy of Pablo.
 use:
 cc ray_sphere.c operations.c input.c -lm
 */
-#include <stdlib.h>
-#include <stdbool.h>
-#include <stdio.h>
-#include <math.h>
-
 typedef struct s_Vector3
 {
 	double	x;
 	double	y;
 	double	z;
 }			t_Vector3;
-
-typedef struct s_ray_sphere_struct
-{
-	double		t0;
-	double		t1;
-	double		y;
-	int			intersect;
-}t_rs;
 
 /*Function produces the output point if there 
 is an intersection, alocates memory to that point.
@@ -52,16 +42,14 @@ t_Vector3 *direction, double distance)
 	return (point_of_intersection);
 }
 
-// Function that finds a point of 
-// intersection between a ray 
-// and a sphere of a defined radius and center in space.
+// Function determines whether a ray and a sphere intersect.
 // Nomenclature:
 // 	rp - Resulting from subtracting center of sphere from ray origin.
 // 	t0 - distance of normalized direction vector to a point of intersection
 // 	t1 - distance of normalized direction vector 
 		// to a different point of intersection
 // 	y - the discriminant
-int	ray_sphere_intersection(t_ray *ray, t_sphere *sphere)
+bool	ray_sphere_intersection(t_ray *ray, t_sphere *sphere)
 {
 	t_vector	*vec_ray_dir;
 	t_vector	*rp;
@@ -70,19 +58,19 @@ int	ray_sphere_intersection(t_ray *ray, t_sphere *sphere)
 	vec_ray_dir = vector_scale_direction(1, ray->ray_dir);
 	rp = vector_two_points(ray->ray_orig, sphere->centre);
 	rs.y = pow(vector_dot(rp, vec_ray_dir), 2) - \
-	(vector_dot(rp, rp)) + pow(sphere->radius, 2);
+			(vector_dot(rp, rp)) + pow(sphere->radius, 2);
 	if (rs.y >= 0)
 	{
-		rs.intersect = 1;
+		rs.intersect = true;
 		rs.t0 = (vector_dot(rp, vec_ray_dir)) - \
-		sqrt((pow(vector_dot(rp, vec_ray_dir), 2)) - \
-		(vector_dot(rp, rp)) + (pow(sphere->radius, 2)));
+				sqrt((pow(vector_dot(rp, vec_ray_dir), 2)) - \
+				(vector_dot(rp, rp)) + (pow(sphere->radius, 2)));
 		rs.t1 = (vector_dot(rp, vec_ray_dir)) + \
-		sqrt((pow(vector_dot(rp, vec_ray_dir), 2)) - \
-		(vector_dot(rp, rp)) + (pow(sphere->radius, 2)));
+				sqrt((pow(vector_dot(rp, vec_ray_dir), 2)) - \
+				(vector_dot(rp, rp)) + (pow(sphere->radius, 2)));
 	}
 	else
-		rs.intersect = 0;
+		rs.intersect = false;
 	free_vector(rp);
 	free_vector(vec_ray_dir);
 	return (rs.intersect);

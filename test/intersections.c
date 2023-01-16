@@ -1,6 +1,6 @@
 //Tests for intersections on a window.
 // Using minilibx-opengl-20191021
-// From root: cc -framework OpenGL -framework AppKit exercises/mlx/window_listen.c -lmlx
+// From root: cc -framework OpenGL -framework AppKit
 // Using minilibx-linux
 // From root: cc test/intersections.c src/*.c libft/libft.a minilibx-linux/libmlx_Linux.a -lX11 -lXext -lm
 // From folder: cc intersection.c ../src/*.c ../src/intersections/*.c ../minilibx-linux/libmlx_Linux.a ../libft/libft.a -lX11 -lXext -lm
@@ -85,19 +85,11 @@ int	main(void)
 	cam = camera_input(cam_loc, cam_view_dir, 90);
 	screen = screen_camera(WIN_WIDTH, WIN_HEIGHT, cam);
 	sphere_centre = point_coords(10, 20, 0);
-	sphere = sphere_col_centre_radius(BLACK, sphere_centre, 5);
+	sphere = sphere_col_centre_radius(GREEN, sphere_centre, 5);
 	free_point(cam_loc);
 	free_point(cam_point);
 	free_direction(cam_view_dir);
 	free_point(sphere_centre);
-
-	// printf("[0, 0]: (%f, %f, %f)\n", screen->pts->px_coords[0][0]);
-	// printf("[0, w]: (%f, %f, %f)\n", screen->pts->px_coords[0][WIN_WIDTH - 1]);
-	// printf("[h, 0]: (%f, %f, %f)\n", screen->pts->px_coords[WIN_HEIGHT - 1][0]);
-	// printf("[h, w]: (%f, %f, %f)\n", screen->pts->px_coords[WIN_HEIGHT - 1][WIN_WIDTH - 1]);
-	
-	// quick_put_pixel(imdt, WIN_WIDTH / 2, WIN_HEIGHT / 2, 0x00FF00FF);
-	//*
 	i = 0;
 	while(i < WIN_HEIGHT)
 	{
@@ -107,25 +99,19 @@ int	main(void)
 			ray = ray_two_points(cam->location, screen->pts->px_coords[i][j]);
 			// pixel = ray_sphere_intersection(ray, sphere);
 			pixel = ray_plane_intersection(ray, plane);
-		
 			if (pixel == 0)
 				quick_put_pixel(imdt, j, i, ambient->ratio * ambient->colour);
-			else if (pixel == 1)
-				quick_put_pixel(imdt, j, i, BLACK);
+			else if (pixel == true)
+				quick_put_pixel(imdt, j, i, colour_ambient((sphere->colour), ambient));
 			free(ray->ray_dir);
 			free(ray->ray_orig);
 			free(ray);
-			// free(pixel->point);
-			// free(pixel);
 			j++;
 		}
-		// write(1, "\n", 1);
 		i++;
 	}
 	//Sphere colour in projection
 	printf("0x%08X\n", (unsigned int) colour_ambient((sphere->colour), ambient));
-	//*/
-	// ray_sphere_intersection(ray);
 	mlx_put_image_to_window(mlxdata->mlx, mlxdata->window, imdt->image, 0, 0);
 	mlx_hook(mlxdata->window, 17, NO_EVENT, closing, mlxdata);
 	mlx_hook(mlxdata->window, 3, KEY_RELEASE, keys, mlxdata);

@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 15:21:12 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/14 21:55:18 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/16 16:23:05 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,18 @@ void	define_screen_pts_vecs(int width, int height, t_camera *camera, \
 	pts->first_px = point_point_vector(pts->tl_corner, vec->vec_screen_rd_0th);
 }
 
+//Function allocates memory for a 2D array of pixels.
+static t_pixel	***pixel_centres_create(int height)
+{
+	t_pixel	***new;
+
+	new = (t_pixel ***)malloc((height + 1) * sizeof(t_pixel **));
+	if (!new)
+		return (NULL);
+	return (new);
+}
+
+/*
 //Function allocates memory for a 2D array of points.
 static t_point	***pixel_centres_create(int height)
 {
@@ -50,14 +62,16 @@ static t_point	***pixel_centres_create(int height)
 		return (NULL);
 	return (new);
 }
+*/
 
 //Function works out the coordinates of each pixel centre.
-static t_point	*screen_px_centre(int i, int j, t_screen *screen)
+static t_pixel	*screen_px_centre(int i, int j, t_screen *screen)
 {
 	t_vector	*screen_r_px;
 	t_vector	*screen_d_px;
 	t_vector	*screen_rd_px;
 	t_point		*centre;
+	t_pixel		*pix;
 
 	screen_r_px = vector_scale(j, screen->vecs->vec_right);
 	screen_d_px = vector_scale(i, screen->vecs->vec_down);
@@ -66,9 +80,37 @@ static t_point	*screen_px_centre(int i, int j, t_screen *screen)
 	free_vector(screen_r_px);
 	free_vector(screen_d_px);
 	free_vector(screen_rd_px);
-	return (centre);
+	pix = pixel_point(centre);
+	free_point(centre);
+	return (pix);
 }
 
+//Function works out the centres of the pixels in a screen.
+void	screen_pixel_centres(int width, int height, t_camera *camera, \
+								t_screen *screen)
+{
+	t_pixel	***px;
+	t_point	*point;
+	int		ii[2];
+
+	define_screen_pts_vecs(width, height, camera, screen);
+	ii[0] = 0;
+	px = pixel_centres_create(height);
+	while (ii[0] < height)
+	{
+		ii[1] = 0;
+		px[ii[0]] = (t_pixel **)malloc((width) * sizeof(t_pixel *));
+		while (ii[1] < width)
+		{
+			px[ii[0]][ii[1]] = screen_px_centre(ii[0], ii[1], screen);
+			ii[1]++;
+		}
+		ii[0]++;
+	}
+	screen->pixels = px;
+}
+
+/*
 //Function works out the centres of the pixels in a screen.
 void	screen_pixel_centres(int width, int height, t_camera *camera, \
 								t_screen *screen)
@@ -92,6 +134,7 @@ void	screen_pixel_centres(int width, int height, t_camera *camera, \
 	}
 	screen->pts->px_coords = centres;
 }
+*/
 
 //Function defines a screen based on a camera element.
 t_screen	*screen_camera(int width, int height, t_camera *camera)
