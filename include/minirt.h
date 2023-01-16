@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/15 16:59:44 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/16 15:04:33 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,13 @@
 # define MINIRT_H
 
 # include "../libft/libft.h"
+
 # if defined (__APPLE__)
+#  include "../include/apple_mlx.h"
 #  include "../minilibx_opengl_20191021/mlx.h"
 # endif
 # if defined (__linux__)
+#  include "../include/linux_mlx.h"
 #  include "../minilibx-linux/mlx.h"
 # endif
 # include <stdbool.h>
@@ -26,7 +29,10 @@
 # define WIN_WIDTH 800
 # define WIN_HEIGHT 600
 // Factor for screen-pixel coordinate sizing. 
-# define VIEW_SCALING 0.5
+# define VIEW_SCALING 1
+// Colours
+# define BLACK 0x00000000
+# define WHITE 0x00FFFFFF
 
 // ================================= TYPE PROTOTYPES ===========================
 typedef enum element		t_element;
@@ -36,6 +42,34 @@ typedef struct s_vector		t_vector;
 typedef struct s_ray		t_ray;
 typedef struct s_obj		t_obj;
 typedef struct s_objlist	t_objlist;
+
+// =============================== FUNCTION REFACTORING ========================
+//Typedef contains several variables for the ray-sphere intersection function.
+typedef struct s_rs
+{
+	double		t0;
+	double		t1;
+	double		y;
+	bool		intersect;
+}				t_rs;
+
+// ======================================= MLX =================================
+//Typedef contains MLX pointers.
+typedef struct s_mlxdata
+{
+	void	*mlx;
+	void	*window;
+}			t_mlxdata;
+
+//Typedef is a struct for an MLX image and its data.
+typedef struct s_imgdata
+{
+	void	*image;
+	char	*address;
+	int		bits_pp;
+	int		line_len;
+	int		endian;
+}			t_imgdata;
 
 // ============================== 3D ELEMENT PROPERTIES ========================
 //Typedef defines a colour. Channels are TRGB in range 0x00000000 to 0xFFFFFFFF.
@@ -286,6 +320,10 @@ t_scr_vec	*screen_vecs_create(void);
 t_screen	*screen_create(void);
 //Function defines a screen based on a camera element.
 t_screen	*screen_camera(int width, int height, t_camera *camera);
+//Function creates and initialises an ambient light.
+t_ambient	*ambient_create(void);
+//Function creates an ambient light according to colour and ratio.
+t_ambient	*ambient_input(t_colour colour, double ratio);
 // -------------------------------- GENERIC OBJECT -----------------------------
 //Function creates and initialises an object.
 t_obj		*object_create(void);
@@ -333,6 +371,8 @@ void		*free_ray_null(t_ray *ray);
 void		free_camera(t_camera *camera);
 //Function frees a screen.
 void		free_screen(t_screen *screen);
+//Function frees an ambient light.
+void		free_ambient(t_ambient *ambient);
 //Function frees a plane.
 void		free_plane(t_plane *plane);
 //Function frees a sphere.
@@ -376,15 +416,20 @@ t_direction	*direction_cross_up(t_direction *first, t_direction *second);
 t_vector	*vector_add(t_vector *first, t_vector *second);
 //Function subtracts two vectors.
 t_vector	*vector_subtract(t_vector *first, t_vector *second);
-//Function works out the vector cross product of two vectors.
-t_vector	*vector_cross(t_vector *first, t_vector *second);
 //Function scales a vector.
 t_vector	*vector_scale(double scalar, t_vector *vector);
+//Function works out the vector cross product of two vectors.
+t_vector	*vector_cross(t_vector *first, t_vector *second);
+//Function works out the dot product of two vectors.
+double		vector_dot(t_vector *first, t_vector *second);
 // ------------------------------- COLOUR OPERATIONS ---------------------------
 //Function adds ambient light to a colour.
-t_colour	colour_ambient(t_colour colour, t_ambient ambient);
+t_colour	colour_ambient(t_colour colour, t_ambient *ambient);
 //Function assigns a colour to an existing cylinder.
 void		cylinder_colour(t_colour colour, t_cylinder *cylinder);
+// -------------------------------- MLX OPERATIONS -----------------------------
+//Function places a pixel in an image more quickly than with the pixel_put fn.
+void		quick_put_pixel(t_imgdata *data, int x, int y, int color);
 
 // ============================= CAMERA/VIEW PROJECTION ========================
 //Function works out the screen-up direction.
@@ -400,5 +445,7 @@ void		screen_pixel_centres(int width, int height, t_camera *camera, \
 int			error_exit(t_program *program, char *str);
 //Function prints an memory allocation error message.
 void		error_malloc_print(char *str);
+
+bool		ray_sphere_intersection(t_ray *ray, t_sphere *sphere);
 
 #endif

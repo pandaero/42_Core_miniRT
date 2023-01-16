@@ -1,28 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_5.c                                           :+:      :+:    :+:   */
+/*   calculations_3.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/15 16:14:07 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/15 23:28:40 by pandalaf         ###   ########.fr       */
+/*   Created: 2023/01/15 22:48:19 by pandalaf          #+#    #+#             */
+/*   Updated: 2023/01/15 22:58:39 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minirt.h"
-#include <stdlib.h>
 
-//Function frees a cylinder.
-void	free_cylinder(t_cylinder *cylinder)
+//Function works out the dot product of two vectors.
+double	vector_dot(t_vector *first, t_vector *second)
 {
-	free_point(cylinder->centre);
-	free_direction(cylinder->orientation);
-	free(cylinder);
-}
-
-//Function frees an ambient light.
-void	free_ambient(t_ambient *ambient)
-{
-	free(ambient);
+	return (first->x_comp * second->x_comp + \
+			first->y_comp * second->y_comp + \
+			first->z_comp * second->z_comp);
 }
