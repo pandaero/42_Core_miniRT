@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/16 15:04:33 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/16 16:20:48 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,13 @@ typedef struct s_intersect
 	t_point		*point;
 }				t_intersect;
 
+//Typedef describes a pixel on the screen.
+typedef struct s_pixel
+{
+	t_point		*point;
+	t_intersect	*intrsct;
+}				t_pixel;
+
 // ================================= 3D COMPOSITES =============================
 //Typedef describes points required to define the pixels composing a screen.
 typedef struct s_scr_pts
@@ -167,7 +174,6 @@ typedef struct s_scr_pts
 	t_point	*top_centre;
 	t_point	*tl_corner;
 	t_point	*first_px;
-	t_point	***px_coords;
 }			t_scr_pts;
 
 //Typedef describes vectors required to define a screen.
@@ -193,6 +199,7 @@ typedef struct s_screen
 	int			height;
 	t_scr_vec	*vecs;
 	t_scr_pts	*pts;
+	t_pixel		***pixels;
 }			t_screen;
 
 // ================================= SCENE ELEMENTS ============================
@@ -312,6 +319,10 @@ t_cylinder	*cylinder_centre_orient_radius_height(t_point *centre, \
 t_camera	*camera_create(void);
 //Function creates a camera from input parameters.
 t_camera	*camera_input(t_point *loc, t_direction *view_dir, double hfov_deg);
+//Function creates and initialises a pixel.
+t_pixel		*pixel_create(void);
+//Function creates a pixel with its point coordinates.
+t_pixel		*pixel_point(t_point *point);
 //Function creates and initialises a screen points structure.
 t_scr_pts	*screen_pts_create(void);
 //Function creates and initialises a screen vectors structure.

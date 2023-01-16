@@ -1,6 +1,6 @@
 //Tests for intersections on a window.
 // Using minilibx-opengl-20191021
-// From root: cc -framework OpenGL -framework AppKit exercises/mlx/window_listen.c -lmlx
+// From root: cc -framework OpenGL -framework AppKit
 // Using minilibx-linux
 // From root: cc test/intersections.c src/*.c libft/libft.a minilibx-linux/libmlx_Linux.a -lX11 -lXext -lm
 // From folder: cc intersection.c ../src/*.c ../src/intersections/*.c ../minilibx-linux/libmlx_Linux.a ../libft/libft.a -lX11 -lXext -lm
@@ -79,7 +79,7 @@ int	main(void)
 		j = 0;
 		while(j < WIN_WIDTH)
 		{
-			ray = ray_two_points(cam->location, screen->pts->px_coords[i][j]);
+			ray = ray_two_points(cam->location, screen->pixels[i][j]->point);
 			pixel = ray_sphere_intersection(ray, sphere);
 			if (pixel == false)
 				quick_put_pixel(imdt, j, i, ambient->ratio * ambient->colour);
@@ -88,11 +88,8 @@ int	main(void)
 			free(ray->ray_dir);
 			free(ray->ray_orig);
 			free(ray);
-			// free(pixel->point);
-			// free(pixel);
 			j++;
 		}
-		// write(1, "\n", 1);
 		i++;
 	}
 	//Sphere colour in projection
