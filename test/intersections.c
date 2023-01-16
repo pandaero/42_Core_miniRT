@@ -63,12 +63,12 @@ int	main(void)
 									   &imdt->line_len, &imdt->endian);
 	ambient = ambient_input(RED, 1);
 	cam_loc = point_coords(0, 0, 0);
-	cam_point = point_coords(0.1, 1, 0);
+	cam_point = point_coords(0, 1, 0);
 	cam_view_dir = direction_two_points(cam_loc, cam_point);
 	cam = camera_input(cam_loc, cam_view_dir, 90);
 	screen = screen_camera(WIN_WIDTH, WIN_HEIGHT, cam);
-	sphere_centre = point_coords(0, 50, 0);
-	sphere = sphere_col_centre_radius(BLUE, sphere_centre, 5);
+	sphere_centre = point_coords(10, 20, 0);
+	sphere = sphere_col_centre_radius(BLACK, sphere_centre, 5);
 	free_point(cam_loc);
 	free_point(cam_point);
 	free_direction(cam_view_dir);
@@ -92,7 +92,10 @@ int	main(void)
 			if (pixel == 0)
 				quick_put_pixel(imdt, j, i, ambient->ratio * ambient->colour);
 			else if (pixel == 1)
-				quick_put_pixel(imdt, j, i, colour_ambient(sphere->colour, ambient));
+				quick_put_pixel(imdt, j, i, BLACK);
+			free(ray->ray_dir);
+			free(ray->ray_orig);
+			free(ray);
 			// free(pixel->point);
 			// free(pixel);
 			j++;

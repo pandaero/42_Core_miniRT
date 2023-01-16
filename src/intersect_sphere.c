@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersect_sphere.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 22:22:24 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/15 23:19:25 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/16 14:36:14 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,21 @@ typedef struct s_Vector3
 	double	z;
 }			t_Vector3;
 
-//Function produces the output point if there is an intersection, alocates memory to that point
-t_Vector3 *zero_sphere_intersection(t_Vector3 *zero_point, t_Vector3 *direction, double distance)
+typedef struct s_ray_sphere_struct
 {
-	t_Vector3 *point_of_intersection;
+	double		t0;
+	double		t1;
+	double		y;
+	int			intersect;
+}t_rs;
+
+/*Function produces the output point if there 
+is an intersection, alocates memory to that point.
+Maybe it gets the point.*/
+t_Vector3	*zero_sphere_intersection(t_Vector3 *zero_point, \
+t_Vector3 *direction, double distance)
+{
+	t_Vector3	*point_of_intersection;
 
 	point_of_intersection = malloc(sizeof(t_Vector3));
 	point_of_intersection->x = -1 * (zero_point->x + direction->x * distance);
@@ -40,42 +51,41 @@ t_Vector3 *zero_sphere_intersection(t_Vector3 *zero_point, t_Vector3 *direction,
 	point_of_intersection->z = -1 * (zero_point->z + direction->z * distance);
 	return (point_of_intersection);
 }
-/*Comment precise*/
-int ray_sphere_intersection(t_ray *ray, t_sphere *sphere)
+
+// Function that finds a point of 
+// intersection between a ray 
+// and a sphere of a defined radius and center in space.
+// Nomenclature:
+// 	rp - Resulting from subtracting center of sphere from ray origin.
+// 	t0 - distance of normalized direction vector to a point of intersection
+// 	t1 - distance of normalized direction vector 
+		// to a different point of intersection
+// 	y - the discriminant
+int	ray_sphere_intersection(t_ray *ray, t_sphere *sphere)
 {
 	t_vector	*vec_ray_dir;
-	t_vector	*Rp; // Resulting from subtracting center of sphere from ray origin.
-
-	int			intersect;
-	double		t0; //distance of normalized direction vector to a point of intersection
-	double		t1; // distance of normalized direction vector to a different point of intersection
-	double		y; // the discriminant
+	t_vector	*rp;
+	t_rs		rs;
 
 	vec_ray_dir = vector_scale_direction(1, ray->ray_dir);
-	Rp = vector_two_points(ray->ray_orig, sphere->centre);
-	y = pow(vector_dot(Rp, vec_ray_dir), 2) - (vector_dot(Rp, Rp)) + pow(sphere->radius, 2);
-	// printf("ray start - [%f, %f, %f]\n", ray_start->x, ray_start->y, ray_start->z);
-	// printf("y = %f\n", y);
-	if (y >= 0)
+	rp = vector_two_points(ray->ray_orig, sphere->centre);
+	rs.y = pow(vector_dot(rp, vec_ray_dir), 2) - \
+	(vector_dot(rp, rp)) + pow(sphere->radius, 2);
+	if (rs.y >= 0)
 	{
-		intersect = 1;
-		t0 = (vector_dot(Rp, vec_ray_dir)) - sqrt((pow(vector_dot(Rp, vec_ray_dir), 2)) - (vector_dot(Rp, Rp)) + (pow(sphere->radius, 2)));
-		t1 = (vector_dot(Rp, vec_ray_dir)) + sqrt((pow(vector_dot(Rp, vec_ray_dir), 2)) - (vector_dot(Rp, Rp)) + (pow(sphere->radius, 2)));
-		// if (t0 <= t1)
-		// 	first_intersection = zero_sphere_intersection(ray_start, ray_direction, t0);
-		// else
-		// 	first_intersection = zero_sphere_intersection(ray_start, ray_direction, t1);
-		// printf("First intersection [%f:%f:%f]\n", first_intersection->x, first_intersection->y, first_intersection->z);
-		// free(first_intersection);
+		rs.intersect = 1;
+		rs.t0 = (vector_dot(rp, vec_ray_dir)) - \
+		sqrt((pow(vector_dot(rp, vec_ray_dir), 2)) - \
+		(vector_dot(rp, rp)) + (pow(sphere->radius, 2)));
+		rs.t1 = (vector_dot(rp, vec_ray_dir)) + \
+		sqrt((pow(vector_dot(rp, vec_ray_dir), 2)) - \
+		(vector_dot(rp, rp)) + (pow(sphere->radius, 2)));
 	}
 	else
-	{
-		intersect = 0;
-		// printf("render ambient\n");
-	}
-	free_vector(Rp);
+		rs.intersect = 0;
+	free_vector(rp);
 	free_vector(vec_ray_dir);
-	return(intersect);
+	return (rs.intersect);
 }
 
 /*
