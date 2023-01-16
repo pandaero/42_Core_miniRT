@@ -73,14 +73,6 @@ int	main(void)
 	free_point(cam_point);
 	free_direction(cam_view_dir);
 	free_point(sphere_centre);
-
-	// printf("[0, 0]: (%f, %f, %f)\n", screen->pts->px_coords[0][0]);
-	// printf("[0, w]: (%f, %f, %f)\n", screen->pts->px_coords[0][WIN_WIDTH - 1]);
-	// printf("[h, 0]: (%f, %f, %f)\n", screen->pts->px_coords[WIN_HEIGHT - 1][0]);
-	// printf("[h, w]: (%f, %f, %f)\n", screen->pts->px_coords[WIN_HEIGHT - 1][WIN_WIDTH - 1]);
-	
-	// quick_put_pixel(imdt, WIN_WIDTH / 2, WIN_HEIGHT / 2, 0x00FF00FF);
-	//*
 	i = 0;
 	while(i < WIN_HEIGHT)
 	{
@@ -105,8 +97,6 @@ int	main(void)
 	}
 	//Sphere colour in projection
 	printf("0x%08X\n", (unsigned int) colour_ambient((sphere->colour), ambient));
-	//*/
-	// ray_sphere_intersection(ray);
 	mlx_put_image_to_window(mlxdata->mlx, mlxdata->window, imdt->image, 0, 0);
 	mlx_hook(mlxdata->window, 17, NO_EVENT, closing, mlxdata);
 	mlx_hook(mlxdata->window, 3, KEY_RELEASE, keys, mlxdata);
