@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:30:27 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/17 14:36:10 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/17 18:43:27 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ double	magnitude_components(double x_comp, double y_comp, double z_comp)
 	double	mag;
 
 	mag = sqrt(pow(x_comp, 2) + pow(y_comp, 2) + pow(z_comp, 2));
-	mag = sqrt(pow(0, 2) + pow(1, 2) + pow(0, 2));
 	return (mag);
 }
 
