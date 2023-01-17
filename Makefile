@@ -6,7 +6,7 @@
 #    By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/16 18:36:19 by pandalaf          #+#    #+#              #
-#    Updated: 2023/01/17 16:37:21 by pandalaf         ###   ########.fr        #
+#    Updated: 2023/01/17 22:01:54 by pandalaf         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ NAME	:= minirt
 # Compiler options
 CC		:= cc
 CFLAGS	:= -Wall -Werror -Wextra
-COPT	:= #-g -fsanitize=address
+COPT	:= -g -fsanitize=address
 
 # Sources
 SRC_ROOT	:= src/
@@ -42,7 +42,7 @@ ifeq ($(shell uname -s), Darwin)
 MLX			:= libmlx.a
 MLX_DIR		:= minilibx_opengl_20191021/
 else
-MLX			:= libmlx_Linux.a
+MLX			:= libmlx.a
 MLX_DIR		:= minilibx-linux/
 endif
 MLX_FULL	:= $(addprefix $(MLX_DIR), $(MLX))
@@ -118,7 +118,7 @@ $(word 22, $(OBJS)): $(word 22, $(SRCS)) | $(OBJ_DIR)
 $(word 23, $(OBJS)): $(word 23, $(SRCS)) | $(OBJ_DIR)
 	$(CC) $(CFLAGS) $(COPT) -c $^ -o $@
 $(word 24, $(OBJS)): $(word 24, $(SRCS)) | $(OBJ_DIR)
-	$(CC) $(CFLAGS) $(COPT) -c $^ -o $
+	$(CC) $(CFLAGS) $(COPT) -c $^ -o $@
 $(word 25, $(OBJS)): $(word 25, $(SRCS)) | $(OBJ_DIR)
 	$(CC) $(CFLAGS) $(COPT) -c $^ -o $@
 $(word 26, $(OBJS)): $(word 26, $(SRCS)) | $(OBJ_DIR)
@@ -132,6 +132,8 @@ $(word 29, $(OBJS)): $(word 29, $(SRCS)) | $(OBJ_DIR)
 $(word 30, $(OBJS)): $(word 30, $(SRCS)) | $(OBJ_DIR)
 	$(CC) $(CFLAGS) $(COPT) -c $^ -o $@
 $(word 31, $(OBJS)): $(word 31, $(SRCS)) | $(OBJ_DIR)
+	$(CC) $(CFLAGS) $(COPT) -c $^ -o $@
+$(word 32, $(OBJS)): $(word 32, $(SRCS)) | $(OBJ_DIR)
 	$(CC) $(CFLAGS) $(COPT) -c $^ -o $@
 
 # Make the object directory
