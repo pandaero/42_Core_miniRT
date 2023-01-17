@@ -57,20 +57,9 @@ int	main(void)
 	int			i;
 	int			j;
 
-	point_on_plane = malloc(sizeof(t_point));
-	point_on_plane->x_co = 0;
-	point_on_plane->y_co = 10;
-	point_on_plane->z_co = 0;
-
-	plane_norm = malloc(sizeof(t_direction));
-	plane_norm->x_comp = 0;
-	plane_norm->y_comp = 1;
-	plane_norm->z_comp = 0;
-
-	plane = plane_create();
-	plane->normal = plane_norm;
-	plane->point = point_on_plane;
-
+	point_on_plane = point_coords(0, 10 ,0);
+	plane_norm = direction_components(0, 1, 0);
+	plane = plane_point_normal_dir(GREEN, point_on_plane, plane_norm);
 	mlxdata = (t_mlxdata *)malloc(sizeof(t_mlxdata));
 	imdt = (t_imgdata *)malloc(sizeof(t_imgdata));
 	mlxdata->mlx = mlx_init();
@@ -80,7 +69,7 @@ int	main(void)
 									   &imdt->line_len, &imdt->endian);
 	ambient = ambient_input(RED, 1);
 	cam_loc = point_coords(0, 0, 0);
-	cam_point = point_coords(0, -1, 0);
+	cam_point = point_coords(0, 1, 0);
 	cam_view_dir = direction_two_points(cam_loc, cam_point);
 	cam = camera_input(cam_loc, cam_view_dir, 90);
 	screen = screen_camera(WIN_WIDTH, WIN_HEIGHT, cam);
