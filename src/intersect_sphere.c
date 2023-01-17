@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 22:22:24 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/16 14:36:14 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/01/16 19:14:46 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ cc ray_sphere.c operations.c input.c -lm
 #include <stdio.h>
 #include <math.h>
 
-typedef struct s_Vector3
-{
-	double	x;
-	double	y;
-	double	z;
-}			t_Vector3;
+// typedef struct s_Vector3
+// {
+// 	double	x;
+// 	double	y;
+// 	double	z;
+// }			t_Vector3;
 
 typedef struct s_ray_sphere_struct
 {
