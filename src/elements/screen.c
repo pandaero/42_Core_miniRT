@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 22:26:40 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/17 14:37:23 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/17 23:41:32 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ t_point	*screen_centre(double width, t_camera *camera)
 	double		distance;
 
 	cam_point = camera->location;
-	distance = (0.5 * width) / tan(camera->horiz_fov / 2);
+	distance = (0.5 * width * VIEW_SCALING) / tan(camera->horiz_fov / 2);
 	dist_vec = vector_scale_direction(distance, camera->view_dir);
 	centre = point_point_vector(cam_point, dist_vec);
 	free_vector(dist_vec);
