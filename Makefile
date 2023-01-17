@@ -6,7 +6,7 @@
 #    By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/16 18:36:19 by pandalaf          #+#    #+#              #
-#    Updated: 2023/01/17 23:50:06 by pandalaf         ###   ########.fr        #
+#    Updated: 2023/01/18 00:13:14 by pandalaf         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -132,6 +132,8 @@ $(word 30, $(OBJS)): $(word 30, $(SRCS)) | $(OBJ_DIR)
 $(word 31, $(OBJS)): $(word 31, $(SRCS)) | $(OBJ_DIR)
 	$(CC) $(CFLAGS) $(COPT) -c $^ -o $@
 $(word 32, $(OBJS)): $(word 32, $(SRCS)) | $(OBJ_DIR)
+	$(CC) $(CFLAGS) $(COPT) -c $^ -o $@
+$(word 33, $(OBJS)): $(word 33, $(SRCS)) | $(OBJ_DIR)
 	$(CC) $(CFLAGS) $(COPT) -c $^ -o $@
 
 # Make the object directory
