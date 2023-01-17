@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/16 19:47:15 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/01/17 14:45:12 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define MINIRT_H
 
 # include "../libft/libft.h"
-
 # if defined (__APPLE__)
 #  include "../include/apple_mlx.h"
 #  include "../minilibx_opengl_20191021/mlx.h"
@@ -23,7 +22,6 @@
 #  include "../include/linux_mlx.h"
 #  include "../minilibx-linux/mlx.h"
 # endif
-# include <stdbool.h>
 
 // Screen resolution
 # define WIN_WIDTH 800
@@ -50,11 +48,19 @@ typedef struct s_objlist	t_objlist;
 //Typedef contains several variables for the ray-sphere intersection function.
 typedef struct s_rs
 {
-	double		t0;
-	double		t1;
-	double		y;
-	bool		intersect;
-}				t_rs;
+	double	t0;
+	double	t1;
+	double	y;
+	int		intersect;
+}			t_rs;
+
+//Typedef contains several variables for the plane-sphere intersection function.
+typedef struct s_intersect_plane
+{
+	double	divisor;
+	double	t;
+	int		intersection;
+}			t_ip;
 
 // ======================================= MLX =================================
 //Typedef contains MLX pointers.
@@ -157,7 +163,7 @@ typedef struct s_cylinder
 //Typedef describes an intersection.
 typedef struct s_intersect
 {
-	bool		state;
+	int			state;
 	t_colour	colour;
 	t_point		*point;
 }				t_intersect;
@@ -309,10 +315,10 @@ t_ray		*ray_start_vector(t_point *start, t_vector *vector);
 //Function creates and initialises a plane.
 t_plane		*plane_create(void);
 //Function creates a defined plane from a colour, point and normal direction.
-t_plane		*plane_point_normal_dir(t_colour colour, t_point *point, \
+t_plane		*plane_col_point_normal_dir(t_colour colour, t_point *point, \
 									t_direction *normal);
 //Function creates a defined plane from a colour, point and normal vector.
-t_plane		*plane_point_normal_vec(t_colour colour, t_point *point, \
+t_plane		*plane_col_point_normal_vec(t_colour colour, t_point *point, \
 									t_vector *normal);
 //Function creates and initialises a sphere.
 t_sphere	*sphere_create(void);
@@ -467,6 +473,7 @@ int			error_exit(t_program *program, char *str);
 //Function prints an memory allocation error message.
 void		error_malloc_print(char *str);
 
+// HOMELESS FUNCTIONS
 int			ray_sphere_intersection(t_ray *ray, t_sphere *sphere);
 //Checks for an intersection between a ray and a plane
 int			ray_plane_intersection(t_ray	*ray, t_plane *plane);

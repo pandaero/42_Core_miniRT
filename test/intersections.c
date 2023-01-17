@@ -2,7 +2,7 @@
 // Using minilibx-opengl-20191021
 // From root: cc -framework OpenGL -framework AppKit
 // Using minilibx-linux
-// From root: cc test/intersections.c src/*.c libft/libft.a minilibx-linux/libmlx_Linux.a -lX11 -lXext -lm
+// From root: cc test/intersections.c src/calculation/* src/elements/* src/intersection/* src/memory/* src/program/* libft/libft.a minilibx-linux/libmlx_Linux.a -lX11 -lXext -lm
 // From folder: cc intersection.c ../src/*.c ../src/intersections/*.c ../minilibx-linux/libmlx_Linux.a ../libft/libft.a -lX11 -lXext -lm
 
 #include "./test.h"
@@ -57,9 +57,9 @@ int	main(void)
 	int			i;
 	int			j;
 
-	point_on_plane = point_coords(0, 10 ,0);
+	point_on_plane = point_coords(0, -20 ,0);
 	plane_norm = direction_components(0, 1, 0);
-	plane = plane_point_normal_dir(GREEN, point_on_plane, plane_norm);
+	plane = plane_col_point_normal_dir(GREEN, point_on_plane, plane_norm);
 	mlxdata = (t_mlxdata *)malloc(sizeof(t_mlxdata));
 	imdt = (t_imgdata *)malloc(sizeof(t_imgdata));
 	mlxdata->mlx = mlx_init();
@@ -67,14 +67,14 @@ int	main(void)
 	imdt->image = mlx_new_image(mlxdata->mlx, WIN_WIDTH, WIN_HEIGHT);
 	imdt->address = mlx_get_data_addr(imdt->image, &imdt->bits_pp, \
 									   &imdt->line_len, &imdt->endian);
-	ambient = ambient_input(RED, 1);
+	ambient = ambient_input(WHITE, 0.4);
 	cam_loc = point_coords(0, 0, 0);
 	cam_point = point_coords(0, 1, 0);
 	cam_view_dir = direction_two_points(cam_loc, cam_point);
 	cam = camera_input(cam_loc, cam_view_dir, 90);
 	screen = screen_camera(WIN_WIDTH, WIN_HEIGHT, cam);
-	sphere_centre = point_coords(10, 20, 0);
-	sphere = sphere_col_centre_radius(GREEN, sphere_centre, 5);
+	sphere_centre = point_coords(10, 10, 0);
+	sphere = sphere_col_centre_radius(0x00FF5555, sphere_centre, 5);
 	free_point(cam_loc);
 	free_point(cam_point);
 	free_direction(cam_view_dir);
@@ -85,14 +85,12 @@ int	main(void)
 		j = 0;
 		while(j < WIN_WIDTH)
 		{
-			ray = ray_two_points(cam->location, screen->pts->px_coords[i][j]);
-			// pixel = ray_sphere_intersection(ray, sphere);
-			pixel = ray_plane_intersection(ray, plane);
-		
+			ray = ray_two_points(cam->location, screen->pixels[i][j]->point);
+			pixel = ray_sphere_intersection(ray, sphere);
+			// pixel = ray_plane_intersection(ray, plane);
 			if (pixel == 0)
-
 				quick_put_pixel(imdt, j, i, ambient->ratio * ambient->colour);
-			else if (pixel == true)
+			else
 				quick_put_pixel(imdt, j, i, colour_ambient((sphere->colour), ambient));
 			free(ray->ray_dir);
 			free(ray->ray_orig);

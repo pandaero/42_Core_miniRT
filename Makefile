@@ -6,7 +6,7 @@
 #    By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/16 18:36:19 by pandalaf          #+#    #+#              #
-#    Updated: 2023/01/16 19:50:56 by pandalaf         ###   ########.fr        #
+#    Updated: 2023/01/17 15:02:05 by pandalaf         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,8 +19,11 @@ CFLAGS	:= -Wall -Werror -Wextra
 COPT	:= #-g -fsanitize=address
 
 # Sources
-SRC_DIR	:= src/
-SRCS	:= $(wildcard $(SRC_DIR)*.c)
+SRC_ROOT	:= src/
+SRC_DIRS	:= calculation/ elements/ error/ intersection/ memory/ object/ \
+				program/
+$(info $(SRC_DIRS))
+SRCS		:= $(wildcard $(SRC_DIR)*.c)
 
 # Objects to compile
 OBJ_DIR	:= build/
