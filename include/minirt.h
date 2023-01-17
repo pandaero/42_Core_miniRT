@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/16 14:20:14 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/16 19:47:15 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,6 +202,13 @@ typedef struct s_camera
 }			t_camera;
 
 //Typedef describes a spot light.
+
+typedef struct s_Vector3
+{
+	double	x;
+	double	y;
+	double	z;
+}			t_Vector3;
 
 // =============================== OBJECT LINKED LIST ==========================
 //Typedef describes an object in a linked list.
@@ -437,5 +444,7 @@ int			error_exit(t_program *program, char *str);
 void		error_malloc_print(char *str);
 
 int			ray_sphere_intersection(t_ray *ray, t_sphere *sphere);
+//Checks for an intersection between a ray and a plane
+int	ray_plane_intersection(t_ray	*ray, t_plane *plane);
 
 #endif
