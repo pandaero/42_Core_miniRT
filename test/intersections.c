@@ -55,7 +55,7 @@ int	main(void)
 	imdt->address = mlx_get_data_addr(imdt->image, &imdt->bits_pp, \
 									   &imdt->line_len, &imdt->endian);
 	// Scene and lighting
-	// t_ambient	*ambient = ambient_input(RED, 0.4);
+	t_ambient	*ambient = ambient_input(RED, 0.4);
 	t_point		*cam_loc = point_coords(0, 0, 0);
 	t_direction	*cam_dir = direction_components(0, 5, 0);
 	t_camera	*cam = camera_input(cam_loc, cam_dir, 90);
@@ -69,15 +69,18 @@ int	main(void)
 	free_point(cam_loc);
 	free_direction(cam_dir);
 	// Plane
-	// t_point		*point_on_plane = point_coords(0, 100, 0);
-	// t_direction	*plane_norm = direction_components(0, 1, 0);
-	// t_plane		*plane = plane_col_point_normal_dir(0x00FF5555, point_on_plane, plane_norm);
-	// free_point(point_on_plane);
-	// free_direction(plane_norm);
+	t_point		*point_on_plane = point_coords(0, 0, 10);
+	t_direction	*plane_norm = direction_components(2, 1, 1);
+	t_plane		*plane = plane_col_point_normal_dir(0x000055FF, point_on_plane, plane_norm);
+	t_obj		*obj_plane = object_plane(plane);
+	object_print(obj_plane);
+	free(obj_plane);
+	free_point(point_on_plane);
+	free_direction(plane_norm);
 	// Sphere
-	t_point		*sphere_centre = point_coords(0, 1000, 0);
-	t_sphere	*sphere = sphere_col_centre_radius(0x00FF5555, sphere_centre, 100);
-	free_point(sphere_centre);
+	// t_point		*sphere_centre = point_coords(0, 1000, 0);
+	// t_sphere	*sphere = sphere_col_centre_radius(0x00FF5555, sphere_centre, 100);
+	// free_point(sphere_centre);
 	// Pre-Screen Tests
 	i = 0;
 	while(i < WIN_HEIGHT)
@@ -88,12 +91,15 @@ int	main(void)
 			ray_direc = direction_two_points(cam->location, screen->pixels[i][j]->point);
 			ray = ray_start_dir(screen->pixels[i][j]->point, ray_direc);
 			free_direction(ray_direc);
-			pixel = ray_sphere_intersection(ray, sphere);
-			// pixel = intersection_ray_plane(ray, plane);
+			// pixel = ray_sphere_intersection(ray, sphere);
+			pixel = intersection_ray_plane(ray, plane);
 			if (pixel == 0)
-				quick_put_pixel(imdt, j, i, BLACK);
+				quick_put_pixel(imdt, j, i, ambient->ratio * ambient->colour);
 			else
-				quick_put_pixel(imdt, j, i, WHITE);
+			{
+				// quick_put_pixel(imdt, j, i, colour_ambient(sphere->colour, ambient));
+				quick_put_pixel(imdt, j, i, colour_ambient(plane->colour, ambient));
+			}
 			free_ray(ray);
 			j++;
 		}
@@ -106,8 +112,8 @@ int	main(void)
 	// free_ambient(ambient);
 	free_camera(cam);
 	free_screen(screen);
-	// free_plane(plane);
-	free_sphere(sphere);
+	free_plane(plane);
+	// free_sphere(sphere);
 	free(mlxdata);
 	free(imdt);
 	return (0);
