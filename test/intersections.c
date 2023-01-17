@@ -57,9 +57,9 @@ int	main(void)
 	int			i;
 	int			j;
 
-	point_on_plane = point_coords(0, -20 ,0);
+	point_on_plane = point_coords(0, -20,0);
 	plane_norm = direction_components(0, 1, 0);
-	plane = plane_col_point_normal_dir(GREEN, point_on_plane, plane_norm);
+	plane = plane_col_point_normal_dir(BLACK, point_on_plane, plane_norm);
 	mlxdata = (t_mlxdata *)malloc(sizeof(t_mlxdata));
 	imdt = (t_imgdata *)malloc(sizeof(t_imgdata));
 	mlxdata->mlx = mlx_init();
@@ -67,9 +67,9 @@ int	main(void)
 	imdt->image = mlx_new_image(mlxdata->mlx, WIN_WIDTH, WIN_HEIGHT);
 	imdt->address = mlx_get_data_addr(imdt->image, &imdt->bits_pp, \
 									   &imdt->line_len, &imdt->endian);
-	ambient = ambient_input(WHITE, 0.4);
+	ambient = ambient_input(RED, 0.4);
 	cam_loc = point_coords(0, 0, 0);
-	cam_point = point_coords(0, 1, 0);
+	cam_point = point_coords(0, 0, 1);
 	cam_view_dir = direction_two_points(cam_loc, cam_point);
 	cam = camera_input(cam_loc, cam_view_dir, 90);
 	screen = screen_camera(WIN_WIDTH, WIN_HEIGHT, cam);
@@ -86,8 +86,8 @@ int	main(void)
 		while(j < WIN_WIDTH)
 		{
 			ray = ray_two_points(cam->location, screen->pixels[i][j]->point);
-			pixel = ray_sphere_intersection(ray, sphere);
-			// pixel = ray_plane_intersection(ray, plane);
+			// pixel = ray_sphere_intersection(ray, sphere);
+			pixel = ray_plane_intersection(ray, plane);
 			if (pixel == 0)
 				quick_put_pixel(imdt, j, i, ambient->ratio * ambient->colour);
 			else
