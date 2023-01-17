@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/17 23:53:28 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/18 00:13:42 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct s_vector		t_vector;
 typedef struct s_ray		t_ray;
 typedef struct s_obj		t_obj;
 typedef struct s_objlist	t_objlist;
+typedef struct s_pixel		t_pixel;
 
 // =============================== FUNCTION REFACTORING ========================
 //Typedef contains several variables for the ray-sphere intersection function.
@@ -61,6 +62,16 @@ typedef struct s_intersect_plane
 	double	t;
 	int		intersection;
 }			t_ip;
+
+//Typedef contains several variables for the screen pixel centre function.
+typedef struct s_screen_centre
+{
+	t_vector	*scr_r_px;
+	t_vector	*scr_d_px;
+	t_vector	*scr_rd_px;
+	t_point		*centre;
+	t_pixel		*pix;
+}				t_screen_centre;
 
 // ======================================= MLX =================================
 //Typedef contains MLX pointers.
