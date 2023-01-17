@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 17:30:24 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/17 14:38:23 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/17 23:24:45 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	free_screen(t_screen *screen)
 		j = 0;
 		while (j < screen->width)
 		{
-			free_point(screen->pixels[i][j]->point);
+			free_pixel(screen->pixels[i][j]);
 			j++;
 		}
 		free(screen->pixels[i]);
