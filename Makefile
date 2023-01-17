@@ -6,7 +6,7 @@
 #    By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/16 18:36:19 by pandalaf          #+#    #+#              #
-#    Updated: 2023/01/17 22:01:54 by pandalaf         ###   ########.fr        #
+#    Updated: 2023/01/17 23:50:06 by pandalaf         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -69,8 +69,6 @@ $(NAME): $(OBJS) $(MLX_FULL) $(LIBFT_FULL)
 	$(CC) $(CFLAGS) $(COPT) $< $(filter-out $<, $^) -o $@ $(LIBS)
 
 # Make the object files
-#$(foreach it, $(OBJS), $(it)): \
-		$(foreach it, $(SRCS), $(it)) | $(OBJ_DIR)
 $(word 1, $(OBJS)): $(word 1, $(SRCS)) | $(OBJ_DIR)
 	$(CC) $(CFLAGS) $(COPT) -c $^ -o $@
 $(word 2, $(OBJS)): $(word 2, $(SRCS)) | $(OBJ_DIR)
@@ -141,11 +139,11 @@ $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
 
 # Make the libft archive
-$(LIBFT_FULL): $(LIBFT_DIR)
+$(LIBFT_FULL): | $(LIBFT_DIR)
 	make -C $(LIBFT_DIR) all
 
 # Make the minilibx archive
-$(MLX_FULL): $(MLX_DIR)
+$(MLX_FULL): | $(MLX_DIR)
 	make -C $(MLX_DIR) all
 
 # Clean intermediate files
@@ -163,6 +161,7 @@ fclean:
 	make -C $(LIBFT_DIR) fclean
 	rm -rf $(OBJ_DIR)
 	rm -f $(MLX_FULL)
+	rm -f $(addprefix $(MLX_DIR), libmlx_Linux.a)
 	rm -f $(addprefix $(MLX_DIR), Makefile.gen)
 	rm -f $(NAME)
 
