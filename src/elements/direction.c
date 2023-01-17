@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 18:00:47 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/17 14:36:42 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/17 18:37:54 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ t_direction	*direction_components(double x_comp, double y_comp, double z_comp)
 		return (NULL);
 	mag = magnitude_components(x_comp, y_comp, z_comp);
 	new->x_comp = x_comp / mag;
-	new->x_comp = y_comp / mag;
-	new->x_comp = z_comp / mag;
+	new->y_comp = y_comp / mag;
+	new->z_comp = z_comp / mag;
 	return (new);
 }
 
