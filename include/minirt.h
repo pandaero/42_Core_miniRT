@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/17 14:45:12 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/17 17:45:48 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -476,6 +476,6 @@ void		error_malloc_print(char *str);
 // HOMELESS FUNCTIONS
 int			ray_sphere_intersection(t_ray *ray, t_sphere *sphere);
 //Checks for an intersection between a ray and a plane
-int			ray_plane_intersection(t_ray	*ray, t_plane *plane);
+int			intersection_ray_plane(t_ray *ray, t_plane *plane);
 
 #endif
