@@ -50,10 +50,16 @@ int	main(void)
 	t_ambient	*ambient;
 	t_mlxdata	*mlxdata;
 	t_imgdata	*imdt;
+	t_point		*point_on_plane;
+	t_direction *plane_norm;
+	t_plane		*plane;
 	int			pixel;
 	int			i;
 	int			j;
 
+	point_on_plane = point_coords(0, 10 ,0);
+	plane_norm = direction_components(0, 1, 0);
+	plane = plane_point_normal_dir(GREEN, point_on_plane, plane_norm);
 	mlxdata = (t_mlxdata *)malloc(sizeof(t_mlxdata));
 	imdt = (t_imgdata *)malloc(sizeof(t_imgdata));
 	mlxdata->mlx = mlx_init();
@@ -79,9 +85,12 @@ int	main(void)
 		j = 0;
 		while(j < WIN_WIDTH)
 		{
-			ray = ray_two_points(cam->location, screen->pixels[i][j]->point);
-			pixel = ray_sphere_intersection(ray, sphere);
-			if (pixel == false)
+			ray = ray_two_points(cam->location, screen->pts->px_coords[i][j]);
+			// pixel = ray_sphere_intersection(ray, sphere);
+			pixel = ray_plane_intersection(ray, plane);
+		
+			if (pixel == 0)
+
 				quick_put_pixel(imdt, j, i, ambient->ratio * ambient->colour);
 			else if (pixel == true)
 				quick_put_pixel(imdt, j, i, colour_ambient((sphere->colour), ambient));
@@ -98,6 +107,9 @@ int	main(void)
 	mlx_hook(mlxdata->window, 17, NO_EVENT, closing, mlxdata);
 	mlx_hook(mlxdata->window, 3, KEY_RELEASE, keys, mlxdata);
 	mlx_loop(mlxdata->mlx);
+	free(plane->point);
+	free(plane->normal);
+	free(plane);
 	free_camera(cam);
 	free_screen(screen);
 	free_ambient(ambient);

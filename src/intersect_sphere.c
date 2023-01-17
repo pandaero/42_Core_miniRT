@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 22:22:24 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/16 15:22:15 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/16 19:14:46 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,19 @@ Added a funcition that normalizes the direction courtesy of Pablo.
 use:
 cc ray_sphere.c operations.c input.c -lm
 */
-typedef struct s_Vector3
-{
-	double	x;
-	double	y;
-	double	z;
-}			t_Vector3;
+
+#include <stdlib.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <math.h>
+
+// typedef struct s_Vector3
+// {
+// 	double	x;
+// 	double	y;
+// 	double	z;
+// }			t_Vector3;
+
 
 /*Function produces the output point if there 
 is an intersection, alocates memory to that point.
