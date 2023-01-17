@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/17 17:45:48 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/17 23:53:28 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # define WIN_WIDTH 800
 # define WIN_HEIGHT 600
 // Factor for screen-pixel coordinate sizing. 
-# define VIEW_SCALING 1
+# define VIEW_SCALING 0.1
 // Colours
 # define BLACK 0x00000000
 # define WHITE 0x00FFFFFF
@@ -394,8 +394,12 @@ void		*free_vector_null(t_vector *vector);
 void		free_ray(t_ray *ray);
 //Function frees all the allocations belonging to a ray object, returns null.
 void		*free_ray_null(t_ray *ray);
+//Function frees an intersection.
+void		free_intersection(t_intersect *intersection);
 //Function frees all the allocations belonging to a camera.
 void		free_camera(t_camera *camera);
+//Function frees a pixel.
+void		free_pixel(t_pixel *pixel);
 //Function frees a screen.
 void		free_screen(t_screen *screen);
 //Function frees an ambient light.
@@ -438,6 +442,11 @@ double		magnitude_components(double x_comp, double y_comp, double z_comp);
 t_direction	*direction_cross(t_direction *first, t_direction *second);
 //Function returns the cross product with a positive z-axis component.
 t_direction	*direction_cross_up(t_direction *first, t_direction *second);
+// ---------------------------------- INTERSECTIONS ----------------------------
+//Function determines the intersection between a ray and a sphere.
+int			ray_sphere_intersection(t_ray *ray, t_sphere *sphere);
+//Function determines the intersection between a ray and a plane.
+int			intersection_ray_plane(t_ray *ray, t_plane *plane);
 // ------------------------------- VECTOR OPERATIONS ---------------------------
 //Function adds two vectors together.
 t_vector	*vector_add(t_vector *first, t_vector *second);
@@ -472,10 +481,5 @@ void		screen_pixel_centres(int width, int height, t_camera *camera, \
 int			error_exit(t_program *program, char *str);
 //Function prints an memory allocation error message.
 void		error_malloc_print(char *str);
-
-// HOMELESS FUNCTIONS
-int			ray_sphere_intersection(t_ray *ray, t_sphere *sphere);
-//Checks for an intersection between a ray and a plane
-int			intersection_ray_plane(t_ray *ray, t_plane *plane);
 
 #endif
