@@ -6,7 +6,7 @@
 #    By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/16 18:36:19 by pandalaf          #+#    #+#              #
-#    Updated: 2023/01/17 15:02:05 by pandalaf         ###   ########.fr        #
+#    Updated: 2023/01/17 16:37:21 by pandalaf         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,10 +20,11 @@ COPT	:= #-g -fsanitize=address
 
 # Sources
 SRC_ROOT	:= src/
-SRC_DIRS	:= calculation/ elements/ error/ intersection/ memory/ object/ \
+SRC_SUBDIRS	:= calculation/ elements/ error/ intersection/ memory/ object/ \
 				program/
-$(info $(SRC_DIRS))
-SRCS		:= $(wildcard $(SRC_DIR)*.c)
+SRC_DIR		:= $(addprefix $(SRC_ROOT), $(SRC_SUBDIRS))
+SRCS		:= $(foreach subdir, $(SRC_DIR), $(wildcard $(subdir)*.c)) \
+				$(addprefix $(SRC_ROOT), main.c)
 
 # Objects to compile
 OBJ_DIR	:= build/
@@ -68,7 +69,69 @@ $(NAME): $(OBJS) $(MLX_FULL) $(LIBFT_FULL)
 	$(CC) $(CFLAGS) $(COPT) $< $(filter-out $<, $^) -o $@ $(LIBS)
 
 # Make the object files
-$(addprefix $(OBJ_DIR), %.o): $(addprefix $(SRC_DIR), %.c) | $(OBJ_DIR)
+#$(foreach it, $(OBJS), $(it)): \
+		$(foreach it, $(SRCS), $(it)) | $(OBJ_DIR)
+$(word 1, $(OBJS)): $(word 1, $(SRCS)) | $(OBJ_DIR)
+	$(CC) $(CFLAGS) $(COPT) -c $^ -o $@
+$(word 2, $(OBJS)): $(word 2, $(SRCS)) | $(OBJ_DIR)
+	$(CC) $(CFLAGS) $(COPT) -c $^ -o $@
+$(word 3, $(OBJS)): $(word 3, $(SRCS)) | $(OBJ_DIR)
+	$(CC) $(CFLAGS) $(COPT) -c $^ -o $@
+$(word 4, $(OBJS)): $(word 4, $(SRCS)) | $(OBJ_DIR)
+	$(CC) $(CFLAGS) $(COPT) -c $^ -o $@
+$(word 5, $(OBJS)): $(word 5, $(SRCS)) | $(OBJ_DIR)
+	$(CC) $(CFLAGS) $(COPT) -c $^ -o $@
+$(word 6, $(OBJS)): $(word 6, $(SRCS)) | $(OBJ_DIR)
+	$(CC) $(CFLAGS) $(COPT) -c $^ -o $@
+$(word 7, $(OBJS)): $(word 7, $(SRCS)) | $(OBJ_DIR)
+	$(CC) $(CFLAGS) $(COPT) -c $^ -o $@
+$(word 8, $(OBJS)): $(word 8, $(SRCS)) | $(OBJ_DIR)
+	$(CC) $(CFLAGS) $(COPT) -c $^ -o $@
+$(word 9, $(OBJS)): $(word 9, $(SRCS)) | $(OBJ_DIR)
+	$(CC) $(CFLAGS) $(COPT) -c $^ -o $@
+$(word 10, $(OBJS)): $(word 10, $(SRCS)) | $(OBJ_DIR)
+	$(CC) $(CFLAGS) $(COPT) -c $^ -o $@
+$(word 11, $(OBJS)): $(word 11, $(SRCS)) | $(OBJ_DIR)
+	$(CC) $(CFLAGS) $(COPT) -c $^ -o $@
+$(word 12, $(OBJS)): $(word 12, $(SRCS)) | $(OBJ_DIR)
+	$(CC) $(CFLAGS) $(COPT) -c $^ -o $@
+$(word 13, $(OBJS)): $(word 13, $(SRCS)) | $(OBJ_DIR)
+	$(CC) $(CFLAGS) $(COPT) -c $^ -o $@
+$(word 14, $(OBJS)): $(word 14, $(SRCS)) | $(OBJ_DIR)
+	$(CC) $(CFLAGS) $(COPT) -c $^ -o $@
+$(word 15, $(OBJS)): $(word 15, $(SRCS)) | $(OBJ_DIR)
+	$(CC) $(CFLAGS) $(COPT) -c $^ -o $@
+$(word 16, $(OBJS)): $(word 16, $(SRCS)) | $(OBJ_DIR)
+	$(CC) $(CFLAGS) $(COPT) -c $^ -o $@
+$(word 17, $(OBJS)): $(word 17, $(SRCS)) | $(OBJ_DIR)
+	$(CC) $(CFLAGS) $(COPT) -c $^ -o $@
+$(word 18, $(OBJS)): $(word 18, $(SRCS)) | $(OBJ_DIR)
+	$(CC) $(CFLAGS) $(COPT) -c $^ -o $@
+$(word 19, $(OBJS)): $(word 19, $(SRCS)) | $(OBJ_DIR)
+	$(CC) $(CFLAGS) $(COPT) -c $^ -o $@
+$(word 20, $(OBJS)): $(word 20, $(SRCS)) | $(OBJ_DIR)
+	$(CC) $(CFLAGS) $(COPT) -c $^ -o $@
+$(word 21, $(OBJS)): $(word 21, $(SRCS)) | $(OBJ_DIR)
+	$(CC) $(CFLAGS) $(COPT) -c $^ -o $@
+$(word 22, $(OBJS)): $(word 22, $(SRCS)) | $(OBJ_DIR)
+	$(CC) $(CFLAGS) $(COPT) -c $^ -o $@
+$(word 23, $(OBJS)): $(word 23, $(SRCS)) | $(OBJ_DIR)
+	$(CC) $(CFLAGS) $(COPT) -c $^ -o $@
+$(word 24, $(OBJS)): $(word 24, $(SRCS)) | $(OBJ_DIR)
+	$(CC) $(CFLAGS) $(COPT) -c $^ -o $
+$(word 25, $(OBJS)): $(word 25, $(SRCS)) | $(OBJ_DIR)
+	$(CC) $(CFLAGS) $(COPT) -c $^ -o $@
+$(word 26, $(OBJS)): $(word 26, $(SRCS)) | $(OBJ_DIR)
+	$(CC) $(CFLAGS) $(COPT) -c $^ -o $@
+$(word 27, $(OBJS)): $(word 27, $(SRCS)) | $(OBJ_DIR)
+	$(CC) $(CFLAGS) $(COPT) -c $^ -o $@
+$(word 28, $(OBJS)): $(word 28, $(SRCS)) | $(OBJ_DIR)
+	$(CC) $(CFLAGS) $(COPT) -c $^ -o $@
+$(word 29, $(OBJS)): $(word 29, $(SRCS)) | $(OBJ_DIR)
+	$(CC) $(CFLAGS) $(COPT) -c $^ -o $@
+$(word 30, $(OBJS)): $(word 30, $(SRCS)) | $(OBJ_DIR)
+	$(CC) $(CFLAGS) $(COPT) -c $^ -o $@
+$(word 31, $(OBJS)): $(word 31, $(SRCS)) | $(OBJ_DIR)
 	$(CC) $(CFLAGS) $(COPT) -c $^ -o $@
 
 # Make the object directory
@@ -98,7 +161,6 @@ fclean:
 	make -C $(LIBFT_DIR) fclean
 	rm -rf $(OBJ_DIR)
 	rm -f $(MLX_FULL)
-	rm -rf $(addprefix $(MLX_DIR), test)
 	rm -f $(addprefix $(MLX_DIR), Makefile.gen)
 	rm -f $(NAME)
 

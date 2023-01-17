@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 19:34:19 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/17 14:39:08 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/17 16:34:04 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,9 @@ int	main(void)
 		{
 			ray = ray_two_points(cam->location, screen->pixels[i][j]->point);
 			pixel = ray_sphere_intersection(ray, sphere);
-			if (pixel == false)
+			if (pixel == 0)
 				quick_put_pixel(imdt, j, i, ambient->ratio * ambient->colour);
-			else if (pixel == true)
+			else if (pixel == 1)
 				quick_put_pixel(imdt, j, i, colour_ambient((sphere->colour), ambient));
 			free(ray->ray_dir);
 			free(ray->ray_orig);
