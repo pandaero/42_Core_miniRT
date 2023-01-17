@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 17:30:24 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/16 15:35:56 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/16 19:33:52 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	free_scr_vec(t_scr_vec *vec)
 }
 
 //Function frees screen points.
-static void	free_scr_pts(t_scr_pts *pts, t_screen *screen)
+static void	free_scr_pts(t_scr_pts *pts)
 {
 	free_point(pts->centre);
 	free_point(pts->top_centre);
@@ -47,7 +47,7 @@ void	free_screen(t_screen *screen)
 	int	j;
 
 	free_scr_vec(screen->vecs);
-	free_scr_pts(screen->pts, screen);
+	free_scr_pts(screen->pts);
 	i = 0;
 	while (i < screen->height)
 	{
