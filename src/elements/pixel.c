@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 16:15:56 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/17 14:36:51 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/17 23:28:46 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ t_pixel	*pixel_create(void)
 {
 	t_pixel	*new;
 
+
 	new = (t_pixel *)malloc(sizeof(t_pixel));
+	if (!new)
+		return (NULL);
 	new->point = NULL;
 	new->intrsct = NULL;
 	return (new);
