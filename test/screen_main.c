@@ -30,7 +30,7 @@ int	main(void)
 //*/
 
 //*Test for screen_pixel_centres
-//From root: cc -Wall -Werror -Wextra test/screen_main.c src/elements/ * test/test.c libft/libft.a -lm
+//From root: cc -Wall -Werror -Wextra test/screen_main.c src/object/* src/calculation/* src/elements/* src/memory/* src/program/* test/test.c libft/libft.a -lm
 int	main(void)
 {
 	int			width = 4;
