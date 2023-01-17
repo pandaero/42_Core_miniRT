@@ -6,7 +6,11 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/01/16 19:47:15 by pbiederm         ###   ########.fr       */
+=======
+/*   Updated: 2023/01/16 16:20:48 by pandalaf         ###   ########.fr       */
+>>>>>>> 6cda16a9e6341a1844af241407e56c7c91cd6a55
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +46,16 @@ typedef struct s_vector		t_vector;
 typedef struct s_ray		t_ray;
 typedef struct s_obj		t_obj;
 typedef struct s_objlist	t_objlist;
+
+// =============================== FUNCTION REFACTORING ========================
+//Typedef contains several variables for the ray-sphere intersection function.
+typedef struct s_rs
+{
+	double		t0;
+	double		t1;
+	double		y;
+	bool		intersect;
+}				t_rs;
 
 // ======================================= MLX =================================
 //Typedef contains MLX pointers.
@@ -149,6 +163,13 @@ typedef struct s_intersect
 	t_point		*point;
 }				t_intersect;
 
+//Typedef describes a pixel on the screen.
+typedef struct s_pixel
+{
+	t_point		*point;
+	t_intersect	*intrsct;
+}				t_pixel;
+
 // ================================= 3D COMPOSITES =============================
 //Typedef describes points required to define the pixels composing a screen.
 typedef struct s_scr_pts
@@ -157,7 +178,6 @@ typedef struct s_scr_pts
 	t_point	*top_centre;
 	t_point	*tl_corner;
 	t_point	*first_px;
-	t_point	***px_coords;
 }			t_scr_pts;
 
 //Typedef describes vectors required to define a screen.
@@ -183,6 +203,7 @@ typedef struct s_screen
 	int			height;
 	t_scr_vec	*vecs;
 	t_scr_pts	*pts;
+	t_pixel		***pixels;
 }			t_screen;
 
 // ================================= SCENE ELEMENTS ============================
@@ -309,6 +330,10 @@ t_cylinder	*cylinder_centre_orient_radius_height(t_point *centre, \
 t_camera	*camera_create(void);
 //Function creates a camera from input parameters.
 t_camera	*camera_input(t_point *loc, t_direction *view_dir, double hfov_deg);
+//Function creates and initialises a pixel.
+t_pixel		*pixel_create(void);
+//Function creates a pixel with its point coordinates.
+t_pixel		*pixel_point(t_point *point);
 //Function creates and initialises a screen points structure.
 t_scr_pts	*screen_pts_create(void);
 //Function creates and initialises a screen vectors structure.
@@ -445,6 +470,6 @@ void		error_malloc_print(char *str);
 
 int			ray_sphere_intersection(t_ray *ray, t_sphere *sphere);
 //Checks for an intersection between a ray and a plane
-int	ray_plane_intersection(t_ray	*ray, t_plane *plane);
+int			ray_plane_intersection(t_ray	*ray, t_plane *plane);
 
 #endif
