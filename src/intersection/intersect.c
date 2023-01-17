@@ -6,11 +6,12 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 18:51:09 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/17 18:54:46 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/17 20:38:03 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minirt.h"
+#include <stdlib.h>
 
 //Function creates and initialises an intersection.
 t_intersect	*intersect_create(void)
