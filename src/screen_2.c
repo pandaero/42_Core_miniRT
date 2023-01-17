@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 15:21:12 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/16 16:23:05 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/16 19:36:46 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ void	screen_pixel_centres(int width, int height, t_camera *camera, \
 								t_screen *screen)
 {
 	t_pixel	***px;
-	t_point	*point;
 	int		ii[2];
 
 	define_screen_pts_vecs(width, height, camera, screen);

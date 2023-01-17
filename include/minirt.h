@@ -6,11 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-<<<<<<< HEAD
 /*   Updated: 2023/01/16 19:47:15 by pbiederm         ###   ########.fr       */
-=======
-/*   Updated: 2023/01/16 16:20:48 by pandalaf         ###   ########.fr       */
->>>>>>> 6cda16a9e6341a1844af241407e56c7c91cd6a55
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +33,9 @@
 // Colours
 # define BLACK 0x00000000
 # define WHITE 0x00FFFFFF
+# define RED 0x00FF0000
+# define GREEN 0x0000FF00
+# define BLUE 0x000000FF
 
 // ================================= TYPE PROTOTYPES ===========================
 typedef enum element		t_element;
