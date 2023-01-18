@@ -3,42 +3,97 @@
 /*                                                        :::      ::::::::   */
 /*   intersect_plane.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:54:59 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/01/18 00:50:48 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/18 14:16:40 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minirt.h"
 #include <math.h>
 
-int	intersection_ray_plane(t_ray *ray, t_plane *plane)
+//for testing
+#include <stdio.h>
+#include <stdlib.h>
+
+//Allocates memory and places argument values in the intersection structure
+t_intersect	*intersection_data\
+(t_colour color_in, int state, \
+double dist_in, t_point *point_in)
 {
+	t_intersect	*intersection;
+
+	intersection = intersect_create();
+	intersection->colour = color_in;
+	intersection->distance = dist_in;
+	intersection->point = point_in;
+	intersection->state = state;
+}
+
+//Produces the distance between the point of origin to the point of intersection
+t_point	*get_intersection_point(t_ray *ray, double t)
+{
+	return (point_coords\
+	(ray->ray_orig->x_co + t * ray->ray_dir->x_comp, \
+	ray->ray_orig->y_co + t * ray->ray_dir->y_comp, \
+	ray->ray_orig->z_co + t * ray->ray_dir->z_comp));
+}
+
+t_intersect	*intersection_ray_plane(t_ray *ray, t_plane *plane)
+{
+	t_intersect	*intersection;
 	t_vector	*ray_dir_vec;
 	t_vector	*plane_norm_vec;
 	t_vector	*plane_vec;
-	double		inter_dist;
-	double		numer;
+	t_ip		ip;
 
 	ray_dir_vec = vector_scale_direction(1, ray->ray_dir);
 	plane_norm_vec = vector_scale_direction(1, plane->normal);
 	if (fabs(vector_dot(plane_norm_vec, ray_dir_vec)) > 0)
 	{
 		plane_vec = vector_two_points(plane->point, ray->ray_orig);
-		numer = vector_dot(plane_vec, plane_norm_vec);
+		ip.numer = vector_dot(plane_vec, plane_norm_vec);
 		free_vector(plane_vec);
-		inter_dist = numer / vector_dot(plane_norm_vec, ray_dir_vec);
-		free_vector(ray_dir_vec);
-		free_vector(plane_norm_vec);
-		if (inter_dist > 0)
-			return (0);
-		return (1);
+		ip.inter_dist = ip.numer / vector_dot(plane_norm_vec, ray_dir_vec);
+		if (ip.inter_dist > 0)
+			intersection = intersection_data(plane->colour, 0, ip.inter_dist, \
+			get_intersection_point(ray, ip.inter_dist));
+		else
+			intersection = intersection_data(plane->colour, 1, ip.inter_dist, \
+			get_intersection_point(ray, ip.inter_dist));
 	}
 	free_vector(ray_dir_vec);
 	free_vector(plane_norm_vec);
-	return (0);
+	return (intersection);
 }
+
+// int	intersection_ray_plane(t_ray *ray, t_plane *plane)
+// {
+// 	t_vector	*ray_dir_vec;
+// 	t_vector	*plane_norm_vec;
+// 	t_vector	*plane_vec;
+// 	double		inter_dist;
+// 	double		numer;
+
+// 	ray_dir_vec = vector_scale_direction(1, ray->ray_dir);
+// 	plane_norm_vec = vector_scale_direction(1, plane->normal);
+// 	if (fabs(vector_dot(plane_norm_vec, ray_dir_vec)) > 0)
+// 	{
+// 		plane_vec = vector_two_points(plane->point, ray->ray_orig);
+// 		numer = vector_dot(plane_vec, plane_norm_vec);
+// 		free_vector(plane_vec);
+// 		inter_dist = numer / vector_dot(plane_norm_vec, ray_dir_vec);
+// 		free_vector(ray_dir_vec);
+// 		free_vector(plane_norm_vec);
+// 		if (inter_dist > 0)
+// 			return (0);
+// 		return (1);
+// 	}
+// 	free_vector(ray_dir_vec);
+// 	free_vector(plane_norm_vec);
+// 	return (0);
+// }
 
 //Function determines whether a ray intersects with a plane.
 // int	ray_plane_intersection(t_ray	*ray, t_plane *plane)

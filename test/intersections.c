@@ -39,11 +39,12 @@ int	keys(int key, t_mlxdata *mlxvars)
 //Test program for a single sphere in view.
 int	main(void)
 {
+	t_intersect *intersection;
 	t_mlxdata	*mlxdata;
 	t_imgdata	*imdt;
 	t_direction	*ray_direc;
 	t_ray		*ray;
-	int			pixel;
+	// int			pixel;
 	int			i;
 	int			j;
 
@@ -92,14 +93,25 @@ int	main(void)
 			ray = ray_start_dir(screen->pixels[i][j]->point, ray_direc);
 			free_direction(ray_direc);
 			// pixel = ray_sphere_intersection(ray, sphere);
-			pixel = intersection_ray_plane(ray, plane);
-			if (pixel == 0)
+			intersection = intersection_ray_plane(ray, plane);
+			if (intersection->state == 0)
+			{
 				quick_put_pixel(imdt, j, i, ambient->ratio * ambient->colour);
+			}
 			else
 			{
 				// quick_put_pixel(imdt, j, i, colour_ambient(sphere->colour, ambient));
 				quick_put_pixel(imdt, j, i, colour_ambient(plane->colour, ambient));
 			}
+			// printf("intersection data:\n");
+			// printf("color: %d\n", intersection->colour);
+			// printf("status: %d\n", intersection->state);
+			// printf("coordinates: [%f, %f, %f]\n", \
+			// intersection->point->x_co, \
+			// intersection->point->y_co, \
+			// intersection->point->z_co);
+			free(intersection->point);
+			free(intersection);
 			free_ray(ray);
 			j++;
 		}

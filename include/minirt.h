@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/18 00:13:42 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/18 14:07:14 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 # endif
 
 // Screen resolution
-# define WIN_WIDTH 800
-# define WIN_HEIGHT 600
+# define WIN_WIDTH 50
+# define WIN_HEIGHT 50
 // Factor for screen-pixel coordinate sizing. 
 # define VIEW_SCALING 0.1
 // Colours
@@ -58,9 +58,8 @@ typedef struct s_rs
 //Typedef contains several variables for the plane-sphere intersection function.
 typedef struct s_intersect_plane
 {
-	double	divisor;
-	double	t;
-	int		intersection;
+	double		inter_dist;
+	double		numer;
 }			t_ip;
 
 //Typedef contains several variables for the screen pixel centre function.
@@ -175,6 +174,7 @@ typedef struct s_cylinder
 typedef struct s_intersect
 {
 	int			state;
+	double		distance;
 	t_colour	colour;
 	t_point		*point;
 }				t_intersect;
@@ -457,7 +457,7 @@ t_direction	*direction_cross_up(t_direction *first, t_direction *second);
 //Function determines the intersection between a ray and a sphere.
 int			ray_sphere_intersection(t_ray *ray, t_sphere *sphere);
 //Function determines the intersection between a ray and a plane.
-int			intersection_ray_plane(t_ray *ray, t_plane *plane);
+t_intersect	*intersection_ray_plane(t_ray *ray, t_plane *plane);
 // ------------------------------- VECTOR OPERATIONS ---------------------------
 //Function adds two vectors together.
 t_vector	*vector_add(t_vector *first, t_vector *second);
@@ -492,5 +492,8 @@ void		screen_pixel_centres(int width, int height, t_camera *camera, \
 int			error_exit(t_program *program, char *str);
 //Function prints an memory allocation error message.
 void		error_malloc_print(char *str);
+
+//Function creates and initialises an intersection.
+t_intersect	*intersect_create(void);
 
 #endif
