@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/18 15:28:04 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/01/18 19:11:01 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 # endif
 
 // Screen resolution
-# define WIN_WIDTH 100
-# define WIN_HEIGHT 100
+# define WIN_WIDTH  800
+# define WIN_HEIGHT 600
 // Factor for screen-pixel coordinate sizing. 
 # define VIEW_SCALING 0.1
 // Colours
@@ -241,12 +241,12 @@ typedef struct s_camera
 
 //Typedef describes a spot light.
 
-typedef struct s_Vector3
-{
-	double	x;
-	double	y;
-	double	z;
-}			t_Vector3;
+// typedef struct s_Vector3
+// {
+// 	double	x;
+// 	double	y;
+// 	double	z;
+// }			t_Vector3;
 
 // =============================== OBJECT LINKED LIST ==========================
 //Typedef describes an object in a linked list.
@@ -466,6 +466,12 @@ t_direction	*direction_cross_up(t_direction *first, t_direction *second);
 t_intersect	*ray_sphere_intersection(t_ray *ray, t_sphere *sphere);
 //Function determines the intersection between a ray and a plane.
 t_intersect	*intersection_ray_plane(t_ray *ray, t_plane *plane);
+//Function creates and initialises an intersection.
+t_intersect	*intersect_create(void);
+//Produces the distance between the point of origin to the point of intersection
+t_point		*get_intersection_point(t_ray *ray, double t);
+//Checks for an itersection between a ray and a cylinder
+int	intersection_ray_cylinder(t_ray *ray, t_cylinder *cylinder);
 // ------------------------------- VECTOR OPERATIONS ---------------------------
 //Function adds two vectors together.
 t_vector	*vector_add(t_vector *first, t_vector *second);
@@ -500,9 +506,8 @@ void		screen_pixel_centres(int width, int height, t_camera *camera, \
 int			error_exit(t_program *program, char *str);
 //Function prints an memory allocation error message.
 void		error_malloc_print(char *str);
-//Function creates and initialises an intersection.
-t_intersect	*intersect_create(void);
-//Produces the distance between the point of origin to the point of intersection
-t_point		*get_intersection_point(t_ray *ray, double t);
+
+//Solves quadratic equation
+int	solve_quadratic_real(double a, double b, double c);
 
 #endif

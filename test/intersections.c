@@ -40,7 +40,7 @@ int	keys(int key, t_mlxdata *mlxvars)
 //Test program for a single sphere in view.
 int	main(void)
 {
-	t_intersect *intersection;
+	// t_intersect *intersection;
 	t_mlxdata	*mlxdata;
 	t_imgdata	*imdt;
 	t_direction	*ray_direc;
@@ -58,7 +58,7 @@ int	main(void)
 	// Scene and lighting
 	t_ambient	*ambient = ambient_input(RED, 0.4);
 	t_point		*cam_loc = point_coords(0, 0, 0);
-	t_direction	*cam_dir = direction_components(0, 5, 0);
+	t_direction	*cam_dir = direction_components(0, 1, 0);
 	t_camera	*cam = camera_input(cam_loc, cam_dir, 90);
 	t_obj		*obj_cam = object_camera(cam);
 	object_print(obj_cam);
@@ -79,11 +79,16 @@ int	main(void)
 	// free_point(point_on_plane);
 	// free_direction(plane_norm);
 	// Sphere
-	t_point		*sphere_centre = point_coords(0, 1000, 0);
-	t_sphere	*sphere = sphere_col_centre_radius(0x00FF5555, sphere_centre, 100);
-	free_point(sphere_centre);
+	// t_point		*sphere_centre = point_coords(0, 1000, 0);
+	// t_sphere	*sphere = sphere_col_centre_radius(0x00FF5555, sphere_centre, 100);
+	// free_point(sphere_centre);
+	// Cylinder
+	t_point	*cylinder_center = point_coords(0, 1000, 0);
+	t_direction *cylinder_direction = direction_components(0, 1, 1);
+	t_cylinder	*cylinder = cylinder_centre_orient_radius_height(cylinder_center, cylinder_direction, 50, 1000);
 	// Pre-Screen Tests
 	i = 0;
+	int pixel;
 	while(i < WIN_HEIGHT)
 	{
 		j = 0;
@@ -92,26 +97,27 @@ int	main(void)
 			ray_direc = direction_two_points(cam->location, screen->pixels[i][j]->point);
 			ray = ray_start_dir(screen->pixels[i][j]->point, ray_direc);
 			free_direction(ray_direc);
-			intersection = ray_sphere_intersection(ray, sphere);
+			// intersection = ray_sphere_intersection(ray, sphere);
 			// intersection = intersection_ray_plane(ray, plane);
-			if (intersection->state == 0)
+			pixel = intersection_ray_cylinder(ray, cylinder);
+			if (pixel == 0)
 			{
 				quick_put_pixel(imdt, j, i, ambient->ratio * ambient->colour);
 			}
 			else
 			{
-				quick_put_pixel(imdt, j, i, colour_ambient(sphere->colour, ambient));
+				quick_put_pixel(imdt, j, i, colour_ambient(WHITE, ambient));
 				// quick_put_pixel(imdt, j, i, colour_ambient(plane->colour, ambient));
-				printf("intersection data:\n");
-				printf("color: %d\n", intersection->colour);
-				printf("status: %d\n", intersection->state);
-				printf("coordinates: [%f, %f, %f]\n", \
-				intersection->point->x_co, \
-				intersection->point->y_co, \
-				intersection->point->z_co);
+				// printf("intersection data:\n");
+				// printf("color: %d\n", intersection->colour);
+				// printf("status: %d\n", intersection->state);
+				// printf("coordinates: [%f, %f, %f]\n", \
+				// intersection->point->x_co, \
+				// intersection->point->y_co, \
+				// intersection->point->z_co);
 			}
-			free_intersection(intersection);
-			free_ray(ray);
+			// free_intersection(intersection);
+			// free_ray(ray);
 			j++;
 		}
 		i++;
@@ -124,7 +130,7 @@ int	main(void)
 	free_camera(cam);
 	free_screen(screen);
 	// free_plane(plane);
-	free_sphere(sphere);
+	// free_sphere(sphere);
 	free(mlxdata);
 	free(imdt);
 	return (0);
