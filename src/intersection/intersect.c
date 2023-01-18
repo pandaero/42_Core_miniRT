@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 18:51:09 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/18 16:30:46 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/01/18 16:40:22 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,13 @@ t_intersect	*intersection_input(t_colour colour, int state, double dist, \
 	intersection->colour = colour;
 	intersection->distance = dist;
 	intersection->point = point;
-	// intersection->point = point_copy(point);
 	return (intersection);
 }
 
 //Produces the distance between the point of origin to the point of intersection
 t_point	*get_intersection_point(t_ray *ray, double t)
 {
-	t_point *thats_the_point;
+	t_point	*thats_the_point;
 
 	thats_the_point = point_coords \
 			(ray->ray_orig->x_co + t * ray->ray_dir->x_comp, \
