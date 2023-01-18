@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/18 15:06:56 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/18 15:49:41 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -285,8 +285,12 @@ typedef struct s_program
 }		t_program;
 
 // ================================ INPUT HANDLING =============================
+//Function checks whether a character is allowed in an input file.
+int			is_valid_char(char ch);
 //Function checks whether the filename has the input extension.
 int			has_extension(const char *str, const char *ext);
+//Function checks file contents against forbidden characters.
+int			has_valid_contents(const char *filename);
 
 // ================================ OBJECT CREATION ============================
 //Function creates and initialises a point.

@@ -2,9 +2,11 @@
 
 #include "test.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 //Test for has_extension
 //From root: cc -Wall -Werror -Wextra test/file_main.c src/input/file.c libft/libft.a
+/*
 int	main(void)
 {
 	char	*filename1 = ft_strdup("hello.rt");
@@ -24,3 +26,22 @@ int	main(void)
 	free(filename4);
 	return (0);
 }
+//*/
+
+//Test for has_valid_contents
+//From root: cc -Wall -Werror -Wextra test/file_main.c src/input/* libft/libft.a
+//*
+int	main(void)
+{
+	char	*filename1 = ft_strdup("test/test_contents_valid");
+	char	*filename2 = ft_strdup("test/test_contents_invalid");
+	int		ret1 = has_valid_contents(filename1);
+	int		ret2 = has_valid_contents(filename2);
+	
+	printf("File:%s - Valid:%d\n", filename1, ret1);
+	printf("File:%s - Valid:%d\n", filename2, ret2);
+	free(filename1);
+	free(filename2);
+	return (0);
+}
+//*/
