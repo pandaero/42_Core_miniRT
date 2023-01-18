@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/18 14:46:29 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/18 15:06:56 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -284,6 +284,10 @@ typedef struct s_program
 	t_objlist	*last_objlist;
 }		t_program;
 
+// ================================ INPUT HANDLING =============================
+//Function checks whether the filename has the input extension.
+int			has_extension(const char *str, const char *ext);
+
 // ================================ OBJECT CREATION ============================
 //Function creates and initialises a point.
 t_point		*point_create(void);
@@ -499,8 +503,5 @@ void		screen_pixel_centres(int width, int height, t_camera *camera, \
 int			error_exit(t_program *program, char *str);
 //Function prints an memory allocation error message.
 void		error_malloc_print(char *str);
-
-//Function creates and initialises an intersection.
-t_intersect	*intersect_create(void);
 
 #endif
