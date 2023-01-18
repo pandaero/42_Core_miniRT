@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 14:05:18 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/18 17:07:49 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/18 20:08:05 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,47 +70,37 @@ int	has_valid_contents(const char *filename)
 	return (1);
 }
 
+//Function frees the pointers used in the file valid formatting loop.
+static void	free_valid_formatting(char *line, char *clean)
+{
+	free(line);
+	free(clean);
+}
+
 //Function checks whether the formatting of an input file is correct.
 int	has_valid_formatting(const char *filename)
 {
-	char	*line;
-	int		fd;
-	int		i;
+	t_valid_formatting	strct;
 
-	fd = open(filename, O_RDONLY);
-
-	line = get_next_line(fd);
-	while (line != NULL)
+	strct.fd = open(filename, O_RDONLY);
+	strct.line = get_next_line(strct.fd);
+	while (strct.line != NULL)
 	{
-		if (ft_strncmp(line, "\n", 2))
+		if (ft_strncmp(strct.line, "\n", 2) == 0)
 		{
-			free(line);
-			line = get_next_line(fd);
+			free(strct.line);
+			strct.line = get_next_line(strct.fd);
 			continue ;
 		}
-		i = skip_spacing(line);
-		while (line[i] != '\0')
+		strct.clean = replace_spacing(strct.line);
+		if (check_valid_line(strct.clean) == 0)
 		{
-			if (is_space(line[i]) == 1 && i != ft_strlen(line) - 1)
-
-			i++;
+			free_valid_formatting(strct.line, strct.clean);
+			return (0);
 		}
-		free(line);
-		line = get_next_line(fd);
+		free_valid_formatting(strct.line, strct.clean);
+		strct.line = get_next_line(strct.fd);
 	}
-
+	close(strct.fd);
 	return (1);
-}
-
-//Function checks whether the spacing of input parameters is correct.
-int	has_valid_spacing(const char *filename)
-{
-
-}
-
-//Function makes an intermediate file with correct spacing, returning type.
-char	file_spacing(cons char *filename)
-{
-	return (' ');
-	return ('\t');
 }

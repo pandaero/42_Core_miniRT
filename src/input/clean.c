@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 16:58:09 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/18 17:27:38 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/18 20:06:32 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,23 @@ int	skip_spacing(const char *str)
 	return (i);
 }
 
+/*
+//Function determines whether a string contains a newline character.
+static int	contains_newline(const char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		if (str[i] == '\n')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+*/
+
 //Function replaces all the non-newline spacing characters for space in string.
 char	*replace_spacing(const char *str)
 {
@@ -41,14 +58,13 @@ char	*replace_spacing(const char *str)
 	i = 0;
 	while (str[i] != '\0')
 	{
-		if (is_space(str[i]) == 1 && i != (int)ft_strlen(str) - 1)
+		if (is_space(str[i]) == 1 && str[i] != '\n')
 			out[i] = ' ';
-		else if (i != (int)ft_strlen(str) - 1)
-			out[i] = str[i];
 		else
-			out[i] = '\0';
+			out[i] = str[i];
 		i++;
 	}
+	out[i] = '\0';
 	if (i == 0)
 		out = ft_strdup(str);
 	return (out);

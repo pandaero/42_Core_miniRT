@@ -30,7 +30,7 @@ int	main(void)
 
 //Test for has_valid_contents
 //From root: cc -Wall -Werror -Wextra test/file_main.c src/input/* libft/libft.a
-//*
+/*
 int	main(void)
 {
 	char	*filename1 = ft_strdup("test/test_contents_valid");
@@ -40,6 +40,25 @@ int	main(void)
 	
 	printf("File:%s - Valid:%d\n", filename1, ret1);
 	printf("File:%s - Valid:%d\n", filename2, ret2);
+	free(filename1);
+	free(filename2);
+	return (0);
+}
+//*/
+
+//Test for has_valid_formatting
+//From root: cc -Wall -Werror -Wextra test/file_main.c src/input/* src/calculation/* src/memory/* src/elements/* libft/libft.a -lm
+//*
+int	main(void)
+{
+	char	*filename1 = ft_strdup("test/test_input_valid.rt");
+	char	*filename2 = ft_strdup("test/test_input_invalid.rt");
+	int		ret1 = has_valid_formatting(filename1);
+	printf("Next\n");
+	int		ret2 = has_valid_formatting(filename2);
+
+	printf("File:%s - Valid_format:%d\n", filename1, ret1);
+	printf("File:%s - Valid_format:%d\n", filename2, ret2);
 	free(filename1);
 	free(filename2);
 	return (0);
