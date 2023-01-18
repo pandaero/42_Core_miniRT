@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/18 14:07:14 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/01/18 14:38:51 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 # endif
 
 // Screen resolution
-# define WIN_WIDTH 50
-# define WIN_HEIGHT 50
+# define WIN_WIDTH 800
+# define WIN_HEIGHT 600
 // Factor for screen-pixel coordinate sizing. 
 # define VIEW_SCALING 0.1
 // Colours
@@ -495,5 +495,10 @@ void		error_malloc_print(char *str);
 
 //Function creates and initialises an intersection.
 t_intersect	*intersect_create(void);
+
+//Allocates memory and places argument values in the intersection structure
+t_intersect	*intersection_data\
+(t_colour color_in, int state, \
+double dist_in, t_point *point_in);
 
 #endif

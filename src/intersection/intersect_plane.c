@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:54:59 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/01/18 14:16:40 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/01/18 14:37:52 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-//Allocates memory and places argument values in the intersection structure
-t_intersect	*intersection_data\
-(t_colour color_in, int state, \
-double dist_in, t_point *point_in)
-{
-	t_intersect	*intersection;
+// //Allocates memory and places argument values in the intersection structure
+// t_intersect	*intersection_data\
+// (t_colour color_in, int state, \
+// double dist_in, t_point *point_in)
+// {
+// 	t_intersect	*intersection;
 
-	intersection = intersect_create();
-	intersection->colour = color_in;
-	intersection->distance = dist_in;
-	intersection->point = point_in;
-	intersection->state = state;
-}
+// 	intersection = intersect_create();
+// 	intersection->colour = color_in;
+// 	intersection->distance = dist_in;
+// 	intersection->point = point_in;
+// 	intersection->state = state;
+// }
 
 //Produces the distance between the point of origin to the point of intersection
 t_point	*get_intersection_point(t_ray *ray, double t)
