@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/18 15:49:41 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/18 17:26:33 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -291,6 +291,12 @@ int			is_valid_char(char ch);
 int			has_extension(const char *str, const char *ext);
 //Function checks file contents against forbidden characters.
 int			has_valid_contents(const char *filename);
+//Function skips to the first non-space character within a char string.
+int			skip_spacing(const char *str);
+//Function checks whether a character is a spacing character.
+int			is_space(char ch);
+//Function replaces all the non-newline spacing characters for space in string.
+char		*replace_spacing(const char *str);
 
 // ================================ OBJECT CREATION ============================
 //Function creates and initialises a point.

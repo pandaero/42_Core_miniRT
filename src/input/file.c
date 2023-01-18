@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 14:05:18 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/18 15:50:07 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/18 17:07:49 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,49 @@ int	has_valid_contents(const char *filename)
 	}
 	close(ii[0]);
 	return (1);
+}
+
+//Function checks whether the formatting of an input file is correct.
+int	has_valid_formatting(const char *filename)
+{
+	char	*line;
+	int		fd;
+	int		i;
+
+	fd = open(filename, O_RDONLY);
+
+	line = get_next_line(fd);
+	while (line != NULL)
+	{
+		if (ft_strncmp(line, "\n", 2))
+		{
+			free(line);
+			line = get_next_line(fd);
+			continue ;
+		}
+		i = skip_spacing(line);
+		while (line[i] != '\0')
+		{
+			if (is_space(line[i]) == 1 && i != ft_strlen(line) - 1)
+
+			i++;
+		}
+		free(line);
+		line = get_next_line(fd);
+	}
+
+	return (1);
+}
+
+//Function checks whether the spacing of input parameters is correct.
+int	has_valid_spacing(const char *filename)
+{
+
+}
+
+//Function makes an intermediate file with correct spacing, returning type.
+char	file_spacing(cons char *filename)
+{
+	return (' ');
+	return ('\t');
 }
