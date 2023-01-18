@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/18 17:45:06 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/18 20:09:42 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,17 @@ typedef struct s_objlist	t_objlist;
 typedef struct s_pixel		t_pixel;
 
 // =============================== FUNCTION REFACTORING ========================
+//Typedef declares variables required by the string to double conversion.
+typedef struct s_atof_vars
+{
+	double	sign;
+	double	int_digs;
+	double	frac_digs;
+	double	divide;
+	int		i;
+	int		non_zero_out;
+}			t_atof_vars;
+
 //Typedef contains several variables for the ray-sphere intersection function.
 typedef struct s_rs
 {
@@ -71,6 +82,15 @@ typedef struct s_screen_centre
 	t_point		*centre;
 	t_pixel		*pix;
 }				t_screen_centre;
+
+//Typedef contains several variables for the valid file formatting function.
+typedef struct s_valid_formatting
+{
+	char	*clean;
+	char	*line;
+	int		fd;
+	int		i;
+}			t_valid_formatting;
 
 // ======================================= MLX =================================
 //Typedef contains MLX pointers.
@@ -285,18 +305,27 @@ typedef struct s_program
 }		t_program;
 
 // ================================ INPUT HANDLING =============================
-//Function checks whether a character is allowed in an input file.
-int			is_valid_char(char ch);
 //Function checks whether the filename has the input extension.
 int			has_extension(const char *str, const char *ext);
-//Function checks file contents against forbidden characters.
-int			has_valid_contents(const char *filename);
 //Function skips to the first non-space character within a char string.
 int			skip_spacing(const char *str);
 //Function checks whether a character is a spacing character.
 int			is_space(char ch);
 //Function replaces all the non-newline spacing characters for space in string.
 char		*replace_spacing(const char *str);
+// ---------------------------------- VALIDATION -------------------------------
+//Function checks whether a character is allowed in an input file.
+int			is_valid_char(char ch);
+//Function determines whether a string is valid input for the atof function.
+int			valid_atof(const char *str);
+//Function determines whether a line contains valid ambient light data.
+int			valid_ambient(const char *str);
+//Function checks an input line for validity.
+int			check_valid_line(const char *line);
+//Function checks file contents against forbidden characters.
+int			has_valid_contents(const char *filename);
+//Function checks whether the formatting of an input file is correct.
+int			has_valid_formatting(const char *filename);
 
 // ================================ OBJECT CREATION ============================
 //Function creates and initialises a point.
@@ -466,6 +495,8 @@ void		list_add_object(t_objlist *list, t_obj *object);
 void		list_remove_object(t_objlist *list, t_obj *object);
 
 // =================================== OPERATIONS ==============================
+//Function returns the size of a ft_split-created array.
+int			split_size(char **str);
 //Function converts degrees to radians.
 double		radians_degrees(double deg);
 //Function works out the length/distance between two points.
