@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/18 14:46:29 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/18 15:28:04 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 # endif
 
 // Screen resolution
-# define WIN_WIDTH 800
-# define WIN_HEIGHT 600
+# define WIN_WIDTH 100
+# define WIN_HEIGHT 100
 // Factor for screen-pixel coordinate sizing. 
 # define VIEW_SCALING 0.1
 // Colours
@@ -51,8 +51,9 @@ typedef struct s_rs
 {
 	double	t0;
 	double	t1;
+	double	ret;
 	double	y;
-	int		intersect;
+	int		status;
 }			t_rs;
 
 //Typedef contains several variables for the plane-sphere intersection function.
@@ -462,7 +463,7 @@ t_direction	*direction_cross(t_direction *first, t_direction *second);
 t_direction	*direction_cross_up(t_direction *first, t_direction *second);
 // ---------------------------------- INTERSECTIONS ----------------------------
 //Function determines the intersection between a ray and a sphere.
-int			ray_sphere_intersection(t_ray *ray, t_sphere *sphere);
+t_intersect	*ray_sphere_intersection(t_ray *ray, t_sphere *sphere);
 //Function determines the intersection between a ray and a plane.
 t_intersect	*intersection_ray_plane(t_ray *ray, t_plane *plane);
 // ------------------------------- VECTOR OPERATIONS ---------------------------
@@ -499,8 +500,9 @@ void		screen_pixel_centres(int width, int height, t_camera *camera, \
 int			error_exit(t_program *program, char *str);
 //Function prints an memory allocation error message.
 void		error_malloc_print(char *str);
-
 //Function creates and initialises an intersection.
 t_intersect	*intersect_create(void);
+//Produces the distance between the point of origin to the point of intersection
+t_point		*get_intersection_point(t_ray *ray, double t);
 
 #endif

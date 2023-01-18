@@ -4,6 +4,7 @@
 // Using minilibx-linux
 // From root: cc test/test.c test/intersections.c src/calculation/* src/elements/* src/intersection/* src/memory/* src/program/* src/object/* libft/libft.a minilibx-linux/libmlx_Linux.a -lX11 -lXext -lm
 // From folder: cc intersection.c ../src/*.c ../src/intersections/*.c ../minilibx-linux/libmlx_Linux.a ../libft/libft.a -lX11 -lXext -lm
+// From root with fsanitize: cc -g -fsanitize=address test/test.c test/intersections.c src/calculation/* src/elements/* src/intersection/* src/memory/* src/program/* src/object/* libft/libft.a minilibx-linux/libmlx_Linux.a -lX11 -lXext -lm
 
 #include "./test.h"
 #include <stdlib.h>
@@ -44,7 +45,6 @@ int	main(void)
 	t_imgdata	*imdt;
 	t_direction	*ray_direc;
 	t_ray		*ray;
-	// int			pixel;
 	int			i;
 	int			j;
 
@@ -70,18 +70,18 @@ int	main(void)
 	free_point(cam_loc);
 	free_direction(cam_dir);
 	// Plane
-	t_point		*point_on_plane = point_coords(0, 0, 10);
-	t_direction	*plane_norm = direction_components(2, 1, 1);
-	t_plane		*plane = plane_col_point_normal_dir(0x000055FF, point_on_plane, plane_norm);
-	t_obj		*obj_plane = object_plane(plane);
-	object_print(obj_plane);
-	free(obj_plane);
-	free_point(point_on_plane);
-	free_direction(plane_norm);
+	// t_point		*point_on_plane = point_coords(0, 0, 10);
+	// t_direction	*plane_norm = direction_components(2, 1, 1);
+	// t_plane		*plane = plane_col_point_normal_dir(0x000055FF, point_on_plane, plane_norm);
+	// t_obj		*obj_plane = object_plane(plane);
+	// object_print(obj_plane);
+	// free(obj_plane);
+	// free_point(point_on_plane);
+	// free_direction(plane_norm);
 	// Sphere
-	// t_point		*sphere_centre = point_coords(0, 1000, 0);
-	// t_sphere	*sphere = sphere_col_centre_radius(0x00FF5555, sphere_centre, 100);
-	// free_point(sphere_centre);
+	t_point		*sphere_centre = point_coords(0, 1000, 0);
+	t_sphere	*sphere = sphere_col_centre_radius(0x00FF5555, sphere_centre, 100);
+	free_point(sphere_centre);
 	// Pre-Screen Tests
 	i = 0;
 	while(i < WIN_HEIGHT)
@@ -92,26 +92,25 @@ int	main(void)
 			ray_direc = direction_two_points(cam->location, screen->pixels[i][j]->point);
 			ray = ray_start_dir(screen->pixels[i][j]->point, ray_direc);
 			free_direction(ray_direc);
-			// pixel = ray_sphere_intersection(ray, sphere);
-			intersection = intersection_ray_plane(ray, plane);
+			intersection = ray_sphere_intersection(ray, sphere);
+			// intersection = intersection_ray_plane(ray, plane);
 			if (intersection->state == 0)
 			{
 				quick_put_pixel(imdt, j, i, ambient->ratio * ambient->colour);
 			}
 			else
 			{
-				// quick_put_pixel(imdt, j, i, colour_ambient(sphere->colour, ambient));
-				quick_put_pixel(imdt, j, i, colour_ambient(plane->colour, ambient));
+				quick_put_pixel(imdt, j, i, colour_ambient(sphere->colour, ambient));
+				// quick_put_pixel(imdt, j, i, colour_ambient(plane->colour, ambient));
+				printf("intersection data:\n");
+				printf("color: %d\n", intersection->colour);
+				printf("status: %d\n", intersection->state);
+				printf("coordinates: [%f, %f, %f]\n", \
+				intersection->point->x_co, \
+				intersection->point->y_co, \
+				intersection->point->z_co);
 			}
-			// printf("intersection data:\n");
-			// printf("color: %d\n", intersection->colour);
-			// printf("status: %d\n", intersection->state);
-			// printf("coordinates: [%f, %f, %f]\n", \
-			// intersection->point->x_co, \
-			// intersection->point->y_co, \
-			// intersection->point->z_co);
-			free(intersection->point);
-			free(intersection);
+			free_intersection(intersection);
 			free_ray(ray);
 			j++;
 		}
@@ -124,8 +123,8 @@ int	main(void)
 	// free_ambient(ambient);
 	free_camera(cam);
 	free_screen(screen);
-	free_plane(plane);
-	// free_sphere(sphere);
+	// free_plane(plane);
+	free_sphere(sphere);
 	free(mlxdata);
 	free(imdt);
 	return (0);

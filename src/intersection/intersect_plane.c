@@ -3,24 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   intersect_plane.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:54:59 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/01/18 14:52:02 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/18 15:30:06 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minirt.h"
 #include <math.h>
-
-//Produces the distance between the point of origin to the point of intersection
-t_point	*get_intersection_point(t_ray *ray, double t)
-{
-	return (point_coords \
-			(ray->ray_orig->x_co + t * ray->ray_dir->x_comp, \
-			ray->ray_orig->y_co + t * ray->ray_dir->y_comp, \
-			ray->ray_orig->z_co + t * ray->ray_dir->z_comp));
-}
 
 t_intersect	*intersection_ray_plane(t_ray *ray, t_plane *plane)
 {
