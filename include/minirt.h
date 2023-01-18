@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/18 14:38:51 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/01/18 14:46:29 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -341,6 +341,13 @@ t_cylinder	*cylinder_create(void);
 //Function creates a defined cylinder from centre, radius and height.
 t_cylinder	*cylinder_centre_orient_radius_height(t_point *centre, \
 				t_direction *orientation, double radius, double height);
+//Function creates and initialises an intersection.
+t_intersect	*intersect_create(void);
+//Function copies an intersection.
+t_intersect	*intersect_copy(t_intersect *intersect);
+//Function creates an intersection from colour, state, ditance, and a point.
+t_intersect	*intersection_input(t_colour colour, int state, double dist, \
+								t_point *point);
 // -------------------------------- SCENE OBJECTS ------------------------------
 //Function creates and initialises a camera.
 t_camera	*camera_create(void);
@@ -495,10 +502,5 @@ void		error_malloc_print(char *str);
 
 //Function creates and initialises an intersection.
 t_intersect	*intersect_create(void);
-
-//Allocates memory and places argument values in the intersection structure
-t_intersect	*intersection_data\
-(t_colour color_in, int state, \
-double dist_in, t_point *point_in);
 
 #endif
