@@ -6,7 +6,7 @@
 #    By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/16 18:36:19 by pandalaf          #+#    #+#              #
-#    Updated: 2023/01/16 19:50:56 by pandalaf         ###   ########.fr        #
+#    Updated: 2023/01/18 11:56:41 by pandalaf         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,11 +16,15 @@ NAME	:= minirt
 # Compiler options
 CC		:= cc
 CFLAGS	:= -Wall -Werror -Wextra
-COPT	:= #-g -fsanitize=address
+COPT	:= -g -fsanitize=address
 
 # Sources
-SRC_DIR	:= src/
-SRCS	:= $(wildcard $(SRC_DIR)*.c)
+SRC_ROOT	:= src/
+SRC_SUBDIRS	:= calculation/ elements/ error/ intersection/ memory/ object/ \
+				program/
+SRC_DIR		:= $(addprefix $(SRC_ROOT), $(SRC_SUBDIRS))
+SRCS		:= $(foreach subdir, $(SRC_DIR), $(wildcard $(subdir)*.c)) \
+				$(addprefix $(SRC_ROOT), main.c)
 
 # Objects to compile
 OBJ_DIR	:= build/
@@ -38,7 +42,7 @@ ifeq ($(shell uname -s), Darwin)
 MLX			:= libmlx.a
 MLX_DIR		:= minilibx_opengl_20191021/
 else
-MLX			:= libmlx_Linux.a
+MLX			:= libmlx.a
 MLX_DIR		:= minilibx-linux/
 endif
 MLX_FULL	:= $(addprefix $(MLX_DIR), $(MLX))
@@ -64,20 +68,28 @@ directory: $(OBJ_DIR)
 $(NAME): $(OBJS) $(MLX_FULL) $(LIBFT_FULL)
 	$(CC) $(CFLAGS) $(COPT) $< $(filter-out $<, $^) -o $@ $(LIBS)
 
-# Make the object files
-$(addprefix $(OBJ_DIR), %.o): $(addprefix $(SRC_DIR), %.c) | $(OBJ_DIR)
-	$(CC) $(CFLAGS) $(COPT) -c $^ -o $@
+# Make the object file rule definition
+define recursive_def
+$(firstword $(1)): $(firstword $(2))
+	$(CC) $(CFLAGS) $(COPT) -c $(firstword $(2)) -o $(firstword $(1))
+
+$(if $(wordlist 2, 3, $1), $(call recursive_def, \
+		$(wordlist 2, $(words $(1)), $1), $(wordlist 2, $(words $(2)), $(2))))
+endef
+
+# Make the object file rules
+$(eval $(call recursive_def, $(OBJS), $(SRCS)))
 
 # Make the object directory
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
 
 # Make the libft archive
-$(LIBFT_FULL): $(LIBFT_DIR)
+$(LIBFT_FULL): | $(LIBFT_DIR)
 	make -C $(LIBFT_DIR) all
 
 # Make the minilibx archive
-$(MLX_FULL): $(MLX_DIR)
+$(MLX_FULL): | $(MLX_DIR)
 	make -C $(MLX_DIR) all
 
 # Clean intermediate files
@@ -95,7 +107,7 @@ fclean:
 	make -C $(LIBFT_DIR) fclean
 	rm -rf $(OBJ_DIR)
 	rm -f $(MLX_FULL)
-	rm -rf $(addprefix $(MLX_DIR), test)
+	rm -f $(addprefix $(MLX_DIR), libmlx_Linux.a)
 	rm -f $(addprefix $(MLX_DIR), Makefile.gen)
 	rm -f $(NAME)
 

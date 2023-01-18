@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/16 19:36:01 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/18 14:46:29 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define MINIRT_H
 
 # include "../libft/libft.h"
-
 # if defined (__APPLE__)
 #  include "../include/apple_mlx.h"
 #  include "../minilibx_opengl_20191021/mlx.h"
@@ -23,13 +22,12 @@
 #  include "../include/linux_mlx.h"
 #  include "../minilibx-linux/mlx.h"
 # endif
-# include <stdbool.h>
 
 // Screen resolution
 # define WIN_WIDTH 800
 # define WIN_HEIGHT 600
 // Factor for screen-pixel coordinate sizing. 
-# define VIEW_SCALING 1
+# define VIEW_SCALING 0.1
 // Colours
 # define BLACK 0x00000000
 # define WHITE 0x00FFFFFF
@@ -45,16 +43,34 @@ typedef struct s_vector		t_vector;
 typedef struct s_ray		t_ray;
 typedef struct s_obj		t_obj;
 typedef struct s_objlist	t_objlist;
+typedef struct s_pixel		t_pixel;
 
 // =============================== FUNCTION REFACTORING ========================
 //Typedef contains several variables for the ray-sphere intersection function.
 typedef struct s_rs
 {
-	double		t0;
-	double		t1;
-	double		y;
-	bool		intersect;
-}				t_rs;
+	double	t0;
+	double	t1;
+	double	y;
+	int		intersect;
+}			t_rs;
+
+//Typedef contains several variables for the plane-sphere intersection function.
+typedef struct s_intersect_plane
+{
+	double		inter_dist;
+	double		numer;
+}			t_ip;
+
+//Typedef contains several variables for the screen pixel centre function.
+typedef struct s_screen_centre
+{
+	t_vector	*scr_r_px;
+	t_vector	*scr_d_px;
+	t_vector	*scr_rd_px;
+	t_point		*centre;
+	t_pixel		*pix;
+}				t_screen_centre;
 
 // ======================================= MLX =================================
 //Typedef contains MLX pointers.
@@ -157,7 +173,8 @@ typedef struct s_cylinder
 //Typedef describes an intersection.
 typedef struct s_intersect
 {
-	bool		state;
+	int			state;
+	double		distance;
 	t_colour	colour;
 	t_point		*point;
 }				t_intersect;
@@ -222,6 +239,13 @@ typedef struct s_camera
 }			t_camera;
 
 //Typedef describes a spot light.
+
+typedef struct s_Vector3
+{
+	double	x;
+	double	y;
+	double	z;
+}			t_Vector3;
 
 // =============================== OBJECT LINKED LIST ==========================
 //Typedef describes an object in a linked list.
@@ -302,10 +326,10 @@ t_ray		*ray_start_vector(t_point *start, t_vector *vector);
 //Function creates and initialises a plane.
 t_plane		*plane_create(void);
 //Function creates a defined plane from a colour, point and normal direction.
-t_plane		*plane_point_normal_dir(t_colour colour, t_point *point, \
+t_plane		*plane_col_point_normal_dir(t_colour colour, t_point *point, \
 									t_direction *normal);
 //Function creates a defined plane from a colour, point and normal vector.
-t_plane		*plane_point_normal_vec(t_colour colour, t_point *point, \
+t_plane		*plane_col_point_normal_vec(t_colour colour, t_point *point, \
 									t_vector *normal);
 //Function creates and initialises a sphere.
 t_sphere	*sphere_create(void);
@@ -317,6 +341,13 @@ t_cylinder	*cylinder_create(void);
 //Function creates a defined cylinder from centre, radius and height.
 t_cylinder	*cylinder_centre_orient_radius_height(t_point *centre, \
 				t_direction *orientation, double radius, double height);
+//Function creates and initialises an intersection.
+t_intersect	*intersect_create(void);
+//Function copies an intersection.
+t_intersect	*intersect_copy(t_intersect *intersect);
+//Function creates an intersection from colour, state, ditance, and a point.
+t_intersect	*intersection_input(t_colour colour, int state, double dist, \
+								t_point *point);
 // -------------------------------- SCENE OBJECTS ------------------------------
 //Function creates and initialises a camera.
 t_camera	*camera_create(void);
@@ -381,8 +412,12 @@ void		*free_vector_null(t_vector *vector);
 void		free_ray(t_ray *ray);
 //Function frees all the allocations belonging to a ray object, returns null.
 void		*free_ray_null(t_ray *ray);
+//Function frees an intersection.
+void		free_intersection(t_intersect *intersection);
 //Function frees all the allocations belonging to a camera.
 void		free_camera(t_camera *camera);
+//Function frees a pixel.
+void		free_pixel(t_pixel *pixel);
 //Function frees a screen.
 void		free_screen(t_screen *screen);
 //Function frees an ambient light.
@@ -425,6 +460,11 @@ double		magnitude_components(double x_comp, double y_comp, double z_comp);
 t_direction	*direction_cross(t_direction *first, t_direction *second);
 //Function returns the cross product with a positive z-axis component.
 t_direction	*direction_cross_up(t_direction *first, t_direction *second);
+// ---------------------------------- INTERSECTIONS ----------------------------
+//Function determines the intersection between a ray and a sphere.
+int			ray_sphere_intersection(t_ray *ray, t_sphere *sphere);
+//Function determines the intersection between a ray and a plane.
+t_intersect	*intersection_ray_plane(t_ray *ray, t_plane *plane);
 // ------------------------------- VECTOR OPERATIONS ---------------------------
 //Function adds two vectors together.
 t_vector	*vector_add(t_vector *first, t_vector *second);
@@ -460,6 +500,7 @@ int			error_exit(t_program *program, char *str);
 //Function prints an memory allocation error message.
 void		error_malloc_print(char *str);
 
-bool		ray_sphere_intersection(t_ray *ray, t_sphere *sphere);
+//Function creates and initialises an intersection.
+t_intersect	*intersect_create(void);
 
 #endif
