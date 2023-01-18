@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/18 17:26:33 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/18 17:45:06 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -408,6 +408,8 @@ t_obj		*object_sphere(t_sphere *sphere);
 t_obj		*object_cylinder(t_cylinder *cylinder);
 
 // ================================ MEMORY FREEING =============================
+//Function frees a 2D char array made from ft_split.
+void		free_split(char **charr);
 //Function frees a pointer and returns NULL.
 void		*free_void_null(void *ptr);
 //Function frees all the allocations belonging to a point object.

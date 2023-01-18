@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 16:14:07 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/17 23:32:45 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/18 17:44:46 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,19 @@ void	free_pixel(t_pixel *pixel)
 	// 	free_intersection(pixel->intrsct);
 	free_point(pixel->point);
 	free(pixel);
+}
+
+//Function frees a 2D char array made from ft_split.
+void	free_split(char **charr)
+{
+	int	i;
+
+	i = 0;
+	while (charr[i])
+	{
+		if (charr[i] != NULL)
+			free(charr[i]);
+		i++;
+	}
+	free(charr);
 }
