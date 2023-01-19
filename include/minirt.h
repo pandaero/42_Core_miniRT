@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/19 20:44:34 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/01/19 21:20:59 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ typedef enum element
 	VECTOR,
 	RAY,
 	PLANE,
+	DISC,
 	SPHERE,
 	CYLINDER,
 	CAMERA,
@@ -277,6 +278,7 @@ typedef struct s_obj
 	t_camera	*camera;
 	t_screen	*screen;
 	t_plane		*plane;
+	t_disc		*disc;
 	t_sphere	*sphere;
 	t_cylinder	*cylinder;
 	t_obj		*prev;
@@ -303,6 +305,15 @@ typedef struct s_program
 }		t_program;
 
 // ================================ OBJECT CREATION ============================
+
+//Function creates and initialises a disc.
+t_disc	*disc_create(void);
+//Function creates a defined disc from a colour, point and normal direction.
+t_disc	*disc_col_point_normal_dir(t_colour colour, t_point *point, \
+									t_direction *normal, double radius);
+//Function creates a defined disc from a colour, point and normal vector.
+t_disc	*disc_col_point_normal_vec(t_colour colour, t_point *point, \
+									t_vector *normal, double radius);
 //Function creates and initialises a point.
 t_point		*point_create(void);
 //Function copies a defined point object's properties to a new one.
@@ -406,6 +417,8 @@ t_obj		*object_camera(t_camera *camera);
 t_obj		*object_screen(t_screen *screen);
 //Function creates a plane object.
 t_obj		*object_plane(t_plane *plane);
+//Function creates a cylinder object.
+t_obj		*object_disc(t_disc *disc);
 //Function creates a sphere object.
 t_obj		*object_sphere(t_sphere *sphere);
 //Function creates a cylinder object.
@@ -526,5 +539,7 @@ void		error_malloc_print(char *str);
 
 //Solves quadratic equation
 t_quadratic_result	*solve_quadratic_real(double a, double b, double c);
+//Finds intersection between ray and disc
+void				intersect_ray_disc(t_ray *ray, t_disc *disc);
 
 #endif

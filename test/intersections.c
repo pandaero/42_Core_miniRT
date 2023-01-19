@@ -84,7 +84,7 @@ int	main(void)
 	// free_point(sphere_centre);
 	// Cylinder
 	t_point	*cylinder_center = point_coords(0, 1000, 0);
-	t_direction *cylinder_direction = direction_components(0, 1, 1);
+	t_direction *cylinder_direction = direction_components(1, 0, 0);
 	t_cylinder	*cylinder = cylinder_centre_orient_radius_height(cylinder_center, cylinder_direction, 50, 1000);
 	// Pre-Screen Tests
 	i = 0;

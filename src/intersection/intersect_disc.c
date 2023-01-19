@@ -1,37 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   object_3.c                                         :+:      :+:    :+:   */
+/*   intersect_disc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/15 16:17:23 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/19 21:25:41 by pbiederm         ###   ########.fr       */
+/*   Created: 2023/01/19 20:31:13 by pbiederm          #+#    #+#             */
+/*   Updated: 2023/01/19 21:11:06 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minirt.h"
 
-//Function creates a cylinder object.
-t_obj	*object_cylinder(t_cylinder *cylinder)
+//For tests
+#include <stdio.h>
+
+void intersect_ray_disc(t_ray *ray, t_disc *disc)
 {
-	t_obj	*new;
-
-	new = object_create();
-	new->elem = CYLINDER;
-	new->cylinder = cylinder;
-	return (new);
-}
-
-//Function creates a disc object.
-t_obj	*object_disc(t_disc *disc)
-{
-	t_obj	*new;
-
-	new = object_create();
-	if (!new)
-		return (NULL);
-	new->elem = DISC;
-	new->disc = disc;
-	return (new);
+	printf("disc center point: [%f, %f, %f]\n", disc->point->x_co, disc->point->y_co, disc->point->z_co);
+	printf("disc normal [%f, %f, %f]\n", disc->normal->x_comp, disc->normal->y_comp, disc->normal->z_comp);
+	printf("disc radius: %f", disc->radius);
+	// t_plane	*plane_of_disc;
+	// plane_of_disc = 
+	// plane_of_disc->point = 
 }
