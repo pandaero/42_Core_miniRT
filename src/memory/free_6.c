@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 18:03:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/19 23:15:53 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/20 00:08:20 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,11 @@ void	free_light(t_light *light)
 {
 	free_point(light->position);
 	free(light);
+}
+
+//Function frees a cylinder and returns NULL;
+void	*free_cylinder_ret_null(t_cylinder *cylinder)
+{
+	free_cylinder(cylinder);
+	return (NULL);
 }

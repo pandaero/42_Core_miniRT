@@ -38,7 +38,7 @@ int	main(void)
 
 //Test for object_light_line
 //From root: cc -Wall -Werror -Wextra test/test.c test/object_3_main.c src/object/* src/elements/* src/memory/* src/calculation/* src/program/* src/input/* libft/libft.a -lm
-//*
+/*
 int	main(void)
 {
 	char	*line = ft_strdup("L -12,0.45,50  0.45");

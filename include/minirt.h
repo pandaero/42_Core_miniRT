@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/19 23:16:15 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/20 00:08:42 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -419,16 +419,22 @@ t_plane		*plane_col_point_normal_dir(t_colour colour, t_point *point, \
 //Function creates a defined plane from a colour, point and normal vector.
 t_plane		*plane_col_point_normal_vec(t_colour colour, t_point *point, \
 									t_vector *normal);
+//Function creates a defined plane from a valid input line.
+t_plane		*plane_line(const char *line);
 //Function creates and initialises a sphere.
 t_sphere	*sphere_create(void);
 //Function creates a defined sphere from colour, centre and radius.
 t_sphere	*sphere_col_centre_radius(t_colour colour, t_point *centre, \
 									double radius);
+//Function creates a defined sphere from a valid input line.
+t_sphere	*sphere_line(const char *line);
 //Function creates and initialises a cylinder.
 t_cylinder	*cylinder_create(void);
 //Function creates a defined cylinder from centre, radius and height.
 t_cylinder	*cylinder_centre_orient_radius_height(t_point *centre, \
 				t_direction *orientation, double radius, double height);
+//Function creates a defined cylinder from a valid input line.
+t_cylinder	*cylinder_line(const char *line);
 //Function creates and initialises an intersection.
 t_intersect	*intersect_create(void);
 //Function copies an intersection.
@@ -488,10 +494,16 @@ t_obj		*object_camera_line(const char *line);
 t_obj		*object_screen(t_screen *screen);
 //Function creates a plane object.
 t_obj		*object_plane(t_plane *plane);
+//Function creates a plane object from a valid input line.
+t_obj		*object_plane_line(const char *line);
 //Function creates a sphere object.
 t_obj		*object_sphere(t_sphere *sphere);
+//Function creates a sphere object from a valid input line.
+t_obj		*object_sphere_line(const char *line);
 //Function creates a cylinder object.
 t_obj		*object_cylinder(t_cylinder *cylinder);
+//Function creates a cylinder object from a valid input line.
+t_obj		*object_cylinder_line(const char *line);
 
 // ================================ MEMORY FREEING =============================
 //Function frees a pointer, and returns a double -1.
@@ -538,6 +550,8 @@ void		free_plane(t_plane *plane);
 void		free_sphere(t_sphere *sphere);
 //Function frees a cylinder.
 void		free_cylinder(t_cylinder *cylinder);
+//Function frees a cylinder and returns NULL;
+void		*free_cylinder_ret_null(t_cylinder *cylinder);
 //Function frees the program struct.
 void		free_program(t_program *program);
 //Function frees all the object linked lists.

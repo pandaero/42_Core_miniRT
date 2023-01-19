@@ -20,10 +20,14 @@ void	object_print(t_obj *object)
 		printf("VECTOR: comps:(%4.2f, %4.2f, %4.2f) mag:%4.2f dir:(%4.2f, %4.2f, %4.2f)\n", object->vector->x_comp, object->vector->y_comp, object->vector->z_comp, object->vector->mag, object->vector->dir->x_comp, object->vector->dir->y_comp, object->vector->dir->z_comp);
 	if (object->elem == RAY)
 		printf("RAY: origin:(%4.2f, %4.2f, %4.2f) dir:(%4.2f, %4.2f, %4.2f)\n", object->ray->ray_orig->x_co, object->ray->ray_orig->y_co, object->ray->ray_orig->z_co, object->ray->ray_dir->x_comp, object->ray->ray_dir->y_comp, object->ray->ray_dir->z_comp);
-	if (object->elem == PLANE)
-		printf("PLANE: point:(%4.2f, %4.2f, %4.2f) norm:(%4.2f, %4.2f, %4.2f)\n", object->plane->point->x_co, object->plane->point->y_co, object->plane->point->z_co, object->plane->normal->x_comp, object->plane->normal->y_comp, object->plane->normal->z_comp);
 	if (object->elem == CAMERA)
 		printf("CAMERA: hfov:%f point:(%4.2f, %4.2f, %4.2f) dir:(%4.2f, %4.2f, %4.2f)\n", object->camera->horiz_fov, object->camera->location->x_co, object->camera->location->y_co, object->camera->location->z_co, object->camera->view_dir->x_comp, object->camera->view_dir->y_comp, object->camera->view_dir->z_comp);
+	if (object->elem == SPHERE)
+		printf("SPHERE: centre:(%4.2f, %4.2f, %4.2f) radius:%4.2f col:%08X\n", object->sphere->centre->x_co, object->sphere->centre->y_co, object->sphere->centre->z_co, object->sphere->radius, object->sphere->colour);
+	if (object->elem == PLANE)
+		printf("PLANE: point:(%4.2f, %4.2f, %4.2f) normal:(%4.2f, %4.2f, %4.2f) col:%08X\n", object->plane->point->x_co, object->plane->point->y_co, object->plane->point->z_co, object->plane->normal->x_comp, object->plane->normal->y_comp, object->plane->normal->z_comp, object->plane->colour);
+	if (object->elem == CYLINDER)
+		printf("CYLINDER: centre(%4.2f, %4.2f, %4.2f) radius:%4.2f height:%4.2f dir:(%4.2f, %4.2f, %4.2f) col:%08X\n", object->cylinder->centre->x_co, object->cylinder->centre->y_co, object->cylinder->centre->z_co, object->cylinder->radius, object->cylinder->height, object->cylinder->orientation->x_comp, object->cylinder->orientation->y_comp, object->cylinder->orientation->z_comp, object->cylinder->colour);
 	if (object->elem == SCREEN)
 	{
 		printf("SCREEN: ");
