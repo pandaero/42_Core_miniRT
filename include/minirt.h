@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/18 20:09:42 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/19 18:28:07 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -313,13 +313,27 @@ int			skip_spacing(const char *str);
 int			is_space(char ch);
 //Function replaces all the non-newline spacing characters for space in string.
 char		*replace_spacing(const char *str);
+//Function determines whether a string contains a newline character.
+int			contains_newline(const char *str);
+//Function removes newline characters from a string. Returns a new string.
+char		*clean_newline(const char *str);
 // ---------------------------------- VALIDATION -------------------------------
-//Function checks whether a character is allowed in an input file.
-int			is_valid_char(char ch);
+//Function checks whether a character is allowed in an input .rt file.
+int			is_valid_char_rt(char ch);
+//Function checks whether string contains characters allowed as input for atof.
+int			is_valid_str_atof(const char *str);
 //Function determines whether a string is valid input for the atof function.
 int			valid_atof(const char *str);
 //Function determines whether a line contains valid ambient light data.
 int			valid_ambient(const char *str);
+//Function determines whether a line contains valid camera data.
+int			valid_camera(const char *str);
+//Function determines whether a line contains valid light description data.
+int			valid_light(const char *str);
+//Function determines whether a line contains valid plane description data.
+//Function determines whether a line contains valid sphere description data.
+//Function determines whether a line contains valid cylinder description data.
+//Function determines whether a minimum no. of components are present in scene.
 //Function checks an input line for validity.
 int			check_valid_line(const char *line);
 //Function checks file contents against forbidden characters.
@@ -439,6 +453,8 @@ t_obj		*object_cylinder(t_cylinder *cylinder);
 // ================================ MEMORY FREEING =============================
 //Function frees a 2D char array made from ft_split.
 void		free_split(char **charr);
+//Function frees a 2D char array made from ft_split. Returns zero.
+int			free_split_ret_int_zero(char **charr);
 //Function frees a pointer and returns NULL.
 void		*free_void_null(void *ptr);
 //Function frees all the allocations belonging to a point object.

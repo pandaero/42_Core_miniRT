@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 14:05:18 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/18 20:08:05 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/19 18:27:05 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	has_valid_contents(const char *filename)
 		ii[1] = 0;
 		while (line[ii[1]] != '\0')
 		{
-			if (is_valid_char(line[ii[1]]) == 1)
+			if (is_valid_char_rt(line[ii[1]]) == 1)
 				ii[1]++;
 			else
 			{

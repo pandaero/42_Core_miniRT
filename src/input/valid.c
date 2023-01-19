@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 15:20:44 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/18 20:14:30 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/19 18:27:30 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ int	is_space(char ch)
 	return (0);
 }
 
-//Function checks whether a character is allowed in an input file.
-int	is_valid_char(char ch)
+//Function checks whether a character is allowed in an input .rt file.
+int	is_valid_char_rt(char ch)
 {
 	if ((ch >= '0' && ch <= '9') || ch == 'A' || ch == 'C' || ch == 'L')
 		return (1);
@@ -71,6 +71,8 @@ static int	num_sign(const char *str)
 //Function determines whether a string is valid input for the atof function.
 int	valid_atof(const char *str)
 {
+	if (is_valid_str_atof(str) == 0)
+		return (0);
 	if (num_period(str) > 1)
 		return (0);
 	if (num_sign(str) > 1)
