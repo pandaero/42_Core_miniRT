@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 18:52:11 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/19 21:23:33 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/19 22:43:56 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,18 +85,12 @@ double	ft_atof(const char *str)
 	{
 		vars->i++;
 		if (str[vars->i + 1] == '-' || str[vars->i + 1] == '+')
-		{
-			free(vars);
-			return ((double) -1);
-		}
+			free_ret_double_minusone(vars);
 	}
 	int_digs(str, vars);
 	frac_digs(str, vars);
 	if (vars->non_zero_out == 0)
-	{
-		free(vars);
-		return ((double) -1);
-	}
+		free_ret_double_minusone(vars);
 	ret = vars->sign * (vars->int_digs + vars->frac_digs);
 	free(vars);
 	return (ret);
