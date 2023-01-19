@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/19 19:39:58 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/19 21:25:16 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,10 @@ typedef int					t_colour;
 //Typedef defines different types of elements for a 3D scene.
 typedef enum element
 {
+	INVALID,
 	EMPTY,
+	AMBIENT,
+	LIGHT,
 	POINT,
 	DIRECTION,
 	VECTOR,
@@ -360,6 +363,8 @@ t_point		*point_copy(t_point *point);
 t_point		*point_coords(double x_coord, double y_coord, double z_coord);
 //Function creates a point resulting from a vector and a starting point.
 t_point		*point_point_vector(t_point *start, t_vector *vector);
+//Function creates a point from a valid input string.
+t_point		*point_line(const char *str);
 //Function creates and initialises a direction.
 t_direction	*direction_create(void);
 //Function copies a defined direction object's properties to a new one.
@@ -370,6 +375,8 @@ t_direction	*direction_components(double x_comp, double y_comp, double z_comp);
 t_direction	*direction_two_points(t_point *start, t_point *end);
 //Function creates a defined direction object from a vector.
 t_direction	*direction_vector(t_vector *vector);
+//Function creates a direction from a valid input string.
+t_direction	*direction_line(const char *str);
 //Function creates and initialises a vector.
 t_vector	*vector_create(void);
 //Function copies a defined vector object's properties to a new one.
@@ -420,6 +427,8 @@ t_intersect	*intersection_input(t_colour colour, int state, double dist, \
 t_camera	*camera_create(void);
 //Function creates a camera from input parameters.
 t_camera	*camera_input(t_point *loc, t_direction *view_dir, double hfov_deg);
+//Function creates a camera from a valid input line.
+t_camera	*camera_line(const char *str);
 //Function creates and initialises a pixel.
 t_pixel		*pixel_create(void);
 //Function creates a pixel with its point coordinates.
@@ -451,6 +460,8 @@ t_obj		*object_vector(t_vector *vector);
 t_obj		*object_ray(t_ray *ray);
 //Function creates a camera object.
 t_obj		*object_camera(t_camera *camera);
+//Function creates an ambient light object from a valid input line.
+t_obj		*object_camera_line(const char *line);
 //Function creates a screen object.
 t_obj		*object_screen(t_screen *screen);
 //Function creates a plane object.
@@ -521,6 +532,8 @@ void		list_add_object(t_objlist *list, t_obj *object);
 void		list_remove_object(t_objlist *list, t_obj *object);
 
 // =================================== OPERATIONS ==============================
+//Function that converts a string's contents to a double type variable.
+double		ft_atof(const char *str);
 //Function returns the size of a ft_split-created array.
 int			split_size(char **str);
 //Function converts degrees to radians.

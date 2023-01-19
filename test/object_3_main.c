@@ -1,0 +1,19 @@
+//Tests for the functions in object_3
+
+#include "test.h"
+#include <stdlib.h>
+
+//Test for object_camera_line
+//From root: cc -Wall -Werror -Wextra test/test.c test/object_3_main.c src/object/* src/elements/* src/memory/* src/calculation/* src/program/* src/input/* libft/libft.a -lm
+//*
+int	main(void)
+{
+	char	*line = ft_strdup("C 1,2.4,-5  0,-1,3  12.34");
+	t_obj	*obj_cam = object_camera_line(line);
+
+	object_print(obj_cam);
+	free_object(obj_cam);
+	free(line);
+	return (0);
+}
+//*/

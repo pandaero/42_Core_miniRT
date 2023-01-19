@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 18:52:11 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/18 18:54:42 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/19 21:23:33 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static void	frac_digs(const char *str, t_atof_vars *vars)
 	vars->frac_digs = vars->frac_digs / vars->divide;
 }
 
-//Function that translates string to double.
+//Function that converts a string's contents to a double type variable.
 double	ft_atof(const char *str)
 {
 	t_atof_vars	*vars;
