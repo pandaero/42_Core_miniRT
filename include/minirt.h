@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/18 19:11:01 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/01/19 20:44:34 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,14 @@ typedef struct s_pixel		t_pixel;
 
 // =============================== FUNCTION REFACTORING ========================
 //Typedef contains several variables for the ray-sphere intersection function.
+
+typedef struct s_quadratic_result
+{
+	double one;
+	double two;
+	double disc;
+}t_quadratic_result;
+
 typedef struct s_rs
 {
 	double	t0;
@@ -151,6 +159,15 @@ typedef struct s_plane
 	t_point		*point;
 	t_direction	*normal;
 }				t_plane;
+
+//Typedef describes a disc in 3D space.
+typedef struct s_disc
+{
+	t_colour	colour;
+	t_point		*point;
+	t_direction	*normal;
+	double		radius;
+}				t_disc;
 
 //Typedef describes a sphere in 3D space.
 typedef struct s_sphere
@@ -508,6 +525,6 @@ int			error_exit(t_program *program, char *str);
 void		error_malloc_print(char *str);
 
 //Solves quadratic equation
-int	solve_quadratic_real(double a, double b, double c);
+t_quadratic_result	*solve_quadratic_real(double a, double b, double c);
 
 #endif
