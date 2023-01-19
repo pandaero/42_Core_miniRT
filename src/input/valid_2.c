@@ -6,12 +6,28 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 19:13:29 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/19 18:43:48 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/19 19:42:04 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minirt.h"
 #include <stdlib.h>
+
+//Function checks whether string contains characters allowed as input for atof.
+int	valid_str_atof(const char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		if (!((str[i] >= '0' && str[i] <= '9') || str[i] == '+' || \
+				str[i] == '-' || str[i] == '.'))
+			return (0);
+		i++;
+	}
+	return (1);
+}
 
 //Function checks an input line for validity.
 int	check_valid_line(const char *line)
@@ -27,98 +43,87 @@ int	check_valid_line(const char *line)
 		ret = valid_camera(line);
 	if (ft_strncmp(split[0], "L", 2) == 0)
 		ret = valid_light(line);
-	// if (ft_strncmp(split[0], "pl", 3) == 0)
-	// 	ret = valid_plane(line);
-	// if (ft_strncmp(split[0], "sp", 3) == 0)
-	// 	ret = valid_sphere(line);
-	// if (ft_strncmp(split[0], "cy", 3) == 0)
-	// 	ret = valid_cylinder(line);
+	if (ft_strncmp(split[0], "pl", 3) == 0)
+		ret = valid_plane(line);
+	if (ft_strncmp(split[0], "sp", 3) == 0)
+		ret = valid_sphere(line);
+	if (ft_strncmp(split[0], "cy", 3) == 0)
+		ret = valid_cylinder(line);
 	free_split(split);
 	return (ret);
 }
 
-//Function works out portion of valid ambient light parsing.
-static int	assist_valid_ambient(char **colsplit)
-{
-	int	ret;
-
-	ret = 1;
-	if (ft_atoi(colsplit[0]) < 0 || ft_atoi(colsplit[1]) < 0 || \
-			ft_atoi(colsplit[2]) < 0)
-		ret = 0;
-	if (ft_atoi(colsplit[0]) > 255 || ft_atoi(colsplit[1]) > 255 || \
-			ft_atoi(colsplit[2]) > 255)
-		ret = 0;
-	return (ret);
-}
-
-//Function determines whether a line contains valid ambient light data.
-int	valid_ambient(const char *str)
+//Function checks that a string contains valid RGB input.
+int	valid_rgb(const char *str)
 {
 	char	**split;
-	char	**colsplit;
-	int		ret;
+	char	*clean;
 
-	ret = 1;
-	split = ft_split(str, ' ');
-	if (split_size(split) != 3)
-		return (free_split_ret_int_zero(split));
-	colsplit = ft_split(split[2], ',');
-	if (valid_atof(split[1]) == 0)
-		ret = 0;
-	if (split_size(colsplit) != 3)
-		ret = 0;
-	if (ret == 1)
-		ret = assist_valid_ambient(colsplit);
-	free_split(split);
-	free_split(colsplit);
-	return (ret);
-}
-
-//Function works out portion of valid light parsing.
-static int	assist_valid_light(char **split)
-{
-	char	**ptsplit;
-	int		ret;
-
-	ret = 1;
-	ptsplit = ft_split(split[1], ',');
-	if (split_size(ptsplit) != 3)
-		ret = 0;
-	if (ret == 1)
+	if (contains_newline(str) == 1)
 	{
-		if (valid_atof(ptsplit[0]) == 0 || valid_atof(ptsplit[1]) == 0 || \
-				valid_atof(ptsplit[2]) == 0)
-			ret = 0;
+		clean = clean_newline(str);
+		split = ft_split(clean, ',');
+		free(clean);
 	}
-	free_split(ptsplit);
-	return (ret);
-}
-
-//Function determines whether a line contains valid light description data.
-int	valid_light(const char *str)
-{
-	char	**split;
-	char	*clean_double;
-	int		ret;
-
-	ret = 1;
-	split = ft_split(str, ' ');
-	if (split_size(split) != 3)
-		return (free_split_ret_int_zero(split));
-	if (contains_newline(split[2]) == 1)
-	{
-		clean_double = clean_newline(split[2]);
-		if (valid_atof(clean_double) == 0)
-			ret = 0;
-		free(clean_double);
-	}
-	else if (valid_atof(split[2]) == 0)
-		ret = 0;
 	else
-		ret = 1;
-	if (ret == 1)
-		assist_valid_light(split);
+		split = ft_split(str, ',');
+	if (!split)
+		return (free_split_ret_int_zero(split));
+	if (split_size(split) != 3)
+		return (free_split_ret_int_zero(split));
+	if (ft_atoi(split[0]) < 0 || ft_atoi(split[1]) < 0 || \
+			ft_atoi(split[2]) < 0)
+		return (free_split_ret_int_zero(split));
+	if (ft_atoi(split[0]) > 255 || ft_atoi(split[1]) > 255 || \
+			ft_atoi(split[2]) > 255)
+		return (free_split_ret_int_zero(split));
 	free_split(split);
-	return (ret);
+	return (1);
+}
+
+//Function checks that a string contains valid input for a point or direction.
+int	valid_point_dir(const char *str)
+{
+	char	**split;
+	char	*clean;
+
+	if (contains_newline(str) == 1)
+	{
+		clean = clean_newline(str);
+		split = ft_split(clean, ',');
+		free(clean);
+	}
+	else
+		split = ft_split(str, ',');
+	if (!split)
+		return (free_split_ret_int_zero(split));
+	if (split_size(split) != 3)
+		return (free_split_ret_int_zero(split));
+	if (valid_atof(split[0]) == 0 || valid_atof(split[1]) == 0 || \
+			valid_atof(split[2]) == 0)
+		return (free_split_ret_int_zero(split));
+	free_split(split);
+	return (1);
+}
+
+//Function checks that a string contains valid input for a double.
+int	valid_double(const char *str)
+{
+	char	*clean;
+
+	if (contains_newline(str) == 1)
+	{
+		clean = clean_newline(str);
+		if (valid_atof(clean) == 0)
+		{
+			free(clean);
+			return (0);
+		}
+		free(clean);
+	}
+	else if (valid_atof(str) == 0)
+		return (0);
+	else
+		return (1);
+	return (1);
 }

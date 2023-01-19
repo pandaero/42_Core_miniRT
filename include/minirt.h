@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/19 18:28:07 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/19 19:39:58 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -321,19 +321,29 @@ char		*clean_newline(const char *str);
 //Function checks whether a character is allowed in an input .rt file.
 int			is_valid_char_rt(char ch);
 //Function checks whether string contains characters allowed as input for atof.
-int			is_valid_str_atof(const char *str);
+int			valid_str_atof(const char *str);
 //Function determines whether a string is valid input for the atof function.
 int			valid_atof(const char *str);
+//Function checks that a string contains valid RGB input.
+int			valid_rgb(const char *str);
+//Function checks that a string contains valid input for a point or direction.
+int			valid_point_dir(const char *str);
+//Function checks that a string contains valid input for a double.
+int			valid_double(const char *str);
 //Function determines whether a line contains valid ambient light data.
 int			valid_ambient(const char *str);
-//Function determines whether a line contains valid camera data.
-int			valid_camera(const char *str);
 //Function determines whether a line contains valid light description data.
 int			valid_light(const char *str);
+//Function determines whether a line contains valid camera data.
+int			valid_camera(const char *str);
 //Function determines whether a line contains valid plane description data.
+int			valid_plane(const char *str);
 //Function determines whether a line contains valid sphere description data.
+int			valid_sphere(const char *str);
 //Function determines whether a line contains valid cylinder description data.
+int			valid_cylinder(const char *str);
 //Function determines whether a minimum no. of components are present in scene.
+int			valid_elements(t_objlist *objlist);
 //Function checks an input line for validity.
 int			check_valid_line(const char *line);
 //Function checks file contents against forbidden characters.

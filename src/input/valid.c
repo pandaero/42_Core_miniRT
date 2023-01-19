@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 15:20:44 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/19 18:27:30 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/19 19:40:10 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static int	num_sign(const char *str)
 //Function determines whether a string is valid input for the atof function.
 int	valid_atof(const char *str)
 {
-	if (is_valid_str_atof(str) == 0)
+	if (valid_str_atof(str) == 0)
 		return (0);
 	if (num_period(str) > 1)
 		return (0);
