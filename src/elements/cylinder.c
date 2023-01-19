@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 16:31:42 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/17 14:36:36 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/19 23:46:12 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,36 @@ t_cylinder	*cylinder_centre_orient_radius_height(t_point *centre, \
 void	cylinder_colour(t_colour colour, t_cylinder *cylinder)
 {
 	cylinder->colour = colour;
+}
+
+//Function creates a defined cylinder from a valid input line.
+t_cylinder	*cylinder_line(const char *line)
+{
+	t_cylinder	*new;
+	char		**split;
+	char		*clean;
+
+	new = cylinder_create();
+	if (!new)
+		return (NULL);
+	if (contains_newline(line) == 1)
+	{
+		clean = clean_newline(line);
+		split = ft_split(clean, ' ');
+		free(clean);
+	}
+	else
+		split = ft_split(line, ' ');
+	if (!split)
+	{
+		free_cylinder(new);
+		return (NULL);
+	}
+	new->centre = point_str(split[1]);
+	new->orientation = direction_str(split[2]);
+	new->radius = ft_atof(split[3]) / 2;
+	new->height = ft_atof(split[4]);
+	new->colour = colour_str(split[5]);
+	free_split(split);
+	return (new);
 }
