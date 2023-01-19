@@ -6,14 +6,13 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 14:05:18 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/19 18:27:05 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/19 19:53:30 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minirt.h"
 #include <stdlib.h>
 #include <unistd.h>
-#include <sys/types.h>
 #include <fcntl.h>
 
 //Function checks whether the filename has the input extension.
