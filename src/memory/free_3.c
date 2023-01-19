@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 18:53:38 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/19 22:37:52 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/19 23:18:38 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ void	free_object_2(t_obj *object)
 		free_cylinder(object->cylinder);
 	if (object->elem == SPHERE)
 		free_sphere(object->sphere);
+	if (object->elem == LIGHT)
+		free_light(object->light);
 	free(object);
 }
 

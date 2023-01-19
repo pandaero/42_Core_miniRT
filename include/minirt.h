@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/19 23:03:27 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/19 23:16:15 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -504,6 +504,8 @@ int			free_split_ret_int_zero(char **charr);
 void		*free_void_null(void *ptr);
 //Function frees an ambient light.
 void		free_ambient(t_ambient *ambient);
+//Function frees a light.
+void		free_light(t_light *light);
 //Function frees all the allocations belonging to a point object.
 void		free_point(t_point *point);
 //Function frees all the allocations belonging to a point object, returns NULL.

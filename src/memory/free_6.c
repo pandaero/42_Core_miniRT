@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 18:03:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/19 22:40:58 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/19 23:15:53 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,11 @@ double	free_ret_double_minusone(void *ptr)
 {
 	free(ptr);
 	return ((double) -1);
+}
+
+//Function frees a light.
+void	free_light(t_light *light)
+{
+	free_point(light->position);
+	free(light);
 }
