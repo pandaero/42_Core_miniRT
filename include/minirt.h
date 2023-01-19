@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/19 21:25:16 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/19 21:53:23 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -262,6 +262,12 @@ typedef struct s_camera
 }			t_camera;
 
 //Typedef describes a spot light.
+typedef struct s_light
+{
+	double		ratio;
+	t_colour	colour;
+	t_point		*position;
+}				t_light;
 
 typedef struct s_Vector3
 {
