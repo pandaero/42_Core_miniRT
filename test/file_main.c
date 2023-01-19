@@ -54,7 +54,6 @@ int	main(void)
 	char	*filename1 = ft_strdup("test/test_input_valid.rt");
 	char	*filename2 = ft_strdup("test/test_input_invalid.rt");
 	int		ret1 = has_valid_formatting(filename1);
-	printf("Next\n");
 	int		ret2 = has_valid_formatting(filename2);
 
 	printf("File:%s - Valid_format:%d\n", filename1, ret1);
