@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 22:36:44 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/19 21:26:37 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/19 22:56:22 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ t_camera	*camera_line(const char *str)
 	}
 	else
 		new->horiz_fov = ft_atof(split[3]);
-	new->location = point_line(split[1]);
-	new->view_dir = direction_line(split[2]);
+	new->location = point_str(split[1]);
+	new->view_dir = direction_str(split[2]);
 	free_split(split);
 	return (new);
 }

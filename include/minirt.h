@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/19 22:42:49 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/19 23:03:27 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -284,6 +284,7 @@ typedef struct s_obj
 	t_element	elem;
 	t_colour	colour;
 	t_ambient	*ambient;
+	t_light		*light;
 	t_point		*point;
 	t_direction	*direction;
 	t_vector	*vector;
@@ -366,6 +367,8 @@ int			has_valid_formatting(const char *filename);
 // ================================ OBJECT CREATION ============================
 //Function gets a colour value from an input string. ("0-255,0-255,0-255")
 t_colour	colour_str(const char *str);
+//Function creates a new light from a valid input line.
+t_light		*light_line(const char *line);
 //Function creates and initialises a point.
 t_point		*point_create(void);
 //Function copies a defined point object's properties to a new one.
@@ -375,7 +378,7 @@ t_point		*point_coords(double x_coord, double y_coord, double z_coord);
 //Function creates a point resulting from a vector and a starting point.
 t_point		*point_point_vector(t_point *start, t_vector *vector);
 //Function creates a point from a valid input string.
-t_point		*point_line(const char *str);
+t_point		*point_str(const char *str);
 //Function creates and initialises a direction.
 t_direction	*direction_create(void);
 //Function copies a defined direction object's properties to a new one.
@@ -387,7 +390,7 @@ t_direction	*direction_two_points(t_point *start, t_point *end);
 //Function creates a defined direction object from a vector.
 t_direction	*direction_vector(t_vector *vector);
 //Function creates a direction from a valid input string.
-t_direction	*direction_line(const char *str);
+t_direction	*direction_str(const char *str);
 //Function creates and initialises a vector.
 t_vector	*vector_create(void);
 //Function copies a defined vector object's properties to a new one.
@@ -467,6 +470,8 @@ t_obj		*object_copy(t_obj *object);
 t_obj		*object_colour(t_colour colour);
 //Function creates an ambient light object from an input line.
 t_obj		*object_ambient_line(const char *line);
+//Function creates a light object from a valid input line.
+t_obj		*object_light_line(const char *line);
 //Function creates a point object.
 t_obj		*object_point(t_point *point);
 //Function creates a direction object.

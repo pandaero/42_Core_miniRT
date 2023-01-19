@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 20:56:51 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/19 21:20:32 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/19 22:55:23 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <stdlib.h>
 
 //Function creates a direction from a valid input string.
-t_direction	*direction_line(const char *str)
+t_direction	*direction_str(const char *str)
 {
 	t_direction	*direction;
 	char		**split;

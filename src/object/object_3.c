@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 16:17:23 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/19 21:25:59 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/19 23:00:45 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,40 @@ t_obj	*object_cylinder(t_cylinder *cylinder)
 	new->cylinder = cylinder;
 	return (new);
 }
-/*
-//Function creates an ambient light object from an input line.
-t_obj	*object_ambient_line(const char *line)
+
+//Function creates a colour object.
+t_obj	*object_colour(t_colour colour)
 {
 	t_obj	*new;
 
 	new = object_create();
 	if (!new)
 		return (NULL);
+	new->elem = COLOUR;
+	new->colour = colour;
 	return (new);
 }
-*/
+
+//Function creates an ambient light object from an input line.
+t_obj	*object_ambient_line(const char *line)
+{
+	t_obj		*new;
+	t_ambient	*ambient;
+
+	new = object_create();
+	if (!new)
+		return (NULL);
+	ambient = ambient_line(line);
+	if (!ambient)
+	{
+		free_object(new);
+		return (NULL);
+	}
+	new->elem = AMBIENT;
+	new->ambient = ambient;
+	return (new);
+}
+
 //Function creates an ambient light object from a valid input line.
 t_obj	*object_camera_line(const char *line)
 {
@@ -55,15 +77,23 @@ t_obj	*object_camera_line(const char *line)
 	new->camera = cam;
 	return (new);
 }
-/*
+
 //Function creates a light object from a valid input line.
 t_obj	*object_light_line(const char *line)
 {
 	t_obj	*new;
+	t_light	*light;
 
 	new = object_create();
 	if (!new)
 		return (NULL);
+	light = light_line(line);
+	if (!light)
+	{
+		free_object(new);
+		return (NULL);
+	}
+	new->elem = LIGHT;
+	new->light = light;
 	return (new);
 }
-*/
