@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 18:53:38 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/17 14:38:17 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/19 22:37:52 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,31 +47,41 @@ void	free_list(t_objlist *list)
 	free(list);
 }
 
+//Function frees an object. (cont.)
+void	free_object_2(t_obj *object)
+{
+	if (object->elem == CYLINDER)
+		free_cylinder(object->cylinder);
+	if (object->elem == SPHERE)
+		free_sphere(object->sphere);
+	free(object);
+}
+
 //Function frees an object.
 void	free_object(t_obj *object)
 {
-	if (object->elem == EMPTY)
+	if (object->elem == EMPTY || object->elem == INVALID)
 	{
 		free(object);
 		return ;
 	}
-	if (object->elem == POINT)
+	else if (object->elem == AMBIENT)
+		free_ambient(object->ambient);
+	else if (object->elem == POINT)
 		free_point(object->point);
-	if (object->elem == DIRECTION)
+	else if (object->elem == DIRECTION)
 		free_direction(object->direction);
-	if (object->elem == VECTOR)
+	else if (object->elem == VECTOR)
 		free_vector(object->vector);
-	if (object->elem == RAY)
+	else if (object->elem == RAY)
 		free_ray(object->ray);
-	if (object->elem == CAMERA)
+	else if (object->elem == CAMERA)
 		free_camera(object->camera);
-	if (object->elem == SCREEN)
+	else if (object->elem == SCREEN)
 		free_screen(object->screen);
-	if (object->elem == PLANE)
+	else if (object->elem == PLANE)
 		free_plane(object->plane);
-	if (object->elem == SPHERE)
-		free_sphere(object->sphere);
-	if (object->elem == CYLINDER)
-		free_cylinder(object->cylinder);
+	else
+		return (free_object_2(object));
 	free(object);
 }

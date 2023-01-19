@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/19 21:53:23 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/19 22:42:49 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,7 @@ typedef enum element
 {
 	INVALID,
 	EMPTY,
+	COLOUR,
 	AMBIENT,
 	LIGHT,
 	POINT,
@@ -281,6 +282,8 @@ typedef struct s_Vector3
 typedef struct s_obj
 {
 	t_element	elem;
+	t_colour	colour;
+	t_ambient	*ambient;
 	t_point		*point;
 	t_direction	*direction;
 	t_vector	*vector;
@@ -311,7 +314,7 @@ typedef struct s_program
 	int			num_obj_lists;
 	t_objlist	*first_objlist;
 	t_objlist	*last_objlist;
-}		t_program;
+}				t_program;
 
 // ================================ INPUT HANDLING =============================
 //Function checks whether the filename has the input extension.
@@ -361,6 +364,8 @@ int			has_valid_contents(const char *filename);
 int			has_valid_formatting(const char *filename);
 
 // ================================ OBJECT CREATION ============================
+//Function gets a colour value from an input string. ("0-255,0-255,0-255")
+t_colour	colour_str(const char *str);
 //Function creates and initialises a point.
 t_point		*point_create(void);
 //Function copies a defined point object's properties to a new one.
@@ -451,11 +456,17 @@ t_screen	*screen_camera(int width, int height, t_camera *camera);
 t_ambient	*ambient_create(void);
 //Function creates an ambient light according to colour and ratio.
 t_ambient	*ambient_input(t_colour colour, double ratio);
+//Function creates an ambient light from a valid input line.
+t_ambient	*ambient_line(const char *str);
 // -------------------------------- GENERIC OBJECT -----------------------------
 //Function creates and initialises an object.
 t_obj		*object_create(void);
 //Function copies an object's properties to a new one.
 t_obj		*object_copy(t_obj *object);
+//Function creates a colour object.
+t_obj		*object_colour(t_colour colour);
+//Function creates an ambient light object from an input line.
+t_obj		*object_ambient_line(const char *line);
 //Function creates a point object.
 t_obj		*object_point(t_point *point);
 //Function creates a direction object.
@@ -478,12 +489,16 @@ t_obj		*object_sphere(t_sphere *sphere);
 t_obj		*object_cylinder(t_cylinder *cylinder);
 
 // ================================ MEMORY FREEING =============================
+//Function frees a pointer, and returns a double -1.
+double		free_ret_double_minusone(void *ptr);
 //Function frees a 2D char array made from ft_split.
 void		free_split(char **charr);
 //Function frees a 2D char array made from ft_split. Returns zero.
 int			free_split_ret_int_zero(char **charr);
 //Function frees a pointer and returns NULL.
 void		*free_void_null(void *ptr);
+//Function frees an ambient light.
+void		free_ambient(t_ambient *ambient);
 //Function frees all the allocations belonging to a point object.
 void		free_point(t_point *point);
 //Function frees all the allocations belonging to a point object, returns NULL.

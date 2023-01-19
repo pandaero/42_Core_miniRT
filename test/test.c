@@ -4,6 +4,8 @@
 //Function prints the information of an object to STDOUT.
 void	object_print(t_obj *object)
 {
+	if (object->elem == AMBIENT)
+		printf("AMBIENT: r:%4.2f col:%08X\n", object->ambient->ratio, object->ambient->colour);
 	if (object->elem == POINT)
 		printf("POINT: x:%4.2f y:%4.2f z:%4.2f\n",
 					object->point->x_co, object->point->y_co,

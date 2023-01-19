@@ -3,9 +3,24 @@
 #include "test.h"
 #include <stdlib.h>
 
-//Test for object_camera_line
+//Test for object_ambient_line
 //From root: cc -Wall -Werror -Wextra test/test.c test/object_3_main.c src/object/* src/elements/* src/memory/* src/calculation/* src/program/* src/input/* libft/libft.a -lm
 //*
+int	main(void)
+{
+	char	*line = ft_strdup("A 0.34  23,255,233");
+	t_obj	*obj_amb = object_ambient_line(line);
+
+	object_print(obj_amb);
+	free_object(obj_amb);
+	free(line);
+	return (0);
+}
+//*/
+
+//Test for object_camera_line
+//From root: cc -Wall -Werror -Wextra test/test.c test/object_3_main.c src/object/* src/elements/* src/memory/* src/calculation/* src/program/* src/input/* libft/libft.a -lm
+/*
 int	main(void)
 {
 	char	*line = ft_strdup("C 1,2.4,-5  0,-1,3  12.34");
