@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 19:54:58 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/19 21:28:35 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/20 02:05:24 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,18 +42,18 @@ t_obj	*object_from_line(const char *line)
 	elem = element_line(line);
 	if (elem == INVALID || elem == EMPTY)
 		return (NULL);
-	// if (elem == AMBIENT)
-	// 	return (object_ambient_line(line));
+	if (elem == AMBIENT)
+		return (object_ambient_line(line));
 	if (elem == CAMERA)
 		return (object_camera_line(line));
-	// if (elem == LIGHT)
-	// 	return (object_light_line(line));
-	// if (elem == PLANE)
-	// 	return (object_plane_line(line));
-	// if (elem == SPHERE)
-	// 	return (object_sphere_line(line));
-	// if (elem == CYLINDER)
-	// 	return (object_cylinder_line(line));
+	if (elem == LIGHT)
+		return (object_light_line(line));
+	if (elem == PLANE)
+		return (object_plane_line(line));
+	if (elem == SPHERE)
+		return (object_sphere_line(line));
+	if (elem == CYLINDER)
+		return (object_cylinder_line(line));
 	return (NULL);
 }
 
@@ -62,8 +62,13 @@ t_obj	*object_from_line(const char *line)
 //check file formatting
 //take file input line by line
 //make elements and put into objects and add to object list
-void	parse_input_file(const char *filename)
+void	parse_input_file(t_program *program, const char *filename)
 {
-	has_valid_formatting(filename);
+	if (valid_file_extension(filename) == 0)
+		error_file_exit(program, "EXTENSION");
+	if (valid_file_contents(filename) == 0)
+		error_file_exit(program, "CONTENT");
+	if (valid_file_formatting(filename) == 0)
+		error_file_exit(program, "FORMATTING");
 
 }

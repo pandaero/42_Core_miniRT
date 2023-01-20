@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/20 00:08:42 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/20 02:07:21 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -318,8 +318,6 @@ typedef struct s_program
 }				t_program;
 
 // ================================ INPUT HANDLING =============================
-//Function checks whether the filename has the input extension.
-int			has_extension(const char *str, const char *ext);
 //Function skips to the first non-space character within a char string.
 int			skip_spacing(const char *str);
 //Function checks whether a character is a spacing character.
@@ -359,10 +357,12 @@ int			valid_cylinder(const char *str);
 int			valid_elements(t_objlist *objlist);
 //Function checks an input line for validity.
 int			check_valid_line(const char *line);
+//Function checks whether the filename has the required input extension.
+int			valid_file_extension(const char *str, const char *ext);
 //Function checks file contents against forbidden characters.
-int			has_valid_contents(const char *filename);
+int			valid_file_contents(const char *filename);
 //Function checks whether the formatting of an input file is correct.
-int			has_valid_formatting(const char *filename);
+int			valid_file_formatting(const char *filename);
 
 // ================================ OBJECT CREATION ============================
 //Function gets a colour value from an input string. ("0-255,0-255,0-255")

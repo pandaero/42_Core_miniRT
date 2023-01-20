@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   file.c                                             :+:      :+:    :+:   */
+/*   valid_5.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 14:05:18 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/19 19:53:30 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/20 02:04:43 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-//Function checks whether the filename has the input extension.
-int	has_extension(const char *str, const char *ext)
+//Function checks whether the filename has the required input extension.
+int	valid_file_extension(const char *str, const char *ext)
 {
 	char	*extension;
 	int		i;
@@ -42,7 +42,7 @@ int	has_extension(const char *str, const char *ext)
 }
 
 //Function checks file contents against forbidden characters.
-int	has_valid_contents(const char *filename)
+int	valid_file_contents(const char *filename)
 {
 	char	*line;
 	int		ii[2];
@@ -70,14 +70,14 @@ int	has_valid_contents(const char *filename)
 }
 
 //Function frees the pointers used in the file valid formatting loop.
-static void	free_valid_formatting(char *line, char *clean)
+static void	free_valid_file_formatting(char *line, char *clean)
 {
 	free(line);
 	free(clean);
 }
 
 //Function checks whether the formatting of an input file is correct.
-int	has_valid_formatting(const char *filename)
+int	valid_file_formatting(const char *filename)
 {
 	t_valid_formatting	strct;
 
@@ -94,10 +94,10 @@ int	has_valid_formatting(const char *filename)
 		strct.clean = replace_spacing(strct.line);
 		if (check_valid_line(strct.clean) == 0)
 		{
-			free_valid_formatting(strct.line, strct.clean);
+			free_valid_file_formatting(strct.line, strct.clean);
 			return (0);
 		}
-		free_valid_formatting(strct.line, strct.clean);
+		free_valid_file_formatting(strct.line, strct.clean);
 		strct.line = get_next_line(strct.fd);
 	}
 	close(strct.fd);
