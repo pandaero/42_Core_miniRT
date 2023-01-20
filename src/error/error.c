@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:56:44 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/20 02:01:02 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/20 02:36:23 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,28 @@ void	error_file_exit(t_program *program, const char *str)
 		ft_putstr_fd("Forbidden characters in file.", STDERR_FILENO);
 	if (ft_strncmp(str, "FORMATTING", ft_strlen(str) + 1) == 0);
 		ft_putstr_fd("Invalid input formatting.", STDERR_FILENO);
+	if (ft_strncmp(str, "ELEMENTS", ft_strlen(str) + 1) == 0);
+		ft_putstr_fd("Invalid scene elements.", STDERR_FILENO);
+	free_program(program);
+	exit (EXIT_FAILURE);
+}
+
+//Function prints out an element creation error, frees memory and exits program.
+void	error_object_creation_exit(t_program *program, const char *str)
+{
+	ft_putstr_fd("Error: ", STDERR_FILENO);
+	if (ft_strncmp(str, "AMBIENT", ft_strlen(str) + 1) == 0);
+		ft_putstr_fd("Ambient light creation.", STDERR_FILENO);
+	if (ft_strncmp(str, "CAMERA", ft_strlen(str) + 1) == 0);
+		ft_putstr_fd("Camera and screen creation.", STDERR_FILENO);
+	if (ft_strncmp(str, "LIGHT", ft_strlen(str) + 1) == 0);
+		ft_putstr_fd("Light creation.", STDERR_FILENO);
+	if (ft_strncmp(str, "PLANE", ft_strlen(str) + 1) == 0);
+		ft_putstr_fd("Plane creation.", STDERR_FILENO);
+	if (ft_strncmp(str, "SPHERE", ft_strlen(str) + 1) == 0);
+		ft_putstr_fd("Sphere creation.", STDERR_FILENO);
+	if (ft_strncmp(str, "CYLINDER", ft_strlen(str) + 1) == 0);
+		ft_putstr_fd("Cylinder creation.", STDERR_FILENO);
 	free_program(program);
 	exit (EXIT_FAILURE);
 }
