@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:56:44 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/20 02:56:40 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/20 03:22:18 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,22 @@ void	error_object_creation_exit(t_program *program, const char *str)
 		ft_putstr_fd("Sphere creation.\n", STDERR_FILENO);
 	if (ft_strncmp(str, "CYLINDER", ft_strlen(str) + 1) == 0);
 		ft_putstr_fd("Cylinder creation.\n", STDERR_FILENO);
+	free_program(program);
+	exit (EXIT_FAILURE);
+}
+
+//Function prints error for file open, frees program memory and exits.
+void	error_file_open_exit(t_program *program)
+{
+	ft_putstr_fd("Error: Couldn't open file.\n", STDERR_FILENO);
+	free_program(program);
+	exit (EXIT_FAILURE);
+}
+
+//Function prints error MLX, frees program memory and exits.
+void	error_mlx_exit(t_program *program)
+{
+	ft_putstr_fd("Error: Couldn't initialise MLX.\n", STDERR_FILENO);
 	free_program(program);
 	exit (EXIT_FAILURE);
 }

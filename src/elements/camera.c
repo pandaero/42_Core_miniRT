@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 22:36:44 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/19 22:56:22 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/20 04:08:06 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,19 @@ t_camera	*camera_line(const char *str)
 	new->view_dir = direction_str(split[2]);
 	free_split(split);
 	return (new);
+}
+
+//Function locates the camera from the program structure.
+t_camera	*camera_program(t_program *program)
+{
+	t_obj	*curr;
+
+	curr = program->objlist->first->first;
+	while (curr)
+	{
+		if (curr->elem == CAMERA || curr->camera)
+			return (curr->camera);
+		curr = curr->next;
+	}
+	return (NULL);
 }

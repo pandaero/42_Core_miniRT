@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 12:02:10 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/17 14:38:39 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/20 03:06:03 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ t_objlist	*list_create(t_program *program)
 	new->num_objects = 0;
 	new->first = NULL;
 	new->last = NULL;
-	program_add_obj_list(program, new);
 	return (new);
 }
 

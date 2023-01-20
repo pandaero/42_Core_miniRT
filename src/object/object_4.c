@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 20:44:12 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/20 02:38:58 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/20 04:17:35 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,22 @@ t_obj	*object_cylinder_line(t_program *program, const char *line)
 	new->elem = CYLINDER;
 	new->cylinder = cylinder;
 	return (new);
+}
+
+//Function finds any unrendered object in the object linked list.
+t_obj	*object_unrendered_list(t_objlist *objlist)
+{
+	t_obj	*curr;
+
+	curr = program->objlist->first;
+	while (curr && program->objlist->num_unrendered > 0)
+	{
+		if (curr->unrendered == 1)
+			return (curr);
+		if (curr->next == NULL)
+			curr = program->objlist->first;
+		else
+			curr = curr->next;
+	}
+	return (NULL);
 }

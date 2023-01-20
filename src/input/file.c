@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 17:52:52 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/20 02:31:39 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/20 03:07:58 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,14 @@
 //Function takes valid input file and populates program's object list.
 void	fill_objects_file(t_program *program, const char *filename)
 {
-	char	*line;
-	int		fd;
+	t_objlist	*objlist;
+	char		*line;
+	int			fd;
 
 	fd = open(filename, O_RDONLY);
+	if (fd == -1)
+		error_file_open_exit(program);
+	program_add_obj_list(program, list_create());
 	line = get_next_line(fd);
 	while (line)
 	{
