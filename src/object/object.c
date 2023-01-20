@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:17:22 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/17 14:38:57 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/20 04:20:30 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_obj	*object_create(void)
 	new = (t_obj *)malloc(sizeof(t_obj));
 	if (!new)
 		return (NULL);
+	new->unrendered = 0;
 	new->elem = EMPTY;
 	new->point = NULL;
 	new->direction = NULL;
@@ -43,6 +44,7 @@ t_obj	*object_copy(t_obj *object)
 	new = object_create();
 	if (!new)
 		return (NULL);
+	new->unrendered = object->unrendered;
 	new->elem = object->elem;
 	new->point = point_copy(object->point);
 	new->direction = direction_copy(object->direction);

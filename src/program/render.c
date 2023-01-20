@@ -6,16 +6,13 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 02:55:08 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/20 04:17:05 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/20 04:19:22 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minirt.h"
 
 //Function performs the operations required to render the program window/screen.
-//(object list populated)
-//create screen from camera
-//calculate intersections looping through whole object list.
 void	render_screen(t_program *program)
 {
 	t_screen	*screen;

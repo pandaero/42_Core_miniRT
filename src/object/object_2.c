@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 18:52:47 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/17 14:38:43 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/20 04:21:11 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ t_obj	*object_plane(t_plane *plane)
 	new = object_create();
 	if (!new)
 		return (NULL);
+	new->unrendered = 1;
 	new->elem = PLANE;
 	new->plane = plane;
 	return (new);
@@ -72,6 +73,7 @@ t_obj	*object_sphere(t_sphere *sphere)
 	new = object_create();
 	if (!new)
 		return (NULL);
+	num->unrendered = 1;
 	new->elem = SPHERE;
 	new->sphere = sphere;
 	return (new);

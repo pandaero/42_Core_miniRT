@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 20:44:12 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/20 04:17:35 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/20 04:22:39 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ t_obj	*object_plane_line(t_program *program, const char *line)
 		free_object(new);
 		error_object_creation_exit(program, "PLANE");
 	}
+	new->unrendered = 1;
 	new->elem = PLANE;
 	new->plane = plane;
 	return (new);
@@ -47,6 +48,7 @@ t_obj	*object_sphere_line(t_program *program, const char *line)
 		free_object(new);
 		error_object_creation_exit(program, "SPHERE");
 	}
+	new->unrendered = 1;
 	new->elem = SPHERE;
 	new->sphere = sphere;
 	return (new);
@@ -67,6 +69,7 @@ t_obj	*object_cylinder_line(t_program *program, const char *line)
 		free_object(new);
 		error_object_creation_exit(program, "CYLINDER");
 	}
+	new->unrendered = 1;
 	new->elem = CYLINDER;
 	new->cylinder = cylinder;
 	return (new);
