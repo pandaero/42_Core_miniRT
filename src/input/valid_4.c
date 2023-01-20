@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 19:02:00 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/19 19:36:09 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/20 02:49:25 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,11 @@ int	valid_cylinder(const char *str)
 //Function determines whether a minimum no. of components are present in scene.
 int	valid_elements(t_objlist *objlist)
 {
-	(void) objlist;
-	return (0);
+	if (objlist_count_ambient(objlist) > 1)
+		return (0);
+	if (objlist_count_light(objlist) > 1)
+		return (0);
+	if (objlist_count_camera(objlist) > 1)
+		return (0);
+	return (1);
 }
