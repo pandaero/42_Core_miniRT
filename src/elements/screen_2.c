@@ -6,14 +6,13 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 15:21:12 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/20 06:36:16 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/20 13:42:36 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minirt.h"
 #include <stdlib.h>
 
-#include <stdio.h>
 //Function works out vectors and points required to compute screen pixels.
 void	define_screen_pts_vecs(int width, int height, t_camera *camera, \
 								t_screen *screen)
@@ -74,16 +73,12 @@ static t_pixel	*screen_px_centre(int i, int j, t_screen *screen)
 {
 	t_screen_centre	str;
 
-	ft_printf("asdf %d%d", i, j);
 	if (i == 0 && j == 0)
 		str.centre = point_copy(screen->pts->first_px);
 	else if (i == 0)
 	{
-		ft_printf("asd");
 		str.scr_r_px = vector_scale(j, screen->vecs->vec_right);
-		ft_printf("asd");
 		str.centre = point_point_vector(screen->pts->first_px, str.scr_r_px);
-		ft_printf("asd");
 		free_vector(str.scr_r_px);
 	}
 	else if (j == 0)
