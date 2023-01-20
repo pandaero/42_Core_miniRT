@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 12:02:10 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/20 03:06:03 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/20 04:30:05 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,13 @@
 #include <stdlib.h>
 
 //Function creates and initialises a new object linked list in the program.
-t_objlist	*list_create(t_program *program)
+t_objlist	*list_create(void)
 {
 	t_objlist	*new;
 
 	new = (t_objlist *)malloc(sizeof(t_objlist));
 	new->num_objects = 0;
+	new->num_unrendered = 0;
 	new->first = NULL;
 	new->last = NULL;
 	return (new);
@@ -41,6 +42,8 @@ void	list_add_object(t_objlist *list, t_obj *object)
 	list->last = object;
 	object->next = NULL;
 	list->num_objects++;
+	if (object->unrendered == 1)
+		list->num_unrendered++;
 }
 
 //Function removes an object from a linked list, freeing its memory.

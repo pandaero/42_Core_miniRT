@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/20 02:07:21 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/20 05:07:03 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct s_ray		t_ray;
 typedef struct s_obj		t_obj;
 typedef struct s_objlist	t_objlist;
 typedef struct s_pixel		t_pixel;
+typedef struct s_imgdata	t_imgdata;
 
 // =============================== FUNCTION REFACTORING ========================
 //Typedef declares variables required by the string to double conversion.
@@ -93,13 +94,6 @@ typedef struct s_valid_formatting
 }			t_valid_formatting;
 
 // ======================================= MLX =================================
-//Typedef contains MLX pointers.
-typedef struct s_mlxdata
-{
-	void	*mlx;
-	void	*window;
-}			t_mlxdata;
-
 //Typedef is a struct for an MLX image and its data.
 typedef struct s_imgdata
 {
@@ -109,6 +103,14 @@ typedef struct s_imgdata
 	int		line_len;
 	int		endian;
 }			t_imgdata;
+
+//Typedef contains MLX pointers.
+typedef struct s_mlxdata
+{
+	void		*mlx;
+	void		*window;
+	t_imgdata	*imdt;
+}			t_mlxdata;
 
 // ============================== 3D ELEMENT PROPERTIES ========================
 //Typedef defines a colour. Channels are TRGB in range 0x00000000 to 0xFFFFFFFF.
@@ -281,6 +283,7 @@ typedef struct s_Vector3
 //Typedef describes an object in a linked list.
 typedef struct s_obj
 {
+	int			unrendered;
 	t_element	elem;
 	t_colour	colour;
 	t_ambient	*ambient;
@@ -303,18 +306,16 @@ typedef struct s_objlist
 {
 	int			list_id;
 	int			num_objects;
+	int			num_unrendered;
 	t_obj		*first;
 	t_obj		*last;
-	t_objlist	*prev;
-	t_objlist	*next;
 }				t_objlist;
 
 //Typedef defines a struct for program data.
 typedef struct s_program
 {
-	int			num_obj_lists;
-	t_objlist	*first_objlist;
-	t_objlist	*last_objlist;
+	t_objlist	*objlist;
+	t_mlxdata	*mldt;
 }				t_program;
 
 // ================================ INPUT HANDLING =============================
@@ -328,6 +329,10 @@ char		*replace_spacing(const char *str);
 int			contains_newline(const char *str);
 //Function removes newline characters from a string. Returns a new string.
 char		*clean_newline(const char *str);
+//Function takes valid input file and populates program's object list.
+void		fill_objects_file(t_program *program, const char *filename);
+//Function performs the input file parsing to create program objects.
+void		parse_input_file(t_program *program, const char *filename);
 // ---------------------------------- VALIDATION -------------------------------
 //Function checks whether a character is allowed in an input .rt file.
 int			is_valid_char_rt(char ch);
@@ -449,6 +454,8 @@ t_camera	*camera_create(void);
 t_camera	*camera_input(t_point *loc, t_direction *view_dir, double hfov_deg);
 //Function creates a camera from a valid input line.
 t_camera	*camera_line(const char *str);
+//Function locates the camera from the program structure.
+t_camera	*camera_program(t_program *program);
 //Function creates and initialises a pixel.
 t_pixel		*pixel_create(void);
 //Function creates a pixel with its point coordinates.
@@ -461,6 +468,8 @@ t_scr_vec	*screen_vecs_create(void);
 t_screen	*screen_create(void);
 //Function defines a screen based on a camera element.
 t_screen	*screen_camera(int width, int height, t_camera *camera);
+//Function locates the screen from the program structure.
+t_screen	*screen_program(t_program *program);
 //Function creates and initialises an ambient light.
 t_ambient	*ambient_create(void);
 //Function creates an ambient light according to colour and ratio.
@@ -475,9 +484,9 @@ t_obj		*object_copy(t_obj *object);
 //Function creates a colour object.
 t_obj		*object_colour(t_colour colour);
 //Function creates an ambient light object from an input line.
-t_obj		*object_ambient_line(const char *line);
+t_obj		*object_ambient_line(t_program *program, const char *line);
 //Function creates a light object from a valid input line.
-t_obj		*object_light_line(const char *line);
+t_obj		*object_light_line(t_program *program, const char *line);
 //Function creates a point object.
 t_obj		*object_point(t_point *point);
 //Function creates a direction object.
@@ -489,22 +498,25 @@ t_obj		*object_ray(t_ray *ray);
 //Function creates a camera object.
 t_obj		*object_camera(t_camera *camera);
 //Function creates an ambient light object from a valid input line.
-t_obj		*object_camera_line(const char *line);
+t_obj		*object_camera_line(t_program *program, const char *line);
 //Function creates a screen object.
 t_obj		*object_screen(t_screen *screen);
 //Function creates a plane object.
 t_obj		*object_plane(t_plane *plane);
 //Function creates a plane object from a valid input line.
-t_obj		*object_plane_line(const char *line);
+t_obj		*object_plane_line(t_program *program, const char *line);
 //Function creates a sphere object.
 t_obj		*object_sphere(t_sphere *sphere);
 //Function creates a sphere object from a valid input line.
-t_obj		*object_sphere_line(const char *line);
+t_obj		*object_sphere_line(t_program *program, const char *line);
 //Function creates a cylinder object.
 t_obj		*object_cylinder(t_cylinder *cylinder);
 //Function creates a cylinder object from a valid input line.
-t_obj		*object_cylinder_line(const char *line);
-
+t_obj		*object_cylinder_line(t_program *program, const char *line);
+//Function finds any unrendered object in the object linked list.
+t_obj		*object_unrendered_list(t_objlist *objlist);
+//Function takes an input file line and creates an object.
+t_obj		*object_from_line(t_program *program, const char *line);
 // ================================ MEMORY FREEING =============================
 //Function frees a pointer, and returns a double -1.
 double		free_ret_double_minusone(void *ptr);
@@ -567,7 +579,7 @@ t_program	*program_create(void);
 //Function adds an object linked list to the program data structure.
 void		program_add_obj_list(t_program *program, t_objlist *objlist);
 //Function creates and initialises a new object linked list in the program.
-t_objlist	*list_create(t_program *program);
+t_objlist	*list_create(void);
 //Function adds an object to a linked list.
 void		list_add_object(t_objlist *list, t_obj *object);
 //Function removes an object from a linked list, freeing its memory.
@@ -588,11 +600,19 @@ double		magnitude_components(double x_comp, double y_comp, double z_comp);
 t_direction	*direction_cross(t_direction *first, t_direction *second);
 //Function returns the cross product with a positive z-axis component.
 t_direction	*direction_cross_up(t_direction *first, t_direction *second);
+//Function counts the number of ambient objects in an object list.
+int			objlist_count_ambient(t_objlist *objlist);
+//Function counts the number of light objects in an object list.
+int			objlist_count_light(t_objlist *objlist);
+//Function counts the number of camera objects in an object list.
+int			objlist_count_camera(t_objlist *objlist);
 // ---------------------------------- INTERSECTIONS ----------------------------
 //Function determines the intersection between a ray and a sphere.
 int			ray_sphere_intersection(t_ray *ray, t_sphere *sphere);
 //Function determines the intersection between a ray and a plane.
 t_intersect	*intersection_ray_plane(t_ray *ray, t_plane *plane);
+//Function works out the intersection between a ray and an object.
+t_intersect *intersection_ray_obj(t_ray *ray, t_obj *obj);
 // ------------------------------- VECTOR OPERATIONS ---------------------------
 //Function adds two vectors together.
 t_vector	*vector_add(t_vector *first, t_vector *second);
@@ -612,6 +632,8 @@ void		cylinder_colour(t_colour colour, t_cylinder *cylinder);
 // -------------------------------- MLX OPERATIONS -----------------------------
 //Function places a pixel in an image more quickly than with the pixel_put fn.
 void		quick_put_pixel(t_imgdata *data, int x, int y, int color);
+//Function produces and allocates the MLX-required variables.
+void		mlx_initialise(t_program *program);
 
 // ============================= CAMERA/VIEW PROJECTION ========================
 //Function works out the screen-up direction.
@@ -622,10 +644,24 @@ t_point		*screen_centre(double width, t_camera *camera);
 void		screen_pixel_centres(int width, int height, t_camera *camera, \
 										t_screen *screen);
 
+// =================================== RENDERING ===============================
+//Function performs a render through the screen for the input object.
+void		render_intersection_pass(t_program *program, t_obj *obj);
+//Function performs the operations required to render the program window/screen.
+void		render_screen(t_program *program);
+//Function assigns each pixel its colour.
+void		window_draw(t_program *program);
+//Function groups the MLX looping functions. Operates hooks and main loop.
+void		mlx_looping(t_program *program);
+
 // ================================= ERROR HANDLING ============================
-//Function handles cleanly an error that requires the program to exit.
-int			error_exit(t_program *program, char *str);
-//Function prints an memory allocation error message.
-void		error_malloc_print(char *str);
+//Function prints a file error, frees the program memory, and exits,
+void		error_file_exit(t_program *program, const char *str);
+//Function prints out an element creation error, frees memory and exits program.
+void		error_object_creation_exit(t_program *program, const char *str);
+//Function prints error for file open, frees program memory and exits.
+void		error_file_open_exit(t_program *program);
+//Function prints error MLX, frees program memory and exits.
+void		error_mlx_exit(t_program *program);
 
 #endif

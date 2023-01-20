@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 16:17:23 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/20 04:22:05 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/20 04:34:07 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ t_obj	*object_cylinder(t_cylinder *cylinder)
 	new = object_create();
 	if (!new)
 		return (NULL);
-	new->unrendered = 1;
 	new->elem = CYLINDER;
 	new->cylinder = cylinder;
 	return (new);

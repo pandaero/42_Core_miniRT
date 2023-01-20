@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 00:11:29 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/20 03:43:34 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/20 06:25:34 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_screen	*screen_program(t_program *program)
 {
 	t_obj	*curr;
 
-	curr = program->objlist->first->first;
+	curr = program->objlist->first;
 	while (curr)
 	{
 		if (curr->elem == SCREEN || curr->screen)

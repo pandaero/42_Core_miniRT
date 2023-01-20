@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 20:44:12 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/20 04:22:39 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/20 04:37:06 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,13 +80,13 @@ t_obj	*object_unrendered_list(t_objlist *objlist)
 {
 	t_obj	*curr;
 
-	curr = program->objlist->first;
-	while (curr && program->objlist->num_unrendered > 0)
+	curr = objlist->first;
+	while (curr && objlist->num_unrendered > 0)
 	{
 		if (curr->unrendered == 1)
 			return (curr);
 		if (curr->next == NULL)
-			curr = program->objlist->first;
+			curr = objlist->first;
 		else
 			curr = curr->next;
 	}

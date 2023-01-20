@@ -6,11 +6,12 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 19:34:19 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/20 03:33:45 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/20 05:15:18 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minirt.h"
+#include <unistd.h>
 #include <stdlib.h>
 
 //Program runs parsing routine, and renders the scene described.

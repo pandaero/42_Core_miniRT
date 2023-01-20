@@ -6,11 +6,12 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 22:33:54 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/20 03:28:21 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/20 04:42:11 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minirt.h"
+#include <stdlib.h>
 
 //Function handles the window closing action.
 int	closing(t_mlxdata *mlxvars)
@@ -45,26 +46,25 @@ void	mlx_initialise(t_program *program)
 {
 	t_mlxdata	*mxdt;
 
-	program->mlx = mxdt;
 	mxdt = (t_mlxdata *)malloc(sizeof(t_mlxdata));
 	mxdt->imdt = (t_imgdata *)malloc(sizeof(t_imgdata));
 	mxdt->mlx = mlx_init();
-	mxdt->window = mlx_new_window(mlxdata->mlx, WIN_WIDTH, WIN_HEIGHT, \
-									"miniRT");
-	mxdt->imdt->image = mlx_new_image(mlxdata->mlx, WIN_WIDTH, WIN_HEIGHT);
-	mxdt->imdt->address = mlx_get_data_addr(imdt->image, &imdt->bits_pp, \
-											&imdt->line_len, &imdt->endian);
+	mxdt->window = mlx_new_window(mxdt->mlx, WIN_WIDTH, WIN_HEIGHT,	"miniRT");
+	mxdt->imdt->image = mlx_new_image(mxdt->mlx, WIN_WIDTH, WIN_HEIGHT);
+	mxdt->imdt->address = mlx_get_data_addr(mxdt->imdt->image, \
+			&mxdt->imdt->bits_pp, &mxdt->imdt->line_len, &mxdt->imdt->endian);
 	if (!mxdt->mlx || !mxdt->window || !mxdt->imdt->image || \
 			!mxdt->imdt->address)
 		error_mlx_exit(program);
+	program->mldt = mxdt;
 }
 
 //Function groups the MLX looping functions. Operates hooks and main loop.
 void	mlx_looping(t_program *program)
 {
-	mlx_put_image_to_window(program->mlx->mlx, program->mlx->window, \
-							program->mlx->imdt->image, 0, 0);
-	mlx_hook(program->mlx->window, 17, NO_EVENT, closing, mlxdata);
-	mlx_hook(program->mlx->window, 3, KEY_RELEASE, keys, mlxdata);
-	mlx_loop(program->mlx->mlx);
+	mlx_put_image_to_window(program->mldt->mlx, program->mldt->window, \
+							program->mldt->imdt->image, 0, 0);
+	mlx_hook(program->mldt->window, 17, NO_EVENT, closing, program->mldt);
+	mlx_hook(program->mldt->window, 3, KEY_RELEASE, keys, program->mldt);
+	mlx_loop(program->mldt->mlx);
 }

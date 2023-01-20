@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 19:54:58 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/20 02:50:14 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/20 04:44:55 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,13 @@ t_obj	*object_from_line(t_program *program, const char *line)
 //Function performs the input file parsing to create program objects.
 void	parse_input_file(t_program *program, const char *filename)
 {
-	if (valid_file_extension(filename) == 0)
+	if (valid_file_extension(filename, "rt") == 0)
 		error_file_exit(program, "EXTENSION");
 	if (valid_file_contents(filename) == 0)
 		error_file_exit(program, "CONTENT");
 	if (valid_file_formatting(filename) == 0)
 		error_file_exit(program, "FORMATTING");
 	fill_objects_file(program, filename);
-	if (valid_elements(program->objlist->first) == 0)
+	if (valid_elements(program->objlist) == 0)
 		error_file_exit(program, "ELEMENTS");
 }

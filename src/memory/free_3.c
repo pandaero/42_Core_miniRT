@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 18:53:38 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/19 23:18:38 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/20 04:28:10 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,11 @@
 //Function frees the program struct.
 void	free_program(t_program *program)
 {
-	free_obj_lists(program->first_objlist);
+	free(program->mldt->mlx);
+	free(program->mldt->window);
+	free(program->mldt->imdt->image);
+	free_list(program->objlist);
 	free(program);
-}
-
-//Function frees all the object linked lists.
-void	free_obj_lists(t_objlist *first)
-{
-	t_objlist	*curr;
-
-	curr = first;
-	while (curr != NULL)
-	{
-		free_list(curr);
-		curr = curr->next;
-	}
 }
 
 //Function frees an entire object linked list.

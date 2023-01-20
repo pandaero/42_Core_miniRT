@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 22:36:44 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/20 04:08:06 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/20 05:13:30 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ t_camera	*camera_program(t_program *program)
 {
 	t_obj	*curr;
 
-	curr = program->objlist->first->first;
+	curr = program->objlist->first;
 	while (curr)
 	{
 		if (curr->elem == CAMERA || curr->camera)
