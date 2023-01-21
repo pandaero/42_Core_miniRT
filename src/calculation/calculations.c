@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:30:27 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/20 06:26:30 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/20 14:38:29 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ double	magnitude_components(double x_comp, double y_comp, double z_comp)
 	return (mag);
 }
 
-#include <stdio.h>
 //Function works out the direction component of the vector cross product.
 t_direction	*direction_cross(t_direction *first, t_direction *second)
 {
@@ -47,32 +46,22 @@ t_direction	*direction_cross(t_direction *first, t_direction *second)
 	t_direction	*unit_dir;
 
 	vec_prod = vector_create();
-	ft_printf("\nvec-cr|");
 	if (!vec_prod)
 		return (NULL);
-	ft_printf("vec-fail|");
 	vec_prod->x_comp = first->y_comp * second->z_comp - \
 			first->z_comp * second->y_comp;
-	ft_printf("vec-crx|");
 	vec_prod->y_comp = first->z_comp * second->x_comp - \
 			first->x_comp * second->z_comp;
-	ft_printf("vec-cry|");
 	vec_prod->z_comp = first->x_comp * second->y_comp - \
 			first->y_comp * second->x_comp;
-	ft_printf("vec-crz|");
 	vec_prod->mag = magnitude_components(vec_prod->x_comp, vec_prod->y_comp, \
 			vec_prod->z_comp);
-	ft_printf("vec_prodm|");
 	vec_prod->dir = direction_components(vec_prod->x_comp / vec_prod->mag, \
 										vec_prod->y_comp / vec_prod->mag, \
 										vec_prod->z_comp / vec_prod->mag);
 	unit_dir = direction_vector(vec_prod);
 	if (!unit_dir)
-		ft_printf("WTF|");
-	ft_printf("unitdir|");
-	if (!unit_dir)
 		return (free_vector_null(vec_prod));
-	printf("%f,%f,%f|%f|%f,%f,%f", vec_prod->dir->x_comp, vec_prod->dir->y_comp, vec_prod->dir->z_comp, vec_prod->x_comp, vec_prod->y_comp, vec_prod->z_comp, vec_prod->mag);
 	free_vector(vec_prod);
 	return (unit_dir);
 }
