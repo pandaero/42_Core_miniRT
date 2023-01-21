@@ -31,12 +31,14 @@ void	free_program(t_program *program)
 void	free_list(t_objlist *list)
 {
 	t_obj	*curr;
+	t_obj	*next;
 
 	curr = list->first;
 	while (curr != NULL)
 	{
+		next = curr->next;
 		free_object(curr);
-		curr = curr->next;
+		curr = next;
 	}
 	free(list);
 }

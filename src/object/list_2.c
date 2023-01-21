@@ -71,10 +71,13 @@ int	objlist_plane_check_dir(t_objlist *objlist)
 	curr = objlist->first;
 	while (curr)
 	{
-		if (curr->plane || curr->elem == PLANE)
+		if (curr->elem == PLANE)
 		{
-			if (!curr->plane->normal)
-				return (0);
+			if (curr->plane)
+			{
+				if (!curr->plane->normal)
+					return (0);
+			}			
 		}
 		curr = curr->next;
 	}
@@ -89,10 +92,13 @@ int	objlist_cylinder_check_dir(t_objlist *objlist)
 	curr = objlist->first;
 	while (curr)
 	{
-		if (curr->cylinder || curr->elem == CYLINDER)
+		if (curr->elem == CYLINDER)
 		{
-			if (!curr->cylinder->orientation)
-				return (0);
+			if (curr->cylinder)
+			{
+				if (!curr->cylinder->orientation)
+					return (0);
+			}
 		}
 		curr = curr->next;
 	}

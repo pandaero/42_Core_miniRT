@@ -38,16 +38,34 @@ int	valid_cylinder(const char *str)
 int	valid_elements(t_objlist *objlist)
 {
 	if (objlist_count_ambient(objlist) != 1)
+	{
+		ft_printf("Ambient count\n");
 		return (0);
+	}
 	if (objlist_count_light(objlist) > 1)
+	{
+		ft_printf("Light count\n");
 		return (0);
+	}
 	if (objlist_count_camera(objlist) != 1)
+	{
+		ft_printf("Camera count\n");
 		return (0);
+	}
 	if (!camera_objlist(objlist)->view_dir)
+	{
+		ft_printf("Camera direction\n");
 		return (0);
+	}
 	if (objlist_plane_check_dir(objlist) == 0)
+	{
+		ft_printf("Plane normal\n");
 		return (0);
+	}
 	if (objlist_cylinder_check_dir(objlist) == 0)
+	{
+		ft_printf("Cyl Orient\n");
 		return (0);
+	}
 	return (1);
 }

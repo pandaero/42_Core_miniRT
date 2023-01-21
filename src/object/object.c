@@ -23,6 +23,8 @@ t_obj	*object_create(void)
 		return (NULL);
 	new->unrendered = 0;
 	new->elem = EMPTY;
+	new->ambient = NULL;
+	new->light = NULL;
 	new->point = NULL;
 	new->direction = NULL;
 	new->vector = NULL;
