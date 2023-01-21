@@ -44,7 +44,7 @@ void	error_file_exit(t_program *program, const char *str)
 {
 	ft_putstr_fd("Error: ", STDERR_FILENO);
 	if (ft_strncmp(str, "EXTENSION", ft_strlen(str) + 1) == 0)
-		ft_putstr_fd("Incorrect file extension.\n\n", STDERR_FILENO);
+		ft_putstr_fd("Incorrect file extension.\n", STDERR_FILENO);
 	if (ft_strncmp(str, "CONTENT", ft_strlen(str) + 1) == 0)
 		ft_putstr_fd("Forbidden characters in file.\n", STDERR_FILENO);
 	if (ft_strncmp(str, "FORMATTING", ft_strlen(str) + 1) == 0)

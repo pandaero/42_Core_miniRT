@@ -22,7 +22,8 @@ void	free_program(t_program *program)
 		free(program->mldt->window);
 		free(program->mldt->imdt->image);
 	}
-	free_list(program->objlist);
+	if (program->objlist)
+		free_list(program->objlist);
 	free(program);
 }
 

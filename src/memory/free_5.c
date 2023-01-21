@@ -37,7 +37,7 @@ void	free_intersection(t_intersect *intersection)
 //Function frees a pixel.
 void	free_pixel(t_pixel *pixel)
 {
-	if (pixel->intrsct->state == 1)
+	if (pixel->intrsct)
 		free_intersection(pixel->intrsct);
 	free_point(pixel->point);
 	free(pixel);
