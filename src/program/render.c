@@ -12,7 +12,7 @@
 
 #include "../../include/minirt.h"
 
-//Function performs the operations required to render the program window/screen.
+//Function creates a screen from camera, then loops rendering through objlist.
 void	render_screen(t_program *program)
 {
 	t_screen	*screen;
