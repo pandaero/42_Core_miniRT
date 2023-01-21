@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 22:33:54 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/20 04:42:11 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/21 03:07:30 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	mlx_initialise(t_program *program)
 	mxdt = (t_mlxdata *)malloc(sizeof(t_mlxdata));
 	mxdt->imdt = (t_imgdata *)malloc(sizeof(t_imgdata));
 	mxdt->mlx = mlx_init();
-	mxdt->window = mlx_new_window(mxdt->mlx, WIN_WIDTH, WIN_HEIGHT,	"miniRT");
+	mxdt->window = mlx_new_window(mxdt->mlx, WIN_WIDTH, WIN_HEIGHT, "miniRT");
 	mxdt->imdt->image = mlx_new_image(mxdt->mlx, WIN_WIDTH, WIN_HEIGHT);
 	mxdt->imdt->address = mlx_get_data_addr(mxdt->imdt->image, \
 			&mxdt->imdt->bits_pp, &mxdt->imdt->line_len, &mxdt->imdt->endian);
