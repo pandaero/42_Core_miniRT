@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/20 05:07:03 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/21 03:04:54 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # define WIN_WIDTH 800
 # define WIN_HEIGHT 600
 // Factor for screen-pixel coordinate sizing. 
-# define VIEW_SCALING 0.1
+# define VIEW_SCALING 1
 // Colours
 # define BLACK 0x00000000
 # define WHITE 0x00FFFFFF
@@ -246,7 +246,7 @@ typedef struct s_screen
 	t_scr_vec	*vecs;
 	t_scr_pts	*pts;
 	t_pixel		***pixels;
-}			t_screen;
+}				t_screen;
 
 // ================================= SCENE ELEMENTS ============================
 //Typedef describes ambient lighting.
@@ -262,7 +262,7 @@ typedef struct s_camera
 	double		horiz_fov;
 	t_point		*location;
 	t_direction	*view_dir;
-}			t_camera;
+}				t_camera;
 
 //Typedef describes a spot light.
 typedef struct s_light
@@ -456,6 +456,8 @@ t_camera	*camera_input(t_point *loc, t_direction *view_dir, double hfov_deg);
 t_camera	*camera_line(const char *str);
 //Function locates the camera from the program structure.
 t_camera	*camera_program(t_program *program);
+//Function locates the camera from an object list.
+t_camera	*camera_objlist(t_objlist *objlist);
 //Function creates and initialises a pixel.
 t_pixel		*pixel_create(void);
 //Function creates a pixel with its point coordinates.
@@ -606,13 +608,17 @@ int			objlist_count_ambient(t_objlist *objlist);
 int			objlist_count_light(t_objlist *objlist);
 //Function counts the number of camera objects in an object list.
 int			objlist_count_camera(t_objlist *objlist);
+//Function cycles through plane objects checking that direction is non-null.
+int			objlist_plane_check_dir(t_objlist *objlist);
+//Function cycles through cylinder objects checking that direction is non-null.
+int			objlist_cylinder_check_dir(t_objlist *objlist);
 // ---------------------------------- INTERSECTIONS ----------------------------
 //Function determines the intersection between a ray and a sphere.
 int			ray_sphere_intersection(t_ray *ray, t_sphere *sphere);
 //Function determines the intersection between a ray and a plane.
 t_intersect	*intersection_ray_plane(t_ray *ray, t_plane *plane);
 //Function works out the intersection between a ray and an object.
-t_intersect *intersection_ray_obj(t_ray *ray, t_obj *obj);
+t_intersect	*intersection_ray_obj(t_ray *ray, t_obj *obj);
 // ------------------------------- VECTOR OPERATIONS ---------------------------
 //Function adds two vectors together.
 t_vector	*vector_add(t_vector *first, t_vector *second);
