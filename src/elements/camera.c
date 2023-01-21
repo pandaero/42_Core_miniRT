@@ -52,7 +52,6 @@ t_camera	*camera_line(const char *str)
 	if (contains_newline(split[3]) == 1)
 	{
 		clean = clean_newline(split[3]);
-		ft_printf("%s\n", clean);
 		new->horiz_fov = ft_atof(clean);
 		free(clean);
 	}
