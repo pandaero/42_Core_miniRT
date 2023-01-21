@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 16:14:07 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/19 17:13:02 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/21 03:08:49 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ void	free_intersection(t_intersect *intersection)
 //Function frees a pixel.
 void	free_pixel(t_pixel *pixel)
 {
-	// if (pixel->intrsct->state == 1)
-	// 	free_intersection(pixel->intrsct);
+	if (pixel->intrsct->state == 1)
+		free_intersection(pixel->intrsct);
 	free_point(pixel->point);
 	free(pixel);
 }
