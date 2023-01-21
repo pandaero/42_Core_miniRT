@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 22:36:44 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/20 05:13:30 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/21 02:25:15 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,21 @@ t_camera	*camera_program(t_program *program)
 	t_obj	*curr;
 
 	curr = program->objlist->first;
+	while (curr)
+	{
+		if (curr->elem == CAMERA || curr->camera)
+			return (curr->camera);
+		curr = curr->next;
+	}
+	return (NULL);
+}
+
+//Function locates the camera from an object list.
+t_camera	*camera_objlist(t_objlist *objlist)
+{
+	t_obj	*curr;
+
+	curr = objlist->first;
 	while (curr)
 	{
 		if (curr->elem == CAMERA || curr->camera)

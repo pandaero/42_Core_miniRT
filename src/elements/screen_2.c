@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 15:21:12 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/20 13:42:36 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/20 18:21:12 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,10 @@ void	define_screen_pts_vecs(int width, int height, t_camera *camera, \
 	t_scr_pts	*pts;
 	t_scr_vec	*vec;
 
-	pts = (t_scr_pts *)malloc(sizeof(t_scr_pts));
-	vec = (t_scr_vec *)malloc(sizeof(t_scr_vec));
+	screen->pts = (t_scr_pts *)malloc(sizeof(t_scr_pts));
+	screen->vecs = (t_scr_vec *)malloc(sizeof(t_scr_vec));
+	pts = screen->pts;
+	vec = screen->vecs;
 	pts->centre = screen_centre(width, camera);
 	vec->normal = direction_copy(camera->view_dir);
 	vec->screen_up = screen_up(camera);
@@ -38,8 +40,6 @@ void	define_screen_pts_vecs(int width, int height, t_camera *camera, \
 	vec->vec_screen_rd = vector_add(vec->vec_right, vec->vec_down);
 	vec->vec_screen_rd_0th = vector_scale(0.5, vec->vec_screen_rd);
 	pts->first_px = point_point_vector(pts->tl_corner, vec->vec_screen_rd_0th);
-	pts = screen->pts;
-	vec = screen->vecs;
 }
 
 //Function allocates memory for a 2D array of pixels.
@@ -110,7 +110,6 @@ void	screen_pixel_centres(int width, int height, t_camera *camera, \
 		px[ii[0]] = (t_pixel **)malloc((width) * sizeof(t_pixel *));
 		while (ii[1] < width)
 		{
-			ft_printf(" %d, %d |", ii[0], ii[1]);
 			px[ii[0]][ii[1]] = screen_px_centre(ii[0], ii[1], screen);
 			ii[1]++;
 		}
