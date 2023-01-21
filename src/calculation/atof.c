@@ -88,7 +88,8 @@ double	ft_atof(const char *str)
 			free_ret_double_minusone(vars);
 	}
 	int_digs(str, vars);
-	frac_digs(str, vars);
+	if (contains_decimal(str) == 1)
+		frac_digs(str, vars);
 	if (vars->non_zero_out == 0)
 		free_ret_double_minusone(vars);
 	ret = vars->sign * (vars->int_digs + vars->frac_digs);

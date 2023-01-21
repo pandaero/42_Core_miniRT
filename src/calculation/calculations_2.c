@@ -76,3 +76,18 @@ t_vector	*vector_cross(t_vector *first, t_vector *second)
 	vec_prod->dir->z_comp = vec_prod->z_comp / vec_prod->mag;
 	return (vec_prod);
 }
+
+//Function determines whether a string contains a decima point character.
+int	contains_decimal(const char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		if (str[i] == '.')
+			return (1);
+		i++;
+	}
+	return (0);
+}

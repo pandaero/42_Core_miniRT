@@ -327,6 +327,8 @@ int			is_space(char ch);
 char		*replace_spacing(const char *str);
 //Function determines whether a string contains a newline character.
 int			contains_newline(const char *str);
+//Function determines whether a string contains a decima point character.
+int			contains_decimal(const char *str);
 //Function removes newline characters from a string. Returns a new string.
 char		*clean_newline(const char *str);
 //Function takes valid input file and populates program's object list.

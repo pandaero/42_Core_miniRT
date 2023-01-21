@@ -69,7 +69,7 @@ char	*replace_spacing(const char *str)
 }
 
 //Function performs the filling of the new string in the clean_newline function.
-void	assist_clean_newline(const char *str, char *new)
+static void	assist_clean_newline(const char *str, char *new)
 {
 	int	i;
 	int	j;
