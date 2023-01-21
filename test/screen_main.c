@@ -3,8 +3,9 @@
 #include "test.h"
 #include <stdio.h>
 
-/*Test for screen_up
-//From root: cc -Wall -Werror -Wextra test/screen_main.c src/ *.c test/test.c libft/libft.a -lm
+//Test for screen_up
+//From root - linux: cc -Wall -Werror -Wextra test/screen_main.c test/test.c src/*/* libft/libft.a minilibx-linux/libmlx.a -lm -lX11 -lXext
+/*
 int	main(void)
 {
 	t_camera	*camera;
@@ -29,8 +30,9 @@ int	main(void)
 }
 //*/
 
-//*Test for screen_pixel_centres
-//From root: cc -Wall -Werror -Wextra test/screen_main.c src/object/* src/calculation/* src/elements/* src/memory/* src/program/* test/test.c libft/libft.a -lm
+//Test for screen_pixel_centres
+//From root - linux: cc -Wall -Werror -Wextra test/screen_main.c test/test.c src/*/* libft/libft.a minilibx-linux/libmlx.a -lm -lX11 -lXext
+//*
 int	main(void)
 {
 	int			width = 4;
@@ -41,13 +43,11 @@ int	main(void)
 	t_camera	*cam = camera_input(cam_loc, cam_view_dir, hfov);
 	free_point(cam_loc);
 	free_direction(cam_view_dir);
-	t_screen	*screen = screen_camera(width, height, cam);
 
-	// Print scene elements
-	printf("Set-Up: \n");
 	// Print camera point, direction, and hfov.
 	t_obj	*obj_cam = object_camera(cam);
 	object_print(obj_cam);
+	t_screen	*screen = screen_camera(width, height, cam);
 	// Print screen characteristics
 	t_obj	*obj_screen = object_screen(screen);
 	object_print(obj_screen);
