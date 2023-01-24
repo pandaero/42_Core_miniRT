@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 19:02:00 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/24 16:28:33 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/24 19:02:21 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,34 +38,16 @@ int	valid_cylinder(const char *str)
 int	valid_elements(t_objlist *objlist)
 {
 	if (objlist_count_ambient(objlist) != 1)
-	{
-		ft_printf("Ambient count\n");
 		return (0);
-	}
 	if (objlist_count_diffuse(objlist) > 1)
-	{
-		ft_printf("Light count\n");
 		return (0);
-	}
 	if (objlist_count_camera(objlist) != 1)
-	{
-		ft_printf("Camera count\n");
 		return (0);
-	}
 	if (!camera_objlist(objlist)->view_dir)
-	{
-		ft_printf("Camera direction\n");
 		return (0);
-	}
 	if (objlist_plane_check_dir(objlist) == 0)
-	{
-		ft_printf("Plane normal\n");
 		return (0);
-	}
 	if (objlist_cylinder_check_dir(objlist) == 0)
-	{
-		ft_printf("Cyl Orient\n");
 		return (0);
-	}
 	return (1);
 }

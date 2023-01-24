@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 02:55:08 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/24 16:35:27 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/24 18:58:49 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,27 +31,27 @@ void	render_screen(t_program *program)
 void	render_intersection_pass(t_program *program, t_obj *object)
 {
 	t_direction	*dir;
+	t_screen	*scr;
 	t_ray		*ray;
-	int			i;
-	int			j;
+	int			ii[2];
 
-	i = 0;
-	while (i < WIN_HEIGHT)
+	scr = screen_program(program);
+	ii[0] = 0;
+	while (ii[0] < WIN_HEIGHT)
 	{
-		j = 0;
-		while (j < WIN_WIDTH)
+		ii[1] = 0;
+		while (ii[1] < WIN_WIDTH)
 		{
 			dir = direction_two_points(camera_program(program)->location, \
-								screen_program(program)->pixels[i][j]->point);
-			ray = ray_start_dir(screen_program(program)->pixels[i][j]->point, \
-								dir);
-			screen_program(program)->pixels[i][j]->intrsct = \
-				intersection_ray_obj(program->objlist, ray, object);
+								scr->pixels[ii[0]][ii[1]]->point);
+			ray = ray_start_dir(scr->pixels[ii[0]][ii[1]]->point, dir);
+			scr->pixels[ii[0]][ii[1]]->intrsct = intersection_ray_obj(\
+					program->objlist, ray, object);
 			free_direction(dir);
 			free_ray(ray);
-			j++;
+			ii[1]++;
 		}
-		i++;
+		ii[0]++;
 	}
 	object->unrendered = 0;
 	program->objlist->num_unrendered--;

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   light.c                                            :+:      :+:    :+:   */
+/*   diffuse.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 21:55:26 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/19 23:03:12 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/24 19:00:26 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ t_diffuse	*diffuse_copy(t_diffuse *light)
 t_diffuse	*diffuse_line(const char *line)
 {
 	t_diffuse	*new;
-	char	**split;
-	char	*clean;
+	char		**split;
+	char		*clean;
 
 	new = diffuse_create();
 	if (!new)

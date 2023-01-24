@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:54:59 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/01/24 17:14:35 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/24 19:03:52 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ t_point	*get_intersection_point(t_ray *ray, double t)
 }
 
 //Function works out an intersection between a ray and a plane object.
-t_intersect	*intersection_ray_plane(t_objlist *objlist, t_ray *ray, t_obj *obj_plane)
+t_intersect	*intersection_ray_plane(t_objlist *objlist, t_ray *ray, \
+										t_obj *obj_plane)
 {
 	t_intersect	*intersection;
 	t_vector	*ray_dir_vec;
@@ -44,7 +45,8 @@ t_intersect	*intersection_ray_plane(t_objlist *objlist, t_ray *ray, t_obj *obj_p
 		{
 			intersection = intersect_create();
 			intersection->object = obj_plane;
-			intersection->point = get_intersection_point(ray, fabs(ip.inter_dist));
+			intersection->point = get_intersection_point(ray, \
+														fabs(ip.inter_dist));
 			intersection->colour = colour_lighting(objlist, intersection);
 			intersection->distance = ip.inter_dist;
 			intersection->state = 1;
