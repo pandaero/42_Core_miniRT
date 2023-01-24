@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/24 20:31:12 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/24 20:47:14 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -652,8 +652,15 @@ double		vector_dot(t_vector *first, t_vector *second);
 t_colour	colour_ambient(t_colour colour, t_ambient *ambient);
 //Function assigns a colour to an existing cylinder.
 void		cylinder_colour(t_colour colour, t_cylinder *cylinder);
+//Function determines the colour of an object.
+t_colour	colour_object(t_obj *object);
 //Function works out the lighting of an intersection based on objects.
 t_colour	colour_lighting(t_objlist *objlist, t_intersect *intersect);
+//Function works out the lighting effect of a diffuse light on a point. Linear.
+t_colour	colour_diffuse_linear(t_diffuse *difflight, t_point *point);
+//Function works out the lighting effect of a diffuse light on a point. Inv. Sq.
+t_colour	colour_diffuse_inverse_square(t_diffuse *difflight, t_point *point);
+
 // -------------------------------- MLX OPERATIONS -----------------------------
 //Function places a pixel in an image more quickly than with the pixel_put fn.
 void		quick_put_pixel(t_imgdata *data, int x, int y, int color);
