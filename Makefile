@@ -6,7 +6,7 @@
 #    By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/16 18:36:19 by pandalaf          #+#    #+#              #
-#    Updated: 2023/01/18 11:56:41 by pandalaf         ###   ########.fr        #
+#    Updated: 2023/01/20 05:05:07 by pandalaf         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,12 +16,12 @@ NAME	:= minirt
 # Compiler options
 CC		:= cc
 CFLAGS	:= -Wall -Werror -Wextra
-COPT	:= -g -fsanitize=address
+COPT	:= -g #-fsanitize=address
 
 # Sources
 SRC_ROOT	:= src/
 SRC_SUBDIRS	:= calculation/ elements/ error/ intersection/ memory/ object/ \
-				program/
+				program/ input/
 SRC_DIR		:= $(addprefix $(SRC_ROOT), $(SRC_SUBDIRS))
 SRCS		:= $(foreach subdir, $(SRC_DIR), $(wildcard $(subdir)*.c)) \
 				$(addprefix $(SRC_ROOT), main.c)

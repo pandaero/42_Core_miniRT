@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 17:12:04 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/17 14:37:03 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/19 22:54:53 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,21 @@ t_point	*point_point_vector(t_point *start, t_vector *vector)
 	new->y_co = start->y_co + vector->y_comp;
 	new->z_co = start->z_co + vector->z_comp;
 	return (new);
+}
+
+//Function creates a point from a valid input string.
+t_point	*point_str(const char *str)
+{
+	t_point	*point;
+	char	**split;
+
+	point = point_create();
+	if (!point)
+		return (NULL);
+	split = ft_split(str, ',');
+	point->x_co = ft_atof(split[0]);
+	point->y_co = ft_atof(split[1]);
+	point->z_co = ft_atof(split[2]);
+	free_split(split);
+	return (point);
 }

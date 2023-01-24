@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:30:27 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/17 18:43:27 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/20 14:38:29 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,16 +50,15 @@ t_direction	*direction_cross(t_direction *first, t_direction *second)
 		return (NULL);
 	vec_prod->x_comp = first->y_comp * second->z_comp - \
 			first->z_comp * second->y_comp;
-	vec_prod->y_comp = -1 * first->x_comp * second->z_comp + \
-			first->z_comp * second->x_comp;
+	vec_prod->y_comp = first->z_comp * second->x_comp - \
+			first->x_comp * second->z_comp;
 	vec_prod->z_comp = first->x_comp * second->y_comp - \
 			first->y_comp * second->x_comp;
 	vec_prod->mag = magnitude_components(vec_prod->x_comp, vec_prod->y_comp, \
 			vec_prod->z_comp);
-	vec_prod->dir = direction_create();
-	vec_prod->dir->x_comp = vec_prod->x_comp / vec_prod->mag;
-	vec_prod->dir->y_comp = vec_prod->y_comp / vec_prod->mag;
-	vec_prod->dir->z_comp = vec_prod->z_comp / vec_prod->mag;
+	vec_prod->dir = direction_components(vec_prod->x_comp / vec_prod->mag, \
+										vec_prod->y_comp / vec_prod->mag, \
+										vec_prod->z_comp / vec_prod->mag);
 	unit_dir = direction_vector(vec_prod);
 	if (!unit_dir)
 		return (free_vector_null(vec_prod));
@@ -78,7 +77,10 @@ t_direction	*direction_cross_up(t_direction *first, t_direction *second)
 		return (NULL);
 	cross2 = direction_cross(second, first);
 	if (!cross2)
+	{
+		free_direction(cross1);
 		return (NULL);
+	}
 	if (cross1->z_comp > 0)
 	{
 		free_direction(cross2);
@@ -90,5 +92,6 @@ t_direction	*direction_cross_up(t_direction *first, t_direction *second)
 		return (cross2);
 	}
 	else
-		return (NULL);
+		free_direction(cross1);
+	return (cross2);
 }

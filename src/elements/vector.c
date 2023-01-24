@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 17:02:49 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/17 14:37:36 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/21 03:09:47 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,17 @@ t_vector	*vector_scale_direction(double scalar, t_direction *dir)
 {
 	t_vector	*new;
 
+	if (scalar == 0 || (dir->x_comp == 0 && dir->y_comp == 0 && \
+			dir->z_comp == 0))
+		return (NULL);
 	new = vector_create();
-	new->mag = scalar;
+	if (!new)
+		return (NULL);
+	new->mag = fabs(scalar);
 	new->dir = direction_copy(dir);
-	new->x_comp = scalar * dir->x_comp;
-	new->y_comp = scalar * dir->y_comp;
-	new->z_comp = scalar * dir->z_comp;
+	new->x_comp = scalar * new->dir->x_comp;
+	new->y_comp = scalar * new->dir->y_comp;
+	new->z_comp = scalar * new->dir->z_comp;
 	return (new);
 }
 
