@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/24 18:46:54 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/24 20:31:12 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -388,6 +388,8 @@ t_point		*point_copy(t_point *point);
 t_point		*point_coords(double x_coord, double y_coord, double z_coord);
 //Function creates a point resulting from a vector and a starting point.
 t_point		*point_point_vector(t_point *start, t_vector *vector);
+//Function works out a point along a distance through a ray.
+t_point		*point_ray_distance(t_ray *ray, double distance);
 //Function creates a point from a valid input string.
 t_point		*point_str(const char *str);
 //Function creates and initialises a direction.
