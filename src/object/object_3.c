@@ -78,22 +78,23 @@ t_obj	*object_camera_line(t_program *program, const char *line)
 	return (new);
 }
 
-//Function creates a light object from a valid input line.
-t_obj	*object_light_line(t_program *program, const char *line)
+//Function creates a diffuse light object from a valid input line.
+t_obj	*object_diffuse_line(t_program *program, \
+								const char *line)
 {
-	t_obj	*new;
-	t_light	*light;
+	t_obj		*new;
+	t_diffuse	*light;
 
 	new = object_create();
 	if (!new)
 		return (NULL);
-	light = light_line(line);
+	light = diffuse_line(line);
 	if (!light)
 	{
 		free_object(new);
 		error_object_creation_exit(program, "LIGHT");
 	}
-	new->elem = LIGHT;
-	new->light = light;
+	new->elem = DIFFUSE;
+	new->diffuse = light;
 	return (new);
 }

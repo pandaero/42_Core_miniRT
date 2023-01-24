@@ -24,7 +24,7 @@ t_obj	*object_create(void)
 	new->unrendered = 0;
 	new->elem = EMPTY;
 	new->ambient = NULL;
-	new->light = NULL;
+	new->diffuse = NULL;
 	new->point = NULL;
 	new->direction = NULL;
 	new->vector = NULL;

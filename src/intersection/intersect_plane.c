@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:54:59 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/01/18 14:52:02 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/24 17:14:35 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ t_point	*get_intersection_point(t_ray *ray, double t)
 			ray->ray_orig->z_co + t * ray->ray_dir->z_comp));
 }
 
-t_intersect	*intersection_ray_plane(t_ray *ray, t_plane *plane)
+//Function works out an intersection between a ray and a plane object.
+t_intersect	*intersection_ray_plane(t_objlist *objlist, t_ray *ray, t_obj *obj_plane)
 {
 	t_intersect	*intersection;
 	t_vector	*ray_dir_vec;
@@ -30,20 +31,26 @@ t_intersect	*intersection_ray_plane(t_ray *ray, t_plane *plane)
 	t_vector	*plane_vec;
 	t_ip		ip;
 
+	(void) objlist;
 	ray_dir_vec = vector_scale_direction(1, ray->ray_dir);
-	plane_norm_vec = vector_scale_direction(1, plane->normal);
+	plane_norm_vec = vector_scale_direction(1, obj_plane->plane->normal);
 	if (fabs(vector_dot(plane_norm_vec, ray_dir_vec)) > 0)
 	{
-		plane_vec = vector_two_points(plane->point, ray->ray_orig);
+		plane_vec = vector_two_points(obj_plane->plane->point, ray->ray_orig);
 		ip.numer = vector_dot(plane_vec, plane_norm_vec);
 		free_vector(plane_vec);
 		ip.inter_dist = ip.numer / vector_dot(plane_norm_vec, ray_dir_vec);
-		if (ip.inter_dist > 0)
-			intersection = intersection_input(plane->colour, 0, ip.inter_dist, \
-			get_intersection_point(ray, ip.inter_dist));
+		if (fabs(ip.inter_dist) > 0)
+		{
+			intersection = intersect_create();
+			intersection->object = obj_plane;
+			intersection->point = get_intersection_point(ray, fabs(ip.inter_dist));
+			intersection->colour = colour_lighting(objlist, intersection);
+			intersection->distance = ip.inter_dist;
+			intersection->state = 1;
+		}
 		else
-			intersection = intersection_input(plane->colour, 1, ip.inter_dist, \
-			get_intersection_point(ray, ip.inter_dist));
+			intersection = intersect_create();
 	}
 	free_vector(ray_dir_vec);
 	free_vector(plane_norm_vec);

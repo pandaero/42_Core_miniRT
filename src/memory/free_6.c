@@ -28,10 +28,10 @@ double	free_ret_double_minusone(void *ptr)
 }
 
 //Function frees a light.
-void	free_light(t_light *light)
+void	free_diffuse(t_diffuse *diffuse)
 {
-	free_point(light->position);
-	free(light);
+	free_point(diffuse->position);
+	free(diffuse);
 }
 
 //Function frees a cylinder and returns NULL;

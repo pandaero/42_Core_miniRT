@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/21 03:04:54 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/24 17:06:20 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,9 @@
 # define WIN_WIDTH 800
 # define WIN_HEIGHT 600
 // Factor for screen-pixel coordinate sizing. 
-# define VIEW_SCALING 1
+# define VIEW_SCALING 0.1
+// Factor for diffuse lighting effect
+# define LIGHTING_FACTOR 1
 // Colours
 # define BLACK 0x00000000
 # define WHITE 0x00FFFFFF
@@ -124,7 +126,7 @@ typedef enum element
 	EMPTY,
 	COLOUR,
 	AMBIENT,
-	LIGHT,
+	DIFFUSE,
 	POINT,
 	DIRECTION,
 	VECTOR,
@@ -203,6 +205,7 @@ typedef struct s_intersect
 	double		distance;
 	t_colour	colour;
 	t_point		*point;
+	t_obj		*object;
 }				t_intersect;
 
 //Typedef describes a pixel on the screen.
@@ -264,13 +267,12 @@ typedef struct s_camera
 	t_direction	*view_dir;
 }				t_camera;
 
-//Typedef describes a spot light.
-typedef struct s_light
+//Typedef describes a diffuse point light.
+typedef struct s_diffuse
 {
 	double		ratio;
-	t_colour	colour;
 	t_point		*position;
-}				t_light;
+}				t_diffuse;
 
 typedef struct s_Vector3
 {
@@ -287,7 +289,7 @@ typedef struct s_obj
 	t_element	elem;
 	t_colour	colour;
 	t_ambient	*ambient;
-	t_light		*light;
+	t_diffuse	*diffuse;
 	t_point		*point;
 	t_direction	*direction;
 	t_vector	*vector;
@@ -351,7 +353,7 @@ int			valid_double(const char *str);
 //Function determines whether a line contains valid ambient light data.
 int			valid_ambient(const char *str);
 //Function determines whether a line contains valid light description data.
-int			valid_light(const char *str);
+int			valid_diffuse(const char *str);
 //Function determines whether a line contains valid camera data.
 int			valid_camera(const char *str);
 //Function determines whether a line contains valid plane description data.
@@ -374,8 +376,10 @@ int			valid_file_formatting(const char *filename);
 // ================================ OBJECT CREATION ============================
 //Function gets a colour value from an input string. ("0-255,0-255,0-255")
 t_colour	colour_str(const char *str);
-//Function creates a new light from a valid input line.
-t_light		*light_line(const char *line);
+//Function determines the colour of an object.
+t_colour	colour_object(t_obj *object);
+//Function creates a new diffuse from a valid input line.
+t_diffuse	*diffuse_line(const char *line);
 //Function creates and initialises a point.
 t_point		*point_create(void);
 //Function copies a defined point object's properties to a new one.
@@ -487,10 +491,14 @@ t_obj		*object_create(void);
 t_obj		*object_copy(t_obj *object);
 //Function creates a colour object.
 t_obj		*object_colour(t_colour colour);
+//Function makes an ambient light object.
+t_obj		*object_ambient(t_ambient *ambient);
 //Function creates an ambient light object from an input line.
 t_obj		*object_ambient_line(t_program *program, const char *line);
+//Function makes a diffuse point-light object.
+t_obj		*object_diffuse(t_diffuse *diffuse);
 //Function creates a light object from a valid input line.
-t_obj		*object_light_line(t_program *program, const char *line);
+t_obj		*object_diffuse_line(t_program *program, const char *line);
 //Function creates a point object.
 t_obj		*object_point(t_point *point);
 //Function creates a direction object.
@@ -533,7 +541,7 @@ void		*free_void_null(void *ptr);
 //Function frees an ambient light.
 void		free_ambient(t_ambient *ambient);
 //Function frees a light.
-void		free_light(t_light *light);
+void		free_diffuse(t_diffuse *light);
 //Function frees all the allocations belonging to a point object.
 void		free_point(t_point *point);
 //Function frees all the allocations belonging to a point object, returns NULL.
@@ -607,20 +615,25 @@ t_direction	*direction_cross_up(t_direction *first, t_direction *second);
 //Function counts the number of ambient objects in an object list.
 int			objlist_count_ambient(t_objlist *objlist);
 //Function counts the number of light objects in an object list.
-int			objlist_count_light(t_objlist *objlist);
+int			objlist_count_diffuse(t_objlist *objlist);
 //Function counts the number of camera objects in an object list.
 int			objlist_count_camera(t_objlist *objlist);
 //Function cycles through plane objects checking that direction is non-null.
 int			objlist_plane_check_dir(t_objlist *objlist);
 //Function cycles through cylinder objects checking that direction is non-null.
 int			objlist_cylinder_check_dir(t_objlist *objlist);
+//Function finds the ambient light object in an object list.
+t_ambient	*ambient_objlist(t_objlist *objlist);
+//Function finds a diffuse point-light object in an object list.
+t_diffuse	*diffuse_objlist(t_objlist *objlist);
 // ---------------------------------- INTERSECTIONS ----------------------------
 //Function determines the intersection between a ray and a sphere.
 int			ray_sphere_intersection(t_ray *ray, t_sphere *sphere);
 //Function determines the intersection between a ray and a plane.
-t_intersect	*intersection_ray_plane(t_ray *ray, t_plane *plane);
+t_intersect	*intersection_ray_plane(t_objlist *objlist, t_ray *ray, \
+										t_obj *obj_plane);
 //Function works out the intersection between a ray and an object.
-t_intersect	*intersection_ray_obj(t_ray *ray, t_obj *obj);
+t_intersect	*intersection_ray_obj(t_objlist *objlist, t_ray *ray, t_obj *obj);
 // ------------------------------- VECTOR OPERATIONS ---------------------------
 //Function adds two vectors together.
 t_vector	*vector_add(t_vector *first, t_vector *second);
@@ -637,6 +650,8 @@ double		vector_dot(t_vector *first, t_vector *second);
 t_colour	colour_ambient(t_colour colour, t_ambient *ambient);
 //Function assigns a colour to an existing cylinder.
 void		cylinder_colour(t_colour colour, t_cylinder *cylinder);
+//Function works out the lighting of an intersection based on elements and lights
+t_colour	colour_lighting(t_objlist *objlist, t_intersect *intersect);
 // -------------------------------- MLX OPERATIONS -----------------------------
 //Function places a pixel in an image more quickly than with the pixel_put fn.
 void		quick_put_pixel(t_imgdata *data, int x, int y, int color);

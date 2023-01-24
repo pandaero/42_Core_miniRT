@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 18:51:09 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/20 04:12:04 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/24 17:08:51 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,10 @@ t_intersect	*intersection_input(t_colour colour, int state, double dist, \
 }
 
 //Function works out the intersection between a ray and an object.
-t_intersect *intersection_ray_obj(t_ray *ray, t_obj *obj)
+t_intersect *intersection_ray_obj(t_objlist *objlist, t_ray *ray, t_obj *obj)
 {
 	if (obj->elem == PLANE)
-		return (intersection_ray_plane(ray, obj->plane));
+		return (intersection_ray_plane(objlist, ray, obj));
 	// if (obj->elem == SPHERE)
 	// 	return (intersection_ray_sphere(ray, obj->plane));
 	// if (obj->elem == CYLINDER)

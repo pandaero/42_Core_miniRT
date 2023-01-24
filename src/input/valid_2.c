@@ -42,7 +42,7 @@ int	check_valid_line(const char *line)
 	if (ft_strncmp(split[0], "C", 2) == 0)
 		ret = valid_camera(line);
 	if (ft_strncmp(split[0], "L", 2) == 0)
-		ret = valid_light(line);
+		ret = valid_diffuse(line);
 	if (ft_strncmp(split[0], "pl", 3) == 0)
 		ret = valid_plane(line);
 	if (ft_strncmp(split[0], "sp", 3) == 0)

@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 19:02:00 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/21 02:58:48 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/24 16:28:33 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	valid_elements(t_objlist *objlist)
 		ft_printf("Ambient count\n");
 		return (0);
 	}
-	if (objlist_count_light(objlist) > 1)
+	if (objlist_count_diffuse(objlist) > 1)
 	{
 		ft_printf("Light count\n");
 		return (0);

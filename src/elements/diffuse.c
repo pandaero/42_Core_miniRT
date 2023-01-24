@@ -13,42 +13,40 @@
 #include "../../include/minirt.h"
 #include <stdlib.h>
 
-//Function creates and initialises a new light.
-t_light	*light_create(void)
+//Function creates and initialises a new diffuse point-light.
+t_diffuse	*diffuse_create(void)
 {
-	t_light	*new;
+	t_diffuse	*new;
 
-	new = (t_light *)malloc(sizeof(t_light));
+	new = (t_diffuse *)malloc(sizeof(t_diffuse));
 	if (!new)
 		return (NULL);
 	new->ratio = 0;
-	new->colour = 0x00FFFFFF;
 	new->position = NULL;
 	return (new);
 }
 
-//Function creates a new light as a copy of another.
-t_light	*light_copy(t_light *light)
+//Function creates a new diffuse point-light as a copy of another.
+t_diffuse	*diffuse_copy(t_diffuse *light)
 {
-	t_light	*new;
+	t_diffuse	*new;
 
-	new = light_create();
+	new = diffuse_create();
 	if (!new)
 		return (NULL);
 	new->ratio = light->ratio;
-	new->colour = light->colour;
 	new->position = point_copy(light->position);
 	return (new);
 }
 
-//Function creates a new light from a valid input line.
-t_light	*light_line(const char *line)
+//Function creates a new diffuse point-light from a valid input line.
+t_diffuse	*diffuse_line(const char *line)
 {
-	t_light	*new;
+	t_diffuse	*new;
 	char	**split;
 	char	*clean;
 
-	new = light_create();
+	new = diffuse_create();
 	if (!new)
 		return (NULL);
 	if (contains_newline(line) == 1)

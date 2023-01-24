@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 02:55:08 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/21 03:12:42 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/24 16:35:27 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	render_intersection_pass(t_program *program, t_obj *object)
 			ray = ray_start_dir(screen_program(program)->pixels[i][j]->point, \
 								dir);
 			screen_program(program)->pixels[i][j]->intrsct = \
-				intersection_ray_obj(ray, object);
+				intersection_ray_obj(program->objlist, ray, object);
 			free_direction(dir);
 			free_ray(ray);
 			j++;

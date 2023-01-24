@@ -25,7 +25,7 @@ t_element	element_line(const char *line)
 	if (ft_strncmp(split[0], "C", 2) == 0)
 		ret = CAMERA;
 	if (ft_strncmp(split[0], "L", 2) == 0)
-		ret = LIGHT;
+		ret = DIFFUSE;
 	if (ft_strncmp(split[0], "pl", 3) == 0)
 		ret = PLANE;
 	if (ft_strncmp(split[0], "sp", 3) == 0)
@@ -48,8 +48,8 @@ t_obj	*object_from_line(t_program *program, const char *line)
 		return (object_ambient_line(program, line));
 	if (elem == CAMERA)
 		return (object_camera_line(program, line));
-	if (elem == LIGHT)
-		return (object_light_line(program, line));
+	if (elem == DIFFUSE)
+		return (object_diffuse_line(program, line));
 	if (elem == PLANE)
 		return (object_plane_line(program, line));
 	if (elem == SPHERE)
