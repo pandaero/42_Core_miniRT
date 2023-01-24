@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 18:48:46 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/24 19:52:16 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/24 23:00:12 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,16 @@ t_colour	colour_lighting(t_objlist *objlist, t_intersect *intersect)
 	colour += colour_diffuse_inverse_square(diffuse, intersect->point);
 	if (colour > WHITE)
 		colour = WHITE;
+	return (colour);
+}
+
+//Function works out the ambient light colour from an object list.
+t_colour	colour_ambient_list(t_objlist *objlist)
+{
+	t_ambient	*ambient;
+	t_colour	colour;
+
+	ambient = ambient_objlist(objlist);
+	colour = colour_ambient(BLACK, ambient);
 	return (colour);
 }

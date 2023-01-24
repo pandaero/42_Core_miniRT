@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:54:59 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/01/24 19:42:01 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/24 22:30:34 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ t_intersect	*intersection_ray_plane(t_objlist *objlist, t_ray *ray, \
 	t_vector	*plane_vec;
 	t_ip		ip;
 
-	(void) objlist;
 	ray_dir_vec = vector_scale_direction(1, ray->ray_dir);
 	plane_norm_vec = vector_scale_direction(1, obj_plane->plane->normal);
 	if (fabs(vector_dot(plane_norm_vec, ray_dir_vec)) > 0)

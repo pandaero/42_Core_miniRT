@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/24 20:47:14 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/24 23:26:06 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 // Factor for screen-pixel coordinate sizing. 
 # define VIEW_SCALING 0.1
 // Factor for diffuse lighting effect
-# define LIGHTING_FACTOR 1
+# define LIGHTING_FACTOR 0.0008
 // Colours
 # define BLACK 0x00000000
 # define WHITE 0x00FFFFFF
@@ -634,6 +634,8 @@ int			ray_sphere_intersection(t_ray *ray, t_sphere *sphere);
 //Function determines the intersection between a ray and a plane.
 t_intersect	*intersection_ray_plane(t_objlist *objlist, t_ray *ray, \
 										t_obj *obj_plane);
+//Function that gets the coordinates of intersection between ray and sphere object.
+t_intersect	*intersection_ray_sphere(t_objlist *objlist, t_ray *ray, t_obj *obj_sphere);
 //Function works out the intersection between a ray and an object.
 t_intersect	*intersection_ray_obj(t_objlist *objlist, t_ray *ray, t_obj *obj);
 // ------------------------------- VECTOR OPERATIONS ---------------------------
@@ -650,6 +652,8 @@ double		vector_dot(t_vector *first, t_vector *second);
 // ------------------------------- COLOUR OPERATIONS ---------------------------
 //Function adds ambient light to a colour.
 t_colour	colour_ambient(t_colour colour, t_ambient *ambient);
+//Function works out the ambient light colour from an object list.
+t_colour	colour_ambient_list(t_objlist *objlist);
 //Function assigns a colour to an existing cylinder.
 void		cylinder_colour(t_colour colour, t_cylinder *cylinder);
 //Function determines the colour of an object.
