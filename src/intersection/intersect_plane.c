@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:54:59 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/01/24 19:03:52 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/24 19:42:01 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,12 @@ t_intersect	*intersection_ray_plane(t_objlist *objlist, t_ray *ray, \
 		if (fabs(ip.inter_dist) > 0)
 		{
 			intersection = intersect_create();
+			intersection->state = 1;
 			intersection->object = obj_plane;
 			intersection->point = get_intersection_point(ray, \
 														fabs(ip.inter_dist));
-			intersection->colour = colour_lighting(objlist, intersection);
 			intersection->distance = ip.inter_dist;
-			intersection->state = 1;
+			intersection->colour = colour_lighting(objlist, intersection);
 		}
 		else
 			intersection = intersect_create();
