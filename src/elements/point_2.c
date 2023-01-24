@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 20:21:56 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/24 20:27:01 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/24 20:44:25 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ t_point	*point_ray_distance(t_ray *ray, double distance)
 	point = point_create();
 	if (!point)
 		return (NULL);
-	point->x_co = ray->ray_orig + ray->ray_dir->x_comp * distance;
-	point->y_co = ray->ray_orig + ray->ray_dir->y_comp * distance;
-	point->z_co = ray->ray_orig + ray->ray_dir->z_comp * distance;
+	point->x_co = ray->ray_orig->x_co + ray->ray_dir->x_comp * distance;
+	point->y_co = ray->ray_orig->y_co + ray->ray_dir->y_comp * distance;
+	point->z_co = ray->ray_orig->z_co + ray->ray_dir->z_comp * distance;
 	return (point);
 }
