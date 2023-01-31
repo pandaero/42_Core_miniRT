@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersect.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 18:51:09 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/24 22:41:03 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/31 20:30:20 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ t_intersect	*intersection_input(t_colour colour, int state, double dist, \
 t_intersect	*intersection_ray_obj(t_objlist *objlist, t_ray *ray, t_obj *obj)
 {
 	if (obj->elem == PLANE)
-		return (intersection_ray_plane(objlist, ray, obj));
+		return (intersection_ray_plane(ray, obj->plane));
 	if (obj->elem == SPHERE)
 		return (intersection_ray_sphere(objlist, ray, obj));
 	// if (obj->elem == CYLINDER)

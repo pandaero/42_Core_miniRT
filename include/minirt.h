@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/24 23:26:06 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/31 17:56:59 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,15 @@ typedef struct s_rs
 //Typedef contains several variables for the plane-sphere intersection function.
 typedef struct s_intersect_plane
 {
-	double		inter_dist;
-	double		numer;
+	t_vector	*ray_dir_vec;
+	t_vector	*polo;
+	t_vector	*plane_norm_vec;
+	double		dist_center_plane;
+	double		t;
+	double		numerator;
+	double		denominator;
 }			t_ip;
+
 
 //Typedef contains several variables for the screen pixel centre function.
 typedef struct s_screen_centre
@@ -632,8 +638,7 @@ t_diffuse	*diffuse_objlist(t_objlist *objlist);
 //Function determines the intersection between a ray and a sphere.
 int			ray_sphere_intersection(t_ray *ray, t_sphere *sphere);
 //Function determines the intersection between a ray and a plane.
-t_intersect	*intersection_ray_plane(t_objlist *objlist, t_ray *ray, \
-										t_obj *obj_plane);
+t_intersect	*intersection_ray_plane(t_ray *ray, t_plane *plane);
 //Function that gets the coordinates of intersection between ray and sphere object.
 t_intersect	*intersection_ray_sphere(t_objlist *objlist, t_ray *ray, t_obj *obj_sphere);
 //Function works out the intersection between a ray and an object.
