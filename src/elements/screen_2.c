@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 15:21:12 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/20 18:21:12 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/31 14:28:28 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,27 +71,30 @@ static t_point	*full_centre(int i, int j, t_screen *screen, \
 //Function works out the coordinates of each pixel centre.
 static t_pixel	*screen_px_centre(int i, int j, t_screen *screen)
 {
-	t_screen_centre	str;
+	t_screen_centre	st;
 
 	if (i == 0 && j == 0)
-		str.centre = point_copy(screen->pts->first_px);
+		st.centre = point_copy(screen->pts->first_px);
 	else if (i == 0)
 	{
-		str.scr_r_px = vector_scale(j, screen->vecs->vec_right);
-		str.centre = point_point_vector(screen->pts->first_px, str.scr_r_px);
-		free_vector(str.scr_r_px);
+		st.scr_r_px = vector_scale(j, screen->vecs->vec_right);
+		st.centre = point_point_vector(screen->pts->first_px, st.scr_r_px);
+		free_vector(st.scr_r_px);
 	}
 	else if (j == 0)
 	{
-		str.scr_d_px = vector_scale(i, screen->vecs->vec_down);
-		str.centre = point_point_vector(screen->pts->first_px, str.scr_d_px);
-		free_vector(str.scr_d_px);
+		st.scr_d_px = vector_scale(i, screen->vecs->vec_down);
+		st.centre = point_point_vector(screen->pts->first_px, st.scr_d_px);
+		free_vector(st.scr_d_px);
 	}
 	else
-		str.centre = full_centre(i, j, screen, str);
-	str.pix = pixel_point(str.centre);
-	free_point(str.centre);
-	return (str.pix);
+	{
+		st.centre = NULL;
+		st.centre = full_centre(i, j, screen, st);
+	}
+	st.pix = pixel_point(st.centre);
+	free_point(st.centre);
+	return (st.pix);
 }
 
 //Function works out the centres of the pixels in a screen.
