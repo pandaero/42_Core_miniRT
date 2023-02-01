@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 17:25:29 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/01 12:31:08 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/01 15:24:20 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,10 @@ static t_cylinder_locals	*initialize_variables(t_ray *ray, t_cylinder *cylinder)
 	t_cylinder_locals	*loc;
 
 	loc = (t_cylinder_locals*)malloc(sizeof(t_cylinder_locals));
-	loc->cyl_up = vector_scale_direction(cylinder->height, cylinder->orientation);
-	loc->H = point_point_vector(cylinder->centre, loc->cyl_up);
-	loc->C = point_copy(cylinder->centre);
+	loc->cyl_up = vector_scale_direction(cylinder->height / 2, cylinder->orientation);
+	loc->cyl_down = vector_scale_direction((-cylinder->height) / 2, cylinder->orientation);
+	loc->C = point_point_vector(cylinder->centre, loc->cyl_up);
+	loc->H = point_point_vector(cylinder->centre, loc->cyl_down);
 	loc->w = vector_two_points(ray->ray_orig, loc->C);
 	loc->ray_dir_vec = vector_scale_direction(1, ray->ray_dir);
 	loc->cylinder_orientation_vec = vector_scale_direction(1, cylinder->orientation);
