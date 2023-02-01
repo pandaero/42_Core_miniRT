@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/31 17:56:59 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/01 14:05:54 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,7 @@ typedef struct s_intersect_plane
 	double		t;
 	double		numerator;
 	double		denominator;
-}			t_ip;
-
+}				t_ip;
 
 //Typedef contains several variables for the screen pixel centre function.
 typedef struct s_screen_centre
@@ -118,7 +117,7 @@ typedef struct s_mlxdata
 	void		*mlx;
 	void		*window;
 	t_imgdata	*imdt;
-}			t_mlxdata;
+}				t_mlxdata;
 
 // ============================== 3D ELEMENT PROPERTIES ========================
 //Typedef defines a colour. Channels are TRGB in range 0x00000000 to 0xFFFFFFFF.
@@ -279,13 +278,6 @@ typedef struct s_diffuse
 	double		ratio;
 	t_point		*position;
 }				t_diffuse;
-
-typedef struct s_Vector3
-{
-	double	x;
-	double	y;
-	double	z;
-}			t_Vector3;
 
 // =============================== OBJECT LINKED LIST ==========================
 //Typedef describes an object in a linked list.
@@ -637,12 +629,14 @@ t_diffuse	*diffuse_objlist(t_objlist *objlist);
 // ---------------------------------- INTERSECTIONS ----------------------------
 //Function determines the intersection between a ray and a sphere.
 int			ray_sphere_intersection(t_ray *ray, t_sphere *sphere);
-//Function determines the intersection between a ray and a plane.
+//Function determines the intersection between a ray and a plane element.
 t_intersect	*intersection_ray_plane(t_ray *ray, t_plane *plane);
-//Function that gets the coordinates of intersection between ray and sphere object.
-t_intersect	*intersection_ray_sphere(t_objlist *objlist, t_ray *ray, t_obj *obj_sphere);
+//Function that gets the intersection point between a ray and a sphere element.
+t_intersect	*intersection_ray_sphere(t_ray *ray, t_sphere *sphere);
 //Function works out the intersection between a ray and an object.
 t_intersect	*intersection_ray_obj(t_objlist *objlist, t_ray *ray, t_obj *obj);
+//Function adds colour to the intersection of an object.
+void		intersection_colour(t_objlist *objlist, t_intersect *intersect);
 // ------------------------------- VECTOR OPERATIONS ---------------------------
 //Function adds two vectors together.
 t_vector	*vector_add(t_vector *first, t_vector *second);
