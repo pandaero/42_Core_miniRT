@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 19:34:19 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/20 05:15:18 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/31 20:30:41 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

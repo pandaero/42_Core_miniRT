@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/31 17:56:59 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/01 12:36:53 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,22 @@ typedef struct s_intersect_plane
 	double		t;
 	double		numerator;
 	double		denominator;
-}			t_ip;
+}			t_plane_locals;
 
+//Typedef contains several variables for the plane-cylinder intersection function.
+typedef struct s_cylinder_intersect
+{
+	t_vector	*ray_dir_vec;
+	t_vector	*cylinder_orientation_vec;
+	t_vector	*w;
+	t_vector	*cyl_up;
+	t_vector	*cyl_down;
+	t_point		*C;
+	t_point		*H;
+	double		a;
+	double		b;
+	double		c;
+}				t_cylinder_locals;
 
 //Typedef contains several variables for the screen pixel centre function.
 typedef struct s_screen_centre
@@ -119,6 +133,7 @@ typedef struct s_mlxdata
 	void		*window;
 	t_imgdata	*imdt;
 }			t_mlxdata;
+
 
 // ============================== 3D ELEMENT PROPERTIES ========================
 //Typedef defines a colour. Channels are TRGB in range 0x00000000 to 0xFFFFFFFF.
@@ -203,6 +218,15 @@ typedef struct s_cylinder
 	t_direction	*orientation;
 }				t_cylinder;
 
+//Typedef describes a disc in 3D space.
+typedef struct s_disc
+{
+	t_colour	colour;
+	t_point		*center;
+	t_direction	*normal;
+	t_plane		*plane;
+	double		radius;
+}				t_disc;
 // =============================  3D DERIVED ELEMENTS ==========================
 //Typedef describes an intersection.
 typedef struct s_intersect
@@ -634,6 +658,10 @@ int			objlist_cylinder_check_dir(t_objlist *objlist);
 t_ambient	*ambient_objlist(t_objlist *objlist);
 //Function finds a diffuse point-light object in an object list.
 t_diffuse	*diffuse_objlist(t_objlist *objlist);
+//Calculates a quadratic equation depending on three cooeficients axˆ2 + bx + c
+double		*solve_quadratic_real(double a, double b, double c);
+//Calculates the intersection point when given the distance t
+t_point		*get_intersection_point(t_ray *ray, double distance);
 // ---------------------------------- INTERSECTIONS ----------------------------
 //Function determines the intersection between a ray and a sphere.
 int			ray_sphere_intersection(t_ray *ray, t_sphere *sphere);
@@ -643,6 +671,8 @@ t_intersect	*intersection_ray_plane(t_ray *ray, t_plane *plane);
 t_intersect	*intersection_ray_sphere(t_objlist *objlist, t_ray *ray, t_obj *obj_sphere);
 //Function works out the intersection between a ray and an object.
 t_intersect	*intersection_ray_obj(t_objlist *objlist, t_ray *ray, t_obj *obj);
+//Function works out the intersection between a ray and a cylinder.
+t_intersect	*intersection_ray_cylinder(t_ray *ray, t_cylinder *cylinder);
 // ------------------------------- VECTOR OPERATIONS ---------------------------
 //Function adds two vectors together.
 t_vector	*vector_add(t_vector *first, t_vector *second);
@@ -704,5 +734,10 @@ void		error_object_creation_exit(t_program *program, const char *str);
 void		error_file_open_exit(t_program *program);
 //Function prints error MLX, frees program memory and exits.
 void		error_mlx_exit(t_program *program);
+
+// ================================= FOR TESTING ============================
+void print_vector(char *name, t_vector *to_print);
+void print_point(char *name, t_point *to_print);
+void print_direction(char *name, t_direction *to_print);
 
 #endif

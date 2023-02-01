@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 18:51:09 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/31 20:30:20 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/01 12:36:19 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,19 @@ t_intersect	*intersection_ray_obj(t_objlist *objlist, t_ray *ray, t_obj *obj)
 		return (intersection_ray_plane(ray, obj->plane));
 	if (obj->elem == SPHERE)
 		return (intersection_ray_sphere(objlist, ray, obj));
-	// if (obj->elem == CYLINDER)
-	// 	return (intersection_ray_cylinder(ray, obj->cylinder));
+	if (obj->elem == CYLINDER)
+		return (intersection_ray_cylinder(ray, obj->cylinder));
 	return (NULL);
+}
+
+//Produces the distance between the point of origin to the point of intersection
+t_point	*get_intersection_point(t_ray *ray, double distance)
+{
+	t_point	*point;
+
+	point = point_coords \
+			(ray->ray_orig->x_co + distance * ray->ray_dir->x_comp, \
+			ray->ray_orig->y_co + distance * ray->ray_dir->y_comp, \
+			ray->ray_orig->z_co + distance * ray->ray_dir->z_comp);
+	return (point);
 }
