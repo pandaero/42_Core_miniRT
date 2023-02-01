@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersect_sphere.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 22:22:24 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/01 14:42:40 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/01 14:57:51 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static double	get_distance(t_vector *vec_ray_dir, t_vector *rp, t_sphere *sphere
 }
 
 //Function that gets the coordinates of intersection between ray and sphere object.
-t_intersect	*intersection_ray_sphere(t_objlist *objlist, t_ray *ray, t_obj *obj_sphere)
+t_intersect	*intersection_ray_sphere(t_ray *ray, t_sphere *sphere)
 {
 	t_vector	*vec_ray_dir;
 	t_vector	*rp;
@@ -52,20 +52,16 @@ t_intersect	*intersection_ray_sphere(t_objlist *objlist, t_ray *ray, t_obj *obj_
 	t_intersect	*intersection;
 
 	vec_ray_dir = vector_scale_direction(1, ray->ray_dir);
-	rp = vector_two_points(ray->ray_orig, obj_sphere->sphere->centre);
+	rp = vector_two_points(ray->ray_orig, sphere->centre);
 	rs.y = pow(vector_dot(rp, vec_ray_dir), 2) - \
-	(vector_dot(rp, rp)) + pow(obj_sphere->sphere->radius, 2);
+	(vector_dot(rp, rp)) + pow(sphere->radius, 2);
 	intersection = intersect_create();
 	if (rs.y >= 0)
 	{
 		intersection->state = 1;
-		intersection->object = obj_sphere;
-		intersection->distance = get_distance(vec_ray_dir, rp, obj_sphere->sphere);
+		intersection->distance = get_distance(vec_ray_dir, rp, sphere);
 		intersection->point = point_ray_distance(ray, intersection->distance);
-		intersection->colour = colour_lighting(objlist, intersection);
 	}
-	else
-		intersection->colour = colour_ambient_list(objlist);
 	free_vector(rp);
 	free_vector(vec_ray_dir);
 	return (intersection);

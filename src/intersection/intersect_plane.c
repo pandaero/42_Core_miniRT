@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:54:59 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/01/31 20:28:58 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/01 14:56:31 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,8 @@ t_intersect	*intersection_ray_plane(t_ray *ray, t_plane *plane)
 			intersection->state = 1;
 			intersection->point = point_ray_distance(ray, ip->t);
 			intersection->distance = ip->t;
-			intersection->colour = plane->colour;
 		}
 	}
-	else
-	{
-		intersection->state = 0;
-		intersection->colour = 0x0000FF00;
-	}
-	free(ip);
+	free_ip(ip);
 	return (intersection);
 }
