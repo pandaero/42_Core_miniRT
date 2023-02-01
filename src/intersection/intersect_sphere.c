@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 22:22:24 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/24 23:05:10 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/01 14:42:40 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ y - the discriminant
 */
 /*Function helps ray sphere get the distance of 
 between ray and sphere*/
-static double	get_distance(t_vector *vec_ray_dir, t_vector	*rp, t_sphere	*sphere)
+static double	get_distance(t_vector *vec_ray_dir, t_vector *rp, t_sphere *sphere)
 {
 	double	distance;
 	double	tmp;

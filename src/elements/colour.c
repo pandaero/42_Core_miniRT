@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 16:41:50 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/24 23:26:14 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/01 14:42:13 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ t_colour	colour_diffuse_inverse_square(t_diffuse *difflight, t_point *point)
 	double		distance;
 
 	distance = distance_two_points(difflight->position, point);
-	colour = (int)(difflight->ratio * WHITE * LIGHTING_FACTOR / pow(distance, 2));
+	colour = (int)(difflight->ratio * WHITE * LIGHTING_FACTOR \
+				/ pow(distance, 2));
 	if (colour > WHITE)
 		colour = WHITE;
 	if (colour < BLACK)
