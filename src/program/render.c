@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 02:55:08 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/24 18:58:49 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/01 14:31:43 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,28 +27,48 @@ void	render_screen(t_program *program)
 	}
 }
 
+void	intersection_colour(t_objlist *list, t_intersect *intersect)
+{
+	if (intersect->state == 0)
+	{
+		intersect->colour = colour_ambient_list(list);
+		return ;
+	}
+	intersect->colour = colour_lighting(list, intersect);
+}
+
+//Function fills an intersection for an 
+static void	intersection_pass(t_program *program, t_obj *obj, int ii[2])
+{
+	t_camera	*cam;
+	t_screen	*scr;
+	t_direction	*dir;
+	t_ray		*ray;
+	t_objlist	*list;
+
+	list = program->objlist;
+	cam = camera_program(program);
+	scr = screen_program(program);
+	dir = direction_two_points(cam->location, scr->pixels[ii[0]][ii[1]]->point);
+	ray = ray_start_dir(scr->pixels[ii[0]][ii[1]]->point, dir);
+	scr->pixels[ii[0]][ii[1]]->intrsct = intersection_ray_obj(list, ray, obj);
+	intersection_colour(list, scr->pixels[ii[0]][ii[1]]->intrsct);
+	free_direction(dir);
+	free_ray(ray);
+}
+
 //Function performs a render through the screen for the input object.
 void	render_intersection_pass(t_program *program, t_obj *object)
 {
-	t_direction	*dir;
-	t_screen	*scr;
-	t_ray		*ray;
 	int			ii[2];
 
-	scr = screen_program(program);
 	ii[0] = 0;
 	while (ii[0] < WIN_HEIGHT)
 	{
 		ii[1] = 0;
 		while (ii[1] < WIN_WIDTH)
 		{
-			dir = direction_two_points(camera_program(program)->location, \
-								scr->pixels[ii[0]][ii[1]]->point);
-			ray = ray_start_dir(scr->pixels[ii[0]][ii[1]]->point, dir);
-			scr->pixels[ii[0]][ii[1]]->intrsct = intersection_ray_obj(\
-					program->objlist, ray, object);
-			free_direction(dir);
-			free_ray(ray);
+			intersection_pass(program, object, ii);
 			ii[1]++;
 		}
 		ii[0]++;
