@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/01 14:05:54 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/01 17:24:12 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -318,6 +318,19 @@ typedef struct s_program
 	t_mlxdata	*mldt;
 }				t_program;
 
+typedef struct s_cylinder_intersect
+{
+	t_vector	*ray_dir_vec;
+	t_vector	*cylinder_orientation_vec;
+	t_vector	*w;
+	t_vector	*cyl_up;
+	t_vector	*cyl_down;
+	t_point		*C;
+	t_point		*H;
+	double		a;
+	double		b;
+	double		c;
+}				t_cylinder_locals;
 // ================================ INPUT HANDLING =============================
 //Function skips to the first non-space character within a char string.
 int			skip_spacing(const char *str);
@@ -626,6 +639,10 @@ int			objlist_cylinder_check_dir(t_objlist *objlist);
 t_ambient	*ambient_objlist(t_objlist *objlist);
 //Function finds a diffuse point-light object in an object list.
 t_diffuse	*diffuse_objlist(t_objlist *objlist);
+//Solves quadratic equation
+double		*solve_quadratic_real(double a, double b, double c);
+//Produces the distance between the point of origin to the point of intersection
+t_point		*get_intersection_point(t_ray *ray, double distance);
 // ---------------------------------- INTERSECTIONS ----------------------------
 //Function determines the intersection between a ray and a sphere.
 int			ray_sphere_intersection(t_ray *ray, t_sphere *sphere);
@@ -637,6 +654,8 @@ t_intersect	*intersection_ray_sphere(t_ray *ray, t_sphere *sphere);
 t_intersect	*intersection_ray_obj(t_objlist *objlist, t_ray *ray, t_obj *obj);
 //Function adds colour to the intersection of an object.
 void		intersection_colour(t_objlist *objlist, t_intersect *intersect);
+//Checks for an itersection between a ray and a cylinder
+t_intersect	*intersection_ray_cylinder(t_ray *ray, t_cylinder *cylinder);
 // ------------------------------- VECTOR OPERATIONS ---------------------------
 //Function adds two vectors together.
 t_vector	*vector_add(t_vector *first, t_vector *second);

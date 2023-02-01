@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersect.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 18:51:09 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/01 14:30:24 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/01 18:44:56 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,21 @@ t_intersect	*intersection_ray_obj(t_objlist *objlist, t_ray *ray, t_obj *obj)
 		out = intersection_ray_plane(ray, obj->plane);
 	if (obj->elem == SPHERE)
 		out = intersection_ray_sphere(ray, obj->sphere);
-	// if (obj->elem == CYLINDER)
-	// 	return (intersection_ray_cylinder(ray, obj->cylinder));
+	if (obj->elem == CYLINDER)
+		out = intersection_ray_cylinder(ray, obj->cylinder);
+	ft_printf("segcheck after file\n");
 	out->object = obj;
 	return (out);
+}
+
+//Produces the distance between the point of origin to the point of intersection
+t_point	*get_intersection_point(t_ray *ray, double distance)
+{
+	t_point	*point;
+
+	point = point_coords \
+			(ray->ray_orig->x_co + distance * ray->ray_dir->x_comp, \
+			ray->ray_orig->y_co + distance * ray->ray_dir->y_comp, \
+			ray->ray_orig->z_co + distance * ray->ray_dir->z_comp);
+	return (point);
 }
