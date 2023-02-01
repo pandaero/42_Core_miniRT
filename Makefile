@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+         #
+#    By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/16 18:36:19 by pandalaf          #+#    #+#              #
-#    Updated: 2023/01/20 05:05:07 by pandalaf         ###   ########.fr        #
+#    Updated: 2023/01/31 20:26:14 by pbiederm         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,8 +15,8 @@ NAME	:= minirt
 
 # Compiler options
 CC		:= cc
-CFLAGS	:= -Wall -Werror -Wextra
-COPT	:= -g #-fsanitize=address
+CFLAGS	:= 
+COPT	:= -g -fsanitize=address
 
 # Sources
 SRC_ROOT	:= src/
@@ -54,6 +54,13 @@ else
 LIBS	:= $(LIBFT_FULL) $(MLX_FULL) -lX11 -lXext -lm
 endif
 
+# Frameworks, for Mac compilation.
+ifeq ($(shell uname -s), Darwin)
+FWK	:= -framework OpenGL -framework AppKit
+else
+FWK :=
+endif
+
 # Look for (.c) files in the following directory if not found elsewhere.
 vpath %.c $(SRC_ROOT)
 
@@ -66,7 +73,7 @@ directory: $(OBJ_DIR)
 
 # Make the target executable
 $(NAME): $(OBJS) $(MLX_FULL) $(LIBFT_FULL)
-	$(CC) $(CFLAGS) $(COPT) $< $(filter-out $<, $^) -o $@ $(LIBS)
+	$(CC) $(CFLAGS) $(COPT) $(FWK) $< $(filter-out $<, $^) $(LIBS) -o $@ 
 
 # Make the object file rule definition
 define recursive_def

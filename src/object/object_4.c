@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 20:44:12 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/20 04:37:06 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/01/24 16:33:53 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,4 +91,17 @@ t_obj	*object_unrendered_list(t_objlist *objlist)
 			curr = curr->next;
 	}
 	return (NULL);
+}
+
+//Function makes a diffuse point-light object.
+t_obj	*object_diffuse(t_diffuse *diffuse)
+{
+	t_obj	*new;
+
+	new = object_create();
+	if (!new)
+		return (NULL);
+	new->elem = DIFFUSE;
+	new->diffuse = diffuse;
+	return (new);
 }

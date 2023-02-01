@@ -50,8 +50,8 @@ void	free_object_2(t_obj *object)
 		free_cylinder(object->cylinder);
 	if (object->elem == SPHERE)
 		free_sphere(object->sphere);
-	if (object->elem == LIGHT)
-		free_light(object->light);
+	if (object->elem == DIFFUSE)
+		free_diffuse(object->diffuse);
 	free(object);
 }
 

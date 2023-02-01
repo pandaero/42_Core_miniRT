@@ -6,8 +6,8 @@ void	object_print(t_obj *object)
 {
 	if (object->elem == AMBIENT)
 		printf("AMBIENT: r:%4.2f col:%08X\n", object->ambient->ratio, object->ambient->colour);
-	if (object->elem == LIGHT)
-		printf("LIGHT: r:%4.2f pos:(%4.2f, %4.2f, %4.2f)\n", object->light->ratio, object->light->position->x_co, object->light->position->y_co, object->light->position->z_co);
+	if (object->elem == DIFFUSE)
+		printf("LIGHT: r:%4.2f pos:(%4.2f, %4.2f, %4.2f)\n", object->diffuse->ratio, object->diffuse->position->x_co, object->diffuse->position->y_co, object->diffuse->position->z_co);
 	if (object->elem == POINT)
 		printf("POINT: x:%4.2f y:%4.2f z:%4.2f\n",
 					object->point->x_co, object->point->y_co,

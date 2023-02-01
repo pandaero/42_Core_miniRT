@@ -27,7 +27,7 @@ int	valid_ambient(const char *str)
 }
 
 //Function determines whether a line contains valid light description data.
-int	valid_light(const char *str)
+int	valid_diffuse(const char *str)
 {
 	char	**split;
 

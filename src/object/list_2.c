@@ -30,7 +30,7 @@ int	objlist_count_ambient(t_objlist *objlist)
 }
 
 //Function counts the number of light objects in an object list.
-int	objlist_count_light(t_objlist *objlist)
+int	objlist_count_diffuse(t_objlist *objlist)
 {
 	t_obj	*curr;
 	int		ct;
@@ -39,7 +39,7 @@ int	objlist_count_light(t_objlist *objlist)
 	curr = objlist->first;
 	while (curr)
 	{
-		if (curr->light || curr->elem == LIGHT)
+		if (curr->diffuse || curr->elem == DIFFUSE)
 			ct++;
 		curr = curr->next;
 	}
