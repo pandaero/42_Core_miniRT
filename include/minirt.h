@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/02 16:47:13 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/02 18:51:19 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,14 @@ typedef struct s_mlxdata
 
 // ============================== 3D ELEMENT PROPERTIES ========================
 //Typedef defines a colour. Channels are TRGB in range 0x00000000 to 0xFFFFFFFF.
-typedef int					t_colour;
+typedef struct s_colour
+{
+	unsigned int	full;
+	unsigned int	trans;
+	unsigned int	red;
+	unsigned int	green;
+	unsigned int	blue;
+}					t_colour;
 
 // =================================== 3D ELEMENTS =============================
 //Typedef defines different types of elements for a 3D scene.
@@ -179,7 +186,7 @@ typedef struct s_ray
 //Typedef describes a plane in 3D space.
 typedef struct s_plane
 {
-	t_colour	colour;
+	t_colour	*colour;
 	t_point		*point;
 	t_direction	*normal;
 }				t_plane;
@@ -187,7 +194,7 @@ typedef struct s_plane
 //Typedef describes a sphere in 3D space.
 typedef struct s_sphere
 {
-	t_colour	colour;
+	t_colour	*colour;
 	double		radius;
 	t_point		*centre;
 }				t_sphere;
@@ -195,7 +202,7 @@ typedef struct s_sphere
 //Typedef describes a cyclinder in 3D space.
 typedef struct s_cylinder
 {
-	t_colour	colour;
+	t_colour	*colour;
 	double		radius;
 	double		height;
 	t_point		*centre;
@@ -208,7 +215,7 @@ typedef struct s_intersect
 {
 	int			state;
 	double		distance;
-	t_colour	colour;
+	t_colour	*colour;
 	t_point		*point;
 	t_obj		*object;
 }				t_intersect;
@@ -261,7 +268,7 @@ typedef struct s_screen
 typedef struct s_ambient
 {
 	double		ratio;
-	t_colour	colour;
+	t_colour	*colour;
 }				t_ambient;
 
 //Typedef describes the camera.
@@ -385,10 +392,10 @@ int			valid_file_contents(const char *filename);
 int			valid_file_formatting(const char *filename);
 
 // ================================ OBJECT CREATION ============================
+//Function copies a colour to a new one.
+t_colour	*colour_copy(t_colour *colour);
 //Function gets a colour value from an input string. ("0-255,0-255,0-255")
-t_colour	colour_str(const char *str);
-//Function determines the colour of an object.
-t_colour	colour_object(t_obj *object);
+t_colour	*colour_str(const char *str);
 //Function creates a new diffuse from a valid input line.
 t_diffuse	*diffuse_line(const char *line);
 //Function creates and initialises a point.
@@ -494,7 +501,7 @@ t_screen	*screen_program(t_program *program);
 //Function creates and initialises an ambient light.
 t_ambient	*ambient_create(void);
 //Function creates an ambient light according to colour and ratio.
-t_ambient	*ambient_input(t_colour colour, double ratio);
+t_ambient	*ambient_input(t_colour *colour, double ratio);
 //Function creates an ambient light from a valid input line.
 t_ambient	*ambient_line(const char *str);
 // -------------------------------- GENERIC OBJECT -----------------------------
@@ -675,19 +682,19 @@ t_vector	*vector_cross(t_vector *first, t_vector *second);
 double		vector_dot(t_vector *first, t_vector *second);
 // ------------------------------- COLOUR OPERATIONS ---------------------------
 //Function adds ambient light to a colour.
-t_colour	colour_ambient(t_colour colour, t_ambient *ambient);
+t_colour	*colour_ambient(unsigned int full, t_ambient *ambient);
 //Function works out the ambient light colour from an object list.
-t_colour	colour_ambient_list(t_objlist *objlist);
+t_colour	*colour_ambient_list(t_objlist *objlist);
 //Function assigns a colour to an existing cylinder.
 void		cylinder_colour(t_colour colour, t_cylinder *cylinder);
 //Function determines the colour of an object.
-t_colour	colour_object(t_obj *object);
+t_colour	*colour_object(t_obj *object);
 //Function works out the lighting of an intersection based on objects.
-t_colour	colour_lighting(t_objlist *objlist, t_intersect *intersect);
+void	colour_lighting(t_objlist *objlist, t_intersect *intersect);
 //Function works out the lighting effect of a diffuse light on a point. Linear.
-t_colour	colour_diffuse_linear(t_diffuse *difflight, t_point *point);
+void		colour_diffuse_linear(t_colour *colour, t_diffuse *difflight, t_point *point);
 //Function works out the lighting effect of a diffuse light on a point. Inv. Sq.
-t_colour	colour_diffuse_inverse_square(t_diffuse *difflight, t_point *point);
+void		colour_diffuse_inverse_square(t_colour *colour, t_diffuse *difflight, t_point *point);
 
 // -------------------------------- MLX OPERATIONS -----------------------------
 //Function places a pixel in an image more quickly than with the pixel_put fn.

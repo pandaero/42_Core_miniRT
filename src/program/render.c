@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 02:55:08 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/02 15:56:17 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/02 17:12:11 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void	intersection_colour(t_objlist *list, t_intersect *intersect)
 {
 	if (intersect->state == 0)
 	{
+		//intersect->colour = WHITE;
 		intersect->colour = colour_ambient_list(list);
 		return ;
 	}
@@ -89,7 +90,7 @@ static void	intersection_pass(t_program *program, t_obj *obj, int ii[2])
 //Function performs a render through the screen for the input object.
 void	render_intersection_pass(t_program *program, t_obj *object)
 {
-	int			ii[2];
+	int	ii[2];
 
 	ii[0] = 0;
 	while (ii[0] < WIN_HEIGHT)
