@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/02 21:33:02 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/02 22:55:38 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 // Factor for screen-pixel coordinate sizing. 
 # define VIEW_SCALING 0.1
 // Factor for diffuse lighting effect
-# define LIGHTING_FACTOR 1
+# define LIGHTING_FACTOR 5000
 // Colours
 # define BLACK 0x00000000
 # define WHITE 0x00FFFFFF
