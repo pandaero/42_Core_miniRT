@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/02 15:33:33 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/02 16:47:13 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -631,6 +631,12 @@ int			objlist_count_ambient(t_objlist *objlist);
 int			objlist_count_diffuse(t_objlist *objlist);
 //Function counts the number of camera objects in an object list.
 int			objlist_count_camera(t_objlist *objlist);
+//Function counts the number of plane objects in an object list.
+int			objlist_count_plane(t_objlist *objlist);
+//Function counts the number of sphere objects in an object list.
+int			objlist_count_sphere(t_objlist *objlist);
+//Function counts the number of cylinder objects in an object list.
+int			objlist_count_cylinder(t_objlist *objlist);
 //Function cycles through plane objects checking that direction is non-null.
 int			objlist_plane_check_dir(t_objlist *objlist);
 //Function cycles through cylinder objects checking that direction is non-null.
