@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+         #
+#    By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/16 18:36:19 by pandalaf          #+#    #+#              #
-#    Updated: 2023/02/01 17:25:25 by pbiederm         ###   ########.fr        #
+#    Updated: 2023/02/02 15:26:09 by pandalaf         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME	:= minirt
 
 # Compiler options
 CC		:= cc
-CFLAGS	:= 
+CFLAGS	:= -Wall -Werror -Wextra
 COPT	:= -g #-fsanitize=address
 
 # Sources

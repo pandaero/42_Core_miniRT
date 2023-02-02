@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 02:55:08 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/01 17:43:29 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/02 15:33:43 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void	intersection_pass(t_program *program, t_obj *obj, int ii[2])
 	scr = screen_program(program);
 	dir = direction_two_points(cam->location, scr->pixels[ii[0]][ii[1]]->point);
 	ray = ray_start_dir(scr->pixels[ii[0]][ii[1]]->point, dir);
-	scr->pixels[ii[0]][ii[1]]->intrsct = intersection_ray_obj(list, ray, obj);
+	scr->pixels[ii[0]][ii[1]]->intrsct = intersection_ray_obj(ray, obj);
 	intersection_colour(list, scr->pixels[ii[0]][ii[1]]->intrsct);
 	free_direction(dir);
 	free_ray(ray);

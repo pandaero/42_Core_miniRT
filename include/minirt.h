@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/01 17:24:12 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/02 15:33:33 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -651,7 +651,7 @@ t_intersect	*intersection_ray_plane(t_ray *ray, t_plane *plane);
 //Function that gets the intersection point between a ray and a sphere element.
 t_intersect	*intersection_ray_sphere(t_ray *ray, t_sphere *sphere);
 //Function works out the intersection between a ray and an object.
-t_intersect	*intersection_ray_obj(t_objlist *objlist, t_ray *ray, t_obj *obj);
+t_intersect	*intersection_ray_obj(t_ray *ray, t_obj *obj);
 //Function adds colour to the intersection of an object.
 void		intersection_colour(t_objlist *objlist, t_intersect *intersect);
 //Checks for an itersection between a ray and a cylinder

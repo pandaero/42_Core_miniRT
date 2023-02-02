@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersect.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 18:51:09 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/01 18:44:56 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/02 15:33:26 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ t_intersect	*intersection_input(t_colour colour, int state, double dist, \
 }
 
 //Function works out the intersection between a ray and an object.
-t_intersect	*intersection_ray_obj(t_objlist *objlist, t_ray *ray, t_obj *obj)
+t_intersect	*intersection_ray_obj(t_ray *ray, t_obj *obj)
 {
 	t_intersect	*out;
 
@@ -64,7 +64,6 @@ t_intersect	*intersection_ray_obj(t_objlist *objlist, t_ray *ray, t_obj *obj)
 		out = intersection_ray_sphere(ray, obj->sphere);
 	if (obj->elem == CYLINDER)
 		out = intersection_ray_cylinder(ray, obj->cylinder);
-	ft_printf("segcheck after file\n");
 	out->object = obj;
 	return (out);
 }
