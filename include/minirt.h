@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/02 18:51:19 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/02 21:33:02 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 // Factor for screen-pixel coordinate sizing. 
 # define VIEW_SCALING 0.1
 // Factor for diffuse lighting effect
-# define LIGHTING_FACTOR 0.0008
+# define LIGHTING_FACTOR 1
 // Colours
 # define BLACK 0x00000000
 # define WHITE 0x00FFFFFF
@@ -445,17 +445,17 @@ t_ray		*ray_start_vector(t_point *start, t_vector *vector);
 //Function creates and initialises a plane.
 t_plane		*plane_create(void);
 //Function creates a defined plane from a colour, point and normal direction.
-t_plane		*plane_col_point_normal_dir(t_colour colour, t_point *point, \
+t_plane		*plane_col_point_normal_dir(t_colour *colour, t_point *point, \
 									t_direction *normal);
 //Function creates a defined plane from a colour, point and normal vector.
-t_plane		*plane_col_point_normal_vec(t_colour colour, t_point *point, \
+t_plane		*plane_col_point_normal_vec(t_colour *colour, t_point *point, \
 									t_vector *normal);
 //Function creates a defined plane from a valid input line.
 t_plane		*plane_line(const char *line);
 //Function creates and initialises a sphere.
 t_sphere	*sphere_create(void);
 //Function creates a defined sphere from colour, centre and radius.
-t_sphere	*sphere_col_centre_radius(t_colour colour, t_point *centre, \
+t_sphere	*sphere_col_centre_radius(t_colour *colour, t_point *centre, \
 									double radius);
 //Function creates a defined sphere from a valid input line.
 t_sphere	*sphere_line(const char *line);
@@ -471,7 +471,7 @@ t_intersect	*intersect_create(void);
 //Function copies an intersection.
 t_intersect	*intersect_copy(t_intersect *intersect);
 //Function creates an intersection from colour, state, ditance, and a point.
-t_intersect	*intersection_input(t_colour colour, int state, double dist, \
+t_intersect	*intersection_input(t_colour *colour, int state, double dist, \
 								t_point *point);
 // -------------------------------- SCENE OBJECTS ------------------------------
 //Function creates and initialises a camera.
@@ -686,15 +686,15 @@ t_colour	*colour_ambient(unsigned int full, t_ambient *ambient);
 //Function works out the ambient light colour from an object list.
 t_colour	*colour_ambient_list(t_objlist *objlist);
 //Function assigns a colour to an existing cylinder.
-void		cylinder_colour(t_colour colour, t_cylinder *cylinder);
+void		cylinder_colour(t_colour *colour, t_cylinder *cylinder);
 //Function determines the colour of an object.
 t_colour	*colour_object(t_obj *object);
 //Function works out the lighting of an intersection based on objects.
-void	colour_lighting(t_objlist *objlist, t_intersect *intersect);
+void		colour_lighting(t_objlist *objlist, t_intersect *intersect);
 //Function works out the lighting effect of a diffuse light on a point. Linear.
 void		colour_diffuse_linear(t_colour *colour, t_diffuse *difflight, t_point *point);
 //Function works out the lighting effect of a diffuse light on a point. Inv. Sq.
-void		colour_diffuse_inverse_square(t_colour *colour, t_diffuse *difflight, t_point *point);
+void		colour_diffuse_inverse_square(t_diffuse *difflight, t_intersect *intersect);
 
 // -------------------------------- MLX OPERATIONS -----------------------------
 //Function places a pixel in an image more quickly than with the pixel_put fn.

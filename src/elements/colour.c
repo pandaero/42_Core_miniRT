@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 16:41:50 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/02 18:49:30 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/02 21:33:05 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,9 @@ t_colour	*colour_str(const char *str)
 	else
 		split = ft_split(str, ',');
 	col->trans = 0;
-	col->red = ft_atoi(split[0]) * 0x00010000;
-	col->green = ft_atoi(split[1]) * 0x00000100;
-	col->blue = ft_atoi(split[2]) * 0x00000001;
+	col->red = ft_atoi(split[0]);
+	col->green = ft_atoi(split[1]);
+	col->blue = ft_atoi(split[2]);
 	col->full = col->trans + col->red + col->green + col->blue;
 	free_split(split);
 	return (col);
@@ -87,7 +87,7 @@ t_colour	*colour_ambient(unsigned int full, t_ambient *ambient)
 	ret->blue = ambient->ratio * ambient->colour->blue + ((full & 0x000000FF));
 	if (ret->blue > 255)
 		ret->blue = 255;
-	ret->full = ret->trans + ret->red + ret->green + ret->blue;
+	ret->full = ret->trans * 0x01000000 + ret->red * 0x00010000 + ret->green * 0x00000100 + ret->blue;
 	if (ret->full > WHITE)
 		ret->full = WHITE;
 	return (ret);
@@ -99,7 +99,7 @@ void	colour_diffuse_linear(t_colour *colour, t_diffuse *difflight, t_point *poin
 	double		distance;
 
 	distance = distance_two_points(difflight->position, point);
-	colour->full = (int)(difflight->ratio * WHITE * LIGHTING_FACTOR / distance);
+	colour->full = (unsigned int)(difflight->ratio * WHITE * LIGHTING_FACTOR / distance);
 	if (colour->full > WHITE)
 		colour->full = WHITE;
 	if (colour->full < BLACK)
@@ -107,17 +107,26 @@ void	colour_diffuse_linear(t_colour *colour, t_diffuse *difflight, t_point *poin
 }
 
 //Function works out the lighting effect of a diffuse light on a point. Inv. Sq.
-void	colour_diffuse_inverse_square(t_colour *colour, t_diffuse *difflight, t_point *point)
+void	colour_diffuse_inverse_square(t_diffuse *difflight, t_intersect *intrsct)
 {
-	double		distance;
+	double	distance;
+	double	ratio;
 
-	distance = distance_two_points(difflight->position, point);
-	colour->full = (int)(difflight->ratio * WHITE * LIGHTING_FACTOR \
-				/ pow(distance, 2));
-	if (colour->full > WHITE)
-		colour->full = WHITE;
-	if (colour->full < BLACK)
-		colour->full = BLACK;
+	distance = distance_two_points(difflight->position, intrsct->point);
+	ratio = 1 / pow(distance, 2);
+	intrsct->colour->trans = 0;
+	intrsct->colour->red += LIGHTING_FACTOR * 255 * ratio * difflight->ratio;
+	if (intrsct->colour->red > 255)
+		intrsct->colour->red = 255;
+	intrsct->colour->green += intrsct->colour->green + LIGHTING_FACTOR * 255 * ratio * difflight->ratio;
+	if (intrsct->colour->green > 255)
+		intrsct->colour->green = 255;
+	intrsct->colour->blue += intrsct->colour->blue + LIGHTING_FACTOR * 255 * ratio * difflight->ratio;
+	if (intrsct->colour->blue > 255)
+		intrsct->colour->blue = 255;
+	intrsct->colour->full = intrsct->colour->trans + intrsct->colour->red * 0x00010000 + intrsct->colour->green * 0x00000100 + intrsct->colour->blue;
+	if (intrsct->colour->full > WHITE)
+		intrsct->colour->full = WHITE;
 }
 
 //Function determines the colour of an object.

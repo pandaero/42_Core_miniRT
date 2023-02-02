@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 16:31:42 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/20 00:09:04 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/02 19:11:25 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_cylinder	*cylinder_create(void)
 	t_cylinder	*new;
 
 	new = (t_cylinder *)malloc(sizeof(t_cylinder));
-	new->colour = 0;
+	new->colour = NULL;
 	new->radius = 0;
 	new->height = 0;
 	new->centre = NULL;
@@ -42,7 +42,7 @@ t_cylinder	*cylinder_centre_orient_radius_height(t_point *centre, \
 }
 
 //Function assigns a colour to an existing cylinder.
-void	cylinder_colour(t_colour colour, t_cylinder *cylinder)
+void	cylinder_colour(t_colour *colour, t_cylinder *cylinder)
 {
 	cylinder->colour = colour;
 }

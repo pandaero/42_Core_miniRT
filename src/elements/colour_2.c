@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 18:48:46 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/02 18:51:02 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/02 21:19:47 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 //Function works out the lighting of an intersection based on objects.
 void	colour_lighting(t_objlist *objlist, t_intersect *intersect)
 {
-	t_colour	*colour;
 	t_colour	*objcolour;
 	t_ambient	*ambient;
 	t_diffuse	*diffuse;
@@ -23,10 +22,9 @@ void	colour_lighting(t_objlist *objlist, t_intersect *intersect)
 	ambient = ambient_objlist(objlist);
 	diffuse = diffuse_objlist(objlist);
 	objcolour = colour_object(intersect->object);
-	colour = colour_ambient(objcolour->full, ambient);
-	colour_diffuse_inverse_square(colour, diffuse, intersect->point);
-	if (colour->full > WHITE)
-		colour->full = WHITE;
+	intersect->colour = colour_ambient(objcolour->full, ambient);
+	if (objlist_count_diffuse(objlist) == 1)
+		colour_diffuse_inverse_square(diffuse, intersect);
 }
 
 //Function works out the ambient light colour from an object list.
