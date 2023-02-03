@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 16:22:23 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/24 17:04:49 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/02 16:46:18 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,55 @@ t_diffuse	*diffuse_objlist(t_objlist *objlist)
 		curr = curr->next;
 	}
 	return (NULL);
+}
+
+//Function counts the number of plane objects in an object list.
+int	objlist_count_plane(t_objlist *objlist)
+{
+	t_obj	*curr;
+	int		ct;
+
+	ct = 0;
+	curr = objlist->first;
+	while (curr)
+	{
+		if (curr->plane || curr->elem == PLANE)
+			ct++;
+		curr = curr->next;
+	}
+	return (ct);
+}
+
+//Function counts the number of sphere objects in an object list.
+int	objlist_count_sphere(t_objlist *objlist)
+{
+	t_obj	*curr;
+	int		ct;
+
+	ct = 0;
+	curr = objlist->first;
+	while (curr)
+	{
+		if (curr->sphere || curr->elem == SPHERE)
+			ct++;
+		curr = curr->next;
+	}
+	return (ct);
+}
+
+//Function counts the number of cylinder objects in an object list.
+int	objlist_count_cylinder(t_objlist *objlist)
+{
+	t_obj	*curr;
+	int		ct;
+
+	ct = 0;
+	curr = objlist->first;
+	while (curr)
+	{
+		if (curr->cylinder || curr->elem == CYLINDER)
+			ct++;
+		curr = curr->next;
+	}
+	return (ct);
 }

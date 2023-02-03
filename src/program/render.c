@@ -6,11 +6,34 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 02:55:08 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/02 15:33:43 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/02 15:56:17 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minirt.h"
+
+//Function fills the screen with ambient light.
+void	render_empty_scene(t_program *program)
+{
+	int			ii[2];
+	t_screen	*scr;
+	t_pixel		*pixel;
+
+	scr = screen_program(program);
+	ii[0] = 0;
+	while (ii[0] < WIN_HEIGHT)
+	{
+		ii[1] = 0;
+		while (ii[1] < WIN_WIDTH)
+		{
+			pixel = scr->pixels[ii[0]][ii[1]];
+			pixel->intrsct = intersect_create();
+			pixel->intrsct->colour = colour_ambient_list(program->objlist);
+			ii[1]++;
+		}
+		ii[0]++;
+	}
+}
 
 //Function creates a screen from camera, then loops rendering through objlist.
 void	render_screen(t_program *program)
@@ -20,6 +43,11 @@ void	render_screen(t_program *program)
 
 	screen = screen_camera(WIN_WIDTH, WIN_HEIGHT, camera_program(program));
 	list_add_object(program->objlist, object_screen(screen));
+	if (program->objlist->num_unrendered == 0)
+	{
+		render_empty_scene(program);
+		return ;
+	}
 	while (program->objlist->num_unrendered > 0)
 	{
 		obj = object_unrendered_list(program->objlist);
@@ -27,6 +55,7 @@ void	render_screen(t_program *program)
 	}
 }
 
+//Function assigns colour to an intersection.
 void	intersection_colour(t_objlist *list, t_intersect *intersect)
 {
 	if (intersect->state == 0)
@@ -37,7 +66,7 @@ void	intersection_colour(t_objlist *list, t_intersect *intersect)
 	intersect->colour = colour_lighting(list, intersect);
 }
 
-//Function fills an intersection for an 
+//Function fills an intersection for a pixel.
 static void	intersection_pass(t_program *program, t_obj *obj, int ii[2])
 {
 	t_camera	*cam;
