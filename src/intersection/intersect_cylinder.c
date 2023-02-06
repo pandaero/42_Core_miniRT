@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 17:25:29 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/06 21:38:37 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/06 22:26:58 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,35 @@
 //for tests
 #include <stdio.h>
 #include <stdlib.h>
+
+static void print_point(char *name, t_point *to_print)
+{
+	printf("%s: ", name);
+	printf("[%f, %f, %f]\n", to_print->x_co, to_print->y_co, to_print->z_co);
+}
+
+static t_intersect *intersection_cylinder_cap(t_ray *ray, t_point *center, t_cylinder *cylinder)
+{
+	t_plane		*cap_plane = plane_col_point_normal_dir(0x00FF00, center, cylinder->orientation); // direction could be inverted
+	t_intersect	*cap_intersection = intersection_ray_plane(ray, cap_plane);
+	if (cap_intersection->state == 0)
+	{
+		return(cap_intersection);
+	}
+	if (cap_intersection->state != 0)
+	{
+		t_vector	*disc_center_to_point_plane = vector_two_points(center, cap_intersection->point);
+		double		distance_center_point2 = vector_dot(disc_center_to_point_plane, disc_center_to_point_plane);
+		double		radius2 = cylinder->radius * cylinder->radius;
+		if (distance_center_point2 > radius2)
+		{
+			cap_intersection->state = 0;
+			return(cap_intersection);
+		}
+	}
+	cap_intersection->state = 1;
+	return(cap_intersection);
+}
 
 t_intersect	*intersection_ray_cylinder(t_ray *ray, t_cylinder *cylinder)
 {
@@ -68,19 +97,6 @@ t_intersect	*intersection_ray_cylinder(t_ray *ray, t_cylinder *cylinder)
 	 	// base cap
 		t_plane		*lower_cap = plane_col_point_normal_dir(0x00FF00, cylinder->centre, cylinder->orientation); // direction could be inverted
 		t_intersect	*cap_intersection = intersection_ray_plane(ray, lower_cap);
-		if (cap_intersection->state != 0)
-		{
-			t_vector	*disc_center_to_point_plane = vector_two_points(cylinder->centre, cap_intersection->point);
-			double		distance_center_point2 = vector_dot(disc_center_to_point_plane, disc_center_to_point_plane);
-			double		radius2 = cylinder->radius * cylinder->radius;
-			if (distance_center_point2 > radius2)
-			{
-				free(intersection_data->point);
-				free(intersection_data);
-				cap_intersection->state = 0;
-				return(cap_intersection);
-			}
-		}
 		if (cap_intersection->state == 0)
 		{
 			free(cap_intersection->point);
@@ -88,12 +104,60 @@ t_intersect	*intersection_ray_cylinder(t_ray *ray, t_cylinder *cylinder)
 			intersection_data->state = 0;
 			return(intersection_data);
 		}
+		if (cap_intersection->state != 0)
+		{
+			t_vector	*disc_center_to_point_plane = vector_two_points(cylinder->centre, cap_intersection->point);
+			double		distance_center_point2 = vector_dot(disc_center_to_point_plane, disc_center_to_point_plane);
+			double		radius2 = cylinder->radius * cylinder->radius;
+			if (distance_center_point2 > radius2)
+			{
+				free(cap_intersection->point);
+				free(cap_intersection);
+				intersection_data->state = 0;
+				return(intersection_data);
+			}
+		}
 		// base cap
 	}
 	if (distance_from_base > cylinder->height)
 	{
-		intersection_data->state = 0;
-		return (intersection_data);
+		t_vector	*base_to_top = vector_scale_direction(cylinder->height, cylinder->orientation);
+		t_point		*top_center;
+		top_center = point_point_vector(cylinder->centre, base_to_top);
+		print_point ("top cent ", top_center);
+		t_intersect	*top_cap_intersection = intersection_cylinder_cap(ray, top_center, cylinder);
+		if (top_cap_intersection->state != 1)
+		{
+			intersection_data->state = 0;
+			free(top_cap_intersection->point);
+			free(top_cap_intersection);
+			return(intersection_data);
+		}
+
+		//top cap
+		// t_plane		*top_cap = plane_col_point_normal_dir(0x00FF00, top_center, cylinder->orientation); // direction could be inverted
+		// t_intersect	*top_cap_intersection = intersection_ray_plane(ray, top_cap);
+		// if (top_cap_intersection->state == 0)
+		// {
+		// 	free(top_cap_intersection->point);
+		// 	free(top_cap_intersection);
+		// 	intersection_data->state = 0;
+		// 	return(intersection_data);
+		// }
+		// if (top_cap_intersection->state != 0)
+		// {
+		// 	t_vector	*disc_center_to_point_plane_top = vector_two_points(top_center, top_cap_intersection->point);
+		// 	double		distance_center_point2_top = vector_dot(disc_center_to_point_plane_top, disc_center_to_point_plane_top);
+		// 	double		radius2 = cylinder->radius * cylinder->radius;
+		// 	if (distance_center_point2_top > radius2)
+		// 	{
+		// 		free(top_cap_intersection->point);
+		// 		free(top_cap_intersection);
+		// 		intersection_data->state = 0;
+		// 		return(intersection_data);
+		// 	}
+		// }
+		//top cap
 	}
 	intersection_data->state = 1;
 	free(quadratic_solutions);
