@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/02 16:47:13 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/06 18:40:07 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -324,7 +324,7 @@ typedef struct s_cylinder_intersect
 	t_vector	*cylinder_orientation_vec;
 	t_vector	*w;
 	t_vector	*cyl_up;
-	t_vector	*cyl_down;
+	// t_vector	*cyl_down;
 	t_point		*C;
 	t_point		*H;
 	double		a;
