@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 17:25:29 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/07 13:00:07 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/07 13:02:31 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,25 +96,17 @@ double quadratic_solution, t_ray_cylinder *t, t_ray *ray)
 	t->vector_cylinder) * quadratic_solution + \
 	vector_dot(t->origin_base_center, t->vector_cylinder);
 }
+
 //Function that determines distance from base to point of intersection
 void	measure_distance(t_ray *ray, t_ray_cylinder *t, \
 t_intersect *i_data)
 {
 	if (t->quadratic_solutions[0] == 1 && t->quadratic_solutions[1] > \
 	t->quadratic_solutions[2])
-	{
 		intersection_and_distance(i_data, t->quadratic_solutions[1], t, ray);
-	}
 	else if (t->quadratic_solutions[0] == 1 && t->quadratic_solutions[2] > \
 	t->quadratic_solutions[1])
-	{
 		intersection_and_distance(i_data, t->quadratic_solutions[2], t, ray);
-		// i_data->point = get_intersection_point(ray, \
-		// t->quadratic_solutions[2]);
-		// t->distance_from_base = vector_dot(t->vector_ray, \
-		// t->vector_cylinder) * t->quadratic_solutions[2] + \
-		// vector_dot(t->origin_base_center, t->vector_cylinder);
-	}
 	else if (t->quadratic_solutions[0] == 2)
 	{
 		i_data->point = get_intersection_point(ray, \
