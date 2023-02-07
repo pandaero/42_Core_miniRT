@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 16:32:02 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/07 14:07:54 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/07 16:39:52 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <unistd.h>
 
 //for tests
-#include <stdio.h>
+// #include <stdio.h>
 
 #define TWO_SOLUTIONS 1
 #define ONE_SOLUTION 2
@@ -72,11 +72,6 @@ double	*solve_quadratic_real(double *coefficient)
 		x[0] = NO_REAL_SOLUTION;
 		x[1] = 0;
 		x[2] = 0;
-		x[3] = 0;
 	}
-	printf("x[0]: %f\n", x[0]);
-	printf("x[0]: %f\n", x[1]);
-	printf("x[0]: %f\n", x[2]);
-	// exit(printf("segcheck\n"));
 	return (x);
 }
