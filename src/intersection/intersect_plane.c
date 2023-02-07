@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:54:59 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/01 14:56:31 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/07 07:40:10 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,3 +58,12 @@ t_intersect	*intersection_ray_plane(t_ray *ray, t_plane *plane)
 	free_ip(ip);
 	return (intersection);
 }
+
+// plane intersects in both directions
+// if (ip->denominator < 0)
+// {
+// 	ip->plane_norm_vec->x_comp = -ip->plane_norm_vec->x_comp;
+// 	ip->plane_norm_vec->y_comp = -ip->plane_norm_vec->y_comp;
+// 	ip->plane_norm_vec->z_comp = -ip->plane_norm_vec->z_comp;
+// }
+// plane intersects in both directions
