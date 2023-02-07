@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/07 11:01:37 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/07 12:50:22 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -324,7 +324,6 @@ typedef struct s_cylinder_intersect
 	t_vector	*cylinder_orientation_vec;
 	t_vector	*w;
 	t_vector	*cyl_up;
-	// t_vector	*cyl_down;
 	t_point		*C;
 	t_point		*H;
 	double		a;
@@ -337,7 +336,7 @@ typedef struct s_ray_cylinder
 {
 	t_intersect	*base_intersection;
 	t_direction	*reverse_cylinder_orientation;
-	t_intersect	*top_cap_intersection;
+	t_intersect	*top_intersection;
 	t_vector	*vector_ray;
 	t_vector	*vector_cylinder;
 	t_vector	*origin_base_center;
@@ -347,6 +346,15 @@ typedef struct s_ray_cylinder
 	double		*coefficient;
 	double		distance_from_base;
 }t_ray_cylinder;
+
+typedef struct s_cylinder_cap
+{
+	t_plane		*cap_plane;
+	t_intersect	*cap_intersection;
+	t_vector	*disc_center_to_point_plane;
+	double		distance_center_point_sq;
+	double		radius_sq;
+}t_cylinder_cap;
 // ================================ INPUT HANDLING =============================
 //Function skips to the first non-space character within a char string.
 int			skip_spacing(const char *str);
