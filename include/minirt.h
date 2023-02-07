@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/07 17:10:40 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/07 19:27:47 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -678,6 +678,8 @@ t_diffuse		*diffuse_objlist(t_objlist *objlist);
 double			*solve_quadratic_real(double *coefficient);
 //Produces the distance between the point of origin to the point of intersection
 t_point			*get_intersection_point(t_ray *ray, double distance);
+//Function that returns a reversed direction, inherit both directions
+t_direction		*reverse_direction(t_direction *direction);
 // ---------------------------------- INTERSECTIONS ----------------------------
 //Function determines the intersection between a ray and a sphere.
 int				ray_sphere_intersection(t_ray *ray, t_sphere *sphere);

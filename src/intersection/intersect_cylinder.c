@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 17:25:29 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/07 18:02:31 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/07 19:28:12 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,17 +54,6 @@ t_intersect *i_data)
 	}
 }
 
-static t_direction	*reverse_direction(t_direction *direction)
-{
-	t_direction	*reverse_direction;
-
-	reverse_direction = direction_components(\
-	-direction->x_comp, \
-	-direction->y_comp, \
-	-direction->z_comp);
-	return (reverse_direction);
-}
-
 t_point	*get_top_center(t_ray_cylinder *t, t_cylinder *cylinder)
 {
 	t->reverse_cylinder_orientation = \
@@ -74,16 +63,9 @@ t_point	*get_top_center(t_ray_cylinder *t, t_cylinder *cylinder)
 	return (point_point_vector(cylinder->centre, t->base_to_top));
 }
 
-t_intersect	*intersection_ray_cylinder(t_ray *ray, t_cylinder *c)
+static void	check_cap_intersection(t_ray *ray, t_cylinder *c, \
+t_intersect *intersection_data, t_ray_cylinder *t)
 {
-	t_intersect		*intersection_data;
-	t_ray_cylinder	*t;
-
-	intersection_data = return_data_init();
-	t = t_ray_cylinder_init(ray, c);
-	if (t->quadratic_solutions[0] == 0)
-		intersection_data->state = FALSE;
-	measure_distance(ray, t, intersection_data);
 	if (t->distance_from_base < 0)
 	{
 		t->base_intersection = intersection_cylinder_cap(ray, c->centre, c);
@@ -100,6 +82,19 @@ t_intersect	*intersection_ray_cylinder(t_ray *ray, t_cylinder *c)
 		free_intersection(t->top_intersection);
 		free_point(t->top_center);
 	}
+}
+
+t_intersect	*intersection_ray_cylinder(t_ray *ray, t_cylinder *c)
+{
+	t_intersect		*intersection_data;
+	t_ray_cylinder	*t;
+
+	intersection_data = return_data_init();
+	t = t_ray_cylinder_init(ray, c);
+	if (t->quadratic_solutions[0] == 0)
+		intersection_data->state = FALSE;
+	measure_distance(ray, t, intersection_data);
+	check_cap_intersection(ray, c, intersection_data, t);
 	if (intersection_data->state == UNDEFINED)
 		intersection_data->state = TRUE;
 	free_cylinder_values(t);
