@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 17:25:29 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/07 13:02:31 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/07 14:03:22 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,13 @@ static t_ray_cylinder	*t_ray_cylinder_init(t_ray *ray, t_cylinder *cylinder)
 	t->coefficient[C] = vector_dot(t->origin_base_center, \
 	t->origin_base_center) - pow(vector_dot(t->origin_base_center, \
 	t->vector_cylinder), 2) - pow(cylinder->radius, 2);
+	if (t->coefficient[A] == 0)
+	{
+		t->quadratic_solutions[0] = 0;
+		t->quadratic_solutions[1] = 0;
+		t->quadratic_solutions[2] = 0;
+		return(t);
+	}
 	t->quadratic_solutions = solve_quadratic_real(t->coefficient);
 	return (t);
 }
