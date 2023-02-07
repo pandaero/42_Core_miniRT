@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 16:32:02 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/06 20:26:39 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/07 11:08:01 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,41 +18,52 @@
 #define TWO_SOLUTIONS 1
 #define ONE_SOLUTION 2
 #define NO_REAL_SOLUTION 0
+#define A 0
+#define B 1
+#define C 2
 
-static int invalid_input(double a)
+static int	invalid_input(double a)
 {
 	if (a == 0)
 	{
 		write(2, "Invalid quadratic equation input\n", 34);
 		return (1);
 	}
-	return(0);
+	return (0);
+}
+
+static void	calclulate_for_two(double *coefficient, \
+double discriminant, double *x)
+{
+	x[0] = TWO_SOLUTIONS;
+	x[1] = (-coefficient[B] + sqrt(discriminant)) / (coefficient[A] * 2);
+	x[2] = (-coefficient[B] - sqrt(discriminant)) / (coefficient[A] * 2);
+}
+
+static void	calclulate_for_one(double *coefficient, double *x)
+{
+		x[0] = ONE_SOLUTION;
+		x[1] = (-coefficient[B]) / (coefficient[A] * 2);
+		x[2] = x[1];
 }
 
 /*ax^2 + bx + c* take ownership of x, x[0] states that there is a solution*/
-double	*solve_quadratic_real(double a, double b, double c)
+double	*solve_quadratic_real(double *coefficient)
 {
 	double	discriminant;
 	double	*x;
 
-	if (invalid_input(a))
-		return(NULL);
-	x = (double*)malloc(3 * sizeof(double));
+	if (invalid_input(coefficient[A]))
+		return (NULL);
+	x = (double *)malloc(3 * sizeof(double));
 	if (!x)
-		return(NULL);
-	discriminant = pow(b, 2) - 4 * (a) * (c);
+		return (NULL);
+	discriminant = pow(coefficient[B], 2) - \
+	4 * (coefficient[A]) * (coefficient[C]);
 	if (discriminant > 0)
-	{
-		x[0] = TWO_SOLUTIONS;
-		x[1] = (-b + sqrt(discriminant)) / (a * 2);
-		x[2] = (-b - sqrt(discriminant)) / (a * 2);
-	}
+		calclulate_for_two(coefficient, discriminant, x);
 	else if (discriminant == 0)
-	{
-		x[0] = ONE_SOLUTION;
-		x[1] = (-b) / (a * 2);
-		x[2] = x[1];
-	}
+		calclulate_for_one(coefficient, x);
 	else if (discriminant < 0)
 	{
 		x[0] = NO_REAL_SOLUTION;

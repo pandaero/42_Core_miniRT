@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/06 18:40:07 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/07 11:01:37 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -331,6 +331,22 @@ typedef struct s_cylinder_intersect
 	double		b;
 	double		c;
 }				t_cylinder_locals;
+
+// Typedef of ray cylinder intersection
+typedef struct s_ray_cylinder
+{
+	t_intersect	*base_intersection;
+	t_direction	*reverse_cylinder_orientation;
+	t_intersect	*top_cap_intersection;
+	t_vector	*vector_ray;
+	t_vector	*vector_cylinder;
+	t_vector	*origin_base_center;
+	t_vector	*base_to_top;
+	t_point		*top_center;
+	double		*quadratic_solutions;
+	double		*coefficient;
+	double		distance_from_base;
+}t_ray_cylinder;
 // ================================ INPUT HANDLING =============================
 //Function skips to the first non-space character within a char string.
 int			skip_spacing(const char *str);
@@ -646,7 +662,7 @@ t_ambient	*ambient_objlist(t_objlist *objlist);
 //Function finds a diffuse point-light object in an object list.
 t_diffuse	*diffuse_objlist(t_objlist *objlist);
 //Solves quadratic equation
-double		*solve_quadratic_real(double a, double b, double c);
+double		*solve_quadratic_real(double *coefficient);
 //Produces the distance between the point of origin to the point of intersection
 t_point		*get_intersection_point(t_ray *ray, double distance);
 // ---------------------------------- INTERSECTIONS ----------------------------
