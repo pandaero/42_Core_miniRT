@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 02:55:08 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/02 15:56:17 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/02 20:58:27 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	intersection_colour(t_objlist *list, t_intersect *intersect)
 		intersect->colour = colour_ambient_list(list);
 		return ;
 	}
-	intersect->colour = colour_lighting(list, intersect);
+	colour_lighting(list, intersect);
 }
 
 //Function fills an intersection for a pixel.
@@ -89,7 +89,7 @@ static void	intersection_pass(t_program *program, t_obj *obj, int ii[2])
 //Function performs a render through the screen for the input object.
 void	render_intersection_pass(t_program *program, t_obj *object)
 {
-	int			ii[2];
+	int	ii[2];
 
 	ii[0] = 0;
 	while (ii[0] < WIN_HEIGHT)
@@ -109,9 +109,11 @@ void	render_intersection_pass(t_program *program, t_obj *object)
 //Function assigns each pixel its colour.
 void	window_draw(t_program *program)
 {
-	int	i;
-	int	j;
+	int			i;
+	int			j;
+	t_screen	*scr;
 
+	scr = screen_program(program);
 	i = 0;
 	while (i < WIN_HEIGHT)
 	{
@@ -119,7 +121,7 @@ void	window_draw(t_program *program)
 		while (j < WIN_WIDTH)
 		{
 			quick_put_pixel(program->mldt->imdt, j, i, \
-					screen_program(program)->pixels[i][j]->intrsct->colour);
+					scr->pixels[i][j]->intrsct->colour->full);
 			j++;
 		}
 		i++;

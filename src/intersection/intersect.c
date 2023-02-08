@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 18:51:09 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/02 15:33:26 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/02 20:46:34 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_intersect	*intersect_create(void)
 
 	new = (t_intersect *)malloc(sizeof(t_intersect));
 	new->state = 0;
-	new->colour = 0;
+	new->colour = NULL;
 	new->distance = 0;
 	new->point = NULL;
 	return (new);
@@ -33,21 +33,21 @@ t_intersect	*intersect_copy(t_intersect *intersect)
 
 	new = intersect_create();
 	new->state = intersect->state;
-	new->colour = intersect->colour;
+	new->colour = colour_copy(intersect->colour);
 	new->distance = intersect->distance;
 	new->point = point_copy(intersect->point);
 	return (new);
 }
 
 //Function creates an intersection from colour, state, ditance, and a point.
-t_intersect	*intersection_input(t_colour colour, int state, double dist, \
+t_intersect	*intersection_input(t_colour *colour, int state, double dist, \
 								t_point *point)
 {
 	t_intersect	*intersection;
 
 	intersection = intersect_create();
 	intersection->state = state;
-	intersection->colour = colour;
+	intersection->colour = colour_copy(colour);
 	intersection->distance = dist;
 	intersection->point = point_copy(point);
 	return (intersection);

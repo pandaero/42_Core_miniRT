@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 16:21:32 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/20 00:09:44 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/02 19:13:09 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@ t_sphere	*sphere_create(void)
 	t_sphere	*new;
 
 	new = (t_sphere *)malloc(sizeof(t_sphere));
-	new->colour = 0;
+	new->colour = NULL;
 	new->radius = 0;
 	new->centre = NULL;
 	return (new);
 }
 
 //Function creates a defined sphere from colour, centre and radius.
-t_sphere	*sphere_col_centre_radius(t_colour colour, t_point *centre, \
+t_sphere	*sphere_col_centre_radius(t_colour *colour, t_point *centre, \
 									double radius)
 {
 	t_sphere	*sphere;
