@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 16:41:50 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/02 22:55:41 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/08 11:30:16 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,8 +102,6 @@ void	colour_diffuse_linear(t_colour *colour, t_diffuse *difflight, t_point *poin
 	colour->full = (unsigned int)(difflight->ratio * WHITE * LIGHTING_FACTOR / distance);
 	if (colour->full > WHITE)
 		colour->full = WHITE;
-	if (colour->full < BLACK)
-		colour->full = BLACK;
 }
 
 //Function works out the lighting effect of a diffuse light on a point. Inv. Sq.
