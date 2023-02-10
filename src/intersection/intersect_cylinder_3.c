@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   intersection_cylinder_cap.c                        :+:      :+:    :+:   */
+/*   intersect_cylinder_3.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 16:32:58 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/08 16:50:06 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/10 17:06:36 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,6 @@
 #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
-
-//FUNCTION WITHOUT DESCRIPTION
-void	free_cylinder_plane(t_cylinder_cap *t)
-{
-	free_plane(t->cap_plane);
-	free(t);
-}
-
-//FUNCTION WITHOUT DESCRIPTION
-void	free_cylinder_cap(t_cylinder_cap *t)
-{
-	free_vector(t->disc_center_to_point_plane);
-	free_plane(t->cap_plane);
-	free(t);
-}
 
 //FUNCTION WITHOUT DESCRIPTION
 void	is_ray_within_radius(t_cylinder_cap *t, t_point *center, \
