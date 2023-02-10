@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/08 16:56:08 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/10 17:16:53 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -505,7 +505,7 @@ t_intersect		*intersect_copy(t_intersect *intersect);
 //Function creates an intersection from colour, state, ditance, and a point.
 t_intersect		*intersection_input(t_colour *colour, int state, double dist, \
 									t_point *point);
-// -------------------------------- SCENE OBJECTS --------w----------------------
+// -------------------------------- SCENE OBJECTS ------------------------------
 //Function creates and initialises a camera.
 t_camera		*camera_create(void);
 //Function creates a camera from input parameters.
@@ -639,6 +639,10 @@ void			free_list(t_objlist *list);
 void			free_object(t_obj *object);
 //Frees cylinder values in the intersect cylinder.
 void			free_cylinder_values(t_ray_cylinder *t);
+//FUNCTION WITHOUT DESCRIPTION
+void			free_cylinder_plane(t_cylinder_cap *t);
+//FUNCTION WITHOUT DESCRIPTION
+void			free_cylinder_cap(t_cylinder_cap *t);
 
 // ================================== LINKED LISTS =============================
 //Function creates a new program data structure.

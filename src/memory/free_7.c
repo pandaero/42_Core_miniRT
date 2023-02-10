@@ -6,11 +6,11 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 17:06:54 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/10 17:08:16 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/10 17:12:14 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minirt.h"
+#include "../../include/minirt.h"
 #include <stdlib.h>
 
 //FUNCTION WITHOUT DESCRIPTION
