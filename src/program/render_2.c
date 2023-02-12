@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 16:52:23 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/12 14:39:08 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/12 14:45:01 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,11 @@ static void	intersection_pass(t_program *program, t_obj *obj, int ii[2])
 	if (strct.temp->distance < \
 			strct.scr->pixels[ii[0]][ii[1]]->intrsct->distance)
 	{
-		ft_printf("comparing|");
 		free_intersection(strct.scr->pixels[ii[0]][ii[1]]->intrsct);
-		strct.scr->pixels[ii[0]][ii[1]]->intrsct = temp;
+		strct.scr->pixels[ii[0]][ii[1]]->intrsct = strct.temp;
 	}
 	else
-		free_intersection(temp);
+		free_intersection(strct.temp);
 	intersection_colour(strct.list, strct.scr->pixels[ii[0]][ii[1]]->intrsct);
 	free_direction(strct.dir);
 	free_ray(strct.ray);

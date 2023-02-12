@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/12 14:35:06 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/12 14:44:06 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ typedef struct s_direction	t_direction;
 typedef struct s_vector		t_vector;
 typedef struct s_ray		t_ray;
 typedef struct s_plane		t_plane;
+typedef struct s_camera		t_camera;
+typedef struct s_screen		t_screen;
 typedef struct s_obj		t_obj;
 typedef struct s_intersect	t_intersect;
 typedef struct s_objlist	t_objlist;
