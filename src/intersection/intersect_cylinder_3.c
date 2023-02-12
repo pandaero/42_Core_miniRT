@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   intersection_cylinder_cap.c                        :+:      :+:    :+:   */
+/*   intersect_cylinder_3.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 16:32:58 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/08 16:50:06 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/12 14:56:32 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-//FUNCTION WITHOUT DESCRIPTION
-void	free_cylinder_plane(t_cylinder_cap *t)
-{
-	free_plane(t->cap_plane);
-	free(t);
-}
-
-//FUNCTION WITHOUT DESCRIPTION
-void	free_cylinder_cap(t_cylinder_cap *t)
-{
-	free_vector(t->disc_center_to_point_plane);
-	free_plane(t->cap_plane);
-	free(t);
-}
-
-//FUNCTION WITHOUT DESCRIPTION
-void	is_ray_within_radius(t_cylinder_cap *t, t_point *center, \
+//Function checks whether a ray is intersecting within a disc radius.
+static void	is_ray_within_radius(t_cylinder_cap *t, t_point *center, \
 t_cylinder *cylinder, t_intersect *cap_intersection)
 {
 	t->disc_center_to_point_plane = vector_two_points(center, \
@@ -41,7 +26,7 @@ t_cylinder *cylinder, t_intersect *cap_intersection)
 	t->radius_sq = cylinder->radius * cylinder->radius;
 }
 
-//FUNCTION WITHOUT DESCRIPTION
+//Function creates and initialises a cap struct.
 static t_cylinder_cap	*cap_init(t_point *center, t_cylinder *cylinder)
 {
 	t_cylinder_cap	*t;
@@ -55,7 +40,7 @@ static t_cylinder_cap	*cap_init(t_point *center, t_cylinder *cylinder)
 	return (t);
 }
 
-//FUNCTION WITHOUT DESCRIPTION
+//Function works out the intersection between a ray and a cylinder cap.
 t_intersect	*intersection_cylinder_cap(t_ray *ray, \
 										t_point *center, t_cylinder *cylinder)
 {

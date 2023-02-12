@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/12 14:44:06 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/12 14:54:46 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -654,6 +654,10 @@ void			free_list(t_objlist *list);
 void			free_object(t_obj *object);
 //Frees cylinder values in the intersect cylinder.
 void			free_cylinder_values(t_ray_cylinder *t);
+//Function frees a plane and a cylinder cap struct.
+void			free_cylinder_plane(t_cylinder_cap *t);
+//Function frees objects related to a cylinder cap.
+void			free_cylinder_cap(t_cylinder_cap *t);
 
 // ================================== LINKED LISTS =============================
 //Function creates a new program data structure.
