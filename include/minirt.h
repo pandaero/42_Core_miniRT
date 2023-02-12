@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/12 13:05:43 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/12 14:35:06 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,17 @@ typedef struct s_valid_formatting
 	int		fd;
 	int		i;
 }			t_valid_formatting;
+
+//Typedef contains several variables for the intersection pass function.
+typedef struct s_inter_pass
+{
+	t_camera	*cam;
+	t_screen	*scr;
+	t_direction	*dir;
+	t_ray		*ray;
+	t_objlist	*list;
+	t_intersect	*temp;
+}				t_inter_pass;
 
 //TYPEDEF MISSING DESCRIPTION
 typedef struct s_cylinder_intersect
