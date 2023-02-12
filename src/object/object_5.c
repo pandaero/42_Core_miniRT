@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   object_5.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 16:15:19 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/24 16:34:46 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/12 14:32:23 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,4 +23,24 @@ t_obj	*object_ambient(t_ambient *ambient)
 	new->elem = AMBIENT;
 	new->ambient = ambient;
 	return (new);
+}
+
+//Function finds the first renderable object in the object linked list.
+t_obj	*object_first_list(t_objlist *objlist)
+{
+	t_obj	*curr;
+
+	curr = objlist->first;
+	while (curr && objlist->num_unrendered > 0)
+	{
+		if (curr->elem == PLANE || curr->elem == SPHERE)
+			return (curr);
+		if (curr->elem == CYLINDER)
+			return (curr);
+		if (curr->next == NULL)
+			curr = objlist->first;
+		else
+			curr = curr->next;
+	}
+	return (NULL);
 }

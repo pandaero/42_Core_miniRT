@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_6.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 18:03:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/20 00:08:20 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/07 17:55:06 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,14 @@ void	*free_cylinder_ret_null(t_cylinder *cylinder)
 {
 	free_cylinder(cylinder);
 	return (NULL);
+}
+
+void	free_cylinder_values(t_ray_cylinder *t)
+{
+	free_vector(t->vector_ray);
+	free_vector(t->vector_cylinder);
+	free_vector(t->origin_base_center);
+	free(t->quadratic_solutions);
+	free(t->coefficient);
+	free(t);
 }

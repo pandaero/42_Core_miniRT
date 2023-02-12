@@ -22,3 +22,6 @@ minilibx-linux/Makefile.gen
 
 # MLX OpenGL (Mac) non-source files
 minilibx_opengl_20191021/libmlx.a
+
+# developer ignores
+*.txt
