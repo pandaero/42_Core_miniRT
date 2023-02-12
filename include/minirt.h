@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/08 16:56:08 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/12 13:05:43 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -582,6 +582,8 @@ t_obj			*object_cylinder_line(t_program *program, const char *line);
 t_obj			*object_unrendered_list(t_objlist *objlist);
 //Function takes an input file line and creates an object.
 t_obj			*object_from_line(t_program *program, const char *line);
+//Function finds the first renderable object in the object linked list.
+t_obj			*object_first_list(t_objlist *objlist);
 // ================================ MEMORY FREEING =============================
 //Function frees a pointer, and returns a double -1.
 double			free_ret_double_minusone(void *ptr);
