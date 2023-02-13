@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersect_plane.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:54:59 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/07 07:40:10 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/13 15:37:26 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ static void	free_ip(t_ip *ip)
 {
 	free_vector(ip->ray_dir_vec);
 	free_vector(ip->plane_norm_vec);
-	free_vector(ip->polo);
 }
 
 //Function checks for intersection between plane and ray
@@ -54,6 +53,7 @@ t_intersect	*intersection_ray_plane(t_ray *ray, t_plane *plane)
 			intersection->point = point_ray_distance(ray, ip->t);
 			intersection->distance = ip->t;
 		}
+		free_vector(ip->polo);
 	}
 	free_ip(ip);
 	return (intersection);
