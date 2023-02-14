@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render_2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 16:52:23 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/12 14:45:01 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/13 15:23:57 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ static void	intersection_pass(t_program *program, t_obj *obj, int ii[2])
 	}
 	else
 		free_intersection(strct.temp);
+	strct.scr->pixels[ii[0]][ii[1]]->intrsct->object = obj;
 	intersection_colour(strct.list, strct.scr->pixels[ii[0]][ii[1]]->intrsct);
 	free_direction(strct.dir);
 	free_ray(strct.ray);

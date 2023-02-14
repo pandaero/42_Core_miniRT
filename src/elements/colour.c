@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 16:41:50 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/08 17:00:31 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/13 15:27:58 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,11 +101,11 @@ t_colour	*colour_object(t_obj *object)
 {
 	t_colour	*colour;
 
-	if (object->plane)
+	if (object->elem == PLANE)
 		colour = object->plane->colour;
-	else if (object->sphere)
+	else if (object->elem == SPHERE)
 		colour = object->sphere->colour;
-	else if (object->cylinder)
+	else if (object->elem == CYLINDER)
 		colour = object->cylinder->colour;
 	else
 		colour = NULL;

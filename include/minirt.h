@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/12 14:54:46 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/13 15:40:48 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -518,7 +518,7 @@ t_intersect		*intersect_copy(t_intersect *intersect);
 //Function creates an intersection from colour, state, ditance, and a point.
 t_intersect		*intersection_input(t_colour *colour, int state, double dist, \
 									t_point *point);
-// -------------------------------- SCENE OBJECTS --------w----------------------
+// -------------------------------- SCENE OBJECTS ------------------------------
 //Function creates and initialises a camera.
 t_camera		*camera_create(void);
 //Function creates a camera from input parameters.
