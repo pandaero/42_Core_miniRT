@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/13 15:40:48 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/16 21:45:33 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -467,6 +467,8 @@ t_direction		*direction_two_points(t_point *start, t_point *end);
 t_direction		*direction_vector(t_vector *vector);
 //Function creates a direction from a valid input string.
 t_direction		*direction_str(const char *str);
+//Function creates a reverse direction from an input one.
+t_direction		*direction_reverse(t_direction *original);
 //Function creates and initialises a vector.
 t_vector		*vector_create(void);
 //Function copies a defined vector object's properties to a new one.
