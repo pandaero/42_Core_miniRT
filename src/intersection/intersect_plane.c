@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:54:59 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/13 15:37:26 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/17 02:58:38 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,13 @@ t_intersect	*intersection_ray_plane(t_ray *ray, t_plane *plane)
 		ip->t = vector_dot(ip->polo, ip->plane_norm_vec) / ip->denominator;
 		if (ip->t >= 0)
 		{
-			intersection->state = 1;
+			intersection->state = INTERSECTED;
 			intersection->point = point_ray_distance(ray, ip->t);
 			intersection->distance = ip->t;
 		}
 		free_vector(ip->polo);
 	}
+	intersection->state = MISSED;
 	free_ip(ip);
 	return (intersection);
 }

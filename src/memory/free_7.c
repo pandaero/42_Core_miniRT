@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 14:51:50 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/13 15:13:30 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/17 02:50:48 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,17 @@ void	free_cylinder_cap(t_cylinder_cap *t)
 	free_vector(t->disc_center_to_point_plane);
 	free_plane(t->cap_plane);
 	free(t);
+}
+
+//Function frees a secondary intersection.
+void	free_sec_intersection(t_sec_itsct *sec)
+{
+	free_intersection(sec->parent);
+	free_colour(sec->shadow);
+}
+
+//Function frees a colour.
+void	free_colour(t_colour *colour)
+{
+	free(colour);
 }

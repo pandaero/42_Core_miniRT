@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersect.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 18:51:09 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/12 13:15:21 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/17 02:52:28 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_intersect	*intersect_create(void)
 	t_intersect	*new;
 
 	new = (t_intersect *)malloc(sizeof(t_intersect));
-	new->state = 0;
+	new->state = UNCALCULATED;
 	new->colour = NULL;
 	new->distance = __DBL_MAX__;
 	new->point = NULL;
