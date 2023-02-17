@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 21:48:28 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/17 00:59:06 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/17 01:09:55 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 t_disc	*disc_create(void)
 {
 	t_disc	*new;
-	
+
 	new = (t_disc *)malloc(sizeof(t_disc));
 	if (!new)
 		return (NULL);
