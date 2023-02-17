@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   disc.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 21:48:28 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/16 22:02:14 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/17 00:59:06 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minirt.h"
+#include <stdlib.h>
 
 //Function creates a new empty disc element.
 t_disc	*disc_create(void)
