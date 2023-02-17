@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 16:15:56 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/17 23:58:08 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/17 04:17:20 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ t_pixel	*pixel_create(void)
 	if (!new)
 		return (NULL);
 	new->point = NULL;
-	new->intrsct = NULL;
+	new->itsct = NULL;
+	new->sec_itsct = NULL;
 	return (new);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/16 22:06:30 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/17 04:19:05 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 // Factor for screen-pixel coordinate sizing. 
 # define VIEW_SCALING 0.1
 // Factor for diffuse lighting effect
+# define SHADOW 0x888888
 # define LIGHTING_FACTOR 5000
 // Colours
 # define BLACK 0x00000000
@@ -285,21 +286,41 @@ typedef struct s_cylinder
 }				t_cylinder;
 
 // =============================  3D DERIVED ELEMENTS ==========================
+//Typedef enumerates states for an intersection.
+typedef enum state
+{
+	UNCALCULATED,
+	INTERSECTED,
+	MISSED
+}	t_state;
+
 //Typedef describes an intersection.
 typedef struct s_intersect
 {
-	int			state;
+	t_state		state;
 	double		distance;
 	t_colour	*colour;
 	t_point		*point;
 	t_obj		*object;
 }				t_intersect;
 
+//Typedef describes a secondary intersection.
+typedef struct s_sec_itsct
+{
+	t_state		state;
+	double		distance;
+	t_point		*point;
+	t_intersect	*parent;
+	t_colour	*shadow;
+}		t_sec_itsct;
+
 //Typedef describes a pixel on the screen.
 typedef struct s_pixel
 {
 	t_point		*point;
-	t_intersect	*intrsct;
+	t_intersect	*itsct;
+	t_sec_itsct	*sec_itsct;
+	t_colour	*colour;
 }				t_pixel;
 
 // ================================= 3D COMPOSITES =============================
@@ -448,10 +469,18 @@ int				valid_file_contents(const char *filename);
 int				valid_file_formatting(const char *filename);
 
 // ================================ OBJECT CREATION ============================
+//Function creates a colour.
+t_colour		*colour_create(void);
 //Function copies a colour to a new one.
 t_colour		*colour_copy(t_colour *colour);
+//Function creates a colour from the full colour.
+t_colour		*colour_full(int full);
 //Function creates a colour from an input string. ("0-255,0-255,0-255")
 t_colour		*colour_str(const char *str);
+//Function adds two colours, creating a new one.
+t_colour		*colour_add(t_colour *col1, t_colour *col2);
+//Function subtracts two colours, creating a new one.
+t_colour		*colour_subtract(t_colour *source, t_colour *col);
 //Function creates a new diffuse from a valid input line.
 t_diffuse		*diffuse_line(const char *line);
 //Function creates and initialises a point.
@@ -679,6 +708,10 @@ void			free_cylinder_values(t_ray_cylinder *t);
 void			free_cylinder_plane(t_cylinder_cap *t);
 //Function frees objects related to a cylinder cap.
 void			free_cylinder_cap(t_cylinder_cap *t);
+//Function frees a secondary intersection.
+void			free_sec_intersection(t_sec_itsct *sec);
+//Function frees a colour.
+void			free_colour(t_colour *colour);
 
 // ================================== LINKED LISTS =============================
 //Function creates a new program data structure.
@@ -745,13 +778,20 @@ t_intersect		*intersection_ray_sphere(t_ray *ray, t_sphere *sphere);
 t_intersect		*intersection_ray_obj(t_ray *ray, t_obj *obj);
 //Function adds colour to the intersection of an object.
 void			intersection_colour(t_objlist *objlist, t_intersect *intersect);
+//Function creates an initialises a secondary intersection.
+t_sec_itsct		*sec_intersect_create(void);
+//Function assigns the relevant primary intersection data to a secondary itsct.
+t_sec_itsct		*sec_intersect_prim(t_intersect *primary);
+//Function calculates a secondary intersection from the scene with an object.
+t_sec_itsct		*sec_itsct_calc(t_objlist *objlist, t_pixel *pix, t_obj *obj);
 //Checks for an itersection between a ray and a cylinder
 t_intersect		*intersection_ray_cylinder(t_ray *ray, t_cylinder *cylinder);
 //Helper of intersection cylinder, checks the cap intersections
 t_intersect		*intersection_cylinder_cap(t_ray *ray, \
-t_point *center, t_cylinder *cylinder);
+										t_point *center, t_cylinder *cylinder);
 //Initializes variables in cylinder
 t_ray_cylinder	*t_ray_cylinder_init(t_ray *ray, t_cylinder *cylinder);
+
 t_intersect		*return_data_init(void);
 // ------------------------------- VECTOR OPERATIONS ---------------------------
 //Function adds two vectors together.

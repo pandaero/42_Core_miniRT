@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 18:48:46 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/08 17:00:29 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/17 03:09:06 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,36 @@ void	colour_lighting(t_objlist *objlist, t_intersect *intersect)
 {
 	t_colour	*objcolour;
 	t_ambient	*ambient;
-	t_diffuse	*diffuse;
 
 	ambient = ambient_objlist(objlist);
-	diffuse = diffuse_objlist(objlist);
 	objcolour = colour_object(intersect->object);
 	intersect->colour = colour_ambient(objcolour->full, ambient);
-	if (objlist_count_diffuse(objlist) == 1)
-		colour_diffuse_inverse_square(diffuse, intersect);
+}
+
+//Function adds ambient light to a colour.
+t_colour	*colour_ambient(unsigned int full, t_ambient *ambient)
+{
+	t_colour	*ret;
+
+	ret = colour_create();
+	ret->trans = 0;
+	ret->red = ambient->ratio * ambient->colour->red + \
+				((full & 0xFF0000) >> 16);
+	if (ret->red > 255)
+		ret->red = 255;
+	ret->green = ambient->ratio * ambient->colour->green + \
+				((full & 0xFF00) >> 8);
+	if (ret->green > 255)
+		ret->green = 255;
+	ret->blue = ambient->ratio * ambient->colour->blue + \
+				((full & 0xFF));
+	if (ret->blue > 255)
+		ret->blue = 255;
+	ret->full = ret->trans * 0x1000000 + ret->red * 0x10000 + \
+				ret->green * 0x100 + ret->blue;
+	if (ret->full > WHITE)
+		ret->full = WHITE;
+	return (ret);
 }
 
 //Function works out the ambient light colour from an object list.
