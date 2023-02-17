@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/13 15:40:48 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/16 22:06:30 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct s_direction	t_direction;
 typedef struct s_vector		t_vector;
 typedef struct s_ray		t_ray;
 typedef struct s_plane		t_plane;
+typedef struct s_disc		t_disc;
 typedef struct s_camera		t_camera;
 typedef struct s_screen		t_screen;
 typedef struct s_obj		t_obj;
@@ -208,6 +209,7 @@ typedef enum element
 	VECTOR,
 	RAY,
 	PLANE,
+	DISC,
 	SPHERE,
 	CYLINDER,
 	CAMERA,
@@ -254,6 +256,15 @@ typedef struct s_plane
 	t_point		*point;
 	t_direction	*normal;
 }				t_plane;
+
+//Typedef describes a disc in 3D space.
+typedef struct s_disc
+{
+	t_point		*centre;
+	t_direction	*normal;
+	double		radius;
+	t_colour	*colour;
+}				t_disc;
 
 //Typedef describes a sphere in 3D space.
 typedef struct s_sphere
@@ -366,6 +377,7 @@ typedef struct s_obj
 	t_camera	*camera;
 	t_screen	*screen;
 	t_plane		*plane;
+	t_disc		*disc;
 	t_sphere	*sphere;
 	t_cylinder	*cylinder;
 	t_obj		*prev;
@@ -467,6 +479,8 @@ t_direction		*direction_two_points(t_point *start, t_point *end);
 t_direction		*direction_vector(t_vector *vector);
 //Function creates a direction from a valid input string.
 t_direction		*direction_str(const char *str);
+//Function creates a reverse direction from an input one.
+t_direction		*direction_reverse(t_direction *original);
 //Function creates and initialises a vector.
 t_vector		*vector_create(void);
 //Function copies a defined vector object's properties to a new one.
@@ -497,6 +511,11 @@ t_plane			*plane_col_point_normal_vec(t_colour *colour, t_point *point, \
 											t_vector *normal);
 //Function creates a defined plane from a valid input line.
 t_plane			*plane_line(const char *line);
+//Function creates a new empty disc element.
+t_disc			*disc_create(void);
+//Function creates a disc element from a centre, a normal direction, and radius.
+t_disc			*disc_centre_normal_radius_colour(t_point *centre, \
+						t_direction *norm, double radius, t_colour *colour);
 //Function creates and initialises a sphere.
 t_sphere		*sphere_create(void);
 //Function creates a defined sphere from colour, centre and radius.
@@ -581,6 +600,8 @@ t_obj			*object_camera_line(t_program *program, const char *line);
 t_obj			*object_screen(t_screen *screen);
 //Function creates a plane object.
 t_obj			*object_plane(t_plane *plane);
+//Function creates a disc object.
+t_obj			*object_disc(t_disc *disc);
 //Function creates a plane object from a valid input line.
 t_obj			*object_plane_line(t_program *program, const char *line);
 //Function creates a sphere object.

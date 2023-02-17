@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 16:15:19 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/12 14:32:23 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/16 22:06:10 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,17 @@ t_obj	*object_first_list(t_objlist *objlist)
 			curr = curr->next;
 	}
 	return (NULL);
+}
+
+//Function creates a disc object.
+t_obj	*object_disc(t_disc *disc)
+{
+	t_obj	*new;
+
+	new = object_create();
+	if (!new)
+		return (NULL);
+	new->elem = DISC;
+	new->disc = disc;
+	return (new);
 }

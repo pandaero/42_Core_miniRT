@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   direction_2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 20:56:51 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/21 02:57:06 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/16 21:44:51 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,18 @@ t_direction	*direction_str(const char *str)
 	free_split(split);
 	free(clean_z);
 	return (direction);
+}
+
+//Function creates a reverse direction from an input one.
+t_direction	*direction_reverse(t_direction *original)
+{
+	t_direction	*new;
+
+	new = direction_create();
+	if (!new)
+		return (NULL);
+	new->x_comp = -original->x_comp;
+	new->y_comp = -original->y_comp;
+	new->z_comp = -original->z_comp;
+	return (new);
 }
