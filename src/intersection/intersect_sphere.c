@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 22:22:24 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/07 11:11:32 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/18 14:24:07 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ t_intersect	*intersection_ray_sphere(t_ray *ray, t_sphere *sphere)
 	rs.y = pow(vector_dot(rp, vec_ray_dir), 2) - \
 	(vector_dot(rp, rp)) + pow(sphere->radius, 2);
 	intersection = intersect_create();
-	if (rs.y >= 0)
+	if (rs.y >= 0 && vector_dot(rp,vec_ray_dir) > 0)
 	{
 		intersection->state = 1;
 		intersection->distance = get_distance(vec_ray_dir, rp, sphere);
