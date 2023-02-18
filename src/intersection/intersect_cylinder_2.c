@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 17:25:29 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/18 12:18:26 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/18 18:41:06 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,10 @@
 void	intersection_and_distance(t_intersect *intersection_data, \
 double quadratic_solution, t_ray_cylinder *t, t_ray *ray)
 {
+	// if (quadratic_solution < 0)
+	// {
+	// 	printf("bruh\n");
+	// }
 	intersection_data->point = get_intersection_point(ray, \
 	quadratic_solution);
 	t->distance_from_base = vector_dot(t->vector_ray, \
@@ -38,20 +42,50 @@ double quadratic_solution, t_ray_cylinder *t, t_ray *ray)
 void	measure_distance(t_ray *ray, t_ray_cylinder *t, \
 t_intersect *i_data)
 {
-	if (t->quadratic_solutions[0] == 1 && t->quadratic_solutions[1] >= \
+	
+	if(t->quadratic_solutions[1] < 0 \
+	&& t->quadratic_solutions[2] < 0)
+	{
+		i_data->state = FALSE;
+		return ;
+	}
+	else if (t->quadratic_solutions[0] == 1 && t->quadratic_solutions[1] > \
 	t->quadratic_solutions[2])
+	{
+		if (t->quadratic_solutions[2] < 0)
+		{
+			i_data->state = FALSE;
+			return ;
+		}
 		intersection_and_distance(i_data, t->quadratic_solutions[2], t, ray);
-	else if (t->quadratic_solutions[0] == 1 && t->quadratic_solutions[2] >= \
+	}
+	else if (t->quadratic_solutions[0] == 1 && t->quadratic_solutions[2] > \
 	t->quadratic_solutions[1])
+	{
+		if (t->quadratic_solutions[1] < 0)
+		{
+			i_data->state = FALSE;
+			return ;
+		}
 		intersection_and_distance(i_data, t->quadratic_solutions[1], t, ray);
+	}
 	else if (t->quadratic_solutions[0] == 2)
 	{
+		if (t->quadratic_solutions[1] < 0)
+		{
+			i_data->state = FALSE;
+			return ;
+		}
 		i_data->point = get_intersection_point(ray, \
 		t->quadratic_solutions[1]);
 		t->distance_from_base = vector_dot(t->vector_ray, \
 		t->vector_cylinder) * t->quadratic_solutions[1] + \
 		vector_dot(t->origin_base_center, t->vector_cylinder);
 	}
+	// printf("q_sol:[%f, %f, %f]\n", t->quadratic_solutions[0], t->quadratic_solutions[1], t->quadratic_solutions[2]);
+	// printf("dist_base: [%f]\n", t->distance_from_base);
+	// printf("ray orig [%f, %f, %f]\n", ray->ray_orig->x_co, ray->ray_orig->y_co, ray->ray_orig->z_co);
+	// printf("ray: [%f, %f, %f]\n", ray->ray_dir->x_comp, ray->ray_dir->y_comp, ray->ray_dir->z_comp );
 }
 
 //
@@ -92,20 +126,20 @@ t_intersect *intersection_data, t_ray_cylinder *t)
 }
 
 //
-t_intersect	*intersection_ray_cylinder(t_ray *ray, t_cylinder *c)
-{
-	t_intersect		*intersection_data;
-	t_ray_cylinder	*t;
+// t_intersect	*intersection_ray_cylinder(t_ray *ray, t_cylinder *c)
+// {
+// 	t_intersect		*intersection_data;
+// 	t_ray_cylinder	*t;
 
-	intersection_data = return_data_init();
-	// intersection_data = intersect_create();
-	t = t_ray_cylinder_init(ray, c);
-	if (t->quadratic_solutions[0] == 0)
-		intersection_data->state = FALSE;
-	measure_distance(ray, t, intersection_data);
-	check_cap_intersection(ray, c, intersection_data, t);
-	if (intersection_data->state == UNDEFINED)
-		intersection_data->state = TRUE;
-	free_cylinder_values(t);
-	return (intersection_data);
-}
+// 	intersection_data = return_data_init();
+// 	// intersection_data = intersect_create();
+// 	t = t_ray_cylinder_init(ray, c);
+// 	if (t->quadratic_solutions[0] == 0)
+// 		intersection_data->state = FALSE;
+// 	measure_distance(ray, t, intersection_data);
+// 	// check_cap_intersection(ray, c, intersection_data, t);
+// 	if (intersection_data->state == UNDEFINED)
+// 		intersection_data->state = TRUE;
+// 	free_cylinder_values(t);
+// 	return (intersection_data);
+// }
