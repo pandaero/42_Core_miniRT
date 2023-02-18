@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cylinder_init.c                                    :+:      :+:    :+:   */
+/*   intersect_cylinder.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 16:39:14 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/07 17:04:45 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/18 11:31:50 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,6 @@ t_intersect	*return_data_init(void)
 	intersection_data = (t_intersect *)malloc(sizeof(t_intersect));
 	intersection_data->point = (t_point *)malloc(sizeof(t_point));
 	intersection_data->state = UNDEFINED;
-	intersection_data->point->x_co = 0;
-	intersection_data->point->y_co = 0;
-	intersection_data->point->z_co = 0;
+	intersection_data->point = NULL;
 	return (intersection_data);
 }
