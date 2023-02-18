@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 17:25:29 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/12 14:57:09 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/18 11:06:49 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,12 @@ double quadratic_solution, t_ray_cylinder *t, t_ray *ray)
 void	measure_distance(t_ray *ray, t_ray_cylinder *t, \
 t_intersect *i_data)
 {
-	if (t->quadratic_solutions[0] == 1 && t->quadratic_solutions[1] > \
+	if (t->quadratic_solutions[0] == 1 && t->quadratic_solutions[1] >= \
 	t->quadratic_solutions[2])
-		intersection_and_distance(i_data, t->quadratic_solutions[1], t, ray);
-	else if (t->quadratic_solutions[0] == 1 && t->quadratic_solutions[2] > \
-	t->quadratic_solutions[1])
 		intersection_and_distance(i_data, t->quadratic_solutions[2], t, ray);
+	else if (t->quadratic_solutions[0] == 1 && t->quadratic_solutions[2] >= \
+	t->quadratic_solutions[1])
+		intersection_and_distance(i_data, t->quadratic_solutions[1], t, ray);
 	else if (t->quadratic_solutions[0] == 2)
 	{
 		i_data->point = get_intersection_point(ray, \
