@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 16:32:58 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/12 14:56:32 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/18 12:05:55 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ static t_cylinder_cap	*cap_init(t_point *center, t_cylinder *cylinder)
 	t->cap_plane = plane_col_point_normal_dir(col, \
 	center, cylinder->orientation);
 	t->disc_center_to_point_plane = NULL;
+	free(col);
+	
 	return (t);
 }
 
@@ -49,6 +51,7 @@ t_intersect	*intersection_cylinder_cap(t_ray *ray, \
 
 	t = cap_init(center, cylinder);
 	cap_intersection = intersection_ray_plane(ray, t->cap_plane);
+	// t->
 	if (cap_intersection->state == 0)
 	{
 		free_cylinder_plane(t);

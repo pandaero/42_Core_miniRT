@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 17:25:29 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/18 11:06:49 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/18 11:48:21 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,16 @@ t_intersect *i_data)
 //
 t_point	*get_top_center(t_ray_cylinder *t, t_cylinder *cylinder)
 {
+	t_point *top_center;
+	
 	t->reverse_cylinder_orientation = \
 	reverse_direction(cylinder->orientation);
 	t->base_to_top = vector_scale_direction(cylinder->height, \
 	t->reverse_cylinder_orientation);
-	return (point_point_vector(cylinder->centre, t->base_to_top));
+	free_direction(t->reverse_cylinder_orientation);
+	top_center = point_point_vector(cylinder->centre, t->base_to_top);
+	free_vector(t->base_to_top);
+	return (top_center);
 }
 
 //
