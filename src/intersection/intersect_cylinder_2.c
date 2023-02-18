@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 17:25:29 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/18 11:48:21 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/18 12:18:26 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ t_intersect	*intersection_ray_cylinder(t_ray *ray, t_cylinder *c)
 	t_ray_cylinder	*t;
 
 	intersection_data = return_data_init();
+	// intersection_data = intersect_create();
 	t = t_ray_cylinder_init(ray, c);
 	if (t->quadratic_solutions[0] == 0)
 		intersection_data->state = FALSE;

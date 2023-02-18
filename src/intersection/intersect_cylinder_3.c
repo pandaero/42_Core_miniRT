@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 16:32:58 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/18 12:05:55 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/18 12:09:37 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ static t_cylinder_cap	*cap_init(t_point *center, t_cylinder *cylinder)
 	center, cylinder->orientation);
 	t->disc_center_to_point_plane = NULL;
 	free(col);
-	
 	return (t);
 }
 
