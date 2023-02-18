@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/16 22:06:30 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/18 10:10:00 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -752,7 +752,8 @@ t_intersect		*intersection_cylinder_cap(t_ray *ray, \
 t_point *center, t_cylinder *cylinder);
 //Initializes variables in cylinder
 t_ray_cylinder	*t_ray_cylinder_init(t_ray *ray, t_cylinder *cylinder);
-t_intersect		*return_data_init(void);
+//Function initializes values of the cylinder intersection struct
+t_intersect		*cylinder_intersection_creator(void);
 // ------------------------------- VECTOR OPERATIONS ---------------------------
 //Function adds two vectors together.
 t_vector		*vector_add(t_vector *first, t_vector *second);
