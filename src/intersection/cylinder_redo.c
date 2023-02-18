@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:38:13 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/18 20:44:03 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/18 21:25:46 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,17 @@
 #define B 1
 #define C 2
 
+
+
 t_intersect	*intersection_ray_cylinder(t_ray *ray, t_cylinder *cylinder)
 {
 	t_intersect	*cylinder_intersect;
 	t_vector 	*vector_ray;
 	t_vector	*vector_cylinder;
 	t_vector	*vector_ray_origin_base_center;
+	t_vector	*vector_base_top;
+	t_vector	*vector_base_intersection;
+	double		distance_cylinder_axis;
 	double		coefficient[3];
 	double		*quadratic_result;
 	
@@ -37,6 +42,8 @@ t_intersect	*intersection_ray_cylinder(t_ray *ray, t_cylinder *cylinder)
 	vector_ray = vector_scale_direction(1, ray->ray_dir);
 	vector_cylinder = vector_scale_direction(1, cylinder->orientation);
 	vector_ray_origin_base_center = vector_two_points(cylinder->centre, ray->ray_orig);
+	vector_base_top = vector_scale_direction(cylinder->height, cylinder->orientation);
+	vector_base_intersection = NULL;
 	coefficient[A] = vector_dot(vector_ray, vector_ray) - pow(vector_dot(vector_ray, vector_cylinder), 2);
 	coefficient[B] = 2 * (vector_dot(vector_ray, vector_ray_origin_base_center) - (vector_dot(vector_ray, vector_cylinder) * vector_dot(vector_ray_origin_base_center, vector_cylinder)));
 	coefficient[C] = vector_dot(vector_ray_origin_base_center, vector_ray_origin_base_center) - pow(vector_dot(vector_ray_origin_base_center, vector_cylinder), 2) - pow(cylinder->radius, 2);
@@ -64,10 +71,16 @@ t_intersect	*intersection_ray_cylinder(t_ray *ray, t_cylinder *cylinder)
 	}
 	if(cylinder_intersect->point != NULL)
 	{
-		cylinder_intersect->state = 1;
+		vector_base_intersection = vector_two_points(cylinder->centre, cylinder_intersect->point);
+		distance_cylinder_axis = vector_dot(vector_base_intersection, vector_base_top);
+		printf("[%f] ", distance_cylinder_axis);
+		if (distance_cylinder_axis >= 0)
+			cylinder_intersect->state = 1;
 	}
 	if(cylinder_intersect->state == 1)
 	{
+		free_vector(vector_base_intersection);
+		free_vector(vector_base_top);
 		free_vector(vector_ray_origin_base_center);
 		free_vector(vector_cylinder);
 		free_vector(vector_ray);
@@ -75,6 +88,8 @@ t_intersect	*intersection_ray_cylinder(t_ray *ray, t_cylinder *cylinder)
 		return(cylinder_intersect);
 	}
 	cylinder_intersect->state = 0;
+	cylinder_intersect->point = NULL;
+	free_vector(vector_base_top);
 	free_vector(vector_ray_origin_base_center);
 	free_vector(vector_cylinder);
 	free_vector(vector_ray);
