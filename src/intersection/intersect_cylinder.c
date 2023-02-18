@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   intersect_cylinder.c                               :+:      :+:    :+:   */
+/*   cylinder_init.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 16:39:14 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/18 10:10:16 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/07 17:04:45 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,15 @@ t_ray_cylinder	*t_ray_cylinder_init(t_ray *ray, t_cylinder *cylinder)
 }
 
 //Initialize struct for cylinder intersection
-t_intersect	*cylinder_intersection_creator(void)
+t_intersect	*return_data_init(void)
 {
 	t_intersect	*intersection_data;
 
 	intersection_data = (t_intersect *)malloc(sizeof(t_intersect));
 	intersection_data->point = (t_point *)malloc(sizeof(t_point));
 	intersection_data->state = UNDEFINED;
-	intersection_data->point = NULL;
+	intersection_data->point->x_co = 0;
+	intersection_data->point->y_co = 0;
+	intersection_data->point->z_co = 0;
 	return (intersection_data);
 }
