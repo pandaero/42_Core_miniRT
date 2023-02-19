@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:38:13 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/19 22:32:51 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/19 23:26:11 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ t_intersect	*intersection_ray_cylinder(t_ray *ray, t_cylinder *cylinder)
 	{
 		cylinder_intersect->point = get_intersection_point(ray, quadratic_result[1]);
 	}
-	if ((quadratic_result[0] == 1) && (quadratic_result[1] > 0 )&& (quadratic_result[2] < 0))
+	else if ((quadratic_result[0] == 1) && (quadratic_result[1] > 0 )&& (quadratic_result[2] < 0))
 	{
 		cylinder_intersect->point = get_intersection_point(ray, quadratic_result[1]);
  	}
@@ -80,19 +80,11 @@ t_intersect	*intersection_ray_cylinder(t_ray *ray, t_cylinder *cylinder)
 	if(cylinder_intersect->point != NULL)
 	{		
 		distance_cylinder_axis = 2 * sqrt(fabs((pow(cylinder->radius,2) - pow(distance_two_points(cylinder->centre, cylinder_intersect->point),2))));
-		// printf("distance: [%f] |", distance_cylinder_axis);
-		// printf("cylinder->heigt: %f |", cylinder->height);
-		// printf("cylinder points: [%f, %f, %f]", cylinder_intersect->point->x_co, cylinder_intersect->point->y_co, cylinder_intersect->point->z_co);
-		// printf("[%f]", cylinder_intersect->point->x_co);
 		if (distance_cylinder_axis >= 0)
 		{
 			if (distance_cylinder_axis <= cylinder->height)
 			{
-				// printf("bang!\n");
 				cylinder_intersect->state = 1;
-				// tests
-				// free_point(cylinder_intersect->point);
-				// cylinder_intersect->point = NULL;
 			}
 			else
 			{
@@ -103,8 +95,9 @@ t_intersect	*intersection_ray_cylinder(t_ray *ray, t_cylinder *cylinder)
 				t_intersect	*intersect_base_plane = intersection_ray_plane(ray, plane_base_cylinder);
 				if (intersect_base_plane->state == 1)
 				{
-					t_vector	*vector_center_intersection = vector_two_points(point_center_base, intersect_base_plane->point);
-					double		d_sq = vector_dot(vector_center_intersection, vector_center_intersection);
+					t_vector	*vector_base_intersection = vector_two_points(point_center_base, intersect_base_plane->point);
+					double		d_sq = vector_dot(vector_base_intersection, vector_base_intersection);
+					free_vector(vector_base_intersection);
 					double		radius_sq = pow(cylinder->radius, 2);
 					if (d_sq <= radius_sq)
 					{
@@ -118,8 +111,9 @@ t_intersect	*intersection_ray_cylinder(t_ray *ray, t_cylinder *cylinder)
 				t_intersect	*intersect_top_plane = intersection_ray_plane(ray, plane_top_cylinder);
 				if (intersect_top_plane->state == 1)
 				{
-					t_vector	*vector_center_intersection = vector_two_points(point_center_top, intersect_top_plane->point);
-					double		d_sq = vector_dot(vector_center_intersection, vector_center_intersection);
+					t_vector	*vector_top_intersection = vector_two_points(point_center_top, intersect_top_plane->point);
+					double		d_sq = vector_dot(vector_top_intersection, vector_top_intersection);
+					free_vector(vector_top_intersection);
 					double		radius_sq = pow(cylinder->radius, 2);
 					if (d_sq <= radius_sq)
 					{
@@ -128,20 +122,28 @@ t_intersect	*intersection_ray_cylinder(t_ray *ray, t_cylinder *cylinder)
 				}
 				if(intersect_base_plane->distance >= 0 && intersect_top_plane->distance < 0 && cylinder_intersect->state == 1)
 				{
-					cylinder_intersect->point = intersect_base_plane->point;
+					cylinder_intersect->point = point_copy(intersect_base_plane->point);
 				}
-				if(intersect_top_plane->distance >= 0 && intersect_base_plane->distance < 0 && cylinder_intersect->state == 1)
+				else if(intersect_top_plane->distance >= 0 && intersect_base_plane->distance < 0 && cylinder_intersect->state == 1)
 				{
-					cylinder_intersect->point = intersect_top_plane->point;
+					cylinder_intersect->point = point_copy(intersect_top_plane->point);
 				}
-				if(intersect_base_plane->distance >= 0 && intersect_base_plane->distance < intersect_top_plane->distance && cylinder_intersect->state == 1)
+				else if(intersect_base_plane->distance >= 0 && intersect_base_plane->distance < intersect_top_plane->distance && cylinder_intersect->state == 1)
 				{
-					cylinder_intersect->point = intersect_base_plane->point;
+					cylinder_intersect->point = point_copy(intersect_base_plane->point);
 				}
-				if(intersect_top_plane->distance >= 0 && intersect_top_plane->distance < intersect_base_plane->distance && cylinder_intersect->state == 1)
+				else if(intersect_top_plane->distance >= 0 && intersect_top_plane->distance < intersect_base_plane->distance && cylinder_intersect->state == 1)
 				{
-					cylinder_intersect->point = intersect_top_plane->point;
+					cylinder_intersect->point = point_copy(intersect_top_plane->point);
 				}
+				free_plane(plane_base_cylinder);
+				free_plane(plane_top_cylinder);
+				free_intersection(intersect_base_plane);
+				free_intersection(intersect_top_plane);
+				free_point(point_center_top);
+				free_point(point_center_base);
+				free_vector(vector_centroid_top);
+				free_vector(vector_centroid_base);		
 			}
 		}
 	}

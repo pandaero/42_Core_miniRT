@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/16 22:06:30 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/19 23:34:48 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,46 +116,6 @@ typedef struct s_inter_pass
 	t_objlist	*list;
 	t_intersect	*temp;
 }				t_inter_pass;
-
-//TYPEDEF MISSING DESCRIPTION
-typedef struct s_cylinder_intersect
-{
-	t_vector	*ray_dir_vec;
-	t_vector	*cylinder_orientation_vec;
-	t_vector	*w;
-	t_vector	*cyl_up;
-	t_point		*C;
-	t_point		*H;
-	double		a;
-	double		b;
-	double		c;
-}				t_cylinder_locals;
-
-//Typedef of ray cylinder intersection
-typedef struct s_ray_cylinder
-{
-	t_intersect	*base_intersection;
-	t_direction	*reverse_cylinder_orientation;
-	t_intersect	*top_intersection;
-	t_vector	*vector_ray;
-	t_vector	*vector_cylinder;
-	t_vector	*origin_base_center;
-	t_vector	*base_to_top;
-	t_point		*top_center;
-	double		*quadratic_solutions;
-	double		*coefficient;
-	double		distance_from_base;
-}				t_ray_cylinder;
-
-//TYPEDEF MISSING DESCRIPTION
-typedef struct s_cylinder_cap
-{
-	t_plane		*cap_plane;
-	t_intersect	*cap_intersection;
-	t_vector	*disc_center_to_point_plane;
-	double		distance_center_point_sq;
-	double		radius_sq;
-}				t_cylinder_cap;
 
 // ===================================== PROGRAM ===============================
 //Typedef defines a struct for program data.
@@ -673,12 +633,6 @@ void			free_obj_lists(t_objlist *first);
 void			free_list(t_objlist *list);
 //Function frees an object.
 void			free_object(t_obj *object);
-//Frees cylinder values in the intersect cylinder.
-void			free_cylinder_values(t_ray_cylinder *t);
-//Function frees a plane and a cylinder cap struct.
-void			free_cylinder_plane(t_cylinder_cap *t);
-//Function frees objects related to a cylinder cap.
-void			free_cylinder_cap(t_cylinder_cap *t);
 
 // ================================== LINKED LISTS =============================
 //Function creates a new program data structure.
@@ -747,12 +701,8 @@ t_intersect		*intersection_ray_obj(t_ray *ray, t_obj *obj);
 void			intersection_colour(t_objlist *objlist, t_intersect *intersect);
 //Checks for an itersection between a ray and a cylinder
 t_intersect		*intersection_ray_cylinder(t_ray *ray, t_cylinder *cylinder);
-//Helper of intersection cylinder, checks the cap intersections
-t_intersect		*intersection_cylinder_cap(t_ray *ray, \
-t_point *center, t_cylinder *cylinder);
-//Initializes variables in cylinder
-t_ray_cylinder	*t_ray_cylinder_init(t_ray *ray, t_cylinder *cylinder);
-t_intersect		*return_data_init(void);
+//Intersection ray disc
+t_intersect		*intersection_ray_disc(t_ray *ray, t_point *disc_center, t_direction *disc_normal_dir, double radius);
 // ------------------------------- VECTOR OPERATIONS ---------------------------
 //Function adds two vectors together.
 t_vector		*vector_add(t_vector *first, t_vector *second);
