@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 22:22:24 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/17 02:58:55 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/19 18:07:52 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ t_intersect	*intersection_ray_sphere(t_ray *ray, t_sphere *sphere)
 		intersection->distance = get_distance(vec_ray_dir, rp, sphere);
 		intersection->point = point_ray_distance(ray, intersection->distance);
 	}
-	intersection->state = MISSED;
+	if (intersection->state != INTERSECTED)
+		intersection->state = MISSED;
 	free_vector(rp);
 	free_vector(vec_ray_dir);
 	return (intersection);

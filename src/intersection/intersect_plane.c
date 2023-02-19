@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:54:59 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/17 02:58:38 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/19 18:06:41 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ t_intersect	*intersection_ray_plane(t_ray *ray, t_plane *plane)
 		}
 		free_vector(ip->polo);
 	}
-	intersection->state = MISSED;
+	if (intersection->state != INTERSECTED)
+		intersection->state = MISSED;
 	free_ip(ip);
 	return (intersection);
 }

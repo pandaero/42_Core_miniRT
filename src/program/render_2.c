@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 16:52:23 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/19 15:59:03 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/19 18:48:53 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,7 @@ static void	intersection_pass(t_program *program, t_obj *obj, int ii[2])
 																strct.dir);
 	strct.temp = intersection_ray_obj(strct.ray, obj);
 	if (object_first_list(program->objlist) == obj)
-		strct.scr->pixels[ii[0]][ii[1]]->itsct = \
-			intersection_ray_obj(strct.ray, obj);
+		strct.scr->pixels[ii[0]][ii[1]]->itsct = intersection_ray_obj(strct.ray, obj);
 	if (strct.temp->distance < \
 			strct.scr->pixels[ii[0]][ii[1]]->itsct->distance)
 	{
@@ -59,15 +58,32 @@ void	sec_itsct_pass(t_program *program, t_obj *obj, int ii[2])
 	t_screen	*screen;
 	t_pixel		*pix;
 	t_obj		*object;
+	t_diffuse	*light;
+	double		tolight;
+	t_intersect	*temp_intrsct;
 
 	screen = screen_program(program);
 	object = object_first_list(program->objlist);
+	light = diffuse_objlist(program->objlist);
 	pix = screen->pixels[ii[0]][ii[1]];
 	if (pix->itsct->state == INTERSECTED)
 	{
+		tolight = distance_two_points(pix->itsct->point, light->position);
 		while (object->next && object != obj)
 		{
-			pix->sec_itsct = sec_itsct_calc(program->objlist, pix, object);
+			t_ray *	ray_sec = ray_two_points(pix->itsct->point, light->position);
+			temp_intrsct = intersection_ray_obj(ray_sec, object);
+			if (temp_intrsct->distance <= tolight && temp_intrsct->distance > 0)
+			{
+				pix->sec_itsct = sec_intersect_create();
+				pix->sec_itsct->state = INTERSECTED;
+				pix->sec_itsct->distance = temp_intrsct->distance;
+				pix->sec_itsct->parent = pix->itsct;
+				pix->sec_itsct->shadow = colour_full(SHADOW);
+			}
+			free_intersection(temp_intrsct);
+			free_ray(ray_sec);
+			// pix->sec_itsct = sec_itsct_calc(program->objlist, pix, object);
 			object = object->next;
 		}
 	}
@@ -85,7 +101,8 @@ void	render_intersection_pass(t_program *program, t_obj *object)
 		while (ii[1] < WIN_WIDTH)
 		{
 			intersection_pass(program, object, ii);
-			sec_itsct_pass(program, object, ii);
+			if (diffuse_objlist(program->objlist))
+				sec_itsct_pass(program, object, ii);
 			ii[1]++;
 		}
 		ii[0]++;

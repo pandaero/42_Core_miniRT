@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 01:15:17 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/19 15:51:16 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/19 18:22:42 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ t_sec_itsct	*sec_itsct_calc(t_objlist *objlist, t_pixel *pix, t_obj *obj)
 		sec_itsct->parent = pix->itsct;
 		sec_itsct->shadow = colour_full(SHADOW);	
 	}
+	if (sec_itsct->state != INTERSECTED)
+		sec_itsct->state = MISSED;
 	free_intersection(temp_intrsct);
 	free_ray(sec_ray);
 	return (sec_itsct);

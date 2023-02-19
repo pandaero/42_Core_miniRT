@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 01:20:52 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/17 03:53:03 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/19 18:09:20 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ t_colour	*colour_subtract(t_colour *source, t_colour *col)
 {
 	t_colour	*new;
 
-	ft_printf("subtractcol\n");
 	new = colour_create();
 	if (!new)
 		return (NULL);
