@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:38:13 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/19 16:19:08 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/19 19:20:52 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,21 +89,43 @@ t_intersect	*intersection_ray_cylinder(t_ray *ray, t_cylinder *cylinder)
 	if(cylinder_intersect->point != NULL)
 	{		
 		distance_cylinder_axis = 2 * sqrt(fabs((pow(cylinder->radius,2) - pow(distance_two_points(cylinder->centre, cylinder_intersect->point),2))));
-		printf("distance: [%f] |", distance_cylinder_axis);
-		printf("cylinder->heigt: %f |", cylinder->height);
-		printf("cylinder points: [%f, %f, %f]", cylinder_intersect->point->x_co, cylinder_intersect->point->y_co, cylinder_intersect->point->z_co);
-		printf("[%f]", cylinder_intersect->point->x_co);
-		if (distance_cylinder_axis >= 0.0)
+		// printf("distance: [%f] |", distance_cylinder_axis);
+		// printf("cylinder->heigt: %f |", cylinder->height);
+		// printf("cylinder points: [%f, %f, %f]", cylinder_intersect->point->x_co, cylinder_intersect->point->y_co, cylinder_intersect->point->z_co);
+		// printf("[%f]", cylinder_intersect->point->x_co);
+		if (distance_cylinder_axis >= 0)
 		{
 			if (distance_cylinder_axis <= cylinder->height)
 			{
-				printf("bang!\n");
+				// printf("bang!\n");
 				cylinder_intersect->state = 1;
+			}
+			else
+			{
+				printf("bruh\n");
+				t_vector	*vector_centroid_base = vector_scale_direction((-1) * (cylinder->height / 2), cylinder->orientation);
+				t_point		*point_center_base = point_point_vector(cylinder->centre, vector_centroid_base);
+				//TODO CREATE PLANE, CHECK IF IT INTERSECTS WITH PLANE, CHECK IF IT WITHIN DISC RADIUS
 				
+				printf("cylinder points: [%f, %f, %f]", point_center_base->x_co, point_center_base->y_co, point_center_base->z_co);
+				t_vector	*vector_top_base = vector_scale_direction((cylinder->height / 2), cylinder->orientation);
+				t_point		*point_center_top = point_point_vector(cylinder->centre, vector_top_base);
+				//TODO CREATE PLANE, CHECK IF IT INTERSECTS WITH PLANE, CHECK IF IT WITHIN DISC RADIUS
+			
+				printf("top points: [%f, %f, %f]", point_center_top->x_co, point_center_base->y_co, point_center_base->z_co);
 			}
 		}
-		printf("\n");
+		else
+		{
+		// printf("[%f]", cylinder_intersect->point->x_co);
+		}
+		// if (distance_cylinder_axis > cylinder->height)
+		// {
+			
+		// }
+		// printf("\n");
 	}
+	
 	if(cylinder_intersect->state == 1)
 	{
 		//may be a memory problem somewhere here
