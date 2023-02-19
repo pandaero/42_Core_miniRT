@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/19 16:13:01 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/19 23:17:16 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -386,7 +386,8 @@ typedef struct s_diffuse
 //Typedef describes an object in a linked list.
 typedef struct s_obj
 {
-	int			unrendered;
+	int			ren;
+	int			sec_ren;
 	t_element	elem;
 	t_colour	colour;
 	t_ambient	*ambient;
@@ -410,7 +411,8 @@ typedef struct s_objlist
 {
 	int			list_id;
 	int			num_objects;
-	int			num_unrendered;
+	int			num_unren;
+	int			num_sec_unren;
 	t_obj		*first;
 	t_obj		*last;
 }				t_objlist;
@@ -838,6 +840,8 @@ void			screen_pixel_centres(int width, int height, t_camera *camera, \
 										t_screen *screen);
 
 // =================================== RENDERING ===============================
+//Function renders a single pixel fully, regarding all possible intersections.
+void			render_pixel(t_program *program, t_pixel *pixel);
 //Function performs a render through the screen for the input object.
 void			render_intersection_pass(t_program *program, t_obj *obj);
 //Function performs the operations required to render the program window/screen.

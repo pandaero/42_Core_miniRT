@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 02:55:08 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/19 21:28:16 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/19 23:43:10 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,25 +65,42 @@ void	pixel_colour_calculation(t_program *program)
 	}
 }
 
+	// while (program->objlist->num_unrendered > 0)
+	// {
+	// 	obj = object_unrendered_list(program->objlist);
+	// 	render_intersection_pass(program, obj);
+	// }
+	// pixel_colour_calculation(program);
+void	render_object_scene(t_program *program)
+{
+	int			ii[2];
+	t_pixel		*pixel;
+
+	ii[0] = 0;
+	while (ii[0] < WIN_HEIGHT)
+	{
+		ii[1] = 0;
+		while (ii[1] < WIN_WIDTH)
+		{
+			pixel = screen_program(program)->pixels[ii[0]][ii[1]];
+			render_pixel(program, pixel);
+			ii[1]++;
+		}
+		ii[0]++;
+	}
+}
+
 //Function creates a screen from camera, then loops rendering through objlist.
 void	render_screen(t_program *program)
 {
 	t_screen	*screen;
-	t_obj		*obj;
 
 	screen = screen_camera(WIN_WIDTH, WIN_HEIGHT, camera_program(program));
 	list_add_object(program->objlist, object_screen(screen));
-	if (program->objlist->num_unrendered == 0)
-	{
+	if (program->objlist->num_unren == 0)
 		render_empty_scene(program);
-		return ;
-	}
-	while (program->objlist->num_unrendered > 0)
-	{
-		obj = object_unrendered_list(program->objlist);
-		render_intersection_pass(program, obj);
-	}
-	pixel_colour_calculation(program);
+	else
+		render_object_scene(program);
 }
 
 //Function assigns each window pixel its colour.

@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 17:49:31 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/20 13:59:38 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/20 00:08:46 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,4 @@ t_program	*program_create(void)
 	new->objlist = NULL;
 	new->mldt = NULL;
 	return (new);
-}
-
-//Function adds an object linked list to the program data structure.
-void	program_add_obj_list(t_program *program, t_objlist *objlist)
-{
-	program->objlist = objlist;
 }

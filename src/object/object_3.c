@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 16:17:23 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/20 04:34:07 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/20 00:12:01 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ t_obj	*object_colour(t_colour colour)
 	new = object_create();
 	if (!new)
 		return (NULL);
+	new->ren = 1;
+	new->sec_ren = 1;
 	new->elem = COLOUR;
 	new->colour = colour;
 	return (new);
@@ -53,6 +55,8 @@ t_obj	*object_ambient_line(t_program *program, const char *line)
 		free_object(new);
 		error_object_creation_exit(program, "AMBIENT");
 	}
+	new->ren = 1;
+	new->sec_ren = 1;
 	new->elem = AMBIENT;
 	new->ambient = ambient;
 	return (new);
@@ -73,6 +77,8 @@ t_obj	*object_camera_line(t_program *program, const char *line)
 		free_object(new);
 		error_object_creation_exit(program, "CAMERA");
 	}
+	new->ren = 1;
+	new->sec_ren = 1;
 	new->elem = CAMERA;
 	new->camera = cam;
 	return (new);
@@ -94,6 +100,8 @@ t_obj	*object_diffuse_line(t_program *program, \
 		free_object(new);
 		error_object_creation_exit(program, "LIGHT");
 	}
+	new->ren = 1;
+	new->sec_ren = 1;
 	new->elem = DIFFUSE;
 	new->diffuse = light;
 	return (new);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   object_5.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 16:15:19 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/16 22:06:10 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/20 00:13:01 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ t_obj	*object_ambient(t_ambient *ambient)
 	new = object_create();
 	if (!new)
 		return (NULL);
+	new->ren = 1;
+	new->sec_ren = 1;
 	new->elem = AMBIENT;
 	new->ambient = ambient;
 	return (new);
@@ -31,7 +33,7 @@ t_obj	*object_first_list(t_objlist *objlist)
 	t_obj	*curr;
 
 	curr = objlist->first;
-	while (curr && objlist->num_unrendered > 0)
+	while (curr && objlist->num_unren > 0)
 	{
 		if (curr->elem == PLANE || curr->elem == SPHERE)
 			return (curr);
@@ -53,6 +55,8 @@ t_obj	*object_disc(t_disc *disc)
 	new = object_create();
 	if (!new)
 		return (NULL);
+	new->ren = 1;
+	new->sec_ren = 1;
 	new->elem = DISC;
 	new->disc = disc;
 	return (new);

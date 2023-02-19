@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 20:44:12 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/19 21:07:37 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/20 00:12:24 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ t_obj	*object_plane_line(t_program *program, const char *line)
 		error_object_creation_exit(program, "PLANE");
 	}
 	ft_printf("PLANE Colour: %x\n", plane->colour->full);
-	new->unrendered = 1;
 	new->elem = PLANE;
 	new->plane = plane;
 	return (new);
@@ -50,7 +49,6 @@ t_obj	*object_sphere_line(t_program *program, const char *line)
 		error_object_creation_exit(program, "SPHERE");
 	}
 	ft_printf("SPHERE Colour: %x\n", sphere->colour->full);
-	new->unrendered = 1;
 	new->elem = SPHERE;
 	new->sphere = sphere;
 	return (new);
@@ -71,7 +69,6 @@ t_obj	*object_cylinder_line(t_program *program, const char *line)
 		free_object(new);
 		error_object_creation_exit(program, "CYLINDER");
 	}
-	new->unrendered = 1;
 	new->elem = CYLINDER;
 	new->cylinder = cylinder;
 	return (new);
@@ -83,9 +80,9 @@ t_obj	*object_unrendered_list(t_objlist *objlist)
 	t_obj	*curr;
 
 	curr = objlist->first;
-	while (curr && objlist->num_unrendered > 0)
+	while (curr && objlist->num_unren > 0)
 	{
-		if (curr->unrendered == 1)
+		if (curr->ren == 0)
 			return (curr);
 		if (curr->next == NULL)
 			curr = objlist->first;
@@ -103,6 +100,8 @@ t_obj	*object_diffuse(t_diffuse *diffuse)
 	new = object_create();
 	if (!new)
 		return (NULL);
+	new->ren = 1;
+	new->sec_ren = 1;
 	new->elem = DIFFUSE;
 	new->diffuse = diffuse;
 	return (new);
