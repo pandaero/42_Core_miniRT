@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 16:52:23 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/19 18:48:53 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/19 21:38:08 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	intersection_colour(t_objlist *list, t_intersect *intersect)
 static void	intersection_pass(t_program *program, t_obj *obj, int ii[2])
 {
 	t_inter_pass	strct;
+	t_pixel			*pix;
 
 	strct.list = program->objlist;
 	strct.cam = camera_program(program);
@@ -36,18 +37,21 @@ static void	intersection_pass(t_program *program, t_obj *obj, int ii[2])
 	strct.ray = ray_start_dir(strct.scr->pixels[ii[0]][ii[1]]->point, \
 																strct.dir);
 	strct.temp = intersection_ray_obj(strct.ray, obj);
+	pix = strct.scr->pixels[ii[0]][ii[1]];
 	if (object_first_list(program->objlist) == obj)
-		strct.scr->pixels[ii[0]][ii[1]]->itsct = intersection_ray_obj(strct.ray, obj);
-	if (strct.temp->distance < \
-			strct.scr->pixels[ii[0]][ii[1]]->itsct->distance)
 	{
-		free_intersection(strct.scr->pixels[ii[0]][ii[1]]->itsct);
-		strct.scr->pixels[ii[0]][ii[1]]->itsct = strct.temp;
+		pix->itsct = intersection_ray_obj(strct.ray, obj);
+		intersection_colour(strct.list, pix->itsct);
+	}
+	if (strct.temp->distance < pix->itsct->distance && strct.temp->distance > 0)
+	{
+		free_intersection(pix->itsct);
+		pix->itsct = strct.temp;
+		intersection_colour(strct.list, pix->itsct);
 	}
 	else
 		free_intersection(strct.temp);
-	strct.scr->pixels[ii[0]][ii[1]]->itsct->object = obj;
-	intersection_colour(strct.list, strct.scr->pixels[ii[0]][ii[1]]->itsct);
+	pix->itsct->object = obj;
 	free_direction(strct.dir);
 	free_ray(strct.ray);
 }
@@ -73,7 +77,7 @@ void	sec_itsct_pass(t_program *program, t_obj *obj, int ii[2])
 		{
 			t_ray *	ray_sec = ray_two_points(pix->itsct->point, light->position);
 			temp_intrsct = intersection_ray_obj(ray_sec, object);
-			if (temp_intrsct->distance <= tolight && temp_intrsct->distance > 0)
+			if (temp_intrsct->distance <= tolight && temp_intrsct->distance > 0 && temp_intrsct->object != obj)
 			{
 				pix->sec_itsct = sec_intersect_create();
 				pix->sec_itsct->state = INTERSECTED;
