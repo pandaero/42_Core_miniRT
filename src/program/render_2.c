@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 16:52:23 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/20 00:29:44 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/20 00:34:00 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@ void	render_pixel(t_program *program, t_pixel *pixel)
 		}
 		if (temp->distance < pixel->itsct->distance && temp->distance > 0)
 		{
-			// free_intersection(pixel->itsct);
+			free_intersection(pixel->itsct);
 			pixel->itsct = temp;
 			intersection_colour(program->objlist, pixel->itsct);
 		}
@@ -163,13 +163,11 @@ void	render_pixel(t_program *program, t_pixel *pixel)
 	//secondary intersection
 	if (diffuse_objlist(program->objlist) && pixel->itsct->state == INTERSECTED)
 	{
-		// ft_printf("starting sec\n");
 		object = object_first_list(program->objlist);
 		dir = direction_two_points(pixel->itsct->point, diffuse_objlist(program->objlist)->position);
 		ray = ray_start_dir(pixel->itsct->point, dir);
 		while (object && sec_unren > 0)
 		{
-			// ft_printf("sec intersection\n");
 			if (object == pixel->itsct->object)
 			{
 				object = object->next;
@@ -179,43 +177,29 @@ void	render_pixel(t_program *program, t_pixel *pixel)
 			temp = intersection_ray_obj(ray, object);
 			if (temp->state == INTERSECTED && temp->distance <= distance_two_points(pixel->itsct->point, diffuse_objlist(program->objlist)->position))
 			{
-				// ft_printf("sec intersection full\n");
 				pixel->sec_itsct = sec_intersect_create();
 				pixel->sec_itsct->state = INTERSECTED;
 				pixel->sec_itsct->distance = temp->distance;
 				pixel->sec_itsct->parent = pixel->itsct;
 				pixel->sec_itsct->shadow = colour_full(SHADOW);
 			}
-			// ft_printf("sec passed\n");
 			free_intersection(temp);
 			sec_unren--;
 			object = object->next;
 		}
-		// free_direction(dir);
-		// free_ray(ray);
+		free_direction(dir);
+		free_ray(ray);
 	}
 	//Assign colours to pixels
 	if (pixel->sec_itsct)
 	{
 		if (pixel->sec_itsct->state == INTERSECTED)
-		{
-			// ft_printf("sec colouring\n");
 			pixel->colour = colour_subtract(pixel->itsct->colour, pixel->sec_itsct->shadow);
-		}
 		else
-		{
-			// ft_printf("sec non-colouring\n");
 			pixel->colour = colour_copy(pixel->itsct->colour);
-		}
 	}
 	else if (pixel->itsct->state == INTERSECTED)
-	{
-		// ft_printf("prim colouring\n");
 		pixel->colour = colour_copy(pixel->itsct->colour);
-	}
 	else
-	{
-		// ft_printf("prim non-colourin\n");
 		pixel->colour = colour_ambient_list(program->objlist);
-	}
 }
