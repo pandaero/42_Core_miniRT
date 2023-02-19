@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:38:13 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/19 19:20:52 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/19 22:03:14 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,25 +99,53 @@ t_intersect	*intersection_ray_cylinder(t_ray *ray, t_cylinder *cylinder)
 			{
 				// printf("bang!\n");
 				cylinder_intersect->state = 1;
+				// tests
+				// free_point(cylinder_intersect->point);
+				// cylinder_intersect->point = NULL;
 			}
 			else
 			{
-				printf("bruh\n");
+				//base intersection below
 				t_vector	*vector_centroid_base = vector_scale_direction((-1) * (cylinder->height / 2), cylinder->orientation);
 				t_point		*point_center_base = point_point_vector(cylinder->centre, vector_centroid_base);
-				//TODO CREATE PLANE, CHECK IF IT INTERSECTS WITH PLANE, CHECK IF IT WITHIN DISC RADIUS
-				
-				printf("cylinder points: [%f, %f, %f]", point_center_base->x_co, point_center_base->y_co, point_center_base->z_co);
-				t_vector	*vector_top_base = vector_scale_direction((cylinder->height / 2), cylinder->orientation);
-				t_point		*point_center_top = point_point_vector(cylinder->centre, vector_top_base);
-				//TODO CREATE PLANE, CHECK IF IT INTERSECTS WITH PLANE, CHECK IF IT WITHIN DISC RADIUS
-			
-				printf("top points: [%f, %f, %f]", point_center_top->x_co, point_center_base->y_co, point_center_base->z_co);
+				t_plane		*plane_base_cylinder = plane_col_point_normal_dir(cylinder->colour, point_center_base, cylinder->orientation);
+				t_intersect	*intersect_base_plane = intersection_ray_plane(ray, plane_base_cylinder);
+				if (intersect_base_plane->state == 1)
+				{
+					t_vector	*vector_center_intersection = vector_two_points(point_center_base, intersect_base_plane->point);
+					double		d_sq = vector_dot(vector_center_intersection, vector_center_intersection);
+					double		radius_sq = pow(cylinder->radius, 2);
+					if (d_sq <= radius_sq)
+					{
+						cylinder_intersect->state = 1;
+						// cylinder_intersect->point = intersect_base_plane->point;
+					}
+				}
+				//top cap intersection below
+				t_vector	*vector_centroid_top = vector_scale_direction((cylinder->height / 2), cylinder->orientation);
+				t_point		*point_center_top = point_point_vector(cylinder->centre, vector_centroid_top);
+				t_plane		*plane_top_cylinder = plane_col_point_normal_dir(cylinder->colour, point_center_top, cylinder->orientation);
+				t_intersect	*intersect_top_plane = intersection_ray_plane(ray, plane_top_cylinder);
+				if (intersect_top_plane->state == 1)
+				{
+					t_vector	*vector_center_intersection = vector_two_points(point_center_top, intersect_top_plane->point);
+					double		d_sq = vector_dot(vector_center_intersection, vector_center_intersection);
+					double		radius_sq = pow(cylinder->radius, 2);
+					if (d_sq <= radius_sq)
+					{
+						cylinder_intersect->state = 1;
+						// cylinder_intersect->point = intersect_top_plane->point;
+					}
+				}
+				if(intersect_base_plane->distance >=0 && intersect_base_plane->distance < intersect_top_plane->distance && cylinder_intersect->state == 1)
+				{
+					cylinder_intersect->point = intersect_base_plane->point;
+				}
+				if(intersect_top_plane->distance >=0 && intersect_top_plane->distance < intersect_base_plane->distance && cylinder_intersect->state == 1)
+				{
+					cylinder_intersect->point = intersect_top_plane->point;
+				}
 			}
-		}
-		else
-		{
-		// printf("[%f]", cylinder_intersect->point->x_co);
 		}
 		// if (distance_cylinder_axis > cylinder->height)
 		// {
@@ -125,7 +153,6 @@ t_intersect	*intersection_ray_cylinder(t_ray *ray, t_cylinder *cylinder)
 		// }
 		// printf("\n");
 	}
-	
 	if(cylinder_intersect->state == 1)
 	{
 		//may be a memory problem somewhere here
@@ -146,44 +173,3 @@ t_intersect	*intersection_ray_cylinder(t_ray *ray, t_cylinder *cylinder)
 	free(quadratic_result);
 	return(cylinder_intersect);
 }
-
-// double dist1 = vector_dot(vector_cylinder, vector_substract(vector_scale_direction(quadratic_result[1], vector_ray), vector_substract(cylinder->centre, ray->ray_orig)));
-
-// 	t_vect	add_vect(const t_vect vect1, const t_vect vect2)
-// {
-// 	return (new_vect(vect1.x + vect2.x, vect1.y + vect2.y, vect1.z + vect2.z));
-// }
-
-// static t_vect	sub_vect(const t_vecor vect1, const t_vector vect2)
-// 
-// 	return (new_vect(vect1.x - vect2.x, vect1.y - vect2.y, vect1.z - vect2.z));
-// }
-
-// t_vect	minus_vect(const t_vect vect)
-// {
-// 	return (new_vect(-vect.x, -vect.y, -vect.z));
-// }
-
-// t_vect	multi_vect(const t_vect vect, const double x)
-// {
-// 	return (new_vect(vect.x * x, vect.y * x, vect.z * x));
-// }
-
-// double	dot_product(const t_vect vect1, const t_vect vect2)
-// {
-// 	return (vect1.x * vect2.x + vect1.y * vect2.y + vect1.z *vect2.z);
-// }
-
-// t_vect	cross_product(const t_vect v1, const t_vect v2)
-// {
-// 	t_vect	origin;
-// 	t_vect	normal;
-// 	double	denom;
-// 	double	cross;
-
-// 	origin = new_vect(0, 0, 0);
-// 	denom = distance(origin, v1) * distance(origin, v2);
-// 	cross = denom * sinf(acos(dot_product(v1, v2) / denom));
-// 	normal = new_vect(v1.y * v2.z - v1.z * v2.y, v1.x * v2.z - v1.z * v2.x, v1.y * v2.x - v1.x * v2.y);
-// 	return (multi_vect(normal, cross));
-// }
