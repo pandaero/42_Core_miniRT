@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 16:41:50 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/17 02:36:49 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/19 21:13:57 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,8 @@ t_colour	*colour_str(const char *str)
 	col->red = ft_atoi(split[0]);
 	col->green = ft_atoi(split[1]);
 	col->blue = ft_atoi(split[2]);
-	col->full = col->trans + col->red + col->green + col->blue;
+	col->full = col->trans * 0x1000000 + col->red * 0x10000 + \
+				col->green * 0x100 + col->blue;
 	free_split(split);
 	return (col);
 }
