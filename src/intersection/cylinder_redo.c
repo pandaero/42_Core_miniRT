@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:38:13 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/18 21:25:46 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/19 09:24:24 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,16 @@ t_intersect	*intersection_ray_cylinder(t_ray *ray, t_cylinder *cylinder)
 	{
 		vector_base_intersection = vector_two_points(cylinder->centre, cylinder_intersect->point);
 		distance_cylinder_axis = vector_dot(vector_base_intersection, vector_base_top);
-		printf("[%f] ", distance_cylinder_axis);
-		if (distance_cylinder_axis >= 0)
+		// printf("distance: [%f] |", distance_cylinder_axis);
+		// printf("cylinder->heigt: %f |");
+		// printf("cylinder points: [%f, %f, %f]", cylinder_intersect->point->x_co, cylinder_intersect->point->y_co, cylinder_intersect->point->z_co);
+		// printf("[%f]", cylinder_intersect->point->x_co);
+		if (distance_cylinder_axis >= 0 && distance_cylinder_axis <= cylinder->height)
+		{
+			printf("bang!\n");
 			cylinder_intersect->state = 1;
+		}
+		printf("\n");
 	}
 	if(cylinder_intersect->state == 1)
 	{
