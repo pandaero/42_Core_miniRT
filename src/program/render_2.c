@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 16:52:23 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/17 04:15:36 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/19 15:59:03 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 //Function assigns colour to an intersection.
 void	intersection_colour(t_objlist *list, t_intersect *intersect)
 {
-	if (intersect->state == 0)
+	if (intersect->state == MISSED)
 	{
 		intersect->colour = colour_ambient_list(list);
 		return ;
@@ -65,9 +65,9 @@ void	sec_itsct_pass(t_program *program, t_obj *obj, int ii[2])
 	pix = screen->pixels[ii[0]][ii[1]];
 	if (pix->itsct->state == INTERSECTED)
 	{
-		while (object->next)
+		while (object->next && object != obj)
 		{
-			pix->sec_itsct = sec_itsct_calc(program->objlist, pix, obj);
+			pix->sec_itsct = sec_itsct_calc(program->objlist, pix, object);
 			object = object->next;
 		}
 	}

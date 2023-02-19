@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 02:55:08 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/17 03:56:05 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/19 16:12:05 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,12 @@ void	pixel_colour_calculation(t_program *program)
 			pix = screen_program(program)->pixels[i][j];
 			if (pix->sec_itsct)
 			{
-				ft_printf("heyo\n");
-			 	pix->colour = colour_subtract(pix->itsct->colour, pix->sec_itsct->shadow);
+				if (pix->sec_itsct->state == INTERSECTED)
+				 	pix->colour = colour_subtract(pix->itsct->colour, pix->sec_itsct->shadow);
+				else
+					pix->colour = colour_copy(pix->itsct->colour);
 			}
-			if (pix->itsct->state == INTERSECTED)
+			else if (pix->itsct->state == INTERSECTED)
 				pix->colour = colour_copy(pix->itsct->colour);
 			else
 				pix->colour = colour_ambient_list(program->objlist);

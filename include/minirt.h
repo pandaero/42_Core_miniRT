@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/17 04:19:05 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/19 16:13:01 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # define WIN_WIDTH 800
 # define WIN_HEIGHT 600
 // Factor for screen-pixel coordinate sizing. 
-# define VIEW_SCALING 0.1
+# define VIEW_SCALING 0.001
 // Factor for diffuse lighting effect
 # define SHADOW 0x888888
 # define LIGHTING_FACTOR 5000
@@ -788,7 +788,7 @@ t_sec_itsct		*sec_itsct_calc(t_objlist *objlist, t_pixel *pix, t_obj *obj);
 t_intersect		*intersection_ray_cylinder(t_ray *ray, t_cylinder *cylinder);
 //Helper of intersection cylinder, checks the cap intersections
 t_intersect		*intersection_cylinder_cap(t_ray *ray, \
-										t_point *center, t_cylinder *cylinder);
+t_point *center, t_cylinder *cylinder);
 //Initializes variables in cylinder
 t_ray_cylinder	*t_ray_cylinder_init(t_ray *ray, t_cylinder *cylinder);
 

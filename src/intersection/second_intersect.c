@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 01:15:17 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/17 04:18:23 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/19 15:51:16 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ t_sec_itsct	*sec_intersect_create(void)
 		return (NULL);
 	new->parent = NULL;
 	new->state = UNCALCULATED;
-	new->point = NULL;
 	new->distance = __DBL_MAX__;
 	new->shadow = NULL;
 	return (new);
@@ -43,13 +42,12 @@ t_sec_itsct	*sec_itsct_calc(t_objlist *objlist, t_pixel *pix, t_obj *obj)
 	sec_ray = ray_two_points(pix->itsct->point, light->position);
 	tolight = distance_two_points(pix->itsct->point, light->position);
 	temp_intrsct = intersection_ray_obj(sec_ray, obj);
-	if (temp_intrsct->distance < tolight)
+	if (temp_intrsct->distance <= tolight)
 	{
 		sec_itsct = sec_intersect_create();
 		sec_itsct->state = INTERSECTED;
 		sec_itsct->distance = temp_intrsct->distance;
 		sec_itsct->parent = pix->itsct;
-		sec_itsct->point = point_copy(temp_intrsct->point);
 		sec_itsct->shadow = colour_full(SHADOW);	
 	}
 	free_intersection(temp_intrsct);
