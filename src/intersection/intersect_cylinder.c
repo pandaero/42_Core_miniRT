@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:38:13 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/20 19:45:26 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/20 21:12:32 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ t_base_cap_intersection	*base_cap_intersection_init(t_cylinder *cylinder)
 }
 
 //Function that frees the intersection of a base cap
-void free_base_cap_intersection(t_base_cap_intersection *v)
+void	free_base_cap_intersection(t_base_cap_intersection *v)
 {
 	free_plane(v->plane_base_cylinder);
 	free_point(v->point_center_base);
@@ -148,57 +148,100 @@ t_ray *ray, t_intersect *cylinder_intersect)
 	return (intersect_base_plane);
 }
 
+typedef struct s_top_cap_intersection
+{
+	t_vector	*vector_centroid_top;
+	t_point		*point_center_top;
+	t_plane		*plane_top_cylinder;
+	t_vector	*vector_top_intersection;
+	double		d_sq;
+	double		radius_sq;
+}t_top_cap_intersection;
+
+t_top_cap_intersection	*top_cap_intersection_init(t_cylinder *cylinder)
+{
+	t_top_cap_intersection	*v;
+
+	v = (t_top_cap_intersection *)malloc(sizeof(t_top_cap_intersection));
+	v->vector_top_intersection = NULL;
+	v->vector_centroid_top = vector_scale_direction((-1) * \
+	(cylinder->height / 2), cylinder->orientation);
+	v->point_center_top = point_point_vector \
+	(cylinder->centre, v->vector_centroid_top);
+	v->plane_top_cylinder = plane_col_point_normal_dir \
+	(cylinder->colour, v->point_center_top, cylinder->orientation);
+	return (v);
+}
+
+//Function that frees the intersection of a top cap
+void	free_top_cap_intersection(t_top_cap_intersection *v)
+{
+	free_plane(v->plane_top_cylinder);
+	free_point(v->point_center_top);
+	free_vector(v->vector_centroid_top);
+	free(v);
+}
+
 t_intersect	*top_cap_intersection(t_cylinder *cylinder, \
 t_ray *ray, t_intersect *cylinder_intersect)
 {
-	t_vector	*vector_centroid_top = vector_scale_direction((cylinder->height / 2), cylinder->orientation);
-	t_point		*point_center_top = point_point_vector(cylinder->centre, vector_centroid_top);
-	t_plane		*plane_top_cylinder = plane_col_point_normal_dir(cylinder->colour, point_center_top, cylinder->orientation);
-	t_intersect	*intersect_top_plane = intersection_ray_plane(ray, plane_top_cylinder);
+	t_top_cap_intersection	*v;
+	t_intersect				*intersect_top_plane;
+
+	v = top_cap_intersection_init(cylinder);
+	intersect_top_plane = intersection_ray_plane(ray, v->plane_top_cylinder);
 	if (intersect_top_plane->state == 1)
 	{
-		t_vector	*vector_top_intersection = vector_two_points(point_center_top, intersect_top_plane->point);
-		double		d_sq = vector_dot(vector_top_intersection, vector_top_intersection);
-		free_vector(vector_top_intersection);
-		double		radius_sq = pow(cylinder->radius, 2);
-		if (d_sq <= radius_sq)
+		v->vector_top_intersection = vector_two_points(v->point_center_top, \
+		intersect_top_plane->point);
+		v->d_sq = vector_dot(v->vector_top_intersection, \
+		v->vector_top_intersection);
+		free_vector(v->vector_top_intersection);
+		v->radius_sq = pow(cylinder->radius, 2);
+		if (v->d_sq <= v->radius_sq)
 		{
 			cylinder_intersect->state = 1;
 		}
 	}
-	free_plane(plane_top_cylinder);
-	free_point(point_center_top);
-	free_vector(vector_centroid_top);
+	free_top_cap_intersection(v);
 	return (intersect_top_plane);
 }
 
-//Determining which cap to render, getting point and distance to cylinder_intersect
-void determine_cap_distance(t_intersect *intersect_base_plane, t_intersect *intersect_top_plane, t_intersect *cylinder_intersect)
+//Determining render, getting point and distance to cylinder_intersect
+void determine_cap_distance(t_intersect *intersect_base_plane, \
+t_intersect *intersect_top_plane, t_intersect *cylinder_intersect)
 {
-	if(intersect_base_plane->distance >= 0 && intersect_top_plane->distance < 0 && cylinder_intersect->state == 1)
+	if (intersect_base_plane->distance >= 0 && \
+	intersect_top_plane->distance < 0 && cylinder_intersect->state == 1)
 	{
 		cylinder_intersect->point = point_copy(intersect_base_plane->point);
 		cylinder_intersect->distance = intersect_base_plane->distance;
 	}
-	else if(intersect_top_plane->distance >= 0 && intersect_base_plane->distance < 0 && cylinder_intersect->state == 1)
+	else if (intersect_top_plane->distance >= 0 && \
+	intersect_base_plane->distance < 0 && cylinder_intersect->state == 1)
 	{
 		cylinder_intersect->point = point_copy(intersect_top_plane->point);
 		cylinder_intersect->distance = intersect_top_plane->distance;
 	}
-	else if(intersect_base_plane->distance >= 0 && intersect_base_plane->distance < intersect_top_plane->distance && cylinder_intersect->state == 1)
+	else if (intersect_base_plane->distance >= 0 && \
+	intersect_base_plane->distance < intersect_top_plane->distance && \
+	cylinder_intersect->state == 1)
 	{
 		cylinder_intersect->point = point_copy(intersect_base_plane->point);
 		cylinder_intersect->distance = intersect_base_plane->distance;
 	}
-	else if(intersect_top_plane->distance >= 0 && intersect_top_plane->distance < intersect_base_plane->distance && cylinder_intersect->state == 1)
+	else if (intersect_top_plane->distance >= 0 && \
+	intersect_top_plane->distance < intersect_base_plane->distance && \
+	cylinder_intersect->state == 1)
 	{
 		cylinder_intersect->point = point_copy(intersect_top_plane->point);
 		cylinder_intersect->distance = intersect_top_plane->distance;
 	}
 }
 
-// Function recieves data of an infinite cylinder and shapes finite cylinder with caps
-void cylinder_mantle_caps(t_ray_cylinder *t, t_intersect *cylinder_intersect, t_ray *ray, t_cylinder *cylinder)
+//Shapes an infinite cylinder and shapes finite cylinder with caps
+void cylinder_mantle_caps(t_ray_cylinder *t, \
+t_intersect *cylinder_intersect, t_ray *ray, t_cylinder *cylinder)
 {
 	t_intersect *intersect_base_plane;
 	t_intersect *intersect_top_plane;
@@ -215,16 +258,17 @@ void cylinder_mantle_caps(t_ray_cylinder *t, t_intersect *cylinder_intersect, t_
 		}
 		else
 		{
-			//caps intersection below
-			intersect_base_plane = base_cap_intersection(cylinder,ray, \
+			// caps intersection below
+			intersect_base_plane = base_cap_intersection(cylinder, ray, \
 			cylinder_intersect);
-			intersect_top_plane = top_cap_intersection(cylinder,ray \
-			,cylinder_intersect);
+			intersect_top_plane = top_cap_intersection(cylinder, ray \
+			, cylinder_intersect);
 			determine_cap_distance(intersect_base_plane, \
 			intersect_top_plane, cylinder_intersect);
 			free_intersection(intersect_base_plane);
 			free_intersection(intersect_top_plane);
-			if(cylinder_intersect->state != 1)
+			// not part of caps intersection
+			if (cylinder_intersect->state != 1)
 			{
 				free_point(cylinder_intersect->point);
 				cylinder_intersect->point = NULL;

@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/20 19:45:50 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/20 20:41:48 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # define WIN_WIDTH 800
 # define WIN_HEIGHT 600
 // Factor for screen-pixel coordinate sizing. 
-# define VIEW_SCALING 0.001
+# define VIEW_SCALING 0.1
 // Factor for diffuse lighting effect
 # define LIGHTING_FACTOR 5000
 // Colours
@@ -714,7 +714,8 @@ void			intersection_colour(t_objlist *objlist, t_intersect *intersect);
 //Checks for an itersection between a ray and a cylinder
 t_intersect		*intersection_ray_cylinder(t_ray *ray, t_cylinder *cylinder);
 //Intersection ray disc
-t_intersect		*intersection_ray_disc(t_ray *ray, t_point *disc_center, t_direction *disc_normal_dir, double radius);
+t_intersect		*intersection_ray_disc(t_ray *ray, \
+t_point *disc_center, t_direction *disc_normal_dir, double radius);
 // ------------------------------- VECTOR OPERATIONS ---------------------------
 //Function adds two vectors together.
 t_vector		*vector_add(t_vector *first, t_vector *second);
