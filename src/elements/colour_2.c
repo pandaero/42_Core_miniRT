@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 18:48:46 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/20 12:15:46 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/20 12:33:25 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <math.h>
 
 //Function works out the lighting of an intersection based on objects.
-void	colour_lighting(t_objlist *objlist, t_intersect *intersect)
+void	colour_itsct_lighting(t_objlist *objlist, t_intersect *intersect)
 {
 	t_colour	*objcolour;
 	t_colour	*temp;

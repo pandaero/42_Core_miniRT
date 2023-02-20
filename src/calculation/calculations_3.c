@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 22:48:19 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/20 03:12:05 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/20 13:51:59 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,34 +47,29 @@ t_direction	*reverse_direction(t_direction *direction)
 //Function works out the closest surface normal to given cylinder intersection.
 t_direction	*surface_normal_cylinder(t_intersect *itsct, t_cylinder *cylinder)
 {
-	t_direction	*dir;
-	t_direction	*cyl;
-	double		cx;
-	double		cy;
-	double		cz;
-	double		dist;
+	t_surf_norm	st;
 
-	cyl = cylinder->orientation;
-	cx = itsct->point->x_co - cylinder->centre->x_co;
-	cy = itsct->point->y_co - cylinder->centre->y_co;
-	cz = itsct->point->z_co - cylinder->centre->z_co;
-	dist = sqrt(pow(cx, 2) + pow(cy, 2));
-
-	if (dist < 0.001)
+	st.cyl = cylinder->orientation;
+	st.cx = itsct->point->x_co - cylinder->centre->x_co;
+	st.cy = itsct->point->y_co - cylinder->centre->y_co;
+	st.cz = itsct->point->z_co - cylinder->centre->z_co;
+	st.dist = sqrt(pow(st.cx, 2) + pow(st.cy, 2));
+	if (st.dist < 0.001)
 	{
-		if (fabs(cz - cylinder->height) / 2 < 0.001)
-			dir = direction_components(0,0,1);
-		else if (fabs(cz + cylinder->height) / 2 < 0.001)
-			dir = direction_components(0,0,-1);
+		if (fabs(st.cz - cylinder->height) / 2 < 0.001)
+			st.dir = direction_components(0, 0, 1);
+		else if (fabs(st.cz + cylinder->height) / 2 < 0.001)
+			st.dir = direction_components(0, 0, -1);
 		else
-			dir = direction_components(cx, cy, cz - (cz / fabs(cz)) * (cylinder->height / 2));
-		return (dir);
+			st.dir = direction_components(st.cx, st.cy, st.cz - \
+			(st.cz / fabs(st.cz)) * (cylinder->height / 2));
+		return (st.dir);
 	}
 	else
-		dir = direction_components((cx / dist) * cyl->z_comp, \
-									0 - (cx / dist) * cyl->z_comp, \
-									(cx / dist) * cyl->y_comp - (cy / dist) * cyl->x_comp);
-	return (dir);
+		st.dir = direction_components((st.cx / st.dist) * st.cyl->z_comp, \
+		0 - (st.cx / st.dist) * st.cyl->z_comp, (st.cx / st.dist) * \
+		st.cyl->y_comp - (st.cy / st.dist) * st.cyl->x_comp);
+	return (st.dir);
 }
 
 //Function works out the surface normal vector closest to a point for an object.

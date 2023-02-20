@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 02:55:08 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/19 23:43:10 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/20 13:17:59 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,43 +34,7 @@ void	render_empty_scene(t_program *program)
 	}
 }
 
-//Function calculates the resulting colour for each pixel.
-void	pixel_colour_calculation(t_program *program)
-{
-	int		i;
-	int		j;
-	t_pixel	*pix;
-
-	i = 0;
-	while (i < WIN_HEIGHT)
-	{
-		j = 0;
-		while (j < WIN_WIDTH)
-		{
-			pix = screen_program(program)->pixels[i][j];
-			if (pix->sec_itsct)
-			{
-				if (pix->sec_itsct->state == INTERSECTED)
-				 	pix->colour = colour_subtract(pix->itsct->colour, pix->sec_itsct->shadow);
-				else
-					pix->colour = colour_copy(pix->itsct->colour);
-			}
-			else if (pix->itsct->state == INTERSECTED)
-				pix->colour = colour_copy(pix->itsct->colour);
-			else
-				pix->colour = colour_ambient_list(program->objlist);
-			j++;
-		}
-		i++;
-	}
-}
-
-	// while (program->objlist->num_unrendered > 0)
-	// {
-	// 	obj = object_unrendered_list(program->objlist);
-	// 	render_intersection_pass(program, obj);
-	// }
-	// pixel_colour_calculation(program);
+//Function performs rendering based on a scene with objects.
 void	render_object_scene(t_program *program)
 {
 	int			ii[2];

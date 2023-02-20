@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/20 03:31:00 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/20 13:49:57 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,26 @@ typedef struct s_valid_formatting
 	int		i;
 }			t_valid_formatting;
 
+//Typedef defines a struct for refactoring in the secondary intersection pass.
+typedef struct s_sec_itsct_pass
+{
+	int			sec_unren;
+	t_obj		*obj;
+	t_direction	*dir;
+	t_ray		*ray;
+	t_intersect	*temp;
+}				t_sec_itsct_pass;
+
+//Typedef defines a struct for refactoring in the secondary intersection pass.
+typedef struct s_itsct_pass
+{
+	int			unren;
+	t_obj		*obj;
+	t_direction	*dir;
+	t_ray		*ray;
+	t_intersect	*temp;
+}				t_itsct_pass;
+
 //Typedef contains several variables for the intersection pass function.
 typedef struct s_inter_pass
 {
@@ -118,6 +138,17 @@ typedef struct s_inter_pass
 	t_objlist	*list;
 	t_intersect	*temp;
 }				t_inter_pass;
+
+//Typedef includes variables used in cylinder surface normal calculations.
+typedef struct s_surf_norm
+{
+	t_direction *dir;
+	t_direction	*cyl;
+	double		cx;
+	double		cy;
+	double		cz;
+	double		dist;
+}			t_surf_norm;
 
 //TYPEDEF MISSING DESCRIPTION
 typedef struct s_cylinder_intersect
@@ -834,7 +865,7 @@ void			cylinder_colour(t_colour *colour, t_cylinder *cylinder);
 //Function determines the colour of an object.
 t_colour		*colour_object(t_obj *object);
 //Function works out the lighting of an intersection based on objects.
-void			colour_lighting(t_objlist *objlist, t_intersect *intersect);
+void			colour_itsct_lighting(t_objlist *objlist, t_intersect *intersect);
 //Function works out the lighting effect of a diffuse light on a point. Linear.
 void			colour_diffuse_linear(t_colour *colour, t_diffuse *difflight, \
 										t_point *point);
@@ -878,5 +909,10 @@ void			error_object_creation_exit(t_program *program, const char *str);
 void			error_file_open_exit(t_program *program);
 //Function prints error MLX, frees program memory and exits.
 void			error_mlx_exit(t_program *program);
+
+//Function 
+void	primary_intersection_pass(t_program *program, t_pixel *pixel);
+//Function calculates a secondary intersection.
+void	secondary_intersection_pass(t_program *program, t_pixel *pixel);
 
 #endif
