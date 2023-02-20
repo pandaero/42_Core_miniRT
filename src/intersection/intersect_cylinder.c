@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cylinder_redo.c                                    :+:      :+:    :+:   */
+/*   intersect_cylinder.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:38:13 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/20 09:49:54 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/20 10:22:16 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,41 +37,83 @@
 // 	double		*quadratic_result;
 // }t_ray_cylinder;
 
+//Function creates variables for cylinder intersection test
+t_ray_cylinder	*cylinder_init(t_ray *ray, t_cylinder *cylinder)
+{
+	t_ray_cylinder *t;
+
+	t = (t_ray_cylinder*)malloc(sizeof(t_ray_cylinder));
+	t->vector_ray = vector_scale_direction(1, ray->ray_dir);
+	t->vector_cylinder = vector_scale_direction(1, cylinder->orientation);
+	t->vector_ray_origin_base_center = vector_two_points(cylinder->centre, ray->ray_orig);
+	t->distance_cylinder_axis = -1;
+	t->coefficient[0] = 0;
+	t->coefficient[1] = -1;
+	t->coefficient[2] = -1;
+	t->quadratic_result = NULL;
+	return(t);
+}
+
+//Calculates coefficients for the cylinder ray intersection and solves quadratic
+double *employ_quadratic_equation(t_ray_cylinder *t, t_cylinder *cylinder)
+{
+	t->coefficient[A] = vector_dot(t->vector_ray, t->vector_ray) - \
+	pow(vector_dot(t->vector_ray, t->vector_cylinder), 2);
+	t->coefficient[B] = 2 * \
+	(vector_dot(t->vector_ray, t->vector_ray_origin_base_center) - \
+	(vector_dot(t->vector_ray, t->vector_cylinder) * \
+	vector_dot(t->vector_ray_origin_base_center, t->vector_cylinder)));
+	t->coefficient[C] = vector_dot(t->vector_ray_origin_base_center, \
+	t->vector_ray_origin_base_center) - \
+	pow(vector_dot(t->vector_ray_origin_base_center, \
+	t->vector_cylinder), 2) - pow(cylinder->radius, 2);
+	return(solve_quadratic_real(t->coefficient));
+}
+
+void infinite_cylinder_intersection(t_ray_cylinder *t, t_intersect *cylinder_intersect, t_ray *ray)
+{
+	if ((t->quadratic_result[0] == 2) && (t->quadratic_result[1] > 0 )&& (t->quadratic_result[2] > 0))
+		cylinder_intersect->point = get_intersection_point(ray, t->quadratic_result[1]);
+	else if ((t->quadratic_result[0] == 1) && (t->quadratic_result[1] > 0 )&& (t->quadratic_result[2] < 0))
+		cylinder_intersect->point = get_intersection_point(ray, t->quadratic_result[1]);
+	else if ((t->quadratic_result[0] == 1) && (t->quadratic_result[1] > 0 )&& (t->quadratic_result[2] < 0))
+		cylinder_intersect->point = get_intersection_point(ray, t->quadratic_result[1]);
+	else if ((t->quadratic_result[0] == 1) && (t->quadratic_result[2] < t->quadratic_result[1] )&& (t->quadratic_result[2] > 0))
+		cylinder_intersect->point = get_intersection_point(ray, t->quadratic_result[2]);
+	else if ((t->quadratic_result[0] == 1) && (t->quadratic_result[1] < t->quadratic_result[2]) && (t->quadratic_result[1] > 0))
+		cylinder_intersect->point = get_intersection_point(ray, t->quadratic_result[1]);
+}
+
 //Function that determines ray, cylinder intersection.
 t_intersect	*intersection_ray_cylinder(t_ray *ray, t_cylinder *cylinder)
 {
 	t_ray_cylinder	*t;
-	t_intersect	*cylinder_intersect;
+	t_intersect		*cylinder_intersect;
 	
-	t = (t_ray_cylinder*)malloc(sizeof(t_ray_cylinder));
+	t = cylinder_init(ray, cylinder);
 	cylinder_intersect = intersect_create();
-	t->vector_ray = vector_scale_direction(1, ray->ray_dir);
-	t->vector_cylinder = vector_scale_direction(1, cylinder->orientation);
-	t->vector_ray_origin_base_center = vector_two_points(cylinder->centre, ray->ray_orig);
-	t->coefficient[A] = vector_dot(t->vector_ray, t->vector_ray) - pow(vector_dot(t->vector_ray, t->vector_cylinder), 2);
-	t->coefficient[B] = 2 * (vector_dot(t->vector_ray, t->vector_ray_origin_base_center) - (vector_dot(t->vector_ray, t->vector_cylinder) * vector_dot(t->vector_ray_origin_base_center, t->vector_cylinder)));
-	t->coefficient[C] = vector_dot(t->vector_ray_origin_base_center, t->vector_ray_origin_base_center) - pow(vector_dot(t->vector_ray_origin_base_center, t->vector_cylinder), 2) - pow(cylinder->radius, 2);
-	t->quadratic_result = solve_quadratic_real(t->coefficient);
-	if ((t->quadratic_result[0] == 2) && (t->quadratic_result[1] > 0 )&& (t->quadratic_result[2] > 0))
-	{
-		cylinder_intersect->point = get_intersection_point(ray, t->quadratic_result[1]);
-	}
-	else if ((t->quadratic_result[0] == 1) && (t->quadratic_result[1] > 0 )&& (t->quadratic_result[2] < 0))
-	{
-		cylinder_intersect->point = get_intersection_point(ray, t->quadratic_result[1]);
- 	}
-	else if ((t->quadratic_result[0] == 1) && (t->quadratic_result[1] > 0 )&& (t->quadratic_result[2] < 0))
-	{
-		cylinder_intersect->point = get_intersection_point(ray, t->quadratic_result[1]);
-	}
-	else if ((t->quadratic_result[0] == 1) && (t->quadratic_result[2] < t->quadratic_result[1] )&& (t->quadratic_result[2] > 0))
-	{
-		cylinder_intersect->point = get_intersection_point(ray, t->quadratic_result[2]);
-	}
-	else if ((t->quadratic_result[0] == 1) && (t->quadratic_result[1] < t->quadratic_result[2]) && (t->quadratic_result[1] > 0))
-	{
-		cylinder_intersect->point = get_intersection_point(ray, t->quadratic_result[1]);
-	}
+	t->quadratic_result = employ_quadratic_equation(t, cylinder);
+	infinite_cylinder_intersection(t, cylinder_intersect, ray);
+	// if ((t->quadratic_result[0] == 2) && (t->quadratic_result[1] > 0 )&& (t->quadratic_result[2] > 0))
+	// {
+	// 	cylinder_intersect->point = get_intersection_point(ray, t->quadratic_result[1]);
+	// }
+	// else if ((t->quadratic_result[0] == 1) && (t->quadratic_result[1] > 0 )&& (t->quadratic_result[2] < 0))
+	// {
+	// 	cylinder_intersect->point = get_intersection_point(ray, t->quadratic_result[1]);
+ 	// }
+	// else if ((t->quadratic_result[0] == 1) && (t->quadratic_result[1] > 0 )&& (t->quadratic_result[2] < 0))
+	// {
+	// 	cylinder_intersect->point = get_intersection_point(ray, t->quadratic_result[1]);
+	// }
+	// else if ((t->quadratic_result[0] == 1) && (t->quadratic_result[2] < t->quadratic_result[1] )&& (t->quadratic_result[2] > 0))
+	// {
+	// 	cylinder_intersect->point = get_intersection_point(ray, t->quadratic_result[2]);
+	// }
+	// else if ((t->quadratic_result[0] == 1) && (t->quadratic_result[1] < t->quadratic_result[2]) && (t->quadratic_result[1] > 0))
+	// {
+	// 	cylinder_intersect->point = get_intersection_point(ray, t->quadratic_result[1]);
+	// }
 	if(cylinder_intersect->point != NULL)
 	{		
 		t->distance_cylinder_axis = 2 * sqrt(fabs((pow(cylinder->radius,2) - pow(distance_two_points(cylinder->centre, cylinder_intersect->point),2))));
