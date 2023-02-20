@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/19 23:17:16 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/20 03:31:00 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,9 @@
 // Factor for screen-pixel coordinate sizing. 
 # define VIEW_SCALING 0.001
 // Factor for diffuse lighting effect
-# define SHADOW 0x888888
+# define SHADOW 0x222222
 # define LIGHTING_FACTOR 5000
+# define DIFF_INTENSITY 1
 // Colours
 # define BLACK 0x00000000
 # define WHITE 0x00FFFFFF
@@ -294,11 +295,21 @@ typedef enum state
 	MISSED
 }	t_state;
 
+//Typedef enumerates the intersection of a cylinder.
+typedef enum cyl_int
+{
+	SHAFT,
+	TOPCAP,
+	BOTTOMCAP
+}	t_cyl_int;
+
 //Typedef describes an intersection.
 typedef struct s_intersect
 {
 	t_state		state;
 	double		distance;
+	double		angle;
+	t_direction	*normal;
 	t_colour	*colour;
 	t_point		*point;
 	t_obj		*object;
@@ -309,6 +320,7 @@ typedef struct s_sec_itsct
 {
 	t_state		state;
 	double		distance;
+	double		angle;
 	t_point		*point;
 	t_intersect	*parent;
 	t_colour	*shadow;
@@ -389,7 +401,6 @@ typedef struct s_obj
 	int			ren;
 	int			sec_ren;
 	t_element	elem;
-	t_colour	colour;
 	t_ambient	*ambient;
 	t_diffuse	*diffuse;
 	t_point		*point;
@@ -483,6 +494,10 @@ t_colour		*colour_str(const char *str);
 t_colour		*colour_add(t_colour *col1, t_colour *col2);
 //Function subtracts two colours, creating a new one.
 t_colour		*colour_subtract(t_colour *source, t_colour *col);
+//Function applies a factor to a colour.
+t_colour		*colour_factor(double factor, t_colour *col);
+//Function works out the colour contribution corresponding to ambient light.
+t_colour		*colour_amb_cont(t_ambient *ambient);
 //Function creates a new diffuse from a valid input line.
 t_diffuse		*diffuse_line(const char *line);
 //Function creates and initialises a point.
@@ -793,7 +808,8 @@ t_intersect		*intersection_cylinder_cap(t_ray *ray, \
 t_point *center, t_cylinder *cylinder);
 //Initializes variables in cylinder
 t_ray_cylinder	*t_ray_cylinder_init(t_ray *ray, t_cylinder *cylinder);
-
+//Function works out the surface normal vector closest to a point for an object.
+t_direction		*surface_normal_object(t_intersect *itsct, t_obj *object);
 t_intersect		*return_data_init(void);
 // ------------------------------- VECTOR OPERATIONS ---------------------------
 //Function adds two vectors together.
@@ -806,9 +822,11 @@ t_vector		*vector_scale(double scalar, t_vector *vector);
 t_vector		*vector_cross(t_vector *first, t_vector *second);
 //Function works out the dot product of two vectors.
 double			vector_dot(t_vector *first, t_vector *second);
+//Function works out the dot product of two directions.
+double			direction_dot(t_direction *dir1, t_direction *dir2);
 // ------------------------------- COLOUR OPERATIONS ---------------------------
 //Function adds ambient light to a colour.
-t_colour		*colour_ambient(unsigned int full, t_ambient *ambient);
+t_colour		*colour_ambient(t_colour *col, t_ambient *ambient);
 //Function works out the ambient light colour from an object list.
 t_colour		*colour_ambient_list(t_objlist *objlist);
 //Function assigns a colour to an existing cylinder.

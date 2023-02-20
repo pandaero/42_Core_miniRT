@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 18:48:46 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/20 03:01:22 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/20 03:37:02 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,24 @@ void	colour_lighting(t_objlist *objlist, t_intersect *intersect)
 {
 	t_colour	*objcolour;
 	t_colour	*temp;
-	t_ambient	*ambient;
-	double		costheta;
-	double		difffac;
+	t_colour	*temp2;
 	t_direction	*dir;
+	double		difffac;
 
-	ambient = ambient_objlist(objlist);
 	objcolour = colour_object(intersect->object);
-	temp = colour_ambient(objcolour, ambient);
-	dir = direction_two_points(intersect->point, diffuse_objlist(objlist)->position);
-	costheta = direction_dot(intersect->normal, dir);
-	difffac = fmax(0, costheta) * diffuse_objlist(objlist)->ratio * \
-					DIFF_INTENSITY;
+	temp = colour_ambient(objcolour, ambient_objlist(objlist));
+	dir = direction_two_points(intersect->point, \
+								diffuse_objlist(objlist)->position);
+	difffac = fmax(0, direction_dot(intersect->normal, dir)) * \
+				diffuse_objlist(objlist)->ratio * DIFF_INTENSITY;
 	intersect->colour = colour_factor(difffac, temp);
 	free_colour(temp);
+	temp = colour_amb_cont(ambient_objlist(objlist));
+	temp2 = colour_factor(0.5, temp);
+	free_colour(temp);
+	temp = colour_add(intersect->colour, temp2);
+	free_colour(temp2);
+	intersect->colour = temp;
 }
 
 //Function adds ambient light to a colour.

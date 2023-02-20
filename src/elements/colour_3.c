@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 01:20:52 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/20 02:29:23 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/20 03:33:55 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,21 @@ t_colour	*colour_factor(double factor, t_colour *col)
 	ret->full = ret->trans * 0x1000000 + ret->red * 0x10000 + \
 				ret->green * 0x100 + ret->blue;
 	return (ret);
+}
+
+//Function works out the colour contribution corresponding to ambient light.
+t_colour	*colour_amb_cont(t_ambient *ambient)
+{
+	t_colour	*out;
+
+	out = colour_create();
+	out->trans = ambient->ratio * ambient->colour->trans;
+	out->red = ambient->ratio * ambient->colour->red;
+	out->green = ambient->ratio * ambient->colour->green;
+	out->blue = ambient->ratio * ambient->colour->blue;
+	out->full = out->trans * 0x1000000 + out->red * 0x10000 + \
+				out->green * 0x100 + out->blue;
+	if (out->full > WHITE)
+		out->full = WHITE;
+	return (out);
 }
