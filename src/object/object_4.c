@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 20:44:12 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/20 00:12:24 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/20 03:17:00 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ t_obj	*object_plane_line(t_program *program, const char *line)
 		free_object(new);
 		error_object_creation_exit(program, "PLANE");
 	}
-	ft_printf("PLANE Colour: %x\n", plane->colour->full);
 	new->elem = PLANE;
 	new->plane = plane;
 	return (new);
@@ -48,7 +47,6 @@ t_obj	*object_sphere_line(t_program *program, const char *line)
 		free_object(new);
 		error_object_creation_exit(program, "SPHERE");
 	}
-	ft_printf("SPHERE Colour: %x\n", sphere->colour->full);
 	new->elem = SPHERE;
 	new->sphere = sphere;
 	return (new);

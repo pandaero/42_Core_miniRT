@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 16:17:23 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/20 00:12:01 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/20 02:42:09 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,6 @@ t_obj	*object_cylinder(t_cylinder *cylinder)
 		return (NULL);
 	new->elem = CYLINDER;
 	new->cylinder = cylinder;
-	return (new);
-}
-
-//Function creates a colour object.
-t_obj	*object_colour(t_colour colour)
-{
-	t_obj	*new;
-
-	new = object_create();
-	if (!new)
-		return (NULL);
-	new->ren = 1;
-	new->sec_ren = 1;
-	new->elem = COLOUR;
-	new->colour = colour;
 	return (new);
 }
 

@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 18:48:46 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/17 03:09:06 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/20 03:01:22 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,30 +17,40 @@
 void	colour_lighting(t_objlist *objlist, t_intersect *intersect)
 {
 	t_colour	*objcolour;
+	t_colour	*temp;
 	t_ambient	*ambient;
+	double		costheta;
+	double		difffac;
+	t_direction	*dir;
 
 	ambient = ambient_objlist(objlist);
 	objcolour = colour_object(intersect->object);
-	intersect->colour = colour_ambient(objcolour->full, ambient);
+	temp = colour_ambient(objcolour, ambient);
+	dir = direction_two_points(intersect->point, diffuse_objlist(objlist)->position);
+	costheta = direction_dot(intersect->normal, dir);
+	difffac = fmax(0, costheta) * diffuse_objlist(objlist)->ratio * \
+					DIFF_INTENSITY;
+	intersect->colour = colour_factor(difffac, temp);
+	free_colour(temp);
 }
 
 //Function adds ambient light to a colour.
-t_colour	*colour_ambient(unsigned int full, t_ambient *ambient)
+t_colour	*colour_ambient(t_colour *col, t_ambient *ambient)
 {
 	t_colour	*ret;
 
 	ret = colour_create();
 	ret->trans = 0;
 	ret->red = ambient->ratio * ambient->colour->red + \
-				((full & 0xFF0000) >> 16);
+				((col->full & 0xFF0000) >> 16);
 	if (ret->red > 255)
 		ret->red = 255;
 	ret->green = ambient->ratio * ambient->colour->green + \
-				((full & 0xFF00) >> 8);
+				((col->full & 0xFF00) >> 8);
 	if (ret->green > 255)
 		ret->green = 255;
 	ret->blue = ambient->ratio * ambient->colour->blue + \
-				((full & 0xFF));
+				((col->full & 0xFF));
 	if (ret->blue > 255)
 		ret->blue = 255;
 	ret->full = ret->trans * 0x1000000 + ret->red * 0x10000 + \
@@ -55,9 +65,12 @@ t_colour	*colour_ambient_list(t_objlist *objlist)
 {
 	t_ambient	*ambient;
 	t_colour	*colour;
+	t_colour	*black;
 
 	ambient = ambient_objlist(objlist);
-	colour = colour_ambient(BLACK, ambient);
+	black = colour_full(BLACK);
+	colour = colour_ambient(black, ambient);
+	free_colour(black);
 	return (colour);
 }
 

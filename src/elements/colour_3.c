@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 01:20:52 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/19 18:09:20 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/20 02:29:23 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,19 @@ t_colour	*colour_subtract(t_colour *source, t_colour *col)
 	new->full = new->trans * (0x1000000) + new->red * (0x10000) + \
 				new->green * (0x100) + new->blue;
 	return (new);
+}
+
+//Function applies a factor to a colour.
+t_colour	*colour_factor(double factor, t_colour *col)
+{
+	t_colour	*ret;
+
+	ret = colour_create();
+	ret->trans = col->trans * factor;
+	ret->red = col->red * factor;
+	ret->green = col->green * factor;
+	ret->blue = col->blue * factor;
+	ret->full = ret->trans * 0x1000000 + ret->red * 0x10000 + \
+				ret->green * 0x100 + ret->blue;
+	return (ret);
 }

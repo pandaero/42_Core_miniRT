@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 18:51:09 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/19 23:42:17 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/20 03:11:52 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_intersect	*intersect_create(void)
 	new = (t_intersect *)malloc(sizeof(t_intersect));
 	new->state = UNCALCULATED;
 	new->colour = NULL;
+	new->normal = NULL;
 	new->distance = __DBL_MAX__;
 	new->point = NULL;
 	return (new);
@@ -36,6 +37,7 @@ t_intersect	*intersect_copy(t_intersect *intersect)
 	new->state = intersect->state;
 	new->colour = colour_copy(intersect->colour);
 	new->distance = intersect->distance;
+	new->normal = direction_copy(intersect->normal);
 	new->point = point_copy(intersect->point);
 	return (new);
 }
@@ -65,6 +67,8 @@ t_intersect	*intersection_ray_obj(t_ray *ray, t_obj *obj)
 		out = intersection_ray_sphere(ray, obj->sphere);
 	if (obj->elem == CYLINDER)
 		out = intersection_ray_cylinder(ray, obj->cylinder);
+	if (out->state == INTERSECTED)
+		out->normal = surface_normal_object(out, obj);
 	out->object = obj;
 	return (out);
 }
