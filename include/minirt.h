@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/20 09:49:43 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/20 19:45:50 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # define WIN_WIDTH 800
 # define WIN_HEIGHT 600
 // Factor for screen-pixel coordinate sizing. 
-# define VIEW_SCALING 0.1
+# define VIEW_SCALING 0.001
 // Factor for diffuse lighting effect
 # define LIGHTING_FACTOR 5000
 // Colours
