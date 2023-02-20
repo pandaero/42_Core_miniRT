@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:38:13 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/20 11:02:32 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/20 11:14:41 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ void cylinder_mantle_caps(t_ray_cylinder *t, t_intersect *cylinder_intersect, t_
 		if (t->distance_cylinder_axis <= cylinder->height)
 		{
 			cylinder_intersect->state = 1;
+			cylinder_intersect->distance = distance_two_points(ray->ray_orig, cylinder_intersect->point);
 		}
 		else
 		{
@@ -164,7 +165,6 @@ void cylinder_mantle_caps(t_ray_cylinder *t, t_intersect *cylinder_intersect, t_
 			}	
 		}
 	}
-	
 }
 
 //Function that determines ray, cylinder intersection.
@@ -191,8 +191,6 @@ t_intersect	*intersection_ray_cylinder(t_ray *ray, t_cylinder *cylinder)
 		return(cylinder_intersect);
 	}
 	cylinder_intersect->state = 0;
-	// free(cylinder_intersect->point);
-	// cylinder_intersect->point = NULL;
 	free_vector(t->vector_ray_origin_base_center);
 	free_vector(t->vector_cylinder);
 	free_vector(t->vector_ray);
