@@ -6,12 +6,13 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 13:19:09 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/20 13:30:17 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/20 16:32:55 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minirt.h"
 
+//Function performs steps that happen only first time for intersection.
 static void	first_itsct_loop(t_program *program, t_pixel *pixel, \
 								t_itsct_pass *stct)
 {
@@ -27,6 +28,7 @@ static void	first_itsct_loop(t_program *program, t_pixel *pixel, \
 	free_intersection(stct->temp);
 }
 
+//Function performs the steps that definitely happen when calculating intersect.
 static void	later_itsct_loop(t_pixel *pixel, t_itsct_pass *stct)
 {
 	if (stct->temp->distance < pixel->itsct->distance && \
@@ -41,6 +43,7 @@ static void	later_itsct_loop(t_pixel *pixel, t_itsct_pass *stct)
 	stct->obj = stct->obj->next;
 }
 
+//Function applies colour to an intersection during a pass.
 static void	itsct_pass_colouring(t_program *program, \
 									t_intersect *itsct, int n)
 {
@@ -61,7 +64,7 @@ static void	itsct_pass_colouring(t_program *program, \
 	}
 }
 
-//Function 
+//Function calculates a primary intersection for a pixel.
 void	primary_intersection_pass(t_program *program, t_pixel *pixel)
 {
 	t_itsct_pass	stct;

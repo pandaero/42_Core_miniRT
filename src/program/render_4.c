@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 13:24:52 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/20 13:38:59 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/20 16:29:20 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,7 @@ static void	pixel_sec_itsct(t_intersect *itsct, t_pixel *pixel)
 	pixel->sec_itsct->shadow = colour_full(SHADOW);
 }
 
-static void	sec_itsct_pass_free(t_sec_itsct_pass *stct)
-{
-	free_direction(stct->dir);
-	free_ray(stct->ray);
-}
-
+//Function works out the second intersection parameters in the main loop.
 static void	sec_itsct_pass_loop(t_program *program, t_pixel *pixel, \
 									t_sec_itsct_pass *stct)
 {
@@ -43,7 +38,7 @@ static void	sec_itsct_pass_loop(t_program *program, t_pixel *pixel, \
 	stct->obj = stct->obj->next;
 }
 
-//Function calculates a secondary intersection.
+//Function calculates a secondary intersection for a pixel.
 void	secondary_intersection_pass(t_program *program, t_pixel *pixel)
 {
 	t_sec_itsct_pass	stct;
@@ -63,5 +58,6 @@ void	secondary_intersection_pass(t_program *program, t_pixel *pixel)
 		}
 		sec_itsct_pass_loop(program, pixel, &stct);
 	}
-	sec_itsct_pass_free(&stct);
+	free_direction(stct.dir);
+	free_ray(stct.ray);
 }
