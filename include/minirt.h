@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/19 23:34:48 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/20 09:49:43 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,18 @@ typedef struct s_imgdata	t_imgdata;
 typedef struct s_mlxdata	t_mlxdata;
 
 // =============================== FUNCTION REFACTORING ========================
+/*Typedef contains variables used 
+and freed in intersection ray cylinder*/
+typedef struct s_ray_cylinder_variables 
+{
+	t_vector 	*vector_ray;
+	t_vector	*vector_cylinder;
+	t_vector	*vector_ray_origin_base_center;
+	double		distance_cylinder_axis;
+	double		coefficient[3];
+	double		*quadratic_result;
+}t_ray_cylinder;
+
 //Typedef declares variables required by the string to double conversion.
 typedef struct s_atof_vars
 {
