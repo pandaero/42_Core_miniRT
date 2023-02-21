@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/21 16:04:22 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/21 16:11:21 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ typedef struct s_imgdata	t_imgdata;
 typedef struct s_mlxdata	t_mlxdata;
 
 // =============================== FUNCTION REFACTORING ========================
-//Typedef that contains variables for the base cap intersection
+//Typedef that contains variables for the base cap intersection.
 typedef struct s_base_cap_intersection
 {
 	t_vector	*vector_centroid_base;
@@ -64,9 +64,9 @@ typedef struct s_base_cap_intersection
 	t_vector	*vector_base_intersection;
 	double		d_sq;
 	double		radius_sq;
-}t_base_cap_intersection;
+}				t_base_cap_intersection;
 
-//Typedef of cylinder helper function
+//Typedef of cylinder helper function.
 typedef struct s_top_cap_intersection
 {
 	t_vector	*vector_centroid_top;
@@ -75,18 +75,18 @@ typedef struct s_top_cap_intersection
 	t_vector	*vector_top_intersection;
 	double		d_sq;
 	double		radius_sq;
-}t_top_cap_intersection;
+}				t_top_cap_intersection;
 
-//Typedef contains variablesfreed in intersection ray cylinder
-typedef struct s_ray_cylinder_variables 
+//Typedef contains variables freed in intersection ray cylinder.
+typedef struct s_ray_cylinder
 {
-	t_vector 	*vector_ray;
+	t_vector	*vector_ray;
 	t_vector	*vector_cylinder;
 	t_vector	*vector_ray_origin_base_center;
 	double		distance_cylinder_axis;
 	double		coefficient[3];
 	double		*quadratic_result;
-}t_ray_cylinder;
+}				t_ray_cylinder;
 
 //Typedef declares variables required by the string to double conversion.
 typedef struct s_atof_vars
@@ -690,7 +690,7 @@ double			radians_degrees(double deg);
 double			distance_two_points(t_point *point_one, t_point *point_two);
 //Function works out the magnitude of a vector from its components.
 double			magnitude_components(double x_comp, \
-double y_comp, double z_comp);
+										double y_comp, double z_comp);
 //Function works out the vector cross product of two directions.
 t_direction		*direction_cross(t_direction *first, t_direction *second);
 //Function returns the cross product with a positive z-axis component.
@@ -732,15 +732,18 @@ t_intersect		*intersection_ray_sphere(t_ray *ray, t_sphere *sphere);
 t_intersect		*intersection_ray_obj(t_ray *ray, t_obj *obj);
 //Function adds colour to the intersection of an object.
 void			intersection_colour(t_objlist *objlist, t_intersect *intersect);
-//Checks for an itersection between a ray and a cylinder
+//Checks for an itersection between a ray and a cylinder.
 t_intersect		*intersection_ray_cylinder(t_ray *ray, t_cylinder *cylinder);
-//Shapes an infinite cylinder and shapes finite cylinder with caps
+//Shapes an infinite cylinder and shapes finite cylinder with caps.
 void			cylinder_mantle_caps(t_ray_cylinder *t, \
-t_intersect *cylinder_intersect, t_ray *ray, t_cylinder *cylinder);
+			t_intersect *cylinder_intersect, t_ray *ray, t_cylinder *cylinder);
+//FUNCTION WITHOUT DESCRIPTION
 t_intersect		*top_cap_intersection(t_cylinder *cylinder, \
-t_ray *ray, t_intersect *cylinder_intersect);
+								t_ray *ray, t_intersect *cylinder_intersect);
+//FUNCTION WITHOUT DESCRIPTION
 t_intersect		*base_cap_intersection(t_cylinder *cylinder, \
-t_ray *ray, t_intersect *cylinder_intersect);
+								t_ray *ray, t_intersect *cylinder_intersect);
+
 // ------------------------------- VECTOR OPERATIONS ---------------------------
 //Function adds two vectors together.
 t_vector		*vector_add(t_vector *first, t_vector *second);
@@ -752,6 +755,7 @@ t_vector		*vector_scale(double scalar, t_vector *vector);
 t_vector		*vector_cross(t_vector *first, t_vector *second);
 //Function works out the dot product of two vectors.
 double			vector_dot(t_vector *first, t_vector *second);
+
 // ------------------------------- COLOUR OPERATIONS ---------------------------
 //Function adds ambient light to a colour.
 t_colour		*colour_ambient(unsigned int full, t_ambient *ambient);
