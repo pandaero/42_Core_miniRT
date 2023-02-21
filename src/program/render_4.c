@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 13:24:52 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/20 16:29:20 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/21 18:28:38 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@ static void	pixel_sec_itsct(t_intersect *itsct, t_pixel *pixel)
 static void	sec_itsct_pass_loop(t_program *program, t_pixel *pixel, \
 									t_sec_itsct_pass *stct)
 {
+	t_pixel	*lastpix;
+
+	lastpix = screen_program(program)->pixels[WIN_HEIGHT - 1][WIN_WIDTH - 1];
 	stct->temp = intersection_ray_obj(stct->ray, stct->obj);
 	if (stct->temp->state == INTERSECTED && stct->temp->distance \
 			<= distance_two_points(pixel->itsct->point, \
@@ -33,7 +36,7 @@ static void	sec_itsct_pass_loop(t_program *program, t_pixel *pixel, \
 		pixel_sec_itsct(stct->temp, pixel);
 	free_intersection(stct->temp);
 	stct->sec_unren--;
-	if (pixel == screen_program(program)->pixels[WIN_WIDTH][WIN_HEIGHT])
+	if (pixel == lastpix)
 		program->objlist->num_sec_unren--;
 	stct->obj = stct->obj->next;
 }

@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 16:41:50 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/19 21:13:57 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/21 18:24:06 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_colour	*colour_create(void)
 {
 	t_colour	*col;
 
-	col = (t_colour *)malloc(sizeof(sizeof(t_colour)));
+	col = (t_colour *)malloc(sizeof(t_colour));
 	if (!col)
 		return (NULL);
 	col->full = 0;
