@@ -6,14 +6,13 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:12:58 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/21 15:13:21 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/21 15:20:55 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minirt.h"
 #include <math.h>
 #include <stdlib.h>
-
 
 //Checks for intersection with top cap
 static t_top_cap_intersection	*top_cap_intersection_init(t_cylinder *cylinder)

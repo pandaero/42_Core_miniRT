@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:12:00 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/21 15:14:10 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/21 15:39:10 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 #include <stdlib.h>
 
 //Checks for intersection with base cap
-static t_base_cap_intersection	*base_cap_intersection_init(t_cylinder *cylinder)
+static t_base_cap_intersection	*base_cap_intersection_init(t_cylinder \
+*cylinder)
 {
 	t_base_cap_intersection	*v;
 
@@ -39,8 +40,7 @@ static void	free_base_cap_intersection(t_base_cap_intersection *v)
 	free(v);
 }
 
-/*Function determines if there is an 
-intersection with a base cap of the cylinder*/
+//Function determines if there is an intersection with a base cap
 t_intersect	*base_cap_intersection(t_cylinder *cylinder, \
 t_ray *ray, t_intersect *cylinder_intersect)
 {

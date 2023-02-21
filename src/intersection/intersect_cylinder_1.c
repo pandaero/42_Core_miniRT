@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 13:50:06 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/21 15:02:55 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/21 15:20:32 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ static void	infinite_cylinder_intersection(t_ray_cylinder *t, \
 }
 
 //Calculates coefficients for the cylinder ray intersection and solves quadratic
-static double	*employ_quadratic_equation(t_ray_cylinder *t, t_cylinder *cylinder)
+static double	*employ_quadratic_equation(t_ray_cylinder *t, \
+t_cylinder *cylinder)
 {
 	t->coefficient[A] = vector_dot(t->vector_ray, t->vector_ray) - \
 	pow(vector_dot(t->vector_ray, t->vector_cylinder), 2);
@@ -81,7 +82,7 @@ static t_ray_cylinder	*cylinder_init(t_ray *ray, t_cylinder *cylinder)
 }
 
 //Frees a struct of function cylinder ray intersection
-static void free_t_ray_cylinder(t_ray_cylinder *t)
+static void	free_t_ray_cylinder(t_ray_cylinder *t)
 {
 	free_vector(t->vector_ray_origin_base_center);
 	free_vector(t->vector_cylinder);
@@ -100,11 +101,11 @@ t_intersect	*intersection_ray_cylinder(t_ray *ray, t_cylinder *cylinder)
 	cylinder_intersect = intersect_create();
 	t->quadratic_result = employ_quadratic_equation(t, cylinder);
 	infinite_cylinder_intersection(t, cylinder_intersect, ray);
-	if(cylinder_intersect->point != NULL)
+	if (cylinder_intersect->point != NULL)
 	{
 		cylinder_mantle_caps(t, cylinder_intersect, ray, cylinder);
 	}
-	if(cylinder_intersect->state == 1)
+	if (cylinder_intersect->state == 1)
 	{
 		free_t_ray_cylinder(t);
 		return (cylinder_intersect);
