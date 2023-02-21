@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/20 16:26:00 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/20 16:36:43 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -894,9 +894,9 @@ void			screen_pixel_centres(int width, int height, t_camera *camera, \
 void			render_pixel(t_program *program, t_pixel *pixel);
 //Function performs a render through the screen for the input object.
 void			render_intersection_pass(t_program *program, t_obj *obj);
-//Function 
+//Function calculates a primary intersection for a pixel.
 void			primary_intersection_pass(t_program *program, t_pixel *pixel);
-//Function calculates a secondary intersection.
+//Function calculates a secondary intersection for a pixel.
 void			secondary_intersection_pass(t_program *program, t_pixel *pixel);
 //Function performs the operations required to render the program window/screen.
 void			render_screen(t_program *program);
