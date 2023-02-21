@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/21 13:42:54 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/21 15:02:24 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -734,6 +734,9 @@ t_intersect		*intersection_ray_obj(t_ray *ray, t_obj *obj);
 void			intersection_colour(t_objlist *objlist, t_intersect *intersect);
 //Checks for an itersection between a ray and a cylinder
 t_intersect		*intersection_ray_cylinder(t_ray *ray, t_cylinder *cylinder);
+//Shapes an infinite cylinder and shapes finite cylinder with caps
+void cylinder_mantle_caps(t_ray_cylinder *t, \
+t_intersect *cylinder_intersect, t_ray *ray, t_cylinder *cylinder);
 // ------------------------------- VECTOR OPERATIONS ---------------------------
 //Function adds two vectors together.
 t_vector		*vector_add(t_vector *first, t_vector *second);
