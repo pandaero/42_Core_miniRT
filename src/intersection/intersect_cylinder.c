@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:38:13 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/21 12:54:19 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/21 13:07:40 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,18 +81,6 @@ void	infinite_cylinder_intersection(t_ray_cylinder *t, \
 		get_intersection_point(ray, t->quadratic_result[1]);
 }
 
-//Typedef that contains variables for the base cap intersection
-typedef struct s_base_cap_intersection
-{
-	t_vector	*vector_centroid_base;
-	t_point		*point_center_base;
-	t_plane		*plane_base_cylinder;
-	t_vector	*vector_base_intersection;
-	double		d_sq;
-	double		radius_sq;
-
-}t_base_cap_intersection;
-
 t_base_cap_intersection	*base_cap_intersection_init(t_cylinder *cylinder)
 {
 	t_base_cap_intersection	*v;
@@ -144,24 +132,13 @@ t_ray *ray, t_intersect *cylinder_intersect)
 	return (intersect_base_plane);
 }
 
-// //Typedef of cylinder helper function
-// typedef struct s_top_cap_intersection
-// {
-// 	t_vector	*vector_centroid_top;
-// 	t_point		*point_center_top;
-// 	t_plane		*plane_top_cylinder;
-// 	t_vector	*vector_top_intersection;
-// 	double		d_sq;
-// 	double		radius_sq;
-// }t_top_cap_intersection;
-
 t_top_cap_intersection	*top_cap_intersection_init(t_cylinder *cylinder)
 {
 	t_top_cap_intersection	*v;
 
 	v = (t_top_cap_intersection *)malloc(sizeof(t_top_cap_intersection));
 	v->vector_top_intersection = NULL;
-	v->vector_centroid_top = vector_scale_direction( \
+	v->vector_centroid_top = vector_scale_direction(\
 	(cylinder->height / 2), cylinder->orientation);
 	v->point_center_top = point_point_vector \
 	(cylinder->centre, v->vector_centroid_top);
