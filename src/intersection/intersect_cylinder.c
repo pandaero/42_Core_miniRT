@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:38:13 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/21 11:28:38 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/21 11:31:45 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,9 +139,6 @@ t_ray *ray, t_intersect *cylinder_intersect)
 		if (v->d_sq <= v->radius_sq)
 		{
 			cylinder_intersect->state = 1;
-			cylinder_intersect->distance = \
-			distance_two_points(ray->ray_orig, \
-			cylinder_intersect->point);
 		}
 	}
 	free_base_cap_intersection(v);
