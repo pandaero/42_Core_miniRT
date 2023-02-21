@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+         #
+#    By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/16 18:36:19 by pandalaf          #+#    #+#              #
-#    Updated: 2023/02/07 18:49:08 by pbiederm         ###   ########.fr        #
+#    Updated: 2023/02/21 15:56:42 by pandalaf         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 

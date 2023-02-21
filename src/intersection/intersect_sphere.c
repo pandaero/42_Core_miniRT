@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 22:22:24 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/19 18:07:52 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/21 17:07:56 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,7 @@
 #include <stdlib.h>
 #include <math.h>
 
-/*Function produces the output point if there 
-is an intersection, alocates memory to that point.
-Maybe it gets the point. Itdetermines whether a ray
-and a sphere intersect.
-Nomenclature:
-rp - Resulting from subtracting center of sphere from ray origin.
-t0 - distance of normalized direction vector to a point of intersection
-t1 - distance of normalized direction vector 
-		to a different point of intersection
-y - the discriminant
-*/
-/*Function helps ray sphere get the distance of 
-between ray and sphere*/
+//Function helps ray sphere get the distance of between ray and sphere.
 static double	get_distance(t_vector *vec_ray_dir, \
 t_vector *rp, t_sphere *sphere)
 {
@@ -44,7 +32,7 @@ t_vector *rp, t_sphere *sphere)
 	return (distance);
 }
 
-//Get coordinates between ray and sphere
+//Function works out the intersection between a ray and a sphere.
 t_intersect	*intersection_ray_sphere(t_ray *ray, t_sphere *sphere)
 {
 	t_vector	*vec_ray_dir;
@@ -57,7 +45,7 @@ t_intersect	*intersection_ray_sphere(t_ray *ray, t_sphere *sphere)
 	rs.y = pow(vector_dot(rp, vec_ray_dir), 2) - \
 	(vector_dot(rp, rp)) + pow(sphere->radius, 2);
 	intersection = intersect_create();
-	if (rs.y >= 0)
+	if (rs.y >= 0 && vector_dot(rp, vec_ray_dir) > 0)
 	{
 		intersection->state = INTERSECTED;
 		intersection->distance = get_distance(vec_ray_dir, rp, sphere);

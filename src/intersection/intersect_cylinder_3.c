@@ -3,68 +3,65 @@
 /*                                                        :::      ::::::::   */
 /*   intersect_cylinder_3.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/07 16:32:58 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/12 14:56:32 by pbiederm         ###   ########.fr       */
+/*   Created: 2023/02/21 15:12:00 by pbiederm          #+#    #+#             */
+/*   Updated: 2023/02/21 16:15:49 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minirt.h"
 #include <math.h>
 #include <stdlib.h>
-#include <stdio.h>
 
-//Function checks whether a ray is intersecting within a disc radius.
-static void	is_ray_within_radius(t_cylinder_cap *t, t_point *center, \
-t_cylinder *cylinder, t_intersect *cap_intersection)
+//Checks for intersection with base cap
+static t_base_cap_intersection	*base_cap_intersection_init(t_cylinder \
+*cylinder)
 {
-	t->disc_center_to_point_plane = vector_two_points(center, \
-	cap_intersection->point);
-	t->distance_center_point_sq = vector_dot(t->disc_center_to_point_plane, \
-	t->disc_center_to_point_plane);
-	t->radius_sq = cylinder->radius * cylinder->radius;
+	t_base_cap_intersection	*v;
+
+	v = (t_base_cap_intersection *)malloc(sizeof(t_base_cap_intersection));
+	v->vector_base_intersection = NULL;
+	v->vector_centroid_base = vector_scale_direction((-1) * \
+	(cylinder->height / 2), cylinder->orientation);
+	v->point_center_base = point_point_vector \
+	(cylinder->centre, v->vector_centroid_base);
+	v->plane_base_cylinder = plane_col_point_normal_dir \
+	(cylinder->colour, v->point_center_base, cylinder->orientation);
+	return (v);
 }
 
-//Function creates and initialises a cap struct.
-static t_cylinder_cap	*cap_init(t_point *center, t_cylinder *cylinder)
+//Function that frees the intersection of a base cap
+static void	free_base_cap_intersection(t_base_cap_intersection *v)
 {
-	t_cylinder_cap	*t;
-	t_colour		*col;
-
-	t = (t_cylinder_cap *)malloc(sizeof(t_cylinder_cap));
-	col = colour_str("0,255,0");
-	t->cap_plane = plane_col_point_normal_dir(col, \
-	center, cylinder->orientation);
-	t->disc_center_to_point_plane = NULL;
-	return (t);
+	free_plane(v->plane_base_cylinder);
+	free_point(v->point_center_base);
+	free_vector(v->vector_centroid_base);
+	free(v);
 }
 
-//Function works out the intersection between a ray and a cylinder cap.
-t_intersect	*intersection_cylinder_cap(t_ray *ray, \
-										t_point *center, t_cylinder *cylinder)
+//Function determines if there is an intersection with a base cap
+t_intersect	*base_cap_intersection(t_cylinder *cylinder, \
+								t_ray *ray, t_intersect *cylinder_intersect)
 {
-	t_cylinder_cap	*t;
-	t_intersect		*cap_intersection;
+	t_base_cap_intersection	*v;
+	t_intersect				*intersect_base_plane;
 
-	t = cap_init(center, cylinder);
-	cap_intersection = intersection_ray_plane(ray, t->cap_plane);
-	if (cap_intersection->state == 0)
+	v = base_cap_intersection_init(cylinder);
+	intersect_base_plane = intersection_ray_plane(ray, v->plane_base_cylinder);
+	if (intersect_base_plane->state == 1)
 	{
-		free_cylinder_plane(t);
-		return (cap_intersection);
-	}
-	if (cap_intersection->state != 0)
-	{
-		is_ray_within_radius(t, center, cylinder, cap_intersection);
-		if (t->distance_center_point_sq > t->radius_sq)
+		v->vector_base_intersection = vector_two_points \
+		(v->point_center_base, intersect_base_plane->point);
+		v->d_sq = vector_dot(v->vector_base_intersection, \
+		v->vector_base_intersection);
+		free_vector(v->vector_base_intersection);
+		v->radius_sq = pow(cylinder->radius, 2);
+		if (v->d_sq <= v->radius_sq)
 		{
-			cap_intersection->state = 0;
-			free_cylinder_cap(t);
-			return (cap_intersection);
+			cylinder_intersect->state = 1;
 		}
 	}
-	cap_intersection->state = 1;
-	free_cylinder_cap(t);
-	return (cap_intersection);
+	free_base_cap_intersection(v);
+	return (intersect_base_plane);
 }
