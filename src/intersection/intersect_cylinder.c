@@ -6,14 +6,13 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:38:13 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/21 12:09:17 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/21 12:54:19 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minirt.h"
 #include <math.h>
 #include <stdlib.h>
-// #include <stdio.h>
 
 #define A 0
 #define B 1
@@ -145,15 +144,16 @@ t_ray *ray, t_intersect *cylinder_intersect)
 	return (intersect_base_plane);
 }
 
-typedef struct s_top_cap_intersection
-{
-	t_vector	*vector_centroid_top;
-	t_point		*point_center_top;
-	t_plane		*plane_top_cylinder;
-	t_vector	*vector_top_intersection;
-	double		d_sq;
-	double		radius_sq;
-}t_top_cap_intersection;
+// //Typedef of cylinder helper function
+// typedef struct s_top_cap_intersection
+// {
+// 	t_vector	*vector_centroid_top;
+// 	t_point		*point_center_top;
+// 	t_plane		*plane_top_cylinder;
+// 	t_vector	*vector_top_intersection;
+// 	double		d_sq;
+// 	double		radius_sq;
+// }t_top_cap_intersection;
 
 t_top_cap_intersection	*top_cap_intersection_init(t_cylinder *cylinder)
 {

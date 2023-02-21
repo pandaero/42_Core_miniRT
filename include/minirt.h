@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/20 20:41:48 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/21 12:53:41 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,30 @@ typedef struct s_imgdata	t_imgdata;
 typedef struct s_mlxdata	t_mlxdata;
 
 // =============================== FUNCTION REFACTORING ========================
-/*Typedef contains variables used 
-and freed in intersection ray cylinder*/
+//Typedef of cylinder helper function
+typedef struct s_top_cap_intersection
+{
+	t_vector	*vector_centroid_top;
+	t_point		*point_center_top;
+	t_plane		*plane_top_cylinder;
+	t_vector	*vector_top_intersection;
+	double		d_sq;
+	double		radius_sq;
+}t_top_cap_intersection;
+
+//Typedef that contains variables for the base cap intersection
+typedef struct s_base_cap_intersection
+{
+	t_vector	*vector_centroid_base;
+	t_point		*point_center_base;
+	t_plane		*plane_base_cylinder;
+	t_vector	*vector_base_intersection;
+	double		d_sq;
+	double		radius_sq;
+
+}t_base_cap_intersection;
+
+//Typedef contains variablesfreed in intersection ray cylinder
 typedef struct s_ray_cylinder_variables 
 {
 	t_vector 	*vector_ray;
@@ -713,9 +735,6 @@ t_intersect		*intersection_ray_obj(t_ray *ray, t_obj *obj);
 void			intersection_colour(t_objlist *objlist, t_intersect *intersect);
 //Checks for an itersection between a ray and a cylinder
 t_intersect		*intersection_ray_cylinder(t_ray *ray, t_cylinder *cylinder);
-//Intersection ray disc
-t_intersect		*intersection_ray_disc(t_ray *ray, \
-t_point *disc_center, t_direction *disc_normal_dir, double radius);
 // ------------------------------- VECTOR OPERATIONS ---------------------------
 //Function adds two vectors together.
 t_vector		*vector_add(t_vector *first, t_vector *second);
