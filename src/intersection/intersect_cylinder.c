@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:38:13 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/21 11:31:45 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/21 12:09:17 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,6 +240,18 @@ t_intersect *intersect_top_plane, t_intersect *cylinder_intersect)
 	}
 }
 
+void	free_cylinder_mantle_caps(t_intersect *intersect_base_plane, t_intersect *intersect_top_plane, t_intersect *cylinder_intersect)
+{
+	free_intersection(intersect_base_plane);
+	free_intersection(intersect_top_plane);
+	// not part of caps intersection
+	if (cylinder_intersect->state != 1)
+	{
+		free_point(cylinder_intersect->point);
+		cylinder_intersect->point = NULL;
+	}
+}
+
 //Shapes an infinite cylinder and shapes finite cylinder with caps
 void cylinder_mantle_caps(t_ray_cylinder *t, \
 t_intersect *cylinder_intersect, t_ray *ray, t_cylinder *cylinder)
@@ -266,14 +278,15 @@ t_intersect *cylinder_intersect, t_ray *ray, t_cylinder *cylinder)
 			, cylinder_intersect);
 			determine_cap_distance(intersect_base_plane, \
 			intersect_top_plane, cylinder_intersect);
-			free_intersection(intersect_base_plane);
-			free_intersection(intersect_top_plane);
-			// not part of caps intersection
-			if (cylinder_intersect->state != 1)
-			{
-				free_point(cylinder_intersect->point);
-				cylinder_intersect->point = NULL;
-			}
+			free_cylinder_mantle_caps(intersect_base_plane, intersect_top_plane, cylinder_intersect);
+			// free_intersection(intersect_base_plane);
+			// free_intersection(intersect_top_plane);
+			// // not part of caps intersection
+			// if (cylinder_intersect->state != 1)
+			// {
+			// 	free_point(cylinder_intersect->point);
+			// 	cylinder_intersect->point = NULL;
+			// }
 		}
 	}
 }
