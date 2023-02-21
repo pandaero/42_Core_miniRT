@@ -6,7 +6,7 @@
 #    By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/16 18:36:19 by pandalaf          #+#    #+#              #
-#    Updated: 2023/02/21 12:45:57 by pbiederm         ###   ########.fr        #
+#    Updated: 2023/02/21 12:57:23 by pbiederm         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -121,43 +121,5 @@ fclean:
 # Clean everything and re-compile
 re: fclean all
 
-a:
-	@echo "cylinder not seen"
-	@./minirt test/cylinder/test_input_one_cylinder_1_not_seen.rt
-b:
-	@echo "cylinder seen from outside"
-	@./minirt test/cylinder/test_input_one_cylinder_2_seen.rt
-
-c:
-	@echo "cylinder seen from point to the right"
-	@./minirt test/cylinder/test_input_one_cylinder_3_seen_from_right.rt
-
-d:
-	@echo "cylinder seen from point to the left"
-	@./minirt test/cylinder/test_input_one_cylinder_4_seen_from_left.rt
-
-e:
-	@echo "cylinder seen from inside negative direction"
-	@./minirt test/cylinder/test_input_one_cylinder_5_inside_negative_dir.rt
-
-f:
-	@echo "cylinder seen from inside positive direction"
-	@./minirt test/cylinder/test_input_one_cylinder_6_inside_positive_dir.rt
-
-g:
-	@echo "cylinder seen from the other side"
-	@./minirt test/cylinder/test_input_one_cylinder_7_outside_seen.rt
-	
-h:
-	@echo "cylinder not seen from the other side"
-	@./minirt test/cylinder/test_input_one_cylinder_8_outside_not_seen.rt
-
-i:
-	@echo "cylinder seen from a point to the right, positve y coordinate in point"
-	@./minirt test/cylinder/test_input_one_cylinder_9_seen_from_right.rt
-
-j:
-	@echo "cylinder seen from a point to the left, negative y coordinate in point"
-	@./minirt test/cylinder/test_input_one_cylinder_10_seen_from_left.rt
 # Make sure these aren't treated as files
 .PHONY: all directory clean fclean re
