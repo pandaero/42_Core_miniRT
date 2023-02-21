@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/16 22:06:30 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/21 16:11:21 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # define WIN_WIDTH 800
 # define WIN_HEIGHT 600
 // Factor for screen-pixel coordinate sizing. 
-# define VIEW_SCALING 0.1
+# define VIEW_SCALING 0.001
 // Factor for diffuse lighting effect
 # define LIGHTING_FACTOR 5000
 // Colours
@@ -55,6 +55,39 @@ typedef struct s_imgdata	t_imgdata;
 typedef struct s_mlxdata	t_mlxdata;
 
 // =============================== FUNCTION REFACTORING ========================
+//Typedef that contains variables for the base cap intersection.
+typedef struct s_base_cap_intersection
+{
+	t_vector	*vector_centroid_base;
+	t_point		*point_center_base;
+	t_plane		*plane_base_cylinder;
+	t_vector	*vector_base_intersection;
+	double		d_sq;
+	double		radius_sq;
+}				t_base_cap_intersection;
+
+//Typedef of cylinder helper function.
+typedef struct s_top_cap_intersection
+{
+	t_vector	*vector_centroid_top;
+	t_point		*point_center_top;
+	t_plane		*plane_top_cylinder;
+	t_vector	*vector_top_intersection;
+	double		d_sq;
+	double		radius_sq;
+}				t_top_cap_intersection;
+
+//Typedef contains variables freed in intersection ray cylinder.
+typedef struct s_ray_cylinder
+{
+	t_vector	*vector_ray;
+	t_vector	*vector_cylinder;
+	t_vector	*vector_ray_origin_base_center;
+	double		distance_cylinder_axis;
+	double		coefficient[3];
+	double		*quadratic_result;
+}				t_ray_cylinder;
+
 //Typedef declares variables required by the string to double conversion.
 typedef struct s_atof_vars
 {
@@ -116,46 +149,6 @@ typedef struct s_inter_pass
 	t_objlist	*list;
 	t_intersect	*temp;
 }				t_inter_pass;
-
-//TYPEDEF MISSING DESCRIPTION
-typedef struct s_cylinder_intersect
-{
-	t_vector	*ray_dir_vec;
-	t_vector	*cylinder_orientation_vec;
-	t_vector	*w;
-	t_vector	*cyl_up;
-	t_point		*C;
-	t_point		*H;
-	double		a;
-	double		b;
-	double		c;
-}				t_cylinder_locals;
-
-//Typedef of ray cylinder intersection
-typedef struct s_ray_cylinder
-{
-	t_intersect	*base_intersection;
-	t_direction	*reverse_cylinder_orientation;
-	t_intersect	*top_intersection;
-	t_vector	*vector_ray;
-	t_vector	*vector_cylinder;
-	t_vector	*origin_base_center;
-	t_vector	*base_to_top;
-	t_point		*top_center;
-	double		*quadratic_solutions;
-	double		*coefficient;
-	double		distance_from_base;
-}				t_ray_cylinder;
-
-//TYPEDEF MISSING DESCRIPTION
-typedef struct s_cylinder_cap
-{
-	t_plane		*cap_plane;
-	t_intersect	*cap_intersection;
-	t_vector	*disc_center_to_point_plane;
-	double		distance_center_point_sq;
-	double		radius_sq;
-}				t_cylinder_cap;
 
 // ===================================== PROGRAM ===============================
 //Typedef defines a struct for program data.
@@ -673,12 +666,6 @@ void			free_obj_lists(t_objlist *first);
 void			free_list(t_objlist *list);
 //Function frees an object.
 void			free_object(t_obj *object);
-//Frees cylinder values in the intersect cylinder.
-void			free_cylinder_values(t_ray_cylinder *t);
-//Function frees a plane and a cylinder cap struct.
-void			free_cylinder_plane(t_cylinder_cap *t);
-//Function frees objects related to a cylinder cap.
-void			free_cylinder_cap(t_cylinder_cap *t);
 
 // ================================== LINKED LISTS =============================
 //Function creates a new program data structure.
@@ -703,7 +690,7 @@ double			radians_degrees(double deg);
 double			distance_two_points(t_point *point_one, t_point *point_two);
 //Function works out the magnitude of a vector from its components.
 double			magnitude_components(double x_comp, \
-double y_comp, double z_comp);
+										double y_comp, double z_comp);
 //Function works out the vector cross product of two directions.
 t_direction		*direction_cross(t_direction *first, t_direction *second);
 //Function returns the cross product with a positive z-axis component.
@@ -745,14 +732,18 @@ t_intersect		*intersection_ray_sphere(t_ray *ray, t_sphere *sphere);
 t_intersect		*intersection_ray_obj(t_ray *ray, t_obj *obj);
 //Function adds colour to the intersection of an object.
 void			intersection_colour(t_objlist *objlist, t_intersect *intersect);
-//Checks for an itersection between a ray and a cylinder
+//Checks for an itersection between a ray and a cylinder.
 t_intersect		*intersection_ray_cylinder(t_ray *ray, t_cylinder *cylinder);
-//Helper of intersection cylinder, checks the cap intersections
-t_intersect		*intersection_cylinder_cap(t_ray *ray, \
-t_point *center, t_cylinder *cylinder);
-//Initializes variables in cylinder
-t_ray_cylinder	*t_ray_cylinder_init(t_ray *ray, t_cylinder *cylinder);
-t_intersect		*return_data_init(void);
+//Shapes an infinite cylinder and shapes finite cylinder with caps.
+void			cylinder_mantle_caps(t_ray_cylinder *t, \
+			t_intersect *cylinder_intersect, t_ray *ray, t_cylinder *cylinder);
+//FUNCTION WITHOUT DESCRIPTION
+t_intersect		*top_cap_intersection(t_cylinder *cylinder, \
+								t_ray *ray, t_intersect *cylinder_intersect);
+//FUNCTION WITHOUT DESCRIPTION
+t_intersect		*base_cap_intersection(t_cylinder *cylinder, \
+								t_ray *ray, t_intersect *cylinder_intersect);
+
 // ------------------------------- VECTOR OPERATIONS ---------------------------
 //Function adds two vectors together.
 t_vector		*vector_add(t_vector *first, t_vector *second);
@@ -764,6 +755,7 @@ t_vector		*vector_scale(double scalar, t_vector *vector);
 t_vector		*vector_cross(t_vector *first, t_vector *second);
 //Function works out the dot product of two vectors.
 double			vector_dot(t_vector *first, t_vector *second);
+
 // ------------------------------- COLOUR OPERATIONS ---------------------------
 //Function adds ambient light to a colour.
 t_colour		*colour_ambient(unsigned int full, t_ambient *ambient);

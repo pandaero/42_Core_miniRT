@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersect_plane.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:54:59 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/13 15:37:26 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/21 12:02:46 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static t_ip	*init_ray_plane(t_ray *ray, t_plane *plane)
 	t_ip	*ip;
 
 	ip = (t_ip *)malloc(sizeof(t_ip));
+	ip->polo = NULL;
 	ip->ray_dir_vec = vector_mag_dir(1, ray->ray_dir);
 	ip->plane_norm_vec = vector_mag_dir(1, plane->normal);
 	ip->denominator = vector_dot(ip->plane_norm_vec, ip->ray_dir_vec);
@@ -33,6 +34,7 @@ static void	free_ip(t_ip *ip)
 {
 	free_vector(ip->ray_dir_vec);
 	free_vector(ip->plane_norm_vec);
+	free(ip);
 }
 
 //Function checks for intersection between plane and ray
