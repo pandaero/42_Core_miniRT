@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersect_cylinder_2.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:38:13 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/21 15:37:33 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/21 16:16:24 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 //Reallocate point add distance
 static void	reset_point_distance(t_intersect *cylinder_intersect, \
-t_intersect *cap_intersection_data)
+									t_intersect *cap_intersection_data)
 {
 	free_point(cylinder_intersect->point);
 	cylinder_intersect->point = point_copy(cap_intersection_data->point);
@@ -25,7 +25,7 @@ t_intersect *cap_intersection_data)
 
 //Determining render, getting point and distance to cylinder_intersect
 static void	determine_cap_distance(t_intersect *intersect_base_plane, \
-t_intersect *intersect_top_plane, t_intersect *cylinder_intersect)
+			t_intersect *intersect_top_plane, t_intersect *cylinder_intersect)
 {
 	if (intersect_base_plane->distance >= 0 && \
 	intersect_top_plane->distance < 0 && cylinder_intersect->state == 1)
@@ -43,8 +43,9 @@ t_intersect *intersect_top_plane, t_intersect *cylinder_intersect)
 		reset_point_distance(cylinder_intersect, intersect_top_plane);
 }
 
+//FUNCTION WITHOUT DESCRIPTION
 static void	free_cylinder_mantle_caps(t_intersect *intersect_base_plane, \
-t_intersect *intersect_top_plane, t_intersect *cylinder_intersect)
+			t_intersect *intersect_top_plane, t_intersect *cylinder_intersect)
 {
 	free_intersection(intersect_base_plane);
 	free_intersection(intersect_top_plane);
@@ -74,7 +75,7 @@ t_intersect *cylinder_intersect)
 
 //Shapes an infinite cylinder and shapes finite cylinder with caps
 void	cylinder_mantle_caps(t_ray_cylinder *t, \
-t_intersect *cylinder_intersect, t_ray *ray, t_cylinder *cylinder)
+			t_intersect *cylinder_intersect, t_ray *ray, t_cylinder *cylinder)
 {
 	t->distance_cylinder_axis = 2 * sqrt(fabs((pow(cylinder->radius, 2) - \
 	pow(distance_two_points(cylinder->centre, cylinder_intersect->point), 2))));

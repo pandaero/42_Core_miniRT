@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   intersect_cylinder_1.c                             :+:      :+:    :+:   */
+/*   intersect_cylinder.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 13:50:06 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/21 15:20:32 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/21 16:16:39 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,9 @@
 #define B 1
 #define C 2
 
+//FUNCTION WITHOUT DESCRIPTION
 static void	infinite_cylinder_intersection(t_ray_cylinder *t, \
-							t_intersect *cylinder_intersect, t_ray *ray)
+								t_intersect *cylinder_intersect, t_ray *ray)
 {
 	if (t->quadratic_result[0] == 2 && \
 	t->quadratic_result[1] > 0 && t->quadratic_result[2] > 0)
@@ -48,7 +49,7 @@ static void	infinite_cylinder_intersection(t_ray_cylinder *t, \
 
 //Calculates coefficients for the cylinder ray intersection and solves quadratic
 static double	*employ_quadratic_equation(t_ray_cylinder *t, \
-t_cylinder *cylinder)
+											t_cylinder *cylinder)
 {
 	t->coefficient[A] = vector_dot(t->vector_ray, t->vector_ray) - \
 	pow(vector_dot(t->vector_ray, t->vector_cylinder), 2);

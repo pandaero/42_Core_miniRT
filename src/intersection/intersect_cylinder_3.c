@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersect_cylinder_3.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:12:00 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/21 15:45:21 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/21 16:15:49 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	free_base_cap_intersection(t_base_cap_intersection *v)
 
 //Function determines if there is an intersection with a base cap
 t_intersect	*base_cap_intersection(t_cylinder *cylinder, \
-t_ray *ray, t_intersect *cylinder_intersect)
+								t_ray *ray, t_intersect *cylinder_intersect)
 {
 	t_base_cap_intersection	*v;
 	t_intersect				*intersect_base_plane;

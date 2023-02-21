@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersect_cylinder_4.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:12:58 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/21 15:20:55 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/21 16:15:39 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,9 @@ static void	free_top_cap_intersection(t_top_cap_intersection *v)
 	free(v);
 }
 
+//FUNCTION WITHOUT DESCRIPTION
 t_intersect	*top_cap_intersection(t_cylinder *cylinder, \
-t_ray *ray, t_intersect *cylinder_intersect)
+									t_ray *ray, t_intersect *cylinder_intersect)
 {
 	t_top_cap_intersection	*v;
 	t_intersect				*intersect_top_plane;
