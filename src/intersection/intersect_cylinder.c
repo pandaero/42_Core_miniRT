@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:38:13 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/21 13:07:40 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/21 13:41:34 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,7 +221,6 @@ void	free_cylinder_mantle_caps(t_intersect *intersect_base_plane, t_intersect *i
 {
 	free_intersection(intersect_base_plane);
 	free_intersection(intersect_top_plane);
-	// not part of caps intersection
 	if (cylinder_intersect->state != 1)
 	{
 		free_point(cylinder_intersect->point);
@@ -248,7 +247,6 @@ t_intersect *cylinder_intersect, t_ray *ray, t_cylinder *cylinder)
 		}
 		else
 		{
-			// caps intersection below
 			intersect_base_plane = base_cap_intersection(cylinder, ray, \
 			cylinder_intersect);
 			intersect_top_plane = top_cap_intersection(cylinder, ray \
@@ -256,14 +254,6 @@ t_intersect *cylinder_intersect, t_ray *ray, t_cylinder *cylinder)
 			determine_cap_distance(intersect_base_plane, \
 			intersect_top_plane, cylinder_intersect);
 			free_cylinder_mantle_caps(intersect_base_plane, intersect_top_plane, cylinder_intersect);
-			// free_intersection(intersect_base_plane);
-			// free_intersection(intersect_top_plane);
-			// // not part of caps intersection
-			// if (cylinder_intersect->state != 1)
-			// {
-			// 	free_point(cylinder_intersect->point);
-			// 	cylinder_intersect->point = NULL;
-			// }
 		}
 	}
 }
