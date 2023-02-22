@@ -3,16 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   intersect_plane.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:54:59 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/21 17:08:02 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/22 18:53:04 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minirt.h"
 #include <math.h>
 #include <stdlib.h>
+//for tests
+#include <stdio.h>
 
 #define EPSILON 0.00000000000000022
 
@@ -54,6 +56,12 @@ t_intersect	*intersection_ray_plane(t_ray *ray, t_plane *plane)
 			intersection->state = INTERSECTED;
 			intersection->point = point_ray_distance(ray, ip->t);
 			intersection->distance = ip->t;
+			// if(abs_value(intersection->point->x_co < 0.25) && abs_value(intersection->point->z_co < 0.25))
+			// {
+			// 	printf("plane point: [%f, %f, %f] | ", intersection->point->x_co, \
+			// 	intersection->point->y_co, intersection->point->z_co);
+			// 	printf("plane dist: %f | \n", intersection->distance);
+			// }
 		}
 		free_vector(ip->polo);
 	}

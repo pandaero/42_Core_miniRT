@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   intersect_sphere.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 22:22:24 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/21 17:07:56 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/22 19:19:33 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minirt.h"
 #include <stdlib.h>
 #include <math.h>
+#include <stdio.h>
 
 //Function helps ray sphere get the distance of between ray and sphere.
 static double	get_distance(t_vector *vec_ray_dir, \
@@ -30,6 +31,13 @@ t_vector *rp, t_sphere *sphere)
 	if (tmp < distance)
 		distance = tmp;
 	return (distance);
+}
+
+double abs_value(double value)
+{
+	if (value < 0)
+		value = value * (-1);
+	return (value);
 }
 
 //Function works out the intersection between a ray and a sphere.
@@ -50,6 +58,12 @@ t_intersect	*intersection_ray_sphere(t_ray *ray, t_sphere *sphere)
 		intersection->state = INTERSECTED;
 		intersection->distance = get_distance(vec_ray_dir, rp, sphere);
 		intersection->point = point_ray_distance(ray, intersection->distance);
+		// if(abs_value(intersection->point->x_co < 0.25) && abs_value(intersection->point->z_co < 0.25))
+		// {
+		// 	printf("sphere point: [%f, %f, %f] | ", intersection->point->x_co, \
+		// 	intersection->point->y_co, intersection->point->z_co);
+		// 	printf("sphere dist: %f | \n", intersection->distance);
+		// }
 	}
 	if (intersection->state != INTERSECTED)
 		intersection->state = MISSED;

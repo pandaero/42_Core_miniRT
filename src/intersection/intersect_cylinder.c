@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 16:39:14 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/22 10:44:18 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/22 18:53:08 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,14 +128,15 @@ t_intersect	*intersection_ray_cylinder(t_ray *ray, t_cylinder *cylinder)
 	}
 	if (cylinder_intersect->state == INTERSECTED)
 	{
-		// printf("cyl point: [%f, %f, %f] | ", cylinder_intersect->point->x_co, \
-		cylinder_intersect->point->y_co, cylinder_intersect->point->z_co);
-		// printf("cyl dist: %f | ", cylinder_intersect->distance);
-		// printf("bang!\n");
+		// if(abs_value(cylinder_intersect->point->x_co < 0.25) && abs_value(cylinder_intersect->point->z_co < 0.25))
+		// {
+		// 	printf("cyl point: [%f, %f, %f] | ", cylinder_intersect->point->x_co, \
+		// 	cylinder_intersect->point->y_co, cylinder_intersect->point->z_co);
+		// 	printf("cyl dist: %f \n", cylinder_intersect->distance);
+		// }
 		free_t_ray_cylinder(t);
 		return (cylinder_intersect);
 	}
-	// printf("\n");
 	cylinder_intersect->state = MISSED;
 	free_t_ray_cylinder(t);
 	return (cylinder_intersect);

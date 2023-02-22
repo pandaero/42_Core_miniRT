@@ -6,13 +6,15 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:38:13 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/22 10:47:48 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/22 19:14:10 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minirt.h"
 #include <math.h>
 #include <stdlib.h>
+//for tests
+#include <stdio.h>
 
 //Reallocate point add distance
 static void	reset_point_distance(t_intersect *cylinder_intersect, \
@@ -28,21 +30,36 @@ static void	determine_cap_distance(t_intersect *intersect_base_plane, \
 			t_intersect *intersect_top_plane, t_intersect *cylinder_intersect)
 {
 	if (intersect_base_plane->distance < 0 && intersect_top_plane->distance < 0)
+	{
 		cylinder_intersect->state = MISSED;
+		// printf("missed cap because negative distances\n");
+	}
 	else if (intersect_base_plane->distance >= 0 && \
 	intersect_top_plane->distance < 0 && cylinder_intersect->state == INTERSECTED)
+	{
+		// printf("rendered base cap 1\n");
 		reset_point_distance(cylinder_intersect, intersect_base_plane);
+	}
 	else if (intersect_top_plane->distance >= 0 && \
 	intersect_base_plane->distance < 0 && cylinder_intersect->state == INTERSECTED)
+	{
+		// printf("rendered top cap 2\n");
 		reset_point_distance(cylinder_intersect, intersect_top_plane);
+	}
 	else if (intersect_base_plane->distance >= 0 && \
 	intersect_base_plane->distance < intersect_top_plane->distance && \
 	cylinder_intersect->state == INTERSECTED)
+	{
+		// printf("rendered base cap 3\n");
 		reset_point_distance(cylinder_intersect, intersect_base_plane);
+	}
 	else if (intersect_top_plane->distance >= 0 && \
 	intersect_top_plane->distance < intersect_base_plane->distance && \
 	cylinder_intersect->state == INTERSECTED)
+	{
+		// printf("rendered top cap 4\n");
 		reset_point_distance(cylinder_intersect, intersect_top_plane);
+	}
 }
 
 //Frees variables in intersect cylinder helper func.
@@ -79,7 +96,7 @@ t_intersect *cylinder_intersect)
 void	cylinder_mantle_caps(t_ray_cylinder *t, \
 			t_intersect *cylinder_intersect, t_ray *ray, t_cylinder *cylinder)
 {
-	t->distance_cylinder_axis = sqrt(fabs((pow(cylinder->radius, 2) - \
+	t->distance_cylinder_axis = 2 * sqrt(fabs((pow(cylinder->radius, 2) - \
 	pow(distance_two_points(cylinder->centre, cylinder_intersect->point), 2))));
 	if (t->distance_cylinder_axis >= 0)
 	{

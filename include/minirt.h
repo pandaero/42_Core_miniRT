@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/21 17:02:47 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/22 15:48:55 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -761,6 +761,8 @@ void			list_add_object(t_objlist *list, t_obj *object);
 void			list_remove_object(t_objlist *list, t_obj *object);
 
 // =================================== OPERATIONS ==============================
+//Function returns absolute value
+double 			abs_value(double value);
 //Function that converts a string's contents to a double type variable.
 double			ft_atof(const char *str);
 //Function returns the size of a ft_split-created array.
