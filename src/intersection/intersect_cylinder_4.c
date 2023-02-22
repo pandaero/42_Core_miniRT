@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersect_cylinder_4.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:12:58 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/21 16:15:39 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/21 19:54:09 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	free_top_cap_intersection(t_top_cap_intersection *v)
 	free(v);
 }
 
-//FUNCTION WITHOUT DESCRIPTION
+//Intersect check with top cap.
 t_intersect	*top_cap_intersection(t_cylinder *cylinder, \
 									t_ray *ray, t_intersect *cylinder_intersect)
 {
@@ -48,7 +48,7 @@ t_intersect	*top_cap_intersection(t_cylinder *cylinder, \
 
 	v = top_cap_intersection_init(cylinder);
 	intersect_top_plane = intersection_ray_plane(ray, v->plane_top_cylinder);
-	if (intersect_top_plane->state == 1)
+	if (intersect_top_plane->state == INTERSECTED)
 	{
 		v->vector_top_intersection = vector_two_points(v->point_center_top, \
 		intersect_top_plane->point);
@@ -58,7 +58,7 @@ t_intersect	*top_cap_intersection(t_cylinder *cylinder, \
 		v->radius_sq = pow(cylinder->radius, 2);
 		if (v->d_sq <= v->radius_sq)
 		{
-			cylinder_intersect->state = 1;
+			cylinder_intersect->state = INTERSECTED;
 		}
 	}
 	free_top_cap_intersection(v);

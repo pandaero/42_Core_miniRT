@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersect_cylinder.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 16:39:14 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/21 17:05:08 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/22 10:44:18 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,35 +16,55 @@
 #define A 0
 #define B 1
 #define C 2
+//tests
+#include <stdio.h>
 
 //Function checks for a ray intersection with an infinite cylinder.
 static void	infinite_cylinder_intersection(t_ray_cylinder *t, \
 								t_intersect *cylinder_intersect, t_ray *ray)
 {
-	if (t->quadratic_result[0] == 2 && \
+	if ((t->quadratic_result[0] == 2 || t->quadratic_result[0] == 2)&& \
+	t->quadratic_result[1] < 0 && t->quadratic_result[2] < 0)
+		cylinder_intersect->state = MISSED;
+	else if (t->quadratic_result[0] == 2 && \
 	t->quadratic_result[1] > 0 && t->quadratic_result[2] > 0)
+	{
 		cylinder_intersect->point = \
 		get_intersection_point(ray, t->quadratic_result[1]);
+		cylinder_intersect->distance = t->quadratic_result[1];
+	}
+	else if (t->quadratic_result[0] == 1 && \
+	t->quadratic_result[1] < 0 && \
+	t->quadratic_result[2] > 0)
+	{
+		cylinder_intersect->point = \
+		get_intersection_point(ray, t->quadratic_result[2]);
+		cylinder_intersect->distance = t->quadratic_result[2];
+	}
 	else if (t->quadratic_result[0] == 1 && \
 	t->quadratic_result[1] > 0 && \
 	t->quadratic_result[2] < 0)
+	{
 		cylinder_intersect->point = \
 		get_intersection_point(ray, t->quadratic_result[1]);
-	else if (t->quadratic_result[0] == 1 && \
-	t->quadratic_result[1] > 0 && \
-	t->quadratic_result[2] < 0)
-		cylinder_intersect->point = \
-		get_intersection_point(ray, t->quadratic_result[1]);
+		cylinder_intersect->distance = t->quadratic_result[1];
+	}
 	else if (t->quadratic_result[0] == 1 && \
 	t->quadratic_result[2] < t->quadratic_result[1] && \
 	t->quadratic_result[2] > 0)
+	{
 		cylinder_intersect->point = \
 		get_intersection_point(ray, t->quadratic_result[2]);
+		cylinder_intersect->distance = t->quadratic_result[2];
+	}
 	else if ((t->quadratic_result[0] == 1) && \
 	(t->quadratic_result[1] < t->quadratic_result[2]) && \
 	(t->quadratic_result[1] > 0))
+	{
 		cylinder_intersect->point = \
 		get_intersection_point(ray, t->quadratic_result[1]);
+		cylinder_intersect->distance = t->quadratic_result[1];
+	}
 }
 
 //Calculates coefficients for the cylinder ray intersection and solves quadratic
@@ -106,12 +126,17 @@ t_intersect	*intersection_ray_cylinder(t_ray *ray, t_cylinder *cylinder)
 	{
 		cylinder_mantle_caps(t, cylinder_intersect, ray, cylinder);
 	}
-	if (cylinder_intersect->state == 1)
+	if (cylinder_intersect->state == INTERSECTED)
 	{
+		// printf("cyl point: [%f, %f, %f] | ", cylinder_intersect->point->x_co, \
+		cylinder_intersect->point->y_co, cylinder_intersect->point->z_co);
+		// printf("cyl dist: %f | ", cylinder_intersect->distance);
+		// printf("bang!\n");
 		free_t_ray_cylinder(t);
 		return (cylinder_intersect);
 	}
-	cylinder_intersect->state = 0;
+	// printf("\n");
+	cylinder_intersect->state = MISSED;
 	free_t_ray_cylinder(t);
 	return (cylinder_intersect);
 }

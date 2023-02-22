@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   intersect_cylinder_3.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:12:00 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/21 16:15:49 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/21 18:42:15 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ t_intersect	*base_cap_intersection(t_cylinder *cylinder, \
 
 	v = base_cap_intersection_init(cylinder);
 	intersect_base_plane = intersection_ray_plane(ray, v->plane_base_cylinder);
-	if (intersect_base_plane->state == 1)
+	if (intersect_base_plane->state == INTERSECTED)
 	{
 		v->vector_base_intersection = vector_two_points \
 		(v->point_center_base, intersect_base_plane->point);
@@ -59,7 +59,7 @@ t_intersect	*base_cap_intersection(t_cylinder *cylinder, \
 		v->radius_sq = pow(cylinder->radius, 2);
 		if (v->d_sq <= v->radius_sq)
 		{
-			cylinder_intersect->state = 1;
+			cylinder_intersect->state = INTERSECTED;
 		}
 	}
 	free_base_cap_intersection(v);
