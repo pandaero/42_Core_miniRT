@@ -1,0 +1,20 @@
+#Place in Makefile for test_input_one_plane_1_seen_same_facing
+1: 
+	@echo "plane in front same facing"
+	@./minirt test/plane/test_input_one_plane_1_seen_same_facing.rt
+	@echo "plane in front opposite facing"
+	@./minirt test/plane/test_input_one_plane_2_seen_opposit_facing.rt
+	@echo "plane not seen same facing"
+	@./minirt test/plane/test_input_one_plane_3_not_seen_same_facing.rt
+	@echo "plane not seen opposite facing"
+	@./minirt test/plane/test_input_one_plane_4_not_seen_opposite_facing.rt
+	@echo "plane pointing along x axis"
+	@./minirt test/plane/test_input_one_plane_5_pointing_along_x.rt
+	@echo "plane pointing opposite x axis"
+	@./minirt test/plane/test_input_one_plane_6_pointing_opposite_x.rt
+	@echo "plane pointing along z axis"
+	@./minirt test/plane/test_input_one_plane_7_pointing_along_z.rt
+	@echo "plane pointing opposite z axis"
+	@./minirt test/plane/test_input_one_plane_7_pointing_along_z.rt
+	@echo "plane pointing alonsde y and x axis"
+	@./minirt test/plane/test_input_one_plane_9_pointing_along_z_and_x.rt

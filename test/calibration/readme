@@ -1,0 +1,15 @@
+help:
+	@echo "for series of cylinder tests enter: 'make a'"
+	@echo "for series of cylinder sphere tests enter: 'make b'"
+#test comparison between cylinder and sphere
+b:
+	@echo "cylinder of radius 35"
+	@./minirt test/calibration/test_input_one_cylinder_center_radius_35.rt
+	@echo "sphere of radius 35"
+	@./minirt test/calibration/test_input_one_sphere_center_radius_35.rt
+	@echo "both sphere and cylinder in the same spot, same colour"
+	@./minirt test/calibration/test_input_one_cylinder_sphere_center_radius_35.rt
+	@echo "sphere and cylinder in the same spot, sphere is double the cylinder radius"
+	@./minirt test/calibration/test_input_one_cylinder_35_sphere_70.rt
+	@echo "sphere and cylinder in the same spot, sphere is double the cylinder radius, colour different"
+	@./minirt test/calibration/test_input_one_cylinder_35_sphere_70_colour_diff.rt
