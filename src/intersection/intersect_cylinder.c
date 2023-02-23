@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 16:39:14 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/23 13:48:54 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/23 14:27:12 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,8 @@ static void	infinite_cylinder_intersection(t_ray_cylinder *t, \
 	else if (t->quadratic_result[0] == 2 && \
 	t->quadratic_result[1] > 0 && t->quadratic_result[2] > 0)
 	{
-		//get this point
-		// cylinder_intersect->point = \
-		// get_intersection_point(ray, t->quadratic_result[1]);
-		// cylinder_intersect->distance = t->quadratic_result[1];
 		t->point_infinite_cylinder = \
 		get_intersection_point(ray, t->quadratic_result[1]);
-		// cylinder_intersect->distance = t->quadratic_result[1];
 	}
 	else if (t->quadratic_result[0] == 1 && \
 	t->quadratic_result[1] < 0 && \
@@ -44,7 +39,6 @@ static void	infinite_cylinder_intersection(t_ray_cylinder *t, \
 	{
 		t->point_infinite_cylinder = \
 		get_intersection_point(ray, t->quadratic_result[2]);
-		// cylinder_intersect->distance = t->quadratic_result[2];
 	}
 	else if (t->quadratic_result[0] == 1 && \
 	t->quadratic_result[1] > 0 && \
@@ -52,7 +46,6 @@ static void	infinite_cylinder_intersection(t_ray_cylinder *t, \
 	{
 		t->point_infinite_cylinder = \
 		get_intersection_point(ray, t->quadratic_result[1]);
-		// cylinder_intersect->distance = t->quadratic_result[1];
 	}
 	else if (t->quadratic_result[0] == 1 && \
 	t->quadratic_result[2] < t->quadratic_result[1] && \
@@ -130,11 +123,8 @@ static void	determine_point(t_ray_cylinder *t, t_intersect *cylinder_intersect)
 {
 	if (t->dist_infinite_cylinder < t->dist_cap)
 	{
-		// printf("dist infinite: %f | ", t->dist_infinite_cylinder);
-		// printf("t->dist_cap: %f | ", t->dist_cap);
 		cylinder_intersect->point = point_copy(t->point_infinite_cylinder);
 		cylinder_intersect->distance = t->dist_infinite_cylinder;
-		// printf("bang!\n");
 	}
 	else if(t->dist_cap < t->dist_infinite_cylinder)
 	{
@@ -159,9 +149,7 @@ t_intersect	*intersection_ray_cylinder(t_ray *ray, t_cylinder *cylinder)
 	}
 	if (cylinder_intersect->state == INTERSECTED)
 	{
-		//Determine which point to send to render
 		determine_point(t, cylinder_intersect);
-		// printf("\n");
 		free_t_ray_cylinder(t);
 		return (cylinder_intersect);
 	}
