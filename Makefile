@@ -6,7 +6,7 @@
 #    By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/16 18:36:19 by pandalaf          #+#    #+#              #
-#    Updated: 2023/02/23 10:23:51 by pbiederm         ###   ########.fr        #
+#    Updated: 2023/02/23 13:39:52 by pbiederm         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME	:= minirt
 
 # Compiler options
 CC		:= cc
-CFLAGS	:= #-Wall -Werror -Wextra
+CFLAGS	:= -Wall -Werror -Wextra
 COPT	:= -g -fsanitize=address
 
 # Sources
@@ -129,7 +129,19 @@ help:
 	@echo "for series of cylinder sphere tests with logs enter: 'make c'"
 	@echo "for cylinder and sphere tests with logs enter: 'make d'"
 	@echo "for plane cylinder calibration tests enter: 'make e'"
+	@echo "box tests enter: 'make f'"
 
+f:
+	@echo "only box"
+	@./miniRT test/calibration/test_input_one_12_plane_box.rt
+	@echo "box, view on cap"
+	@./miniRT test/calibration/test_input_one_13_view_on_cap.rt
+	@echo "empty plane box"
+	@./miniRT test/calibration/test_input_one_14_empty_plane_box.rt
+	@echo "sphere in a box"
+	@./miniRT test/calibration/test_input_one_15_sphere_in_box.rt
+	@echo "smaller cylinder - cylinderling"
+	@./miniRT test/calibration/test_input_one_16_cylinder_smaller.rt
 e:
 	@echo "plane on zero"
 	@./minirt test/calibration/test_input_one_7_plane_zero.rt > zero_plane.log
@@ -177,28 +189,28 @@ b:
 	@./minirt test/calibration/test_input_one_6_cylinder_dir_along_y_35_sphere_70_colour_diff.rt
 
 a:
-	# @echo "cylinder not seen" 
-	# @./minirt test/cylinder/test_input_one_cylinder_1_not_seen.rt 
+	@echo "cylinder not seen" 
+	@./minirt test/cylinder/test_input_one_cylinder_1_not_seen.rt 
 	@echo "cylinder seen from outside"
 	@./minirt test/cylinder/test_input_one_cylinder_2_seen.rt
-	# @echo "cylinder seen from point to the right"
-	# @./minirt test/cylinder/test_input_one_cylinder_3_seen_from_right.rt
-	# @echo "cylinder seen from point to the left"
-	# @./minirt test/cylinder/test_input_one_cylinder_4_seen_from_left.rt
-	# @echo "cylinder seen from inside negative direction"
-	# @./minirt test/cylinder/test_input_one_cylinder_5_inside_negative_dir.rt
-	# @echo "cylinder seen from inside positive direction"
-	# @./minirt test/cylinder/test_input_one_cylinder_6_inside_positive_dir.rt
-	# @echo "cylinder seen from the other side"
-	# @./minirt test/cylinder/test_input_one_cylinder_7_outside_seen.rt
-	# @echo "cylinder not seen from the other side"
-	# @./minirt test/cylinder/test_input_one_cylinder_8_outside_not_seen.rt
-	# @echo "cylinder seen from a point to the right, positve y coordinate in point"
-	# @./minirt test/cylinder/test_input_one_cylinder_9_seen_from_right.rt
-	# @echo "cylinder seen from a point to the left, negative y coordinate in point"
-	# @./minirt test/cylinder/test_input_one_cylinder_10_seen_from_left.rt
-	# @echo "cylinder seen from above"
-	# @./minirt test/cylinder/test_input_one_cylinder_11_seen_from_up.rt
+	@echo "cylinder seen from point to the right"
+	@./minirt test/cylinder/test_input_one_cylinder_3_seen_from_right.rt
+	@echo "cylinder seen from point to the left"
+	@./minirt test/cylinder/test_input_one_cylinder_4_seen_from_left.rt
+	@echo "cylinder seen from inside negative direction"
+	@./minirt test/cylinder/test_input_one_cylinder_5_inside_negative_dir.rt
+	@echo "cylinder seen from inside positive direction"
+	@./minirt test/cylinder/test_input_one_cylinder_6_inside_positive_dir.rt
+	@echo "cylinder seen from the other side"
+	@./minirt test/cylinder/test_input_one_cylinder_7_outside_seen.rt
+	@echo "cylinder not seen from the other side"
+	@./minirt test/cylinder/test_input_one_cylinder_8_outside_not_seen.rt
+	@echo "cylinder seen from a point to the right, positve y coordinate in point"
+	@./minirt test/cylinder/test_input_one_cylinder_9_seen_from_right.rt
+	@echo "cylinder seen from a point to the left, negative y coordinate in point"
+	@./minirt test/cylinder/test_input_one_cylinder_10_seen_from_left.rt
+	@echo "cylinder seen from above"
+	@./minirt test/cylinder/test_input_one_cylinder_11_seen_from_up.rt
 
 # Make sure these aren't treated as files
 .PHONY: all directory clean fclean re

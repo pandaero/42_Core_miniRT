@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 16:39:14 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/23 11:53:47 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/23 13:48:54 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,9 +138,6 @@ static void	determine_point(t_ray_cylinder *t, t_intersect *cylinder_intersect)
 	}
 	else if(t->dist_cap < t->dist_infinite_cylinder)
 	{
-		// printf("dist infinite: %f | ", t->dist_infinite_cylinder);
-		// printf("t->dist_cap: %f | ", t->dist_cap);
-		// printf("clang!\n");
 		cylinder_intersect->point = point_copy(t->point_cap);
 		cylinder_intersect->distance = t->dist_cap;
 	}
