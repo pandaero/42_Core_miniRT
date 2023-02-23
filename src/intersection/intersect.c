@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   intersect.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 18:51:09 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/20 03:11:52 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/23 10:21:06 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minirt.h"
 #include <stdlib.h>
-#include <limits.h>
+// #include <limits.h>
+#include <float.h>
 
 //Function creates and initialises an intersection.
 t_intersect	*intersect_create(void)
@@ -23,7 +24,8 @@ t_intersect	*intersect_create(void)
 	new->state = UNCALCULATED;
 	new->colour = NULL;
 	new->normal = NULL;
-	new->distance = __DBL_MAX__;
+	// new->distance = __DBL_MAX__;
+	new->distance = DBL_MAX;
 	new->point = NULL;
 	return (new);
 }

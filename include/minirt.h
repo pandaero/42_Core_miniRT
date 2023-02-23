@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/22 15:48:55 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/23 09:43:44 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,10 @@ typedef struct s_ray_cylinder
 	t_vector	*vector_ray;
 	t_vector	*vector_cylinder;
 	t_vector	*vector_ray_origin_base_center;
+	t_point		*point_infinite_cylinder;
+	t_point		*point_cap;
+	double		dist_infinite_cylinder;
+	double		dist_cap;
 	double		distance_cylinder_axis;
 	double		coefficient[3];
 	double		*quadratic_result;
