@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 22:48:19 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/23 15:50:09 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/23 15:58:55 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,9 @@ t_direction	*surface_normal_cylinder(t_intersect *itsct, t_cylinder *cylinder)
 	if (st.dist < 0.001)
 	{
 		if (fabs(st.cz - cylinder->height) / 2 < 0.001)
-			st.dir = direction_components(0, 0, 1);
+			st.dir = direction_copy(cylinder->orientation);
 		else if (fabs(st.cz + cylinder->height) / 2 < 0.001)
-			st.dir = direction_components(0, 0, -1);
+			st.dir = direction_reverse(cylinder->orientation);
 		else
 			st.dir = direction_components(st.cx, st.cy, st.cz - \
 			(st.cz / fabs(st.cz)) * (cylinder->height / 2));

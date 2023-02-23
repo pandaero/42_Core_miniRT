@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:38:13 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/23 13:42:01 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/23 18:00:05 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,12 @@ static void	determine_cap_distance(t_intersect *intersect_base_plane, \
 		cylinder_intersect->state = MISSED;
 	}
 	else if (intersect_base_plane->distance >= 0 && \
-	intersect_top_plane->distance < 0 && cylinder_intersect->state == INTERSECTED)
+	intersect_top_plane->distance < 0)
 	{
 		get_distance(intersect_base_plane, t);
 	}
 	else if (intersect_top_plane->distance >= 0 && \
-	intersect_base_plane->distance < 0 && cylinder_intersect->state == INTERSECTED)
+	intersect_base_plane->distance < 0)
 	{
 		get_distance(intersect_top_plane, t);
 	}
@@ -71,8 +71,8 @@ t_intersect *cylinder_intersect, t_ray_cylinder *t)
 	t_intersect	*intersect_base_plane;
 	t_intersect	*intersect_top_plane;
 
-	// intersect_base_plane->distance = DBL_MAX - 100;
-	// intersect_top_plane->distance = DBL_MAX - 100;
+	intersect_top_plane = NULL;
+
 	intersect_base_plane = base_cap_intersection(cylinder, ray, \
 	cylinder_intersect);
 	intersect_top_plane = top_cap_intersection(cylinder, ray \
