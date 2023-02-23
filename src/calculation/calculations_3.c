@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   calculations_3.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
+/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 22:48:19 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/20 13:51:59 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/23 15:50:09 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,13 +72,31 @@ t_direction	*surface_normal_cylinder(t_intersect *itsct, t_cylinder *cylinder)
 	return (st.dir);
 }
 
+t_direction	*direction_normal_plane(t_ray *ray, t_plane *plane)
+{
+	t_direction	*temp;
+
+	temp = direction_reverse(ray->ray_dir);
+	if (angle_directions(temp, plane->normal) < \
+		angle_directions(ray->ray_dir, plane->normal))
+	{
+		free_direction(temp);
+		return (direction_copy(plane->normal));
+	}
+	else
+	{
+		free_direction(temp);
+		return (direction_reverse(plane->normal));
+	}
+}
+
 //Function works out the surface normal vector closest to a point for an object.
-t_direction	*surface_normal_object(t_intersect *itsct, t_obj *object)
+t_direction	*surface_normal_object(t_intersect *itsct, t_ray *ray, t_obj *object)
 {
 	t_direction	*dir;
 
 	if (object->elem == PLANE)
-		dir = direction_copy(object->plane->normal);
+		dir = direction_normal_plane(ray, object->plane);
 	if (object->elem == SPHERE)
 		dir = direction_two_points(object->sphere->centre, itsct->point);
 	if (object->elem == CYLINDER)

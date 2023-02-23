@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 18:51:09 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/23 10:21:06 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/23 15:36:35 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ t_intersect	*intersection_ray_obj(t_ray *ray, t_obj *obj)
 	if (obj->elem == CYLINDER)
 		out = intersection_ray_cylinder(ray, obj->cylinder);
 	if (out->state == INTERSECTED)
-		out->normal = surface_normal_object(out, obj);
+		out->normal = surface_normal_object(out, ray, obj);
 	out->object = obj;
 	return (out);
 }

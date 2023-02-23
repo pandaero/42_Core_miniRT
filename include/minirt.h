@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/23 09:43:44 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/23 15:44:11 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -826,7 +826,7 @@ t_sec_itsct		*sec_intersect_prim(t_intersect *primary);
 //Function calculates a secondary intersection from the scene with an object.
 t_sec_itsct		*sec_itsct_calc(t_objlist *objlist, t_pixel *pix, t_obj *obj);
 //Function works out the surface normal vector closest to a point for an object.
-t_direction		*surface_normal_object(t_intersect *itsct, t_obj *object);
+t_direction		*surface_normal_object(t_intersect *itsct, t_ray *ray, t_obj *object);
 //Checks for an itersection between a ray and a cylinder.
 t_intersect		*intersection_ray_cylinder(t_ray *ray, t_cylinder *cylinder);
 //Shapes an infinite cylinder and shapes finite cylinder with caps.
@@ -852,6 +852,8 @@ t_vector		*vector_cross(t_vector *first, t_vector *second);
 double			vector_dot(t_vector *first, t_vector *second);
 //Function works out the dot product of two directions.
 double			direction_dot(t_direction *dir1, t_direction *dir2);
+//Function works out the angle between two directions.
+double			angle_directions(t_direction *dir1, t_direction *dir2);
 
 // ------------------------------- COLOUR OPERATIONS ---------------------------
 //Function adds ambient light to a colour.
