@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/21 17:02:47 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/24 11:26:08 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -894,6 +894,8 @@ void			secondary_intersection_pass(t_program *program, t_pixel *pixel);
 void			render_screen(t_program *program);
 //Function assigns each pixel its colour.
 void			window_draw(t_program *program);
+//Function draws an image from each pixel's colour.
+void			image_draw(t_program *program);
 //Function groups the MLX looping functions. Operates hooks and main loop.
 void			mlx_looping(t_program *program);
 
