@@ -6,13 +6,15 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:12:00 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/21 18:42:15 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/24 11:13:02 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minirt.h"
 #include <math.h>
 #include <stdlib.h>
+//tests
+#include <stdio.h>
 
 //Checks for intersection with base cap
 static t_base_cap_intersection	*base_cap_intersection_init(t_cylinder \
@@ -59,6 +61,7 @@ t_intersect	*base_cap_intersection(t_cylinder *cylinder, \
 		v->radius_sq = pow(cylinder->radius, 2);
 		if (v->d_sq <= v->radius_sq)
 		{
+			printf ("base ");
 			cylinder_intersect->state = INTERSECTED;
 		}
 	}

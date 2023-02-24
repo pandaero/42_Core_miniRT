@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 16:39:14 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/23 17:50:38 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/24 12:01:30 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,11 +124,15 @@ static void	determine_point(t_ray_cylinder *t, t_intersect *cylinder_intersect)
 	if (t->dist_infinite_cylinder < t->dist_cap)
 	{
 		cylinder_intersect->point = point_copy(t->point_infinite_cylinder);
+		// printf("inf_cyl_dist: [%f] ", t->dist_infinite_cylinder);
+		// printf("dist_cap: [%f] ", t->dist_cap);
+		// printf("mantle point: [%f, %f, %f]\n", cylinder_intersect->point->x_co, cylinder_intersect->point->y_co, cylinder_intersect->point->z_co);
 		cylinder_intersect->distance = t->dist_infinite_cylinder;
 	}
 	else if(t->dist_cap < t->dist_infinite_cylinder)
 	{
 		cylinder_intersect->point = point_copy(t->point_cap);
+		// printf("cap point: [%f, %f, %f]\n", cylinder_intersect->point->x_co, cylinder_intersect->point->y_co, cylinder_intersect->point->z_co);
 		cylinder_intersect->distance = t->dist_cap;
 	}
 }

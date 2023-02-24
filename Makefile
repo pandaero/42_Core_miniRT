@@ -6,7 +6,7 @@
 #    By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/16 18:36:19 by pandalaf          #+#    #+#              #
-#    Updated: 2023/02/23 14:27:29 by pbiederm         ###   ########.fr        #
+#    Updated: 2023/02/23 17:26:44 by pbiederm         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME	:= minirt
 
 # Compiler options
 CC		:= cc
-CFLAGS	:= -Wall -Werror -Wextra
+CFLAGS	:= #-Wall -Werror -Wextra
 COPT	:= #-g -fsanitize=address
 
 # Sources

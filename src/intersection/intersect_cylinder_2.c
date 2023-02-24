@@ -6,7 +6,7 @@
 /*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 18:38:13 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/23 18:00:05 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/02/24 09:48:45 by pbiederm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,11 @@ static void	get_distance(t_intersect *cap_intersection_data, t_ray_cylinder *t)
 static void	determine_cap_distance(t_intersect *intersect_base_plane, \
 			t_intersect *intersect_top_plane, t_intersect *cylinder_intersect, t_ray_cylinder *t)
 {
-	// printf("base dist: %f | ", intersect_base_plane->distance);
-	// printf("top dist: %f | ", intersect_top_plane->distance);
 	if (intersect_base_plane->distance < 0 && intersect_top_plane->distance < 0)
 	{
 		cylinder_intersect->state = MISSED;
 	}
-	else if (intersect_base_plane->distance >= 0 && \
+	if (intersect_base_plane->distance >= 0 && \
 	intersect_top_plane->distance < 0)
 	{
 		get_distance(intersect_base_plane, t);
@@ -60,8 +58,10 @@ static void	determine_cap_distance(t_intersect *intersect_base_plane, \
 static void	free_cylinder_mantle_caps(t_intersect *intersect_base_plane, \
 			t_intersect *intersect_top_plane)
 {
-	free_intersection(intersect_base_plane);
-	free_intersection(intersect_top_plane);
+	if (intersect_base_plane != NULL)
+		free_intersection(intersect_base_plane);
+	if (intersect_top_plane != NULL)
+		free_intersection(intersect_top_plane);
 }
 
 //Function that shows which cap is intersected
@@ -72,7 +72,7 @@ t_intersect *cylinder_intersect, t_ray_cylinder *t)
 	t_intersect	*intersect_top_plane;
 
 	intersect_top_plane = NULL;
-
+	intersect_base_plane = NULL;
 	intersect_base_plane = base_cap_intersection(cylinder, ray, \
 	cylinder_intersect);
 	intersect_top_plane = top_cap_intersection(cylinder, ray \
@@ -93,7 +93,6 @@ void	cylinder_mantle_caps(t_ray_cylinder *t, \
 	{
 		if (t->distance_cylinder_axis <= cylinder->height)
 		{
-			// cylinder_intersect->state = MISSED;
 			cylinder_intersect->state = INTERSECTED;
 			t->dist_infinite_cylinder = distance_two_points(ray->ray_orig, \
 			t->point_infinite_cylinder);
