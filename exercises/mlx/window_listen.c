@@ -7,7 +7,7 @@
 
 
 #if defined (__APPLE__)
-# include "../../apple_mlx.h"
+# include "../../include/apple_mlx.h"
 # include "../../minilibx_opengl_20191021/mlx.h"
 #endif
 #if defined (__linux__)
