@@ -6,12 +6,16 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/24 11:26:08 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/08 12:50:40 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
+
+# ifndef FILEOUT
+#  define FILEOUT 0
+# endif
 
 # include "../libft/libft.h"
 # if defined (__APPLE__)

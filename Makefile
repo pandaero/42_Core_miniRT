@@ -6,7 +6,7 @@
 #    By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/16 18:36:19 by pandalaf          #+#    #+#              #
-#    Updated: 2023/02/21 15:56:42 by pandalaf         ###   ########.fr        #
+#    Updated: 2023/03/08 12:49:17 by pandalaf         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,14 @@ NAME	:= minirt
 # Compiler options
 CC		:= cc
 CFLAGS	:= -Wall -Werror -Wextra
-COPT	:= #-g -fsanitize=address
+COPT	:= -g -fsanitize=address
+
+# Make executable output an image file. Usage: make all FILEOUT=1
+ifeq ($(FILEOUT), 1)
+DEFS	:= -D FILEOUT=1
+else
+DEFS	:=
+endif
 
 # Sources
 SRC_ROOT	:= src/
@@ -73,12 +80,12 @@ directory: $(OBJ_DIR)
 
 # Make the target executable
 $(NAME): $(OBJS) $(MLX_FULL) $(LIBFT_FULL)
-	$(CC) $(CFLAGS) $(COPT) $(FWK) $< $(filter-out $<, $^) $(LIBS) -o $@ 
+	$(CC) $(CFLAGS) $(COPT) $(DEFS) $(FWK) $< $(filter-out $<, $^) $(LIBS) -o $@ 
 
 # Make the object file rule definition
 define recursive_def
 $(firstword $(1)): $(firstword $(2))
-	$(CC) $(CFLAGS) $(COPT) -c $(firstword $(2)) -o $(firstword $(1))
+	$(CC) $(CFLAGS) $(COPT) $(DEFS) -c $(firstword $(2)) -o $(firstword $(1))
 
 $(if $(wordlist 2, 3, $1), $(call recursive_def, \
 		$(wordlist 2, $(words $(1)), $1), $(wordlist 2, $(words $(2)), $(2))))
