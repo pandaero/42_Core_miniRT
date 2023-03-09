@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   file.c                                             :+:      :+:    :+:   */
+/*   imagefile.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 11:48:53 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/24 11:50:19 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/09 12:19:45 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	image_draw(t_program *program)
 	t_screen	*scr;
 
 	scr = screen_program(program);
-	fd = open("out.ppm", O_WRONLY | O_CREAT);
+	fd = open("out.ppm", O_WRONLY | O_CREAT, 666);
 	image_ppm_preamble(fd);
 	i = 0;
 	while (i < WIN_HEIGHT)
