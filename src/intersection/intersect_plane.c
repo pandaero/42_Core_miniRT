@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:54:59 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/03/10 13:34:50 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/10 14:07:40 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ t_intersect	*intersection_ray_plane(t_ray *ray, t_plane *plane)
 
 	intersection = intersect_create();
 	ip = init_ray_plane(ray, plane);
-	if (fabs(ip->denominator) > DBL_EPSILON)
+	if (fabs(ip->denominator) >= DBL_EPSILON)
 	{
 		ip->polo = vector_two_points(ray->ray_orig, plane->point);
 		ip->t = vector_dot(ip->polo, ip->plane_norm_vec) / ip->denominator;
