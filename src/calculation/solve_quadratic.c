@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   solve_quadratic.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 16:32:02 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/07 16:39:52 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/03/10 14:02:28 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,64 +14,45 @@
 #include <math.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <float.h> 
 
-//for tests
-// #include <stdio.h>
-
-#define TWO_SOLUTIONS 1
-#define ONE_SOLUTION 2
-#define NO_REAL_SOLUTION 0
-#define A 0
-#define B 1
-#define C 2
-
-static int	invalid_input(double a)
+//Function assigns the two real solutions to the given quadratic.
+static void	quad_two(t_quad_sol *quad, double a, double b, double c)
 {
-	if (a == 0)
+	double	denom1;
+	double	denom2;
+
+	denom1 = -b + sqrt(pow(b, 2) - 4 * a * c);
+	denom2 = -b - sqrt(pow(b, 2) - 4 * a * c); 
+	quad->sol = TWO;
+	quad->first = 2 * c / denom1;
+	quad->second = 2 * c / denom2;
+}
+
+//Function solves a quadratic equation in form ax^2+bx+c using Muller's method.
+t_quad_sol	solve_quadratic(double a, double b, double c)
+{
+	t_quad_sol	solution;
+	double		discr;
+
+	solution.first = 0;
+	solution.second = 0;
+	discr = pow(b, 2) - 4 * a * c;
+	if (discr < DBL_EPSILON)
+		solution.sol = NO_REAL;
+	else
 	{
-		write(2, "Invalid quadratic equation input\n", 34);
-		return (1);
+		if (discr >= -DBL_EPSILON && discr <= DBL_EPSILON)
+		{
+			solution.sol = ONE;
+			solution.first = 2 * c / -b;
+			return (solution);
+		}
+		else
+		{
+			quad_two(&solution, a, b, c);
+			return (solution);
+		}
 	}
-	return (0);
-}
-
-static void	calclulate_for_two(double *coefficient, \
-double discriminant, double *x)
-{
-	x[0] = TWO_SOLUTIONS;
-	x[1] = (-coefficient[B] + sqrt(discriminant)) / (coefficient[A] * 2);
-	x[2] = (-coefficient[B] - sqrt(discriminant)) / (coefficient[A] * 2);
-}
-
-static void	calclulate_for_one(double *coefficient, double *x)
-{
-		x[0] = ONE_SOLUTION;
-		x[1] = (-coefficient[B]) / (coefficient[A] * 2);
-		x[2] = x[1];
-}
-
-/*ax^2 + bx + c* take ownership of x, x[0] states that there is a solution*/
-double	*solve_quadratic_real(double *coefficient)
-{
-	double	discriminant;
-	double	*x;
-
-	if (invalid_input(coefficient[A]))
-		return (NULL);
-	x = (double *)malloc(3 * sizeof(double));
-	if (!x)
-		return (NULL);
-	discriminant = pow(coefficient[B], 2) - \
-	4 * (coefficient[A]) * (coefficient[C]);
-	if (discriminant > 0)
-		calclulate_for_two(coefficient, discriminant, x);
-	else if (discriminant == 0)
-		calclulate_for_one(coefficient, x);
-	else if (discriminant < 0)
-	{
-		x[0] = NO_REAL_SOLUTION;
-		x[1] = 0;
-		x[2] = 0;
-	}
-	return (x);
+	return (solution);
 }
