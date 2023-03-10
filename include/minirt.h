@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/08 12:50:40 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/10 13:32:44 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ typedef struct s_objlist	t_objlist;
 typedef struct s_pixel		t_pixel;
 typedef struct s_imgdata	t_imgdata;
 typedef struct s_mlxdata	t_mlxdata;
+typedef struct s_quad_cof	t_quad_cof;
+typedef struct s_quad_sol	t_quad_sol;
 
 // =============================== FUNCTION REFACTORING ========================
 //Typedef that contains variables for the base cap intersection.
@@ -87,11 +89,11 @@ typedef struct s_top_cap_intersection
 typedef struct s_ray_cylinder
 {
 	t_vector	*vector_ray;
-	t_vector	*vector_cylinder;
-	t_vector	*vector_ray_origin_base_center;
-	double		distance_cylinder_axis;
-	double		coefficient[3];
-	double		*quadratic_result;
+	t_vector	*vector_cylinder_axis;
+	t_vector	*vector_ray_origin_to_base_center;
+	double		distance_to_axis;
+	t_quad_cof	quad_coeff;
+	t_quad_sol	quad_sol;
 }				t_ray_cylinder;
 
 //Typedef declares variables required by the string to double conversion.
@@ -185,7 +187,32 @@ typedef struct s_surf_norm
 	double		cy;
 	double		cz;
 	double		dist;
-}			t_surf_norm;
+}				t_surf_norm;
+
+// =================================== CALCULATION =============================
+//Typedef enumerates type of solution to a quadratic equation.
+typedef enum
+{
+	NO_REAL,
+	ONE,
+	TWO
+}	t_quad;
+
+//Typedef defines a struct contatining a quadratic equation's coefficients.
+typedef struct	s_quad_cof
+{
+	double	squared;
+	double	linear;
+	double	constant;
+}			t_quad_cof;
+
+//Typedef defines a struct contatining a solution to a quadratic equation.
+typedef struct	s_quad_sol
+{
+	t_quad	sol;
+	double	first;
+	double	second;
+}			t_quad_sol;
 
 // ===================================== PROGRAM ===============================
 //Typedef defines a struct for program data.
@@ -304,7 +331,7 @@ typedef struct s_sphere
 	t_point		*centre;
 }				t_sphere;
 
-//Typedef describes a cyclinder in 3D space.
+//Typedef describes a cylinder in 3D space.
 typedef struct s_cylinder
 {
 	t_colour	*colour;
@@ -312,6 +339,8 @@ typedef struct s_cylinder
 	double		height;
 	t_point		*centre;
 	t_direction	*orientation;
+	t_disc		*top_cap;
+	t_disc		*base_cap;
 }				t_cylinder;
 
 // =============================  3D DERIVED ELEMENTS ==========================
@@ -802,8 +831,6 @@ t_ambient		*ambient_objlist(t_objlist *objlist);
 t_diffuse		*diffuse_objlist(t_objlist *objlist);
 //Solves quadratic equation
 double			*solve_quadratic_real(double *coefficient);
-//Produces the distance between the point of origin to the point of intersection
-t_point			*get_intersection_point(t_ray *ray, double distance);
 //Function that returns a reversed direction, inherit both directions
 t_direction		*reverse_direction(t_direction *direction);
 // ---------------------------------- INTERSECTIONS ----------------------------
