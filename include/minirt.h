@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/11 17:34:23 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/11 21:09:06 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,7 @@ typedef struct s_surf_norm
 
 // =================================== CALCULATION =============================
 //Typedef enumerates type of solution to a quadratic equation.
-typedef enum
+typedef enum quad
 {
 	NO_REAL,
 	ONE,
@@ -166,7 +166,7 @@ typedef enum
 }	t_quad;
 
 //Typedef defines a struct contatining a quadratic equation's coefficients.
-typedef struct	s_quad_cof
+typedef struct s_quad_cof
 {
 	double	squared;
 	double	linear;
@@ -174,7 +174,7 @@ typedef struct	s_quad_cof
 }			t_quad_cof;
 
 //Typedef defines a struct contatining a solution to a quadratic equation.
-typedef struct	s_quad_sol
+typedef struct s_quad_sol
 {
 	t_quad	sol;
 	double	first;
@@ -826,19 +826,8 @@ t_sec_itsct		*sec_intersect_create(void);
 t_sec_itsct		*sec_intersect_prim(t_intersect *primary);
 //Function calculates a secondary intersection from the scene with an object.
 t_sec_itsct		*sec_itsct_calc(t_objlist *objlist, t_pixel *pix, t_obj *obj);
-//Function works out the surface normal vector closest to a point for an object.
-t_direction		*surface_normal_object(t_intersect *itsct, t_obj *object);
 //Checks for an itersection between a ray and a cylinder.
 t_intersect		*intersection_ray_cylinder(t_ray *ray, t_cylinder *cylinder);
-//Shapes an infinite cylinder and shapes finite cylinder with caps.
-// void			cylinder_mantle_caps(t_ray_cylinder *t, \
-// 			t_intersect *cylinder_intersect, t_ray *ray, t_cylinder *cylinder);
-//FUNCTION WITHOUT DESCRIPTION
-t_intersect		*top_cap_intersection(t_cylinder *cylinder, \
-								t_ray *ray, t_intersect *cylinder_intersect);
-//FUNCTION WITHOUT DESCRIPTION
-t_intersect		*base_cap_intersection(t_cylinder *cylinder, \
-								t_ray *ray, t_intersect *cylinder_intersect);
 
 // ------------------------------- VECTOR OPERATIONS ---------------------------
 //Function adds two vectors together.
