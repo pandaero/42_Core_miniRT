@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 14:51:50 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/21 16:58:20 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/12 00:21:04 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,36 @@ void	free_sec_intersection(t_sec_itsct *sec)
 void	free_colour(t_colour *colour)
 {
 	free(colour);
+}
+
+//Function frees the intermediate results of the ray-cylinder intersect calc.
+void	free_ic(t_itsct_cyl *ic)
+{
+	// (void) ic;
+	if (ic->proj_cent)
+		free_point(ic->proj_cent);
+	if (ic->proj_centre)
+		free_vector(ic->proj_centre);
+	if (ic->ray_orig_trans)
+		free_point(ic->ray_orig_trans);
+	if (ic->vec_ray)
+		free_vector(ic->vec_ray);
+	if (ic->vec_orig_trans)
+		free_vector(ic->vec_orig_trans);
+	if (ic->vec_cyl_axis)
+		free_vector(ic->vec_cyl_axis);
+	if (ic->vec_cyl_to_pt)
+		free_vector(ic->vec_cyl_to_pt);
+	if (ic->vec_itsct)
+		free_vector(ic->vec_itsct);
+}
+
+//Function frees the intermediate results of the ray-sphere intersect calc.
+void	free_is(t_itsct_sphere *is)
+{
+	// (void) is;
+	if (is->ray_to_ctr)
+		free_vector(is->ray_to_ctr);
+	if (is->vec_ray_dir)
+		free_vector(is->vec_ray_dir);
 }
