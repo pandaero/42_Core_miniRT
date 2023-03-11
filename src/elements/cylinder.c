@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 16:31:42 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/10 13:56:57 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/11 12:34:20 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	give_caps(t_cylinder *cyl)
 	t_direction	*neg_axis;
 
 	vec_centre_top = vector_scale_direction(cyl->height / 2, cyl->orientation);
-	neg_axis = reverse_direction(cyl->orientation);
+	neg_axis = direction_reverse(cyl->orientation);
 	vec_centre_base = vector_scale_direction(cyl->height / 2, neg_axis);
 	top_centre = point_point_vector(cyl->centre, vec_centre_top);
 	base_centre = point_point_vector(cyl->centre, vec_centre_base);
