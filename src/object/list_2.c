@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 02:41:02 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/21 03:08:25 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/11 23:09:09 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	objlist_count_ambient(t_objlist *objlist)
 	curr = objlist->first;
 	while (curr)
 	{
-		if (curr->ambient || curr->elem == AMBIENT)
+		if (curr->elem == AMBIENT)
 			ct++;
 		curr = curr->next;
 	}
@@ -39,7 +39,7 @@ int	objlist_count_diffuse(t_objlist *objlist)
 	curr = objlist->first;
 	while (curr)
 	{
-		if (curr->diffuse || curr->elem == DIFFUSE)
+		if (curr->elem == DIFFUSE)
 			ct++;
 		curr = curr->next;
 	}
@@ -56,7 +56,7 @@ int	objlist_count_camera(t_objlist *objlist)
 	curr = objlist->first;
 	while (curr)
 	{
-		if (curr->camera || curr->elem == CAMERA)
+		if (curr->elem == CAMERA)
 			ct++;
 		curr = curr->next;
 	}
