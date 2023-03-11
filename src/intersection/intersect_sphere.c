@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 22:22:24 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/11 17:27:04 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/11 21:04:21 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,16 @@ static void	sphere_intersection_two(t_ray *ray, t_sphere *sphere, \
 	sphere_intersection_point_normal(ray, sphere, is);
 }
 
+//Function performs a sign change and assigns solutions to intersect solution.
+static void	modify_sphere_quad(t_quad_cof *quad, t_quad_sol *sol, \
+								t_itsct_sphere *is)
+{
+	sol->first *= -1;
+	sol->second *= -1;
+	is->quad = quad;
+	is->soln = sol;
+}
+
 //Function works out the intersection between a ray and a sphere.
 t_intersect	*intersection_ray_sphere(t_ray *ray, t_sphere *sphere)
 {
@@ -68,8 +78,7 @@ t_intersect	*intersection_ray_sphere(t_ray *ray, t_sphere *sphere)
 	quad.constant = fabs(vector_dot(is.ray_to_ctr, is.ray_to_ctr)) - \
 						pow(sphere->radius, 2);
 	soln = solve_quadratic(quad);
-	is.quad = &quad;
-	is.soln = &soln;
+	modify_sphere_quad(&quad, &soln, &is);
 	is.itsct = intersect_create();
 	if (soln.sol == NO_REAL)
 		is.itsct->state = MISSED;
