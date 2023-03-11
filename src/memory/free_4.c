@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/13 17:30:24 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/12 00:49:29 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/12 00:48:12 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,16 +69,14 @@ void	free_plane(t_plane *plane)
 {
 	free_point(plane->point);
 	free_direction(plane->normal);
-	if (plane->colour)
-		free_colour(plane->colour);
+	free_colour(plane->colour);
 	free(plane);
 }
 
 //Function frees a sphere.
 void	free_sphere(t_sphere *sphere)
 {
-	if (sphere->colour)
-		free_colour(sphere->colour);
+	free_colour(sphere->colour);
 	free_point(sphere->centre);
 	free(sphere);
 }
