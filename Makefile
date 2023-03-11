@@ -6,7 +6,7 @@
 #    By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/16 18:36:19 by pandalaf          #+#    #+#              #
-#    Updated: 2023/03/08 12:49:17 by pandalaf         ###   ########.fr        #
+#    Updated: 2023/03/12 00:26:15 by pandalaf         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ NAME	:= minirt
 # Compiler options
 CC		:= cc
 CFLAGS	:= -Wall -Werror -Wextra
-COPT	:= -g -fsanitize=address
+COPT	:= #-g #-fsanitize=address
 
 # Make executable output an image file. Usage: make all FILEOUT=1
 ifeq ($(FILEOUT), 1)
