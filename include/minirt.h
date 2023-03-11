@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/11 23:07:24 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/12 00:25:04 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -771,6 +771,8 @@ void			free_list(t_objlist *list);
 void			free_object(t_obj *object);
 //Function frees a secondary intersection.
 void			free_sec_intersection(t_sec_itsct *sec);
+//Function frees the intermediate results of the ray-sphere intersect calc.
+void			free_is(t_itsct_sphere *is);
 //Function frees the intermediate results of the ray-cylinder intersect calc.
 void			free_ic(t_itsct_cyl *ic);
 //Function frees a colour.
