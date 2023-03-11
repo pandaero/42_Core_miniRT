@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 16:32:02 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/03/11 21:06:08 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/11 23:12:25 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,13 @@ t_quad_sol	solve_quadratic(t_quad_cof coeffs)
 {
 	t_quad_sol	solution;
 
+	solution.sol = NO_REAL;
 	solution.first = 0;
 	solution.second = 0;
 	solution.discr = pow(coeffs.linear, 2) - 4 * coeffs.squared * \
 						coeffs.constant;
 	if (solution.discr < 0)
-		solution.sol = NO_REAL;
+		return (solution);
 	else
 	{
 		if (solution.discr >= -DBL_EPSILON && solution.discr <= DBL_EPSILON)
