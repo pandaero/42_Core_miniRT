@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/11 21:09:06 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/11 21:55:04 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,27 @@ typedef struct s_itsct_sphere
 	t_vector	*ray_to_ctr;
 	t_vector	*vec_ray_dir;
 }				t_itsct_sphere;
+
+//Typedef contains several variables for the ray-sphere intersection operation.
+typedef struct s_itsct_cyl
+{
+	t_intersect	*itsct;
+	t_intersect	*itsct_shaft;
+	t_intersect *itsct_disc_top;
+	t_intersect *itsct_disc_base;
+	double		distance;
+	t_quad_sol	*soln;
+	t_point		*ray_orig_trans;
+	t_vector	*vec_ray;
+	t_vector	*vec_orig_trans;
+	t_vector	*vec_cyl_axis;
+	t_vector	*vec_itsct;
+	t_vector	*vec_cyl_to_pt;
+	double		proj_height;
+	t_vector	*proj_centre;
+	t_point		*proj_cent;
+	t_direction	*temp;
+}				t_itsct_cyl;
 
 //Typedef contains several variables for the screen pixel centre function.
 typedef struct s_screen_centre
@@ -816,6 +837,9 @@ int				ray_sphere_intersection(t_ray *ray, t_sphere *sphere);
 t_intersect		*intersection_ray_plane(t_ray *ray, t_plane *plane);
 //Function that gets the intersection point between a ray and a sphere element.
 t_intersect		*intersection_ray_sphere(t_ray *ray, t_sphere *sphere);
+//Function works out the intersection between a ray and a cylinder shaft.
+t_intersect		*intersection_ray_shaft(t_ray *ray, t_cylinder *cyl, \
+										t_itsct_cyl *ic);
 //Function works out the intersection between a ray and an object.
 t_intersect		*intersection_ray_obj(t_ray *ray, t_obj *obj);
 //Function adds colour to the intersection of an object.
