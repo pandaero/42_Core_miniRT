@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 22:48:19 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/20 13:51:59 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/11 12:14:51 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,6 @@ int	split_size(char **str)
 	while (str[i])
 		i++;
 	return (i);
-}
-
-//Function that returns a reversed direction, inherit both directions
-t_direction	*reverse_direction(t_direction *direction)
-{
-	t_direction	*reverse_direction;
-
-	reverse_direction = direction_components(\
-	-direction->x_comp, \
-	-direction->y_comp, \
-	-direction->z_comp);
-	return (reverse_direction);
 }
 
 //Function works out the closest surface normal to given cylinder intersection.
@@ -81,7 +69,5 @@ t_direction	*surface_normal_object(t_intersect *itsct, t_obj *object)
 		dir = direction_copy(object->plane->normal);
 	if (object->elem == SPHERE)
 		dir = direction_two_points(object->sphere->centre, itsct->point);
-	if (object->elem == CYLINDER)
-		dir = surface_normal_cylinder(itsct, object->cylinder);
 	return (dir);
 }
