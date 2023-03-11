@@ -6,13 +6,14 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 18:51:09 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/20 03:11:52 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/11 12:23:07 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minirt.h"
 #include <stdlib.h>
 #include <limits.h>
+#include <float.h>
 
 //Function creates and initialises an intersection.
 t_intersect	*intersect_create(void)
@@ -23,7 +24,7 @@ t_intersect	*intersect_create(void)
 	new->state = UNCALCULATED;
 	new->colour = NULL;
 	new->normal = NULL;
-	new->distance = __DBL_MAX__;
+	new->distance = DBL_MAX;
 	new->point = NULL;
 	return (new);
 }
@@ -67,8 +68,6 @@ t_intersect	*intersection_ray_obj(t_ray *ray, t_obj *obj)
 		out = intersection_ray_sphere(ray, obj->sphere);
 	if (obj->elem == CYLINDER)
 		out = intersection_ray_cylinder(ray, obj->cylinder);
-	if (out->state == INTERSECTED)
-		out->normal = surface_normal_object(out, obj);
 	out->object = obj;
 	return (out);
 }
