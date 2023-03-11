@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/11 21:55:04 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/11 23:07:24 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,8 @@ typedef struct s_itsct_cyl
 {
 	t_intersect	*itsct;
 	t_intersect	*itsct_shaft;
-	t_intersect *itsct_disc_top;
-	t_intersect *itsct_disc_base;
+	t_intersect	*itsct_disc_top;
+	t_intersect	*itsct_disc_base;
 	double		distance;
 	t_quad_sol	*soln;
 	t_point		*ray_orig_trans;
@@ -771,6 +771,8 @@ void			free_list(t_objlist *list);
 void			free_object(t_obj *object);
 //Function frees a secondary intersection.
 void			free_sec_intersection(t_sec_itsct *sec);
+//Function frees the intermediate results of the ray-cylinder intersect calc.
+void			free_ic(t_itsct_cyl *ic);
 //Function frees a colour.
 void			free_colour(t_colour *colour);
 
