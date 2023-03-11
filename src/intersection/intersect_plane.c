@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:54:59 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/03/10 14:07:40 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/11 12:16:15 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ static void	free_ip(t_ip *ip)
 t_intersect	*intersection_ray_plane(t_ray *ray, t_plane *plane)
 {
 	t_intersect	*intersection;
+	t_direction	*normal;
 	t_ip		*ip;
 
 	intersection = intersect_create();
@@ -53,6 +54,12 @@ t_intersect	*intersection_ray_plane(t_ray *ray, t_plane *plane)
 			intersection->state = INTERSECTED;
 			intersection->point = point_ray_distance(ray, ip->t);
 			intersection->distance = ip->t;
+			intersection->normal = direction_copy(plane->normal);
+			if (direction_dot(normal, ray->ray_dir) > -DBL_EPSILON)
+			{
+				free(intersection->normal);
+				intersection->normal = direction_reverse(plane->normal);
+			}
 		}
 		free_vector(ip->polo);
 	}
