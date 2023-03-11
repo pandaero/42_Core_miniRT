@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/11 17:22:54 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/11 17:34:23 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,11 +79,9 @@ typedef struct s_itsct_plane
 {
 	t_intersect	*itsct;
 	t_vector	*ray_dir_vec;
-	t_vector	*polo;
+	t_vector	*ray_to_plane;
 	t_vector	*plane_norm_vec;
-	double		dist_center_plane;
-	double		t;
-	double		numerator;
+	double		dist;
 	double		denominator;
 }				t_itsct_plane;
 
