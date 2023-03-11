@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 16:39:14 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/03/11 22:23:03 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/11 22:56:28 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,5 +99,6 @@ t_intersect	*intersection_ray_cylinder(t_ray *ray, t_cylinder *cylinder)
 		ic.itsct->distance = DBL_MAX;
 	}
 	ic.itsct->colour = colour_copy(cylinder->colour);
+	free_ic(&ic);
 	return (ic.itsct);
 }
