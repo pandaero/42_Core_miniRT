@@ -5,89 +5,81 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/18 18:38:13 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/21 17:06:54 by pandalaf         ###   ########.fr       */
+/*   Created: 2023/03/11 21:18:58 by pandalaf          #+#    #+#             */
+/*   Updated: 2023/03/11 22:34:23 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minirt.h"
-#include <math.h>
 #include <stdlib.h>
+#include <math.h>
 
-//Reallocate point add distance
-static void	reset_point_distance(t_intersect *cylinder_intersect, \
-									t_intersect *cap_intersection_data)
+//Function works out the intersection between a ray and a cylinder shaft.
+t_intersect	*intersection_ray_shaft(t_ray *ray, t_cylinder *cyl, \
+									t_itsct_cyl *ic)
 {
-	free_point(cylinder_intersect->point);
-	cylinder_intersect->point = point_copy(cap_intersection_data->point);
-	cylinder_intersect->distance = cap_intersection_data->distance;
-}
-
-//Determining render, getting point and distance to cylinder_intersect
-static void	determine_cap_distance(t_intersect *intersect_base_plane, \
-			t_intersect *intersect_top_plane, t_intersect *cylinder_intersect)
-{
-	if (intersect_base_plane->distance >= 0 && \
-	intersect_top_plane->distance < 0 && cylinder_intersect->state == 1)
-		reset_point_distance(cylinder_intersect, intersect_base_plane);
-	else if (intersect_top_plane->distance >= 0 && \
-	intersect_base_plane->distance < 0 && cylinder_intersect->state == 1)
-		reset_point_distance(cylinder_intersect, intersect_top_plane);
-	else if (intersect_base_plane->distance >= 0 && \
-	intersect_base_plane->distance < intersect_top_plane->distance && \
-	cylinder_intersect->state == 1)
-		reset_point_distance(cylinder_intersect, intersect_base_plane);
-	else if (intersect_top_plane->distance >= 0 && \
-	intersect_top_plane->distance < intersect_base_plane->distance && \
-	cylinder_intersect->state == 1)
-		reset_point_distance(cylinder_intersect, intersect_top_plane);
-}
-
-//FUNCTION WITHOUT DESCRIPTION
-static void	free_cylinder_mantle_caps(t_intersect *intersect_base_plane, \
-			t_intersect *intersect_top_plane, t_intersect *cylinder_intersect)
-{
-	free_intersection(intersect_base_plane);
-	free_intersection(intersect_top_plane);
-	if (cylinder_intersect->state != 1)
+	t_quad_cof	quad_shaft;
+	t_quad_sol	quad_soln;
+	
+	ic->itsct_shaft = intersect_create();
+	ic->ray_orig_trans = point_subtract(ray->ray_orig, cyl->centre);
+	ic->vec_ray = vector_mag_dir(1, ray->ray_dir);
+	ic->vec_orig_trans = vector_point(ic->ray_orig_trans);
+	ic->vec_cyl_axis = vector_mag_dir(1, cyl->orientation);
+	quad_shaft.squared = vector_dot(ic->vec_ray, ic->vec_ray) - pow(vector_dot(ic->vec_ray, ic->vec_cyl_axis), 2);
+	quad_shaft.linear = 2 * (vector_dot(ic->vec_orig_trans, ic->vec_ray) - vector_dot(ic->vec_ray, ic->vec_cyl_axis) * vector_dot(ic->vec_orig_trans, ic->vec_cyl_axis));
+	quad_shaft.constant = vector_dot(ic->vec_orig_trans, ic->vec_orig_trans) - pow(vector_dot(ic->vec_orig_trans, ic->vec_cyl_axis), 2) - pow(cyl->radius, 2);
+	quad_soln = solve_quadratic(quad_shaft);
+	if (quad_soln.sol == NO_REAL)
+		ic->itsct_shaft->state = MISSED;
+	else if (quad_soln.sol == ONE)
 	{
-		free_point(cylinder_intersect->point);
-		cylinder_intersect->point = NULL;
+		ic->itsct_shaft->state = INTERSECTED;
+		ic->vec_itsct = vector_mag_dir(quad_soln.first, ray->ray_dir);
 	}
-}
-
-//Function that shows which cap is intersected
-static void	cap_intersection_handle(t_ray *ray, t_cylinder *cylinder, \
-t_intersect *cylinder_intersect)
-{
-	t_intersect	*intersect_base_plane;
-	t_intersect	*intersect_top_plane;
-
-	intersect_base_plane = base_cap_intersection(cylinder, ray, \
-	cylinder_intersect);
-	intersect_top_plane = top_cap_intersection(cylinder, ray \
-	, cylinder_intersect);
-	determine_cap_distance(intersect_base_plane, \
-	intersect_top_plane, cylinder_intersect);
-	free_cylinder_mantle_caps(intersect_base_plane, \
-	intersect_top_plane, cylinder_intersect);
-}
-
-//Shapes an infinite cylinder and shapes finite cylinder with caps
-void	cylinder_mantle_caps(t_ray_cylinder *t, \
-			t_intersect *cylinder_intersect, t_ray *ray, t_cylinder *cylinder)
-{
-	t->distance_cylinder_axis = 2 * sqrt(fabs((pow(cylinder->radius, 2) - \
-	pow(distance_two_points(cylinder->centre, cylinder_intersect->point), 2))));
-	if (t->distance_cylinder_axis >= 0)
+	else // (quad_soln.sol == TWO)
 	{
-		if (t->distance_cylinder_axis <= cylinder->height)
+		ic->itsct_shaft->state = INTERSECTED;
+		if (quad_soln.first > 0 && quad_soln.second < 0)
+			ic->itsct_shaft->distance = quad_soln.first;
+		else if (quad_soln.first < 0 && quad_soln.second > 0)
+			ic->itsct_shaft->distance = quad_soln.second;
+		else if (quad_soln.first > 0 && quad_soln.second > 0)
+			ic->itsct_shaft->distance = fmin(quad_soln.first, quad_soln.second);
+		else
+			ic->itsct_shaft->state = MISSED;
+	}
+	if (ic->itsct_shaft->state != MISSED)
+	{
+		ic->vec_itsct = vector_mag_dir(ic->itsct_shaft->distance, ray->ray_dir);
+
+		ic->itsct_shaft->point = point_point_vector(ray->ray_orig, ic->vec_itsct);
+		
+		t_vector	*vec_cyl_to_pt = vector_two_points(cyl->centre, ic->itsct_shaft->point);
+		
+		double proj_height = vector_dot(vec_cyl_to_pt, ic->vec_cyl_axis) / vector_dot(ic->vec_cyl_axis, ic->vec_cyl_axis);
+
+		if (fabs(proj_height) > cyl->height / 2)
 		{
-			cylinder_intersect->state = 1;
-			cylinder_intersect->distance = distance_two_points(ray->ray_orig, \
-			cylinder_intersect->point);
+			ic->itsct_shaft->state = MISSED;
+			return (ic->itsct_shaft);
+		}
+		if (proj_height == 0)
+		{
+			ic->itsct_shaft->normal = direction_two_points(cyl->centre, ic->itsct_shaft->point);
 		}
 		else
-			cap_intersection_handle(ray, cylinder, cylinder_intersect);
+		{
+			t_vector	*proj_centre = vector_scale_direction(proj_height, cyl->orientation);
+			t_point		*proj_cent = point_point_vector(cyl->centre, proj_centre);
+			ic->itsct_shaft->normal = direction_two_points(proj_cent, ic->itsct_shaft->point);
+		}
+		if (direction_dot(ic->itsct_shaft->normal, ray->ray_dir) > 0)
+		{
+			t_direction	*temp = ic->itsct_shaft->normal;
+			ic->itsct_shaft->normal = direction_reverse(temp);
+			free(temp);
+		}
 	}
+	return (ic->itsct_shaft);
 }
