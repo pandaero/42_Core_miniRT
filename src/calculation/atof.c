@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 18:52:11 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/19 22:43:56 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/12 00:09:37 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <stdlib.h>
 
 //Function skips through spacing characters within a string.
-static int	skip_spacing_atof(char *str)
+static int	skip_spacing_atof(const char *str)
 {
 	int	i;
 
@@ -35,7 +35,7 @@ static t_atof_vars	*init_values(const char *str)
 	if (!vars)
 		return (NULL);
 	vars->divide = 1;
-	vars->i = skip_spacing_atof((char *)str);
+	vars->i = skip_spacing_atof(str);
 	vars->sign = 1;
 	vars->int_digs = 0;
 	vars->frac_digs = 0;
