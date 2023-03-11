@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 11:48:53 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/09 12:19:45 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/11 21:00:33 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,12 @@ static void	write_ppm_pix_file(t_pixel *pix, int fd)
 //Function writes the preamble for a ppm file.
 static void	image_ppm_preamble(int fd)
 {
-	ft_putendl_fd("P3",fd);
+	ft_putendl_fd("P3", fd);
 	ft_putnbr_fd(WIN_WIDTH, fd);
 	ft_putchar_fd(' ', fd);
 	ft_putnbr_fd(WIN_HEIGHT, fd);
 	ft_putchar_fd('\n', fd);
-	ft_putendl_fd("255",fd);
+	ft_putendl_fd("255", fd);
 }
 
 //Function draws an image from each pixel's colour.
@@ -51,7 +51,7 @@ void	image_draw(t_program *program)
 	t_screen	*scr;
 
 	scr = screen_program(program);
-	fd = open("out.ppm", O_WRONLY | O_CREAT, 666);
+	fd = open("out.ppm", O_WRONLY | O_CREAT, S_IRWXU | S_IRWXG | S_IRWXO);
 	image_ppm_preamble(fd);
 	i = 0;
 	while (i < WIN_HEIGHT)
