@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 18:48:46 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/20 12:33:25 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/11 16:26:26 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	colour_itsct_lighting(t_objlist *objlist, t_intersect *intersect)
 									diffuse_objlist(objlist)->position);
 		difffac = fmax(0, direction_dot(intersect->normal, dir)) * \
 					diffuse_objlist(objlist)->ratio * DIFF_INTENSITY;
+		free_direction(dir);
 		intersect->colour = colour_factor(difffac, temp);
 		free_colour(temp);
 		temp = colour_amb_cont(ambient_objlist(objlist));
