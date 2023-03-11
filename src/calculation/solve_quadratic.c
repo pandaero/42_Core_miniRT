@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 16:32:02 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/03/10 14:02:28 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/11 15:39:58 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,40 +17,39 @@
 #include <float.h> 
 
 //Function assigns the two real solutions to the given quadratic.
-static void	quad_two(t_quad_sol *quad, double a, double b, double c)
+static void	quad_two(t_quad_sol *quad, t_quad_cof coeff)
 {
 	double	denom1;
 	double	denom2;
 
-	denom1 = -b + sqrt(pow(b, 2) - 4 * a * c);
-	denom2 = -b - sqrt(pow(b, 2) - 4 * a * c); 
 	quad->sol = TWO;
-	quad->first = 2 * c / denom1;
-	quad->second = 2 * c / denom2;
+	denom1 = -coeff.linear + sqrt(quad->discr);
+	denom2 = -coeff.linear - sqrt(quad->discr); 
+	quad->first = 2 * coeff.constant / -denom1;
+	quad->second = 2 * coeff.constant / -denom2;
 }
 
 //Function solves a quadratic equation in form ax^2+bx+c using Muller's method.
-t_quad_sol	solve_quadratic(double a, double b, double c)
+t_quad_sol	solve_quadratic(t_quad_cof coeffs)
 {
 	t_quad_sol	solution;
-	double		discr;
 
 	solution.first = 0;
 	solution.second = 0;
-	discr = pow(b, 2) - 4 * a * c;
-	if (discr < DBL_EPSILON)
+	solution.discr = pow(coeffs.linear, 2) - 4 * coeffs.squared * coeffs.constant;
+	if (solution.discr < 0)
 		solution.sol = NO_REAL;
 	else
 	{
-		if (discr >= -DBL_EPSILON && discr <= DBL_EPSILON)
+		if (solution.discr >= -DBL_EPSILON && solution.discr <= DBL_EPSILON)
 		{
 			solution.sol = ONE;
-			solution.first = 2 * c / -b;
+			solution.first = 2 * coeffs.constant / -coeffs.linear;
 			return (solution);
 		}
 		else
 		{
-			quad_two(&solution, a, b, c);
+			quad_two(&solution, coeffs);
 			return (solution);
 		}
 	}
