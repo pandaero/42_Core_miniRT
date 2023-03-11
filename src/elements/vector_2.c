@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 15:31:51 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/10 19:26:18 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/11 23:54:27 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ t_vector	*vector_point(t_point *point)
 
 	origin = point_coords(0, 0, 0);
 	vector = vector_two_points(origin, point);
+	free_point(origin);
 	return (vector);
 }
 
