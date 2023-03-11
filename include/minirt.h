@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/10 13:32:44 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/11 17:22:54 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,39 +63,6 @@ typedef struct s_quad_cof	t_quad_cof;
 typedef struct s_quad_sol	t_quad_sol;
 
 // =============================== FUNCTION REFACTORING ========================
-//Typedef that contains variables for the base cap intersection.
-typedef struct s_base_cap_intersection
-{
-	t_vector	*vector_centroid_base;
-	t_point		*point_center_base;
-	t_plane		*plane_base_cylinder;
-	t_vector	*vector_base_intersection;
-	double		d_sq;
-	double		radius_sq;
-}				t_base_cap_intersection;
-
-//Typedef of cylinder helper function.
-typedef struct s_top_cap_intersection
-{
-	t_vector	*vector_centroid_top;
-	t_point		*point_center_top;
-	t_plane		*plane_top_cylinder;
-	t_vector	*vector_top_intersection;
-	double		d_sq;
-	double		radius_sq;
-}				t_top_cap_intersection;
-
-//Typedef contains variables freed in intersection ray cylinder.
-typedef struct s_ray_cylinder
-{
-	t_vector	*vector_ray;
-	t_vector	*vector_cylinder_axis;
-	t_vector	*vector_ray_origin_to_base_center;
-	double		distance_to_axis;
-	t_quad_cof	quad_coeff;
-	t_quad_sol	quad_sol;
-}				t_ray_cylinder;
-
 //Typedef declares variables required by the string to double conversion.
 typedef struct s_atof_vars
 {
@@ -107,18 +74,10 @@ typedef struct s_atof_vars
 	int		non_zero_out;
 }			t_atof_vars;
 
-//Typedef contains several variables for the ray-sphere intersection function.
-typedef struct s_rs
+//Typedef contains several variables for the plane-sphere intersect operation.
+typedef struct s_itsct_plane
 {
-	double	t0;
-	double	t1;
-	double	y;
-	int		intersect;
-}			t_rs;
-
-//Typedef contains several variables for the plane-sphere intersection function.
-typedef struct s_intersect_plane
-{
+	t_intersect	*itsct;
 	t_vector	*ray_dir_vec;
 	t_vector	*polo;
 	t_vector	*plane_norm_vec;
@@ -126,7 +85,17 @@ typedef struct s_intersect_plane
 	double		t;
 	double		numerator;
 	double		denominator;
-}				t_ip;
+}				t_itsct_plane;
+
+//Typedef contains several variables for the ray-sphere intersection operation.
+typedef struct s_itsct_sphere
+{
+	t_intersect	*itsct;
+	t_quad_cof	*quad;
+	t_quad_sol	*soln;
+	t_vector	*ray_to_ctr;
+	t_vector	*vec_ray_dir;
+}				t_itsct_sphere;
 
 //Typedef contains several variables for the screen pixel centre function.
 typedef struct s_screen_centre
@@ -212,6 +181,7 @@ typedef struct	s_quad_sol
 	t_quad	sol;
 	double	first;
 	double	second;
+	double	discr;
 }			t_quad_sol;
 
 // ===================================== PROGRAM ===============================
@@ -592,6 +562,10 @@ t_vector		*vector_copy(t_vector *vector);
 t_vector		*vector_scale_direction(double scalar, t_direction *dir);
 //Function creates a new defined vector object from two points.
 t_vector		*vector_two_points(t_point *start, t_point *end);
+//Function creates a vector from the origin to a point.
+t_vector		*vector_point(t_point *point);
+//Function creates a vector from its components.
+t_vector		*vector_components(double x_comp, double y_comp, double z_comp);
 //Function creates a new defined vector object from magnitude and direction.
 t_vector		*vector_mag_dir(double mag, t_direction *dir);
 //Function creates and initialises a ray.
@@ -805,10 +779,14 @@ double			distance_two_points(t_point *point_one, t_point *point_two);
 //Function works out the magnitude of a vector from its components.
 double			magnitude_components(double x_comp, \
 										double y_comp, double z_comp);
+//Function solves a quadratic equation in form ax^2+bx+c using Muller's method.
+t_quad_sol		solve_quadratic(t_quad_cof coeffs);
 //Function works out the vector cross product of two directions.
 t_direction		*direction_cross(t_direction *first, t_direction *second);
 //Function returns the cross product with a positive z-axis component.
 t_direction		*direction_cross_up(t_direction *first, t_direction *second);
+//Function gives a point that is the subtraction of point 2 from point 1.
+t_point			*point_subtract(t_point *p1, t_point *p2);
 //Function counts the number of ambient objects in an object list.
 int				objlist_count_ambient(t_objlist *objlist);
 //Function counts the number of light objects in an object list.
@@ -855,8 +833,8 @@ t_direction		*surface_normal_object(t_intersect *itsct, t_obj *object);
 //Checks for an itersection between a ray and a cylinder.
 t_intersect		*intersection_ray_cylinder(t_ray *ray, t_cylinder *cylinder);
 //Shapes an infinite cylinder and shapes finite cylinder with caps.
-void			cylinder_mantle_caps(t_ray_cylinder *t, \
-			t_intersect *cylinder_intersect, t_ray *ray, t_cylinder *cylinder);
+// void			cylinder_mantle_caps(t_ray_cylinder *t, \
+// 			t_intersect *cylinder_intersect, t_ray *ray, t_cylinder *cylinder);
 //FUNCTION WITHOUT DESCRIPTION
 t_intersect		*top_cap_intersection(t_cylinder *cylinder, \
 								t_ray *ray, t_intersect *cylinder_intersect);
