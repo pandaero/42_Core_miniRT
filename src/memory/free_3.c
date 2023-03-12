@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 18:53:38 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/12 02:32:58 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/12 04:28:39 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	free_program(t_program *program)
 	{
 		free(program->mldt->mlx);
 		free(program->mldt->imdt->image);
+		free(program->mldt);
 	}
 	if (program->objlist)
 		free_list(program->objlist);
