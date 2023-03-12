@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 16:14:07 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/12 02:34:32 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/12 03:44:13 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 //Function frees a cylinder.
 void	free_cylinder(t_cylinder *cylinder)
 {
+	free_disc(cylinder->top_cap);
+	free_disc(cylinder->base_cap);
 	free_point(cylinder->centre);
 	free_direction(cylinder->orientation);
 	free(cylinder);
@@ -30,6 +32,10 @@ void	free_ambient(t_ambient *ambient)
 //Function frees an intersection.
 void	free_intersection(t_intersect *intersection)
 {
+	if (intersection->normal)
+		free_direction(intersection->normal);
+	if (intersection->colour)
+		free_colour(intersection->colour);
 	if (intersection->point)
 		free_point(intersection->point);
 	free(intersection);
@@ -38,6 +44,8 @@ void	free_intersection(t_intersect *intersection)
 //Function frees a pixel.
 void	free_pixel(t_pixel *pixel)
 {
+	if (pixel->colour)
+		free_colour(pixel->colour);
 	if (pixel->itsct)
 		free_intersection(pixel->itsct);
 	if (pixel->sec_itsct)

@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 21:18:58 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/12 02:08:08 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/12 03:08:49 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@ static void	initial_conditions(t_ray *ray, t_cylinder *cyl, t_itsct_cyl *ic)
 	quad_shaft->constant = vector_dot(ic->vec_orig_trans, ic->vec_orig_trans) - \
 					pow(vector_dot(ic->vec_orig_trans, ic->vec_cyl_axis), 2) - \
 					pow(cyl->radius, 2);
+	free_point(ic->ray_orig_trans);
 	ic->soln = solve_quadratic(quad_shaft);
 	free(quad_shaft);
 	ic->proj_cent = NULL;
 	ic->proj_centre = NULL;
-	ic->ray_orig_trans = NULL;
 	ic->vec_itsct = NULL;
 	ic->vec_cyl_to_pt = NULL;
 	ic->itsct_shaft = intersect_create();

@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 18:48:46 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/11 16:26:26 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/12 03:51:34 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	colour_itsct_lighting(t_objlist *objlist, t_intersect *intersect)
 		free_colour(temp);
 		temp = colour_add(intersect->colour, temp2);
 		free_colour(temp2);
+		free_colour(intersect->colour);
 	}
 	intersect->colour = temp;
 }

@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 13:19:09 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/20 16:32:55 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/12 03:24:18 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ static void	later_itsct_loop(t_pixel *pixel, t_itsct_pass *stct)
 static void	itsct_pass_colouring(t_program *program, \
 									t_intersect *itsct, int n)
 {
+	if (itsct->colour)
+		free_colour(itsct->colour);
 	if (n == 1)
 	{
 		if (itsct->state == MISSED)

@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 16:39:14 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/03/12 02:54:44 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/12 03:40:14 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ static void	assign_intersection_disc(int sw, t_itsct_cyl *ic)
 t_intersect	*intersection_ray_cylinder(t_ray *ray, t_cylinder *cylinder)
 {
 	t_itsct_cyl	*ic;
+	t_intersect	*itsct;
 
 	ic = (t_itsct_cyl *)malloc(sizeof(t_itsct_cyl));
 	ic->itsct = intersection_ray_shaft(ray, cylinder, ic);
@@ -99,10 +100,10 @@ t_intersect	*intersection_ray_cylinder(t_ray *ray, t_cylinder *cylinder)
 	{
 		ic->itsct->state = MISSED;
 		ic->itsct->distance = DBL_MAX;
-		free_intersection(ic->itsct_disc_top);
-		free_intersection(ic->itsct_disc_base);
 	}
-	ic->itsct->colour = colour_copy(cylinder->colour);
+	free_intersection(ic->itsct_disc_top);
+	free_intersection(ic->itsct_disc_base);
+	itsct = ic->itsct;
 	free_ic(ic);
-	return (ic->itsct);
+	return (itsct);
 }

@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/12 02:18:54 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/12 03:45:37 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -757,6 +757,8 @@ void			free_ambient(t_ambient *ambient);
 void			free_plane(t_plane *plane);
 //Function frees a sphere.
 void			free_sphere(t_sphere *sphere);
+//Function frees a disc element.
+void			free_disc(t_disc *disc);	
 //Function frees a cylinder.
 void			free_cylinder(t_cylinder *cylinder);
 //Function frees a cylinder and returns NULL;

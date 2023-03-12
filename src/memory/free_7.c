@@ -6,12 +6,21 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 14:51:50 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/03/12 02:44:15 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/12 03:45:04 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minirt.h"
 #include <stdlib.h>
+
+//Function frees a disc element.
+void	free_disc(t_disc *disc)
+{
+	free_colour(disc->colour);
+	free_direction(disc->normal);
+	free_point(disc->centre);
+	free(disc);
+}
 
 //Function frees a secondary intersection.
 void	free_sec_intersection(t_sec_itsct *sec)
@@ -35,6 +44,8 @@ void	free_ic(t_itsct_cyl *ic)
 		free_point(ic->proj_cent);
 	if (ic->proj_centre)
 		free_vector(ic->proj_centre);
+	if (ic->soln)
+		free(ic->soln);
 	if (ic->ray_orig_trans)
 		free_point(ic->ray_orig_trans);
 	if (ic->vec_ray)
