@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 15:22:24 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/02 19:12:33 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/12 21:44:46 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_plane	*plane_col_point_normal_dir(t_colour *colour, t_point *point, \
 	plane = plane_create();
 	if (!plane)
 		return (NULL);
-	plane->colour = colour;
+	plane->colour = colour_copy(colour);
 	plane->point = point_copy(point);
 	plane->normal = direction_copy(normal);
 	return (plane);
@@ -51,7 +51,7 @@ t_plane	*plane_col_point_normal_vec(t_colour *colour, t_point *point, \
 	plane = plane_create();
 	if (!plane)
 		return (NULL);
-	plane->colour = colour;
+	plane->colour = colour_copy(colour);
 	plane->point = point_copy(point);
 	plane->normal = direction_vector(normal);
 	return (plane);
