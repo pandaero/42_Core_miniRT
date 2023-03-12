@@ -6,7 +6,7 @@
 #    By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/16 18:36:19 by pandalaf          #+#    #+#              #
-#    Updated: 2023/03/12 23:08:18 by pandalaf         ###   ########.fr        #
+#    Updated: 2023/03/12 23:25:02 by pandalaf         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ CFLAGS	:= -Wall -Werror -Wextra
 # Include debugging options
 ifeq ($(DEBUG), 1)
 COPT	:= -g 
-else ifeq ($(DEBUG, 2)
+else ifeq ($(DEBUG), 2)
 COPT	:= -g -fsanitize=address
 else
 COPT	:=
