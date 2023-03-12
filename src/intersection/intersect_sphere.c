@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 22:22:24 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/11 21:04:21 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/12 02:13:35 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,28 +67,32 @@ static void	modify_sphere_quad(t_quad_cof *quad, t_quad_sol *sol, \
 //Function works out the intersection between a ray and a sphere.
 t_intersect	*intersection_ray_sphere(t_ray *ray, t_sphere *sphere)
 {
-	t_itsct_sphere	is;
-	t_quad_cof		quad;
-	t_quad_sol		soln;
+	t_itsct_sphere	*is;
+	t_quad_cof		*quad;
+	t_quad_sol		*soln;
 
-	is.ray_to_ctr = vector_two_points(ray->ray_orig, sphere->centre);
-	is.vec_ray_dir = vector_scale_direction(1, ray->ray_dir);
-	quad.squared = vector_dot(is.vec_ray_dir, is.vec_ray_dir);
-	quad.linear = 2 * vector_dot(is.vec_ray_dir, is.ray_to_ctr);
-	quad.constant = fabs(vector_dot(is.ray_to_ctr, is.ray_to_ctr)) - \
+	is = (t_itsct_sphere *)malloc(sizeof(t_itsct_sphere));
+	is->ray_to_ctr = vector_two_points(ray->ray_orig, sphere->centre);
+	is->vec_ray_dir = vector_scale_direction(1, ray->ray_dir);
+	quad = (t_quad_cof *)malloc(sizeof(t_quad_cof));
+	quad->squared = vector_dot(is->vec_ray_dir, is->vec_ray_dir);
+	quad->linear = 2 * vector_dot(is->vec_ray_dir, is->ray_to_ctr);
+	quad->constant = fabs(vector_dot(is->ray_to_ctr, is->ray_to_ctr)) - \
 						pow(sphere->radius, 2);
 	soln = solve_quadratic(quad);
-	modify_sphere_quad(&quad, &soln, &is);
-	is.itsct = intersect_create();
-	if (soln.sol == NO_REAL)
-		is.itsct->state = MISSED;
-	else if (soln.sol == ONE)
+	modify_sphere_quad(quad, soln, is);
+	is->itsct = intersect_create();
+	if (soln->sol == NO_REAL)
+		is->itsct->state = MISSED;
+	else if (soln->sol == ONE)
 	{
-		is.itsct->state = INTERSECTED;
-		is.itsct->distance = -quad.linear / (2 * quad.squared);
-		sphere_intersection_point_normal(ray, sphere, &is);
+		is->itsct->state = INTERSECTED;
+		is->itsct->distance = -quad->linear / (2 * quad->squared);
+		sphere_intersection_point_normal(ray, sphere, is);
 	}
 	else
-		sphere_intersection_two(ray, sphere, &is);
-	return (is.itsct);
+		sphere_intersection_two(ray, sphere, is);
+	free(quad);
+	free(soln);
+	return (is->itsct);
 }

@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 21:18:58 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/11 22:55:01 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/12 02:08:08 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,29 +17,29 @@
 //Function determines initial conditions for ray-shaft calculation.
 static void	initial_conditions(t_ray *ray, t_cylinder *cyl, t_itsct_cyl *ic)
 {
-	t_quad_cof	quad_shaft;
-	t_quad_sol	quad_soln;
+	t_quad_cof	*quad_shaft;
 
-	ic->itsct_shaft = intersect_create();
 	ic->ray_orig_trans = point_subtract(ray->ray_orig, cyl->centre);
 	ic->vec_ray = vector_mag_dir(1, ray->ray_dir);
 	ic->vec_orig_trans = vector_point(ic->ray_orig_trans);
 	ic->vec_cyl_axis = vector_mag_dir(1, cyl->orientation);
-	quad_shaft.squared = vector_dot(ic->vec_ray, ic->vec_ray) - \
+	quad_shaft = (t_quad_cof *)malloc(sizeof(t_quad_cof));
+	quad_shaft->squared = vector_dot(ic->vec_ray, ic->vec_ray) - \
 							pow(vector_dot(ic->vec_ray, ic->vec_cyl_axis), 2);
-	quad_shaft.linear = 2 * (vector_dot(ic->vec_orig_trans, ic->vec_ray) - \
+	quad_shaft->linear = 2 * (vector_dot(ic->vec_orig_trans, ic->vec_ray) - \
 							vector_dot(ic->vec_ray, ic->vec_cyl_axis) * \
 							vector_dot(ic->vec_orig_trans, ic->vec_cyl_axis));
-	quad_shaft.constant = vector_dot(ic->vec_orig_trans, ic->vec_orig_trans) - \
+	quad_shaft->constant = vector_dot(ic->vec_orig_trans, ic->vec_orig_trans) - \
 					pow(vector_dot(ic->vec_orig_trans, ic->vec_cyl_axis), 2) - \
 					pow(cyl->radius, 2);
-	quad_soln = solve_quadratic(quad_shaft);
-	ic->soln = &quad_soln;
+	ic->soln = solve_quadratic(quad_shaft);
+	free(quad_shaft);
 	ic->proj_cent = NULL;
 	ic->proj_centre = NULL;
 	ic->ray_orig_trans = NULL;
 	ic->vec_itsct = NULL;
 	ic->vec_cyl_to_pt = NULL;
+	ic->itsct_shaft = intersect_create();
 }
 
 //Function assigns the initial conditions for working out point within shaft.

@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/12 00:25:04 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/12 02:18:54 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@
 # endif
 
 // Screen resolution
-# define WIN_WIDTH 800
-# define WIN_HEIGHT 600
+# define WIN_WIDTH 80
+# define WIN_HEIGHT 60
 // Factor for screen-pixel coordinate sizing. 
 # define VIEW_SCALING 0.001
 // Factor for diffuse lighting effect
@@ -803,7 +803,7 @@ double			distance_two_points(t_point *point_one, t_point *point_two);
 double			magnitude_components(double x_comp, \
 										double y_comp, double z_comp);
 //Function solves a quadratic equation in form ax^2+bx+c using Muller's method.
-t_quad_sol		solve_quadratic(t_quad_cof coeffs);
+t_quad_sol		*solve_quadratic(t_quad_cof *coeffs);
 //Function works out the vector cross product of two directions.
 t_direction		*direction_cross(t_direction *first, t_direction *second);
 //Function returns the cross product with a positive z-axis component.

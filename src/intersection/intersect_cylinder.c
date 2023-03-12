@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 16:39:14 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/03/11 22:56:28 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/12 01:52:14 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,26 +79,27 @@ static void	assign_intersection_disc(int sw, t_itsct_cyl *ic)
 //Function determines the intersection between a ray and a cylinder.
 t_intersect	*intersection_ray_cylinder(t_ray *ray, t_cylinder *cylinder)
 {
-	t_itsct_cyl	ic;
+	t_itsct_cyl	*ic;
 
-	ic.itsct = intersection_ray_shaft(ray, cylinder, &ic);
-	ic.itsct_disc_top = intersection_ray_disc(ray, cylinder->top_cap);
-	ic.itsct_disc_base = intersection_ray_disc(ray, cylinder->base_cap);
-	ic.distance = DBL_MAX;
-	if (ic.itsct->state != MISSED)
-		ic.distance = ic.itsct->distance;
-	if (ic.itsct_disc_top->distance < ic.distance && \
-		ic.itsct_disc_top->state == INTERSECTED)
-		assign_intersection_disc(0, &ic);
-	else if (ic.itsct_disc_base->distance < ic.distance && \
-				ic.itsct_disc_base->state == INTERSECTED)
-		assign_intersection_disc(1, &ic);
-	if (ic.itsct->state != INTERSECTED)
+	ic = (t_itsct_cyl *)malloc(sizeof(t_itsct_cyl));
+	ic->itsct = intersection_ray_shaft(ray, cylinder, ic);
+	ic->itsct_disc_top = intersection_ray_disc(ray, cylinder->top_cap);
+	ic->itsct_disc_base = intersection_ray_disc(ray, cylinder->base_cap);
+	ic->distance = DBL_MAX;
+	if (ic->itsct->state != MISSED)
+		ic->distance = ic->itsct->distance;
+	if (ic->itsct_disc_top->distance < ic->distance && \
+		ic->itsct_disc_top->state == INTERSECTED)
+		assign_intersection_disc(0, ic);
+	else if (ic->itsct_disc_base->distance < ic->distance && \
+				ic->itsct_disc_base->state == INTERSECTED)
+		assign_intersection_disc(1, ic);
+	if (ic->itsct->state != INTERSECTED)
 	{
-		ic.itsct->state = MISSED;
-		ic.itsct->distance = DBL_MAX;
+		ic->itsct->state = MISSED;
+		ic->itsct->distance = DBL_MAX;
 	}
-	ic.itsct->colour = colour_copy(cylinder->colour);
-	free_ic(&ic);
-	return (ic.itsct);
+	ic->itsct->colour = colour_copy(cylinder->colour);
+	free_ic(ic);
+	return (ic->itsct);
 }
