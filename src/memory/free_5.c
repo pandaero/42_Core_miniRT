@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 16:14:07 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/17 02:47:47 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/12 02:34:32 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ void	free_ambient(t_ambient *ambient)
 //Function frees an intersection.
 void	free_intersection(t_intersect *intersection)
 {
-	free_point(intersection->point);
+	if (intersection->point)
+		free_point(intersection->point);
 	free(intersection);
 }
 

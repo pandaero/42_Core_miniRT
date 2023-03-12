@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 14:51:50 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/03/12 00:21:04 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/12 02:44:15 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	free_ic(t_itsct_cyl *ic)
 		free_vector(ic->vec_cyl_to_pt);
 	if (ic->vec_itsct)
 		free_vector(ic->vec_itsct);
+	free(ic);
 }
 
 //Function frees the intermediate results of the ray-sphere intersect calc.
@@ -57,4 +58,5 @@ void	free_is(t_itsct_sphere *is)
 		free_vector(is->ray_to_ctr);
 	if (is->vec_ray_dir)
 		free_vector(is->vec_ray_dir);
+	free(is);
 }

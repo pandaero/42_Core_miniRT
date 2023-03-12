@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 22:33:54 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/21 03:07:30 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/12 02:27:23 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,18 @@
 #include <stdlib.h>
 
 //Function handles the window closing action.
-int	closing(t_mlxdata *mlxvars)
+int	closing(t_program *program)
 {
-	mlx_destroy_window(mlxvars->mlx, mlxvars->window);
+	mlx_destroy_window(program->mldt->mlx, program->mldt->window);
+	free_program(program);
 	exit(0);
 }
 
 //Function handles key releases.
-int	keys(int key, t_mlxdata *mlxvars)
+int	keys(int key, t_program *program)
 {
 	if (key == ESCAPE)
-		closing(mlxvars);
+		closing(program);
 	return (0);
 }
 
@@ -64,7 +65,7 @@ void	mlx_looping(t_program *program)
 {
 	mlx_put_image_to_window(program->mldt->mlx, program->mldt->window, \
 							program->mldt->imdt->image, 0, 0);
-	mlx_hook(program->mldt->window, 17, NO_EVENT, closing, program->mldt);
-	mlx_hook(program->mldt->window, 3, KEY_RELEASE, keys, program->mldt);
+	mlx_hook(program->mldt->window, 17, NO_EVENT, closing, program);
+	mlx_hook(program->mldt->window, 3, KEY_RELEASE, keys, program);
 	mlx_loop(program->mldt->mlx);
 }

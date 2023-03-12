@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 22:22:24 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/12 02:13:35 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/12 02:45:13 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,5 +94,6 @@ t_intersect	*intersection_ray_sphere(t_ray *ray, t_sphere *sphere)
 		sphere_intersection_two(ray, sphere, is);
 	free(quad);
 	free(soln);
+	free_is(is);
 	return (is->itsct);
 }

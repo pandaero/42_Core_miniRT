@@ -6,11 +6,12 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 13:24:52 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/21 18:28:38 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/12 02:42:12 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minirt.h"
+#include <stdlib.h>
 
 //Function assigns a secondary intersection to a pixel.
 static void	pixel_sec_itsct(t_intersect *itsct, t_pixel *pixel)
@@ -44,23 +45,24 @@ static void	sec_itsct_pass_loop(t_program *program, t_pixel *pixel, \
 //Function calculates a secondary intersection for a pixel.
 void	secondary_intersection_pass(t_program *program, t_pixel *pixel)
 {
-	t_sec_itsct_pass	stct;
+	t_sec_itsct_pass	*stct;
 
-	stct.sec_unren = program->objlist->num_sec_unren;
-	stct.obj = object_first_list(program->objlist);
-	stct.dir = direction_two_points(pixel->itsct->point, \
+	stct = (t_sec_itsct_pass *)malloc(sizeof(t_sec_itsct_pass));
+	stct->sec_unren = program->objlist->num_sec_unren;
+	stct->obj = object_first_list(program->objlist);
+	stct->dir = direction_two_points(pixel->itsct->point, \
 				diffuse_objlist(program->objlist)->position);
-	stct.ray = ray_start_dir(pixel->itsct->point, stct.dir);
-	while (stct.obj && stct.sec_unren > 0)
+	stct->ray = ray_start_dir(pixel->itsct->point, stct->dir);
+	while (stct->obj && stct->sec_unren > 0)
 	{
-		if (stct.obj == pixel->itsct->object)
+		if (stct->obj == pixel->itsct->object)
 		{
-			stct.obj = stct.obj->next;
-			stct.sec_unren--;
+			stct->obj = stct->obj->next;
+			stct->sec_unren--;
 			continue ;
 		}
-		sec_itsct_pass_loop(program, pixel, &stct);
+		sec_itsct_pass_loop(program, pixel, stct);
 	}
-	free_direction(stct.dir);
-	free_ray(stct.ray);
+	free_direction(stct->dir);
+	free_ray(stct->ray);
 }
