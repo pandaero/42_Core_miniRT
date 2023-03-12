@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 02:55:08 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/12 22:40:51 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/12 22:46:09 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,12 @@ void	render_object_scene(t_program *program)
 			render_pixel(program, pixel);
 			perc[0] = round(num / tot);
 			perc[1] = round(10 * num / tot);
-			if (STATUS)
+			if (STATUS == 2)
 				ft_printf("Rendering... %i.%i%%\r", perc[0], perc[1]);
 			ii[1]++;
 		}
+		if (STATUS == 1)
+			ft_printf("Rendering... %i.%i%%\r", perc[0], perc[1]);
 		ii[0]++;
 	}
 }

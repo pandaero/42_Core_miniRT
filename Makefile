@@ -6,7 +6,7 @@
 #    By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/16 18:36:19 by pandalaf          #+#    #+#              #
-#    Updated: 2023/03/12 00:26:15 by pandalaf         ###   ########.fr        #
+#    Updated: 2023/03/12 22:45:06 by pandalaf         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,15 @@ COPT	:= #-g #-fsanitize=address
 # Make executable output an image file. Usage: make all FILEOUT=1
 ifeq ($(FILEOUT), 1)
 DEFS	:= -D FILEOUT=1
+else
+DEFS	:=
+endif
+
+# Make executable output an rendering progress line. Usage: make all STATUS=1,2
+ifeq ($(STATUS), 1)
+DEFS	:= -D STATUS=1
+else ifeq ($(STATUS), 2)
+DEFS	:= -D STATUS=2
 else
 DEFS	:=
 endif
