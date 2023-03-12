@@ -1,4 +1,4 @@
-//Tests for the functions in file.c
+//Tests for the functions in valid_5.c
 
 #include "test.h"
 #include <stdlib.h>

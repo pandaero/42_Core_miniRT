@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 19:34:19 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/02 20:43:19 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/08 12:51:19 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int	main(int argc, char **argv)
 	program = program_create();
 	parse_input_file(program, argv[1]);
 	render_screen(program);
+	if (FILEOUT)
+		image_draw(program);
 	mlx_initialise(program);
 	window_draw(program);
 	mlx_looping(program);

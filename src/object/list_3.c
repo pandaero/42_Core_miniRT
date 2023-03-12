@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 16:22:23 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/02 16:46:18 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/11 23:08:42 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_ambient	*ambient_objlist(t_objlist *objlist)
 	curr = objlist->first;
 	while (curr)
 	{
-		if (curr->ambient || curr->elem == AMBIENT)
+		if (curr->elem == AMBIENT)
 			return (curr->ambient);
 		curr = curr->next;
 	}
@@ -35,7 +35,7 @@ t_diffuse	*diffuse_objlist(t_objlist *objlist)
 	curr = objlist->first;
 	while (curr)
 	{
-		if (curr->diffuse || curr->elem == DIFFUSE)
+		if (curr->elem == DIFFUSE)
 			return (curr->diffuse);
 		curr = curr->next;
 	}
@@ -52,7 +52,7 @@ int	objlist_count_plane(t_objlist *objlist)
 	curr = objlist->first;
 	while (curr)
 	{
-		if (curr->plane || curr->elem == PLANE)
+		if (curr->elem == PLANE)
 			ct++;
 		curr = curr->next;
 	}
@@ -69,7 +69,7 @@ int	objlist_count_sphere(t_objlist *objlist)
 	curr = objlist->first;
 	while (curr)
 	{
-		if (curr->sphere || curr->elem == SPHERE)
+		if (curr->elem == SPHERE)
 			ct++;
 		curr = curr->next;
 	}
@@ -86,7 +86,7 @@ int	objlist_count_cylinder(t_objlist *objlist)
 	curr = objlist->first;
 	while (curr)
 	{
-		if (curr->cylinder || curr->elem == CYLINDER)
+		if (curr->elem == CYLINDER)
 			ct++;
 		curr = curr->next;
 	}

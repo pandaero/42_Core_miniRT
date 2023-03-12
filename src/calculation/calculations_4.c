@@ -1,27 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   program.c                                          :+:      :+:    :+:   */
+/*   calculations_4.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/12 17:49:31 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/20 00:08:46 by pandalaf         ###   ########.fr       */
+/*   Created: 2023/02/20 02:14:32 by pandalaf          #+#    #+#             */
+/*   Updated: 2023/02/20 02:16:23 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minirt.h"
-#include <stdlib.h>
 
-//Function creates a new program data structure.
-t_program	*program_create(void)
+//Function works out the dot product of two directions.
+double	direction_dot(t_direction *dir1, t_direction *dir2)
 {
-	t_program	*new;
+	double	res;
 
-	new = (t_program *)malloc(sizeof(t_program));
-	if (!new)
-		return (NULL);
-	new->objlist = NULL;
-	new->mldt = NULL;
-	return (new);
+	res = dir1->x_comp * dir2->x_comp + dir1->y_comp * dir2->y_comp + \
+			dir1->z_comp * dir2->z_comp;
+	return (res);
 }

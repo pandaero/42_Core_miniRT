@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 12:02:10 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/20 04:30:05 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/19 23:00:27 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ t_objlist	*list_create(void)
 
 	new = (t_objlist *)malloc(sizeof(t_objlist));
 	new->num_objects = 0;
-	new->num_unrendered = 0;
+	new->num_unren = 0;
+	new->num_sec_unren = 0;
 	new->first = NULL;
 	new->last = NULL;
 	return (new);
@@ -42,8 +43,10 @@ void	list_add_object(t_objlist *list, t_obj *object)
 	list->last = object;
 	object->next = NULL;
 	list->num_objects++;
-	if (object->unrendered == 1)
-		list->num_unrendered++;
+	if (object->ren == 0)
+		list->num_unren++;
+	if (object->sec_ren == 0)
+		list->num_sec_unren++;
 }
 
 //Function removes an object from a linked list, freeing its memory.

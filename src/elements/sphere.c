@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 16:21:32 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/02 19:13:09 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/12 00:44:00 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,5 +64,6 @@ t_sphere	*sphere_line(const char *line)
 	new->centre = point_str(split[1]);
 	new->radius = ft_atof(split[2]);
 	new->colour = colour_str(split[3]);
+	free_split(split);
 	return (new);
 }

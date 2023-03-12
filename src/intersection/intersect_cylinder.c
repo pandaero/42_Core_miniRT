@@ -5,113 +5,100 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/21 13:50:06 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/02/21 16:16:39 by pandalaf         ###   ########.fr       */
+/*   Created: 2023/02/07 16:39:14 by pbiederm          #+#    #+#             */
+/*   Updated: 2023/03/11 22:56:28 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minirt.h"
 #include <math.h>
 #include <stdlib.h>
-#define A 0
-#define B 1
-#define C 2
+#include <float.h>
 
-//FUNCTION WITHOUT DESCRIPTION
-static void	infinite_cylinder_intersection(t_ray_cylinder *t, \
-								t_intersect *cylinder_intersect, t_ray *ray)
+//Function works out the surface normal corresponding to the ray-disc intersect.
+static void	disc_normal(t_ray *ray, t_disc *disc, t_intersect *itsct)
 {
-	if (t->quadratic_result[0] == 2 && \
-	t->quadratic_result[1] > 0 && t->quadratic_result[2] > 0)
-		cylinder_intersect->point = \
-		get_intersection_point(ray, t->quadratic_result[1]);
-	else if (t->quadratic_result[0] == 1 && \
-	t->quadratic_result[1] > 0 && \
-	t->quadratic_result[2] < 0)
-		cylinder_intersect->point = \
-		get_intersection_point(ray, t->quadratic_result[1]);
-	else if (t->quadratic_result[0] == 1 && \
-	t->quadratic_result[1] > 0 && \
-	t->quadratic_result[2] < 0)
-		cylinder_intersect->point = \
-		get_intersection_point(ray, t->quadratic_result[1]);
-	else if (t->quadratic_result[0] == 1 && \
-	t->quadratic_result[2] < t->quadratic_result[1] && \
-	t->quadratic_result[2] > 0)
-		cylinder_intersect->point = \
-		get_intersection_point(ray, t->quadratic_result[2]);
-	else if ((t->quadratic_result[0] == 1) && \
-	(t->quadratic_result[1] < t->quadratic_result[2]) && \
-	(t->quadratic_result[1] > 0))
-		cylinder_intersect->point = \
-		get_intersection_point(ray, t->quadratic_result[1]);
+	t_vector	*vec_ray;
+	t_vector	*vec_normal;
+
+	vec_ray = vector_mag_dir(1, ray->ray_dir);
+	vec_normal = vector_mag_dir(1, disc->normal);
+	if (vector_dot(vec_ray, vec_normal) > 0)
+		itsct->normal = direction_reverse(disc->normal);
+	else
+		itsct->normal = direction_copy(disc->normal);
+	free_vector(vec_ray);
+	free_vector(vec_normal);
 }
 
-//Calculates coefficients for the cylinder ray intersection and solves quadratic
-static double	*employ_quadratic_equation(t_ray_cylinder *t, \
-											t_cylinder *cylinder)
+//Function determines the intersection between a ray and a disc.
+static t_intersect	*intersection_ray_disc(t_ray *ray, t_disc *disc)
 {
-	t->coefficient[A] = vector_dot(t->vector_ray, t->vector_ray) - \
-	pow(vector_dot(t->vector_ray, t->vector_cylinder), 2);
-	t->coefficient[B] = 2 * \
-	(vector_dot(t->vector_ray, t->vector_ray_origin_base_center) - \
-	(vector_dot(t->vector_ray, t->vector_cylinder) * \
-	vector_dot(t->vector_ray_origin_base_center, t->vector_cylinder)));
-	t->coefficient[C] = vector_dot(t->vector_ray_origin_base_center, \
-	t->vector_ray_origin_base_center) - \
-	pow(vector_dot(t->vector_ray_origin_base_center, \
-	t->vector_cylinder), 2) - pow(cylinder->radius, 2);
-	return (solve_quadratic_real(t->coefficient));
+	t_intersect	*itsct;
+	t_intersect	*itsct_plane;
+	t_plane		*disc_plane;
+
+	itsct = intersect_create();
+	disc_plane = plane_col_point_normal_dir(disc->colour, disc->centre, \
+											disc->normal);
+	itsct_plane = intersection_ray_plane(ray, disc_plane);
+	if (itsct_plane->state == MISSED || \
+		distance_two_points(itsct_plane->point, disc->centre) > disc->radius)
+		itsct->state = MISSED;
+	else
+	{
+		itsct->point = point_copy(itsct_plane->point);
+		itsct->distance = distance_two_points(itsct_plane->point, \
+												ray->ray_orig);
+		disc_normal(ray, disc, itsct);
+		itsct->state = INTERSECTED;
+	}
+	free_plane(disc_plane);
+	free_intersection(itsct_plane);
+	return (itsct);
 }
 
-//Function creates variables for cylinder intersection test
-static t_ray_cylinder	*cylinder_init(t_ray *ray, t_cylinder *cylinder)
+//Function assigns the intersections for the disc cases.
+static void	assign_intersection_disc(int sw, t_itsct_cyl *ic)
 {
-	t_ray_cylinder	*t;
-
-	t = (t_ray_cylinder *)malloc(sizeof(t_ray_cylinder));
-	t->vector_ray = vector_scale_direction(1, ray->ray_dir);
-	t->vector_cylinder = vector_scale_direction(1, cylinder->orientation);
-	t->vector_ray_origin_base_center = \
-	vector_two_points(cylinder->centre, ray->ray_orig);
-	t->distance_cylinder_axis = -1;
-	t->coefficient[0] = 0;
-	t->coefficient[1] = -1;
-	t->coefficient[2] = -1;
-	t->quadratic_result = NULL;
-	return (t);
+	if (sw == 0)
+	{
+		ic->distance = ic->itsct_disc_top->distance;
+		free_intersection(ic->itsct);
+		ic->itsct = ic->itsct_disc_top;
+		free_intersection(ic->itsct_disc_base);
+	}
+	else
+	{
+		free_intersection(ic->itsct);
+		ic->itsct = ic->itsct_disc_base;
+		free_intersection(ic->itsct_disc_top);
+	}
 }
 
-//Frees a struct of function cylinder ray intersection
-static void	free_t_ray_cylinder(t_ray_cylinder *t)
-{
-	free_vector(t->vector_ray_origin_base_center);
-	free_vector(t->vector_cylinder);
-	free_vector(t->vector_ray);
-	free(t->quadratic_result);
-	free(t);
-}
-
-//Function that determines ray, cylinder intersection.
+//Function determines the intersection between a ray and a cylinder.
 t_intersect	*intersection_ray_cylinder(t_ray *ray, t_cylinder *cylinder)
 {
-	t_ray_cylinder	*t;
-	t_intersect		*cylinder_intersect;
+	t_itsct_cyl	ic;
 
-	t = cylinder_init(ray, cylinder);
-	cylinder_intersect = intersect_create();
-	t->quadratic_result = employ_quadratic_equation(t, cylinder);
-	infinite_cylinder_intersection(t, cylinder_intersect, ray);
-	if (cylinder_intersect->point != NULL)
+	ic.itsct = intersection_ray_shaft(ray, cylinder, &ic);
+	ic.itsct_disc_top = intersection_ray_disc(ray, cylinder->top_cap);
+	ic.itsct_disc_base = intersection_ray_disc(ray, cylinder->base_cap);
+	ic.distance = DBL_MAX;
+	if (ic.itsct->state != MISSED)
+		ic.distance = ic.itsct->distance;
+	if (ic.itsct_disc_top->distance < ic.distance && \
+		ic.itsct_disc_top->state == INTERSECTED)
+		assign_intersection_disc(0, &ic);
+	else if (ic.itsct_disc_base->distance < ic.distance && \
+				ic.itsct_disc_base->state == INTERSECTED)
+		assign_intersection_disc(1, &ic);
+	if (ic.itsct->state != INTERSECTED)
 	{
-		cylinder_mantle_caps(t, cylinder_intersect, ray, cylinder);
+		ic.itsct->state = MISSED;
+		ic.itsct->distance = DBL_MAX;
 	}
-	if (cylinder_intersect->state == 1)
-	{
-		free_t_ray_cylinder(t);
-		return (cylinder_intersect);
-	}
-	cylinder_intersect->state = 0;
-	free_t_ray_cylinder(t);
-	return (cylinder_intersect);
+	ic.itsct->colour = colour_copy(cylinder->colour);
+	free_ic(&ic);
+	return (ic.itsct);
 }

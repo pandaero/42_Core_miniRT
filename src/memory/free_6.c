@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_6.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 18:03:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/19 23:35:12 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/03/11 21:00:47 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,3 @@ void	*free_cylinder_ret_null(t_cylinder *cylinder)
 	free_cylinder(cylinder);
 	return (NULL);
 }
-

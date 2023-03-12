@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 18:52:47 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/20 04:32:59 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/20 00:05:15 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ t_obj	*object_ray(t_ray *ray)
 	new = object_create();
 	if (!new)
 		return (NULL);
+	new->ren = 1;
+	new->sec_ren = 1;
 	new->elem = RAY;
 	new->ray = ray;
 	return (new);
@@ -33,6 +35,8 @@ t_obj	*object_camera(t_camera *camera)
 	new = object_create();
 	if (!new)
 		return (NULL);
+	new->ren = 1;
+	new->sec_ren = 1;
 	new->elem = CAMERA;
 	new->camera = camera;
 	return (new);
@@ -46,6 +50,8 @@ t_obj	*object_screen(t_screen *screen)
 	new = object_create();
 	if (!new)
 		return (NULL);
+	new->ren = 1;
+	new->sec_ren = 1;
 	new->elem = SCREEN;
 	new->screen = screen;
 	return (new);

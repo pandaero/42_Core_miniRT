@@ -6,12 +6,16 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/21 16:11:21 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/12 00:25:04 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
+
+# ifndef FILEOUT
+#  define FILEOUT 0
+# endif
 
 # include "../libft/libft.h"
 # if defined (__APPLE__)
@@ -29,7 +33,9 @@
 // Factor for screen-pixel coordinate sizing. 
 # define VIEW_SCALING 0.001
 // Factor for diffuse lighting effect
+# define SHADOW 0x222222
 # define LIGHTING_FACTOR 5000
+# define DIFF_INTENSITY 1
 // Colours
 # define BLACK 0x00000000
 # define WHITE 0x00FFFFFF
@@ -53,41 +59,10 @@ typedef struct s_objlist	t_objlist;
 typedef struct s_pixel		t_pixel;
 typedef struct s_imgdata	t_imgdata;
 typedef struct s_mlxdata	t_mlxdata;
+typedef struct s_quad_cof	t_quad_cof;
+typedef struct s_quad_sol	t_quad_sol;
 
 // =============================== FUNCTION REFACTORING ========================
-//Typedef that contains variables for the base cap intersection.
-typedef struct s_base_cap_intersection
-{
-	t_vector	*vector_centroid_base;
-	t_point		*point_center_base;
-	t_plane		*plane_base_cylinder;
-	t_vector	*vector_base_intersection;
-	double		d_sq;
-	double		radius_sq;
-}				t_base_cap_intersection;
-
-//Typedef of cylinder helper function.
-typedef struct s_top_cap_intersection
-{
-	t_vector	*vector_centroid_top;
-	t_point		*point_center_top;
-	t_plane		*plane_top_cylinder;
-	t_vector	*vector_top_intersection;
-	double		d_sq;
-	double		radius_sq;
-}				t_top_cap_intersection;
-
-//Typedef contains variables freed in intersection ray cylinder.
-typedef struct s_ray_cylinder
-{
-	t_vector	*vector_ray;
-	t_vector	*vector_cylinder;
-	t_vector	*vector_ray_origin_base_center;
-	double		distance_cylinder_axis;
-	double		coefficient[3];
-	double		*quadratic_result;
-}				t_ray_cylinder;
-
 //Typedef declares variables required by the string to double conversion.
 typedef struct s_atof_vars
 {
@@ -99,26 +74,47 @@ typedef struct s_atof_vars
 	int		non_zero_out;
 }			t_atof_vars;
 
-//Typedef contains several variables for the ray-sphere intersection function.
-typedef struct s_rs
+//Typedef contains several variables for the plane-sphere intersect operation.
+typedef struct s_itsct_plane
 {
-	double	t0;
-	double	t1;
-	double	y;
-	int		intersect;
-}			t_rs;
-
-//Typedef contains several variables for the plane-sphere intersection function.
-typedef struct s_intersect_plane
-{
+	t_intersect	*itsct;
 	t_vector	*ray_dir_vec;
-	t_vector	*polo;
+	t_vector	*ray_to_plane;
 	t_vector	*plane_norm_vec;
-	double		dist_center_plane;
-	double		t;
-	double		numerator;
+	double		dist;
 	double		denominator;
-}				t_ip;
+}				t_itsct_plane;
+
+//Typedef contains several variables for the ray-sphere intersection operation.
+typedef struct s_itsct_sphere
+{
+	t_intersect	*itsct;
+	t_quad_cof	*quad;
+	t_quad_sol	*soln;
+	t_vector	*ray_to_ctr;
+	t_vector	*vec_ray_dir;
+}				t_itsct_sphere;
+
+//Typedef contains several variables for the ray-sphere intersection operation.
+typedef struct s_itsct_cyl
+{
+	t_intersect	*itsct;
+	t_intersect	*itsct_shaft;
+	t_intersect	*itsct_disc_top;
+	t_intersect	*itsct_disc_base;
+	double		distance;
+	t_quad_sol	*soln;
+	t_point		*ray_orig_trans;
+	t_vector	*vec_ray;
+	t_vector	*vec_orig_trans;
+	t_vector	*vec_cyl_axis;
+	t_vector	*vec_itsct;
+	t_vector	*vec_cyl_to_pt;
+	double		proj_height;
+	t_vector	*proj_centre;
+	t_point		*proj_cent;
+	t_direction	*temp;
+}				t_itsct_cyl;
 
 //Typedef contains several variables for the screen pixel centre function.
 typedef struct s_screen_centre
@@ -139,6 +135,26 @@ typedef struct s_valid_formatting
 	int		i;
 }			t_valid_formatting;
 
+//Typedef defines a struct for refactoring in the secondary intersection pass.
+typedef struct s_sec_itsct_pass
+{
+	int			sec_unren;
+	t_obj		*obj;
+	t_direction	*dir;
+	t_ray		*ray;
+	t_intersect	*temp;
+}				t_sec_itsct_pass;
+
+//Typedef defines a struct for refactoring in the secondary intersection pass.
+typedef struct s_itsct_pass
+{
+	int			unren;
+	t_obj		*obj;
+	t_direction	*dir;
+	t_ray		*ray;
+	t_intersect	*temp;
+}				t_itsct_pass;
+
 //Typedef contains several variables for the intersection pass function.
 typedef struct s_inter_pass
 {
@@ -149,6 +165,43 @@ typedef struct s_inter_pass
 	t_objlist	*list;
 	t_intersect	*temp;
 }				t_inter_pass;
+
+//Typedef includes variables used in cylinder surface normal calculations.
+typedef struct s_surf_norm
+{
+	t_direction	*dir;
+	t_direction	*cyl;
+	double		cx;
+	double		cy;
+	double		cz;
+	double		dist;
+}				t_surf_norm;
+
+// =================================== CALCULATION =============================
+//Typedef enumerates type of solution to a quadratic equation.
+typedef enum quad
+{
+	NO_REAL,
+	ONE,
+	TWO
+}	t_quad;
+
+//Typedef defines a struct contatining a quadratic equation's coefficients.
+typedef struct s_quad_cof
+{
+	double	squared;
+	double	linear;
+	double	constant;
+}			t_quad_cof;
+
+//Typedef defines a struct contatining a solution to a quadratic equation.
+typedef struct s_quad_sol
+{
+	t_quad	sol;
+	double	first;
+	double	second;
+	double	discr;
+}			t_quad_sol;
 
 // ===================================== PROGRAM ===============================
 //Typedef defines a struct for program data.
@@ -267,7 +320,7 @@ typedef struct s_sphere
 	t_point		*centre;
 }				t_sphere;
 
-//Typedef describes a cyclinder in 3D space.
+//Typedef describes a cylinder in 3D space.
 typedef struct s_cylinder
 {
 	t_colour	*colour;
@@ -275,24 +328,57 @@ typedef struct s_cylinder
 	double		height;
 	t_point		*centre;
 	t_direction	*orientation;
+	t_disc		*top_cap;
+	t_disc		*base_cap;
 }				t_cylinder;
 
 // =============================  3D DERIVED ELEMENTS ==========================
+//Typedef enumerates states for an intersection.
+typedef enum state
+{
+	UNCALCULATED,
+	INTERSECTED,
+	MISSED
+}	t_state;
+
+//Typedef enumerates the intersection of a cylinder.
+typedef enum cyl_int
+{
+	SHAFT,
+	TOPCAP,
+	BOTTOMCAP
+}	t_cyl_int;
+
 //Typedef describes an intersection.
 typedef struct s_intersect
 {
-	int			state;
+	t_state		state;
 	double		distance;
+	double		angle;
+	t_direction	*normal;
 	t_colour	*colour;
 	t_point		*point;
 	t_obj		*object;
 }				t_intersect;
 
+//Typedef describes a secondary intersection.
+typedef struct s_sec_itsct
+{
+	t_state		state;
+	double		distance;
+	double		angle;
+	t_point		*point;
+	t_intersect	*parent;
+	t_colour	*shadow;
+}		t_sec_itsct;
+
 //Typedef describes a pixel on the screen.
 typedef struct s_pixel
 {
 	t_point		*point;
-	t_intersect	*intrsct;
+	t_intersect	*itsct;
+	t_sec_itsct	*sec_itsct;
+	t_colour	*colour;
 }				t_pixel;
 
 // ================================= 3D COMPOSITES =============================
@@ -358,9 +444,9 @@ typedef struct s_diffuse
 //Typedef describes an object in a linked list.
 typedef struct s_obj
 {
-	int			unrendered;
+	int			ren;
+	int			sec_ren;
 	t_element	elem;
-	t_colour	colour;
 	t_ambient	*ambient;
 	t_diffuse	*diffuse;
 	t_point		*point;
@@ -382,7 +468,8 @@ typedef struct s_objlist
 {
 	int			list_id;
 	int			num_objects;
-	int			num_unrendered;
+	int			num_unren;
+	int			num_sec_unren;
 	t_obj		*first;
 	t_obj		*last;
 }				t_objlist;
@@ -441,10 +528,22 @@ int				valid_file_contents(const char *filename);
 int				valid_file_formatting(const char *filename);
 
 // ================================ OBJECT CREATION ============================
+//Function creates a colour.
+t_colour		*colour_create(void);
 //Function copies a colour to a new one.
 t_colour		*colour_copy(t_colour *colour);
+//Function creates a colour from the full colour.
+t_colour		*colour_full(int full);
 //Function creates a colour from an input string. ("0-255,0-255,0-255")
 t_colour		*colour_str(const char *str);
+//Function adds two colours, creating a new one.
+t_colour		*colour_add(t_colour *col1, t_colour *col2);
+//Function subtracts two colours, creating a new one.
+t_colour		*colour_subtract(t_colour *source, t_colour *col);
+//Function applies a factor to a colour.
+t_colour		*colour_factor(double factor, t_colour *col);
+//Function works out the colour contribution corresponding to ambient light.
+t_colour		*colour_amb_cont(t_ambient *ambient);
 //Function creates a new diffuse from a valid input line.
 t_diffuse		*diffuse_line(const char *line);
 //Function creates and initialises a point.
@@ -482,6 +581,10 @@ t_vector		*vector_copy(t_vector *vector);
 t_vector		*vector_scale_direction(double scalar, t_direction *dir);
 //Function creates a new defined vector object from two points.
 t_vector		*vector_two_points(t_point *start, t_point *end);
+//Function creates a vector from the origin to a point.
+t_vector		*vector_point(t_point *point);
+//Function creates a vector from its components.
+t_vector		*vector_components(double x_comp, double y_comp, double z_comp);
 //Function creates a new defined vector object from magnitude and direction.
 t_vector		*vector_mag_dir(double mag, t_direction *dir);
 //Function creates and initialises a ray.
@@ -666,6 +769,14 @@ void			free_obj_lists(t_objlist *first);
 void			free_list(t_objlist *list);
 //Function frees an object.
 void			free_object(t_obj *object);
+//Function frees a secondary intersection.
+void			free_sec_intersection(t_sec_itsct *sec);
+//Function frees the intermediate results of the ray-sphere intersect calc.
+void			free_is(t_itsct_sphere *is);
+//Function frees the intermediate results of the ray-cylinder intersect calc.
+void			free_ic(t_itsct_cyl *ic);
+//Function frees a colour.
+void			free_colour(t_colour *colour);
 
 // ================================== LINKED LISTS =============================
 //Function creates a new program data structure.
@@ -691,10 +802,14 @@ double			distance_two_points(t_point *point_one, t_point *point_two);
 //Function works out the magnitude of a vector from its components.
 double			magnitude_components(double x_comp, \
 										double y_comp, double z_comp);
+//Function solves a quadratic equation in form ax^2+bx+c using Muller's method.
+t_quad_sol		solve_quadratic(t_quad_cof coeffs);
 //Function works out the vector cross product of two directions.
 t_direction		*direction_cross(t_direction *first, t_direction *second);
 //Function returns the cross product with a positive z-axis component.
 t_direction		*direction_cross_up(t_direction *first, t_direction *second);
+//Function gives a point that is the subtraction of point 2 from point 1.
+t_point			*point_subtract(t_point *p1, t_point *p2);
 //Function counts the number of ambient objects in an object list.
 int				objlist_count_ambient(t_objlist *objlist);
 //Function counts the number of light objects in an object list.
@@ -717,8 +832,6 @@ t_ambient		*ambient_objlist(t_objlist *objlist);
 t_diffuse		*diffuse_objlist(t_objlist *objlist);
 //Solves quadratic equation
 double			*solve_quadratic_real(double *coefficient);
-//Produces the distance between the point of origin to the point of intersection
-t_point			*get_intersection_point(t_ray *ray, double distance);
 //Function that returns a reversed direction, inherit both directions
 t_direction		*reverse_direction(t_direction *direction);
 // ---------------------------------- INTERSECTIONS ----------------------------
@@ -728,21 +841,21 @@ int				ray_sphere_intersection(t_ray *ray, t_sphere *sphere);
 t_intersect		*intersection_ray_plane(t_ray *ray, t_plane *plane);
 //Function that gets the intersection point between a ray and a sphere element.
 t_intersect		*intersection_ray_sphere(t_ray *ray, t_sphere *sphere);
+//Function works out the intersection between a ray and a cylinder shaft.
+t_intersect		*intersection_ray_shaft(t_ray *ray, t_cylinder *cyl, \
+										t_itsct_cyl *ic);
 //Function works out the intersection between a ray and an object.
 t_intersect		*intersection_ray_obj(t_ray *ray, t_obj *obj);
 //Function adds colour to the intersection of an object.
 void			intersection_colour(t_objlist *objlist, t_intersect *intersect);
+//Function creates an initialises a secondary intersection.
+t_sec_itsct		*sec_intersect_create(void);
+//Function assigns the relevant primary intersection data to a secondary itsct.
+t_sec_itsct		*sec_intersect_prim(t_intersect *primary);
+//Function calculates a secondary intersection from the scene with an object.
+t_sec_itsct		*sec_itsct_calc(t_objlist *objlist, t_pixel *pix, t_obj *obj);
 //Checks for an itersection between a ray and a cylinder.
 t_intersect		*intersection_ray_cylinder(t_ray *ray, t_cylinder *cylinder);
-//Shapes an infinite cylinder and shapes finite cylinder with caps.
-void			cylinder_mantle_caps(t_ray_cylinder *t, \
-			t_intersect *cylinder_intersect, t_ray *ray, t_cylinder *cylinder);
-//FUNCTION WITHOUT DESCRIPTION
-t_intersect		*top_cap_intersection(t_cylinder *cylinder, \
-								t_ray *ray, t_intersect *cylinder_intersect);
-//FUNCTION WITHOUT DESCRIPTION
-t_intersect		*base_cap_intersection(t_cylinder *cylinder, \
-								t_ray *ray, t_intersect *cylinder_intersect);
 
 // ------------------------------- VECTOR OPERATIONS ---------------------------
 //Function adds two vectors together.
@@ -755,10 +868,12 @@ t_vector		*vector_scale(double scalar, t_vector *vector);
 t_vector		*vector_cross(t_vector *first, t_vector *second);
 //Function works out the dot product of two vectors.
 double			vector_dot(t_vector *first, t_vector *second);
+//Function works out the dot product of two directions.
+double			direction_dot(t_direction *dir1, t_direction *dir2);
 
 // ------------------------------- COLOUR OPERATIONS ---------------------------
 //Function adds ambient light to a colour.
-t_colour		*colour_ambient(unsigned int full, t_ambient *ambient);
+t_colour		*colour_ambient(t_colour *col, t_ambient *ambient);
 //Function works out the ambient light colour from an object list.
 t_colour		*colour_ambient_list(t_objlist *objlist);
 //Function assigns a colour to an existing cylinder.
@@ -766,7 +881,8 @@ void			cylinder_colour(t_colour *colour, t_cylinder *cylinder);
 //Function determines the colour of an object.
 t_colour		*colour_object(t_obj *object);
 //Function works out the lighting of an intersection based on objects.
-void			colour_lighting(t_objlist *objlist, t_intersect *intersect);
+void			colour_itsct_lighting(t_objlist *objlist, \
+										t_intersect *intersect);
 //Function works out the lighting effect of a diffuse light on a point. Linear.
 void			colour_diffuse_linear(t_colour *colour, t_diffuse *difflight, \
 										t_point *point);
@@ -790,12 +906,20 @@ void			screen_pixel_centres(int width, int height, t_camera *camera, \
 										t_screen *screen);
 
 // =================================== RENDERING ===============================
+//Function renders a single pixel fully, regarding all possible intersections.
+void			render_pixel(t_program *program, t_pixel *pixel);
 //Function performs a render through the screen for the input object.
 void			render_intersection_pass(t_program *program, t_obj *obj);
+//Function calculates a primary intersection for a pixel.
+void			primary_intersection_pass(t_program *program, t_pixel *pixel);
+//Function calculates a secondary intersection for a pixel.
+void			secondary_intersection_pass(t_program *program, t_pixel *pixel);
 //Function performs the operations required to render the program window/screen.
 void			render_screen(t_program *program);
 //Function assigns each pixel its colour.
 void			window_draw(t_program *program);
+//Function draws an image from each pixel's colour.
+void			image_draw(t_program *program);
 //Function groups the MLX looping functions. Operates hooks and main loop.
 void			mlx_looping(t_program *program);
 

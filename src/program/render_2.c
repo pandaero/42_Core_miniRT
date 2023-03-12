@@ -6,58 +6,34 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 16:52:23 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/13 15:23:57 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/20 13:28:37 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minirt.h"
 
-//Function fills an intersection for a pixel.
-static void	intersection_pass(t_program *program, t_obj *obj, int ii[2])
+//Function gives colour to a pixel.
+void	pixel_colouring(t_program *program, t_pixel *pixel)
 {
-	t_inter_pass	strct;
-
-	strct.list = program->objlist;
-	strct.cam = camera_program(program);
-	strct.scr = screen_program(program);
-	strct.dir = direction_two_points(strct.cam->location, \
-									strct.scr->pixels[ii[0]][ii[1]]->point);
-	strct.ray = ray_start_dir(strct.scr->pixels[ii[0]][ii[1]]->point, \
-																strct.dir);
-	strct.temp = intersection_ray_obj(strct.ray, obj);
-	if (object_first_list(program->objlist) == obj)
-		strct.scr->pixels[ii[0]][ii[1]]->intrsct = \
-			intersection_ray_obj(strct.ray, obj);
-	if (strct.temp->distance < \
-			strct.scr->pixels[ii[0]][ii[1]]->intrsct->distance)
+	if (pixel->sec_itsct)
 	{
-		free_intersection(strct.scr->pixels[ii[0]][ii[1]]->intrsct);
-		strct.scr->pixels[ii[0]][ii[1]]->intrsct = strct.temp;
+		if (pixel->sec_itsct->state == INTERSECTED)
+			pixel->colour = colour_subtract(pixel->itsct->colour, \
+							pixel->sec_itsct->shadow);
+		else
+			pixel->colour = colour_copy(pixel->itsct->colour);
 	}
+	else if (pixel->itsct->state == INTERSECTED)
+		pixel->colour = colour_copy(pixel->itsct->colour);
 	else
-		free_intersection(strct.temp);
-	strct.scr->pixels[ii[0]][ii[1]]->intrsct->object = obj;
-	intersection_colour(strct.list, strct.scr->pixels[ii[0]][ii[1]]->intrsct);
-	free_direction(strct.dir);
-	free_ray(strct.ray);
+		pixel->colour = colour_ambient_list(program->objlist);
 }
 
-//Function performs a render through the screen for the input object.
-void	render_intersection_pass(t_program *program, t_obj *object)
+//Function renders a single pixel fully, regarding all possible intersections.
+void	render_pixel(t_program *program, t_pixel *pixel)
 {
-	int	ii[2];
-
-	ii[0] = 0;
-	while (ii[0] < WIN_HEIGHT)
-	{
-		ii[1] = 0;
-		while (ii[1] < WIN_WIDTH)
-		{
-			intersection_pass(program, object, ii);
-			ii[1]++;
-		}
-		ii[0]++;
-	}
-	object->unrendered = 0;
-	program->objlist->num_unrendered--;
+	primary_intersection_pass(program, pixel);
+	if (diffuse_objlist(program->objlist) && pixel->itsct->state == INTERSECTED)
+		secondary_intersection_pass(program, pixel);
+	pixel_colouring(program, pixel);
 }

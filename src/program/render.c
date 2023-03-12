@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 02:55:08 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/08 16:54:37 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/20 13:17:59 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,27 @@ void	render_empty_scene(t_program *program)
 		while (ii[1] < WIN_WIDTH)
 		{
 			pixel = scr->pixels[ii[0]][ii[1]];
-			pixel->intrsct = intersect_create();
-			pixel->intrsct->colour = colour_ambient_list(program->objlist);
+			pixel->colour = colour_ambient_list(program->objlist);
+			ii[1]++;
+		}
+		ii[0]++;
+	}
+}
+
+//Function performs rendering based on a scene with objects.
+void	render_object_scene(t_program *program)
+{
+	int			ii[2];
+	t_pixel		*pixel;
+
+	ii[0] = 0;
+	while (ii[0] < WIN_HEIGHT)
+	{
+		ii[1] = 0;
+		while (ii[1] < WIN_WIDTH)
+		{
+			pixel = screen_program(program)->pixels[ii[0]][ii[1]];
+			render_pixel(program, pixel);
 			ii[1]++;
 		}
 		ii[0]++;
@@ -39,34 +58,16 @@ void	render_empty_scene(t_program *program)
 void	render_screen(t_program *program)
 {
 	t_screen	*screen;
-	t_obj		*obj;
 
 	screen = screen_camera(WIN_WIDTH, WIN_HEIGHT, camera_program(program));
 	list_add_object(program->objlist, object_screen(screen));
-	if (program->objlist->num_unrendered == 0)
-	{
+	if (program->objlist->num_unren == 0)
 		render_empty_scene(program);
-		return ;
-	}
-	while (program->objlist->num_unrendered > 0)
-	{
-		obj = object_unrendered_list(program->objlist);
-		render_intersection_pass(program, obj);
-	}
+	else
+		render_object_scene(program);
 }
 
-//Function assigns colour to an intersection.
-void	intersection_colour(t_objlist *list, t_intersect *intersect)
-{
-	if (intersect->state == 0)
-	{
-		intersect->colour = colour_ambient_list(list);
-		return ;
-	}
-	colour_lighting(list, intersect);
-}
-
-//Function assigns each pixel its colour.
+//Function assigns each window pixel its colour.
 void	window_draw(t_program *program)
 {
 	int			i;
@@ -81,7 +82,7 @@ void	window_draw(t_program *program)
 		while (j < WIN_WIDTH)
 		{
 			quick_put_pixel(program->mldt->imdt, j, i, \
-					scr->pixels[i][j]->intrsct->colour->full);
+					scr->pixels[i][j]->colour->full);
 			j++;
 		}
 		i++;

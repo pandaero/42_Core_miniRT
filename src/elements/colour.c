@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 16:41:50 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/13 15:27:58 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/02/21 18:24:06 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,23 @@ t_colour	*colour_copy(t_colour *colour)
 	return (col);
 }
 
-//Function gets a colour value from an input string. ("0-255,0-255,0-255")
+//Function creates a colour from the full colour.
+t_colour	*colour_full(int full)
+{
+	t_colour	*new;
+
+	new = (t_colour *)malloc(sizeof(t_colour));
+	if (!new)
+		return (NULL);
+	new->full = full;
+	new->trans = full & 0xFF000000;
+	new->red = full & 0xFF0000;
+	new->green = full & 0xFF00;
+	new->blue = full & 0xFF;
+	return (new);
+}
+
+//Function creates a colour from an input string. ("0-255,0-255,0-255")
 t_colour	*colour_str(const char *str)
 {
 	t_colour	*col;
@@ -65,35 +81,10 @@ t_colour	*colour_str(const char *str)
 	col->red = ft_atoi(split[0]);
 	col->green = ft_atoi(split[1]);
 	col->blue = ft_atoi(split[2]);
-	col->full = col->trans + col->red + col->green + col->blue;
+	col->full = col->trans * 0x1000000 + col->red * 0x10000 + \
+				col->green * 0x100 + col->blue;
 	free_split(split);
 	return (col);
-}
-
-//Function adds ambient light to a colour.
-t_colour	*colour_ambient(unsigned int full, t_ambient *ambient)
-{
-	t_colour	*ret;
-
-	ret = colour_create();
-	ret->trans = 0;
-	ret->red = ambient->ratio * ambient->colour->red + \
-				((full & 0x00FF0000) >> 16);
-	if (ret->red > 255)
-		ret->red = 255;
-	ret->green = ambient->ratio * ambient->colour->green + \
-				((full & 0x0000FF00) >> 8);
-	if (ret->green > 255)
-		ret->green = 255;
-	ret->blue = ambient->ratio * ambient->colour->blue + \
-				((full & 0x000000FF));
-	if (ret->blue > 255)
-		ret->blue = 255;
-	ret->full = ret->trans * 0x01000000 + ret->red * 0x00010000 + \
-				ret->green * 0x00000100 + ret->blue;
-	if (ret->full > WHITE)
-		ret->full = WHITE;
-	return (ret);
 }
 
 //Function determines the colour of an object.

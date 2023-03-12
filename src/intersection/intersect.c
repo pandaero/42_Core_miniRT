@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   intersect.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pbiederm <pbiederm@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 18:51:09 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/12 13:15:21 by pbiederm         ###   ########.fr       */
+/*   Updated: 2023/03/11 12:23:07 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minirt.h"
 #include <stdlib.h>
 #include <limits.h>
+#include <float.h>
 
 //Function creates and initialises an intersection.
 t_intersect	*intersect_create(void)
@@ -20,9 +21,10 @@ t_intersect	*intersect_create(void)
 	t_intersect	*new;
 
 	new = (t_intersect *)malloc(sizeof(t_intersect));
-	new->state = 0;
+	new->state = UNCALCULATED;
 	new->colour = NULL;
-	new->distance = __DBL_MAX__;
+	new->normal = NULL;
+	new->distance = DBL_MAX;
 	new->point = NULL;
 	return (new);
 }
@@ -36,6 +38,7 @@ t_intersect	*intersect_copy(t_intersect *intersect)
 	new->state = intersect->state;
 	new->colour = colour_copy(intersect->colour);
 	new->distance = intersect->distance;
+	new->normal = direction_copy(intersect->normal);
 	new->point = point_copy(intersect->point);
 	return (new);
 }
