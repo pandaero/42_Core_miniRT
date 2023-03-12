@@ -16,9 +16,18 @@
 //Function handles the window closing action.
 int	closing(t_program *program)
 {
-	mlx_destroy_window(program->mldt->mlx, program->mldt->window);
-	free_program(program);
-	exit(0);
+    if (program->mldt)
+    {
+        if (program->mldt->imdt->image)
+            mlx_destroy_image(program->mldt->mlx, program->mldt->imdt->image);
+        if (program->mldt->window)
+        {
+            mlx_clear_window(program->mldt->mlx, program->mldt->window);
+            mlx_destroy_window(program->mldt->mlx, program->mldt->window);
+        }
+    }
+    free_program(program);
+    exit(0);
 }
 
 //Function handles key releases.

@@ -17,29 +17,22 @@
 void	define_screen_pts_vecs(int width, int height, t_camera *camera, \
 								t_screen *screen)
 {
-	t_scr_pts	*pts;
-	t_scr_vec	*vec;
-
-	screen->pts = (t_scr_pts *)malloc(sizeof(t_scr_pts));
-	screen->vecs = (t_scr_vec *)malloc(sizeof(t_scr_vec));
-	pts = screen->pts;
-	vec = screen->vecs;
-	pts->centre = screen_centre(width, camera);
-	vec->normal = direction_copy(camera->view_dir);
-	vec->screen_up = screen_up(camera);
-	vec->screen_right = direction_cross(vec->normal, vec->screen_up);
-	vec->vec_up = vector_scale_direction(VIEW_SCALING, vec->screen_up);
-	vec->vec_down = vector_scale_direction(-1 * VIEW_SCALING, vec->screen_up);
-	vec->vec_left = vector_scale_direction(-1 * VIEW_SCALING, \
-											vec->screen_right);
-	vec->vec_right = vector_scale_direction(VIEW_SCALING, vec->screen_right);
-	vec->vec_corner_up = vector_scale(height / 2, vec->vec_up);
-	vec->vec_corner_left = vector_scale(width / 2, vec->vec_left);
-	pts->top_centre = point_point_vector(pts->centre, vec->vec_corner_up);
-	pts->tl_corner = point_point_vector(pts->top_centre, vec->vec_corner_left);
-	vec->vec_screen_rd = vector_add(vec->vec_right, vec->vec_down);
-	vec->vec_screen_rd_0th = vector_scale(0.5, vec->vec_screen_rd);
-	pts->first_px = point_point_vector(pts->tl_corner, vec->vec_screen_rd_0th);
+    screen->pts->centre = screen_centre(width, camera);
+    screen->vecs->normal = direction_copy(camera->view_dir);
+    screen->vecs->screen_up = screen_up(camera);
+    screen->vecs->screen_right = direction_cross(screen->vecs->normal, screen->vecs->screen_up);
+    screen->vecs->vec_up = vector_scale_direction(VIEW_SCALING, screen->vecs->screen_up);
+    screen->vecs->vec_down = vector_scale_direction(-1 * VIEW_SCALING, screen->vecs->screen_up);
+    screen->vecs->vec_left = vector_scale_direction(-1 * VIEW_SCALING, \
+											screen->vecs->screen_right);
+    screen->vecs->vec_right = vector_scale_direction(VIEW_SCALING, screen->vecs->screen_right);
+    screen->vecs->vec_corner_up = vector_scale(height / 2, screen->vecs->vec_up);
+    screen->vecs->vec_corner_left = vector_scale(width / 2, screen->vecs->vec_left);
+    screen->pts->top_centre = point_point_vector(screen->pts->centre, screen->vecs->vec_corner_up);
+    screen->pts->tl_corner = point_point_vector(screen->pts->top_centre, screen->vecs->vec_corner_left);
+    screen->vecs->vec_screen_rd = vector_add(screen->vecs->vec_right, screen->vecs->vec_down);
+    screen->vecs->vec_screen_rd_0th = vector_scale(0.5, screen->vecs->vec_screen_rd);
+    screen->pts->first_px = point_point_vector(screen->pts->tl_corner, screen->vecs->vec_screen_rd_0th);
 }
 
 //Function allocates memory for a 2D array of pixels.

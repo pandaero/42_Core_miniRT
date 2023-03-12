@@ -16,12 +16,6 @@
 //Function frees the program struct.
 void	free_program(t_program *program)
 {
-	if (program->mldt)
-	{
-		free(program->mldt->mlx);
-		free(program->mldt->imdt->image);
-		free(program->mldt);
-	}
 	if (program->objlist)
 		free_list(program->objlist);
 	free(program);
