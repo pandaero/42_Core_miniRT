@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 16:39:14 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/03/12 22:06:45 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/12 23:00:09 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ static void	disc_normal(t_ray *ray, t_disc *disc, t_intersect *itsct)
 		itsct->normal = direction_reverse(disc->normal);
 	else
 		itsct->normal = direction_copy(disc->normal);
-	free_vector(vec_ray);
-	free_vector(vec_normal);
+	// free_vector(vec_ray);
+	// free_vector(vec_normal);
 }
 
 //Function determines the intersection between a ray and a disc.
@@ -53,24 +53,23 @@ static t_intersect	*intersection_ray_disc(t_ray *ray, t_disc *disc)
 		disc_normal(ray, disc, itsct);
 		itsct->state = INTERSECTED;
 	}
-	free_plane(disc_plane);
-	free_intersection(itsct_plane);
+	// free_plane(disc_plane);
+	// free_intersection(itsct_plane);
 	return (itsct);
 }
 
 //Function assigns the intersections for the disc cases.
 static void	assign_intersection_disc(int sw, t_itsct_cyl *ic)
 {
+	free_intersection(ic->itsct);
 	if (sw == 0)
 	{
 		ic->distance = ic->itsct_disc_top->distance;
-		free_intersection(ic->itsct);
 		ic->itsct = ic->itsct_disc_top;
 	}
 	else
 	{
 		ic->distance = ic->itsct_disc_base->distance;
-		free_intersection(ic->itsct);
 		ic->itsct = ic->itsct_disc_base;
 	}
 }
@@ -99,9 +98,9 @@ t_intersect	*intersection_ray_cylinder(t_ray *ray, t_cylinder *cylinder)
 		ic->itsct->state = MISSED;
 		ic->itsct->distance = DBL_MAX;
 	}
-	free_intersection(ic->itsct_disc_top);
-	free_intersection(ic->itsct_disc_base);
+	// free_intersection(ic->itsct_disc_top);
+	// free_intersection(ic->itsct_disc_base);
 	itsct = ic->itsct;
-	free_ic(ic);
+	// free_ic(ic);
 	return (itsct);
 }
