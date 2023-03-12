@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 16:39:14 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/03/12 03:40:14 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/12 22:06:45 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,14 +66,12 @@ static void	assign_intersection_disc(int sw, t_itsct_cyl *ic)
 		ic->distance = ic->itsct_disc_top->distance;
 		free_intersection(ic->itsct);
 		ic->itsct = ic->itsct_disc_top;
-		free_intersection(ic->itsct_disc_base);
 	}
 	else
 	{
 		ic->distance = ic->itsct_disc_base->distance;
 		free_intersection(ic->itsct);
 		ic->itsct = ic->itsct_disc_base;
-		free_intersection(ic->itsct_disc_top);
 	}
 }
 
