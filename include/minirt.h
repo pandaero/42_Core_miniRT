@@ -6,17 +6,22 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/12 03:45:37 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/12 22:37:45 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
 
+// Program options
 # ifndef FILEOUT
 #  define FILEOUT 0
 # endif
+# ifndef STATUS
+#  define STATUS 0
+# endif
 
+// Headers from dependencies
 # include "../libft/libft.h"
 # if defined (__APPLE__)
 #  include "../include/apple_mlx.h"
@@ -28,8 +33,8 @@
 # endif
 
 // Screen resolution
-# define WIN_WIDTH 80
-# define WIN_HEIGHT 60
+# define WIN_WIDTH 800
+# define WIN_HEIGHT 600
 // Factor for screen-pixel coordinate sizing. 
 # define VIEW_SCALING 0.001
 // Factor for diffuse lighting effect
