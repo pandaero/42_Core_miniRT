@@ -6,7 +6,7 @@
 #    By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/16 18:36:19 by pandalaf          #+#    #+#              #
-#    Updated: 2023/03/12 22:45:06 by pandalaf         ###   ########.fr        #
+#    Updated: 2023/03/12 23:08:18 by pandalaf         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,15 @@ NAME	:= minirt
 # Compiler options
 CC		:= cc
 CFLAGS	:= -Wall -Werror -Wextra
-COPT	:= #-g #-fsanitize=address
+
+# Include debugging options
+ifeq ($(DEBUG), 1)
+COPT	:= -g 
+else ifeq ($(DEBUG, 2)
+COPT	:= -g -fsanitize=address
+else
+COPT	:=
+endif
 
 # Make executable output an image file. Usage: make all FILEOUT=1
 ifeq ($(FILEOUT), 1)
