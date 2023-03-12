@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 14:51:50 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/03/12 03:45:04 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/12 22:09:25 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,6 @@ void	free_ic(t_itsct_cyl *ic)
 		free_vector(ic->proj_centre);
 	if (ic->soln)
 		free(ic->soln);
-	if (ic->ray_orig_trans)
-		free_point(ic->ray_orig_trans);
 	if (ic->vec_ray)
 		free_vector(ic->vec_ray);
 	if (ic->vec_orig_trans)
