@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 13:24:52 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/12 03:55:51 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/12 21:34:43 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ static void	sec_itsct_pass_loop(t_program *program, t_pixel *pixel, \
 {
 	t_pixel	*lastpix;
 
-	if (pixel->itsct->colour)
-		free_colour(pixel->itsct->colour);
 	lastpix = screen_program(program)->pixels[WIN_HEIGHT - 1][WIN_WIDTH - 1];
 	stct->temp = intersection_ray_obj(stct->ray, stct->obj);
 	if (stct->temp->state == INTERSECTED && stct->temp->distance \
