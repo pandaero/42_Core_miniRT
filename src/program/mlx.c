@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 22:33:54 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/12 22:51:51 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/12 23:04:26 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,9 @@
 //Function handles the window closing action.
 int	closing(t_program *program)
 {
-	if (program->mldt)
-	{
-		if (program->mldt->imdt->image)
-			mlx_destroy_image(program->mldt->mlx, program->mldt->imdt->image);
-		if (program->mldt->window)
-		{
-			mlx_clear_window(program->mldt->mlx, program->mldt->window);
-			mlx_destroy_window(program->mldt->mlx, program->mldt->window);
-		}
-	}
+	mlx_destroy_image(program->mldt->mlx, program->mldt->imdt->image);
+	mlx_clear_window(program->mldt->mlx, program->mldt->window);
+	mlx_destroy_window(program->mldt->mlx, program->mldt->window);
 	free_program(program);
 	exit(EXIT_SUCCESS);
 }
