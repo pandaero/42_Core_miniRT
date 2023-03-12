@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 16:14:07 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/12 03:44:13 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/12 04:18:56 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 //Function frees a cylinder.
 void	free_cylinder(t_cylinder *cylinder)
 {
+	free_colour(cylinder->colour);
 	free_disc(cylinder->top_cap);
 	free_disc(cylinder->base_cap);
 	free_point(cylinder->centre);
@@ -26,6 +27,7 @@ void	free_cylinder(t_cylinder *cylinder)
 //Function frees an ambient light.
 void	free_ambient(t_ambient *ambient)
 {
+	free_colour(ambient->colour);
 	free(ambient);
 }
 
