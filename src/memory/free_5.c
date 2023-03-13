@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 16:14:07 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/13 03:03:20 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/13 14:00:07 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,26 +36,32 @@ void	free_ambient(t_ambient *ambient)
 //Function frees an intersection.
 void	free_intersection(t_intersect *intersection)
 {
-	if (intersection->state == INTERSECTED)
-	{
-		if (intersection->normal)
-			free_direction(intersection->normal);
-		if (intersection->point)
-			free_point(intersection->point);
-	}
-	if (intersection->colour)
-		free_colour(intersection->colour);
-	free(intersection);
+	// if (intersection->normal)
+	// 	free_direction(intersection->normal);
+	// if (intersection->point)
+	// 	free_point(intersection->point);
+	// if (intersection->colour)
+	// 	free_colour(intersection->colour);
+	// if (intersection)
+	// 	free(intersection);
 	intersection = NULL;
+	(void) intersection;
 }
 
 //Function frees a pixel.
 void	free_pixel(t_pixel *pixel)
 {
 	free_colour(pixel->colour);
-	free_intersection(pixel->itsct);
 	if (pixel->sec_itsct)
+	{
 		free_sec_intersection(pixel->sec_itsct);
+		pixel->sec_itsct = NULL;
+	}
+	if (pixel->itsct)
+	{
+		free_intersection(pixel->itsct);
+		pixel->itsct = NULL;
+	}
 	free_point(pixel->point);
 	free(pixel);
 	pixel = NULL;

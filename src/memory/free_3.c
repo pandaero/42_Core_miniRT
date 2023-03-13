@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 18:53:38 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/13 02:40:22 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/13 13:28:05 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	free_program(t_program *program)
 	if (program->objlist)
 		free_list(program->objlist);
 	free(program);
+	program = NULL;
 }
 
 //Function frees an entire object linked list.
@@ -41,6 +42,7 @@ void	free_list(t_objlist *list)
 		curr = next;
 	}
 	free(list);
+	list = NULL;
 }
 
 //Function frees an object. (cont.)

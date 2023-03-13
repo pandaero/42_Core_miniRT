@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 17:47:39 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/13 02:16:46 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/13 12:14:27 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,9 @@ void	*free_point_null(t_point *point)
 //Function frees all the allocations belonging to a direction object.
 void	free_direction(t_direction *direction)
 {
-	free(direction);
+	if (direction)
+		free(direction);
+	direction = NULL;
 }
 
 //Function frees all the allocations in a direction object, returns NULL.
