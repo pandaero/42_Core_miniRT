@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 19:54:58 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/20 04:44:55 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/13 19:52:06 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,26 +37,26 @@ t_element	element_line(const char *line)
 }
 
 //Function takes an input file line and creates an object.
-t_obj	*object_from_line(t_program *program, const char *line)
+t_obj	*object_from_line(const char *line)
 {
 	t_element	elem;
 
 	elem = element_line(line);
 	if (elem == INVALID || elem == EMPTY)
-		return (NULL);
+		return (object_null());
 	if (elem == AMBIENT)
-		return (object_ambient_line(program, line));
+		return (object_ambient_line(line));
 	if (elem == CAMERA)
-		return (object_camera_line(program, line));
+		return (object_camera_line(line));
 	if (elem == DIFFUSE)
-		return (object_diffuse_line(program, line));
+		return (object_diffuse_line(line));
 	if (elem == PLANE)
-		return (object_plane_line(program, line));
+		return (object_plane_line(line));
 	if (elem == SPHERE)
-		return (object_sphere_line(program, line));
+		return (object_sphere_line(line));
 	if (elem == CYLINDER)
-		return (object_cylinder_line(program, line));
-	return (NULL);
+		return (object_cylinder_line(line));
+	return (object_null());
 }
 
 //Function performs the input file parsing to create program objects.
@@ -69,6 +69,19 @@ void	parse_input_file(t_program *program, const char *filename)
 	if (valid_file_formatting(filename) == 0)
 		error_file_exit(program, "FORMATTING");
 	fill_objects_file(program, filename);
+
+	// t_obj	*curr;
+	// curr = program->objlist->first;
+	// ft_printf("Curr: %p\n", curr);
+	// ft_printf("Curr->next: %p\n", curr->next);
+	// int i = 0;
+	// while (curr)
+	// {
+	// 	ft_printf("OBJ %i, ELEM: %i\n", i, curr->elem);
+	// 	curr = curr->next;
+	// 	i++;
+	// }
+
 	if (valid_elements(program->objlist) == 0)
 		error_file_exit(program, "ELEMENTS");
 }

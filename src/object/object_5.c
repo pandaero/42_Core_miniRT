@@ -6,24 +6,22 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 16:15:19 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/20 00:13:01 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/13 19:48:42 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minirt.h"
 
 //Function makes an ambient light object.
-t_obj	*object_ambient(t_ambient *ambient)
+t_obj	*object_ambient(t_ambient ambient)
 {
 	t_obj	*new;
 
 	new = object_create();
-	if (!new)
-		return (NULL);
 	new->ren = 1;
 	new->sec_ren = 1;
 	new->elem = AMBIENT;
-	new->ambient = ambient;
+	new->ambient = ambient_copy(ambient);
 	return (new);
 }
 
@@ -45,19 +43,4 @@ t_obj	*object_first_list(t_objlist *objlist)
 			curr = curr->next;
 	}
 	return (NULL);
-}
-
-//Function creates a disc object.
-t_obj	*object_disc(t_disc *disc)
-{
-	t_obj	*new;
-
-	new = object_create();
-	if (!new)
-		return (NULL);
-	new->ren = 1;
-	new->sec_ren = 1;
-	new->elem = DISC;
-	new->disc = disc;
-	return (new);
 }

@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 11:48:53 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/11 21:00:33 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/14 00:06:16 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ static void	write_ppm_pix_file(t_pixel *pix, int fd)
 	int	green;
 	int	blue;
 
-	red = (pix->colour->full & 0xFF0000) >> 16;
-	green = (pix->colour->full & 0xFF00) >> 8;
-	blue = pix->colour->full & 0xFF;
+	red = (pix->colour.full & 0xFF0000) >> 16;
+	green = (pix->colour.full & 0xFF00) >> 8;
+	blue = pix->colour.full & 0xFF;
 	ft_putnbr_fd(red, fd);
 	ft_putchar_fd(' ', fd);
 	ft_putnbr_fd(green, fd);

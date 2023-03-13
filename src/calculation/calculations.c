@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:30:27 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/20 14:38:29 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/13 15:50:04 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ double	radians_degrees(double deg)
 }
 
 //Function works out the length/distance between two points.
-double	distance_two_points(t_point *point_one, t_point *point_two)
+double	distance_two_points(t_point point_one, t_point point_two)
 {
 	double	distance;
 
-	distance = sqrt(pow(point_two->x_co - point_one->x_co, 2)
-			+ pow(point_two->y_co - point_one->y_co, 2)
-			+ pow(point_two->z_co - point_one->z_co, 2));
+	distance = sqrt(pow(point_two.x_co - point_one.x_co, 2)
+			+ pow(point_two.y_co - point_one.y_co, 2)
+			+ pow(point_two.z_co - point_one.z_co, 2));
 	return (distance);
 }
 
@@ -40,58 +40,37 @@ double	magnitude_components(double x_comp, double y_comp, double z_comp)
 }
 
 //Function works out the direction component of the vector cross product.
-t_direction	*direction_cross(t_direction *first, t_direction *second)
+t_direction	direction_cross(t_direction first, t_direction second)
 {
-	t_vector	*vec_prod;
-	t_direction	*unit_dir;
+	t_vector	vec_prod;
+	t_direction	unit_dir;
 
-	vec_prod = vector_create();
-	if (!vec_prod)
-		return (NULL);
-	vec_prod->x_comp = first->y_comp * second->z_comp - \
-			first->z_comp * second->y_comp;
-	vec_prod->y_comp = first->z_comp * second->x_comp - \
-			first->x_comp * second->z_comp;
-	vec_prod->z_comp = first->x_comp * second->y_comp - \
-			first->y_comp * second->x_comp;
-	vec_prod->mag = magnitude_components(vec_prod->x_comp, vec_prod->y_comp, \
-			vec_prod->z_comp);
-	vec_prod->dir = direction_components(vec_prod->x_comp / vec_prod->mag, \
-										vec_prod->y_comp / vec_prod->mag, \
-										vec_prod->z_comp / vec_prod->mag);
+	vec_prod.x_comp = first.y_comp * second.z_comp - \
+			first.z_comp * second.y_comp;
+	vec_prod.y_comp = first.z_comp * second.x_comp - \
+			first.x_comp * second.z_comp;
+	vec_prod.z_comp = first.x_comp * second.y_comp - \
+			first.y_comp * second.x_comp;
+	vec_prod.mag = magnitude_components(vec_prod.x_comp, vec_prod.y_comp, \
+			vec_prod.z_comp);
+	vec_prod.dir = direction_components(vec_prod.x_comp / vec_prod.mag, \
+										vec_prod.y_comp / vec_prod.mag, \
+										vec_prod.z_comp / vec_prod.mag);
 	unit_dir = direction_vector(vec_prod);
-	if (!unit_dir)
-		return (free_vector_null(vec_prod));
-	free_vector(vec_prod);
 	return (unit_dir);
 }
 
 //Function returns the direction component of cross product that points z+.
-t_direction	*direction_cross_up(t_direction *first, t_direction *second)
+t_direction	direction_cross_up(t_direction first, t_direction second)
 {
-	t_direction	*cross1;
-	t_direction	*cross2;
+	t_direction	cross1;
+	t_direction	cross2;
 
 	cross1 = direction_cross(first, second);
-	if (!cross1)
-		return (NULL);
 	cross2 = direction_cross(second, first);
-	if (!cross2)
-	{
-		free_direction(cross1);
-		return (NULL);
-	}
-	if (cross1->z_comp > 0)
-	{
-		free_direction(cross2);
+	if (cross1.z_comp > 0)
 		return (cross1);
-	}
-	else if (cross2->z_comp >= 0)
-	{
-		free_direction(cross1);
+	else if (cross2.z_comp >= 0)
 		return (cross2);
-	}
-	else
-		free_direction(cross1);
 	return (cross2);
 }
