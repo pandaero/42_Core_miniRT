@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 02:55:08 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/12 22:46:09 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/13 02:53:10 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,23 +39,21 @@ void	render_empty_scene(t_program *program)
 void	render_object_scene(t_program *program)
 {
 	int			ii[2];
-	int			perc[2];
-	int			num;
-	int			tot;
+	int			perc[4];
 	t_pixel		*pixel;
 
-	tot = WIN_HEIGHT * WIN_WIDTH;
+	perc[4] = WIN_HEIGHT * WIN_WIDTH;
 	ii[0] = 0;
 	while (ii[0] < WIN_HEIGHT)
 	{
 		ii[1] = 0;
 		while (ii[1] < WIN_WIDTH)
 		{
-			num = (ii[0] * WIN_WIDTH + ii[1]);
+			perc[3] = (ii[0] * WIN_WIDTH + ii[1]);
 			pixel = screen_program(program)->pixels[ii[0]][ii[1]];
 			render_pixel(program, pixel);
-			perc[0] = round(num / tot);
-			perc[1] = round(10 * num / tot);
+			perc[0] = round(perc[3] / perc[4]);
+			perc[1] = round(10 * perc[3] / perc[4]);
 			if (STATUS == 2)
 				ft_printf("Rendering... %i.%i%%\r", perc[0], perc[1]);
 			ii[1]++;
