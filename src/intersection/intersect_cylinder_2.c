@@ -37,7 +37,7 @@ static void	initial_conditions(t_ray *ray, t_cylinder *cyl, t_itsct_cyl *ic)
 	ic->soln = &quad_soln;
 	ic->proj_cent = NULL;
 	ic->proj_centre = NULL;
-	ic->ray_orig_trans = NULL;
+//	ic->ray_orig_trans = NULL;
 	ic->vec_itsct = NULL;
 	ic->vec_cyl_to_pt = NULL;
 }
@@ -79,12 +79,12 @@ static void	determine_within_shaft_and_normal(t_ray *ray, t_cylinder *cyl, \
 	{
 		ic->temp = ic->itsct_shaft->normal;
 		ic->itsct_shaft->normal = direction_reverse(ic->temp);
-		free(ic->temp);
+//		free(ic->temp);
 	}
 }
 
 //Function works out the intersection between a ray and a cylinder shaft.
-t_intersect	*intersection_ray_shaft(t_ray *ray, t_cylinder *cyl, \
+void intersection_ray_shaft(t_ray *ray, t_cylinder *cyl, \
 									t_itsct_cyl *ic)
 {
 	initial_conditions(ray, cyl, ic);
@@ -108,6 +108,6 @@ t_intersect	*intersection_ray_shaft(t_ray *ray, t_cylinder *cyl, \
 			ic->itsct_shaft->state = MISSED;
 	}
 	if (ic->itsct_shaft->state != MISSED)
-		determine_within_shaft_and_normal(ray, cyl, ic);
-	return (ic->itsct_shaft);
+        determine_within_shaft_and_normal(ray, cyl, ic);
+//	return (ic->itsct_shaft);
 }

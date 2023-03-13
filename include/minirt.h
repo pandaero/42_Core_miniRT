@@ -842,7 +842,7 @@ t_intersect		*intersection_ray_plane(t_ray *ray, t_plane *plane);
 //Function that gets the intersection point between a ray and a sphere element.
 t_intersect		*intersection_ray_sphere(t_ray *ray, t_sphere *sphere);
 //Function works out the intersection between a ray and a cylinder shaft.
-t_intersect		*intersection_ray_shaft(t_ray *ray, t_cylinder *cyl, \
+void            intersection_ray_shaft(t_ray *ray, t_cylinder *cyl, \
 										t_itsct_cyl *ic);
 //Function works out the intersection between a ray and an object.
 t_intersect		*intersection_ray_obj(t_ray *ray, t_obj *obj);

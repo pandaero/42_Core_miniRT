@@ -30,7 +30,8 @@ void	free_ambient(t_ambient *ambient)
 //Function frees an intersection.
 void	free_intersection(t_intersect *intersection)
 {
-	free_point(intersection->point);
+    if(intersection->point)
+	    free_point(intersection->point);
 	free(intersection);
 }
 

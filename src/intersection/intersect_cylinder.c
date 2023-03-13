@@ -53,52 +53,99 @@ static t_intersect	*intersection_ray_disc(t_ray *ray, t_disc *disc)
 		disc_normal(ray, disc, itsct);
 		itsct->state = INTERSECTED;
 	}
+//    free_direction(disc->normal);
+//    free_point(disc->centre);
+//    free_colour(disc->colour);
 	free_plane(disc_plane);
 	free_intersection(itsct_plane);
 	return (itsct);
 }
 
 //Function assigns the intersections for the disc cases.
-static void	assign_intersection_disc(int sw, t_itsct_cyl *ic)
-{
-	if (sw == 0)
-	{
-		ic->distance = ic->itsct_disc_top->distance;
-		free_intersection(ic->itsct);
-		ic->itsct = ic->itsct_disc_top;
-		free_intersection(ic->itsct_disc_base);
-	}
-	else
-	{
-		free_intersection(ic->itsct);
-		ic->itsct = ic->itsct_disc_base;
-		free_intersection(ic->itsct_disc_top);
-	}
-}
+//static void	assign_intersection_disc(int sw, t_itsct_cyl *ic)
+//{
+//	if (sw == 0)
+//	{
+//		ic->distance = ic->itsct_disc_top->distance;
+//		free_intersection(ic->itsct);
+//		ic->itsct = ic->itsct_disc_top;
+//		free_intersection(ic->itsct_disc_base);
+//	}
+//	else
+//	{
+//		free_intersection(ic->itsct);
+//		ic->itsct = ic->itsct_disc_base;
+//		free_intersection(ic->itsct_disc_top);
+//	}
+//}
 
 //Function determines the intersection between a ray and a cylinder.
 t_intersect	*intersection_ray_cylinder(t_ray *ray, t_cylinder *cylinder)
 {
 	t_itsct_cyl	ic;
+    t_intersect *itsct = intersect_create();
 
-	ic.itsct = intersection_ray_shaft(ray, cylinder, &ic);
+    ic.temp = NULL;
+
+	intersection_ray_shaft(ray, cylinder, &ic);
 	ic.itsct_disc_top = intersection_ray_disc(ray, cylinder->top_cap);
 	ic.itsct_disc_base = intersection_ray_disc(ray, cylinder->base_cap);
-	ic.distance = DBL_MAX;
-	if (ic.itsct->state != MISSED)
-		ic.distance = ic.itsct->distance;
-	if (ic.itsct_disc_top->distance < ic.distance && \
-		ic.itsct_disc_top->state == INTERSECTED)
-		assign_intersection_disc(0, &ic);
-	else if (ic.itsct_disc_base->distance < ic.distance && \
-				ic.itsct_disc_base->state == INTERSECTED)
-		assign_intersection_disc(1, &ic);
-	if (ic.itsct->state != INTERSECTED)
-	{
-		ic.itsct->state = MISSED;
-		ic.itsct->distance = DBL_MAX;
-	}
-	ic.itsct->colour = colour_copy(cylinder->colour);
+//	ic.distance = DBL_MAX;
+//	if (ic.itsct->state != MISSED)
+//		ic.distance = ic.itsct->distance;
+//	if (ic.itsct_disc_top->distance < ic.distance &&
+//		ic.itsct_disc_top->state == INTERSECTED)
+//		assign_intersection_disc(0, &ic);
+//	else if (ic.itsct_disc_base->distance < ic.distance &&
+//				ic.itsct_disc_base->state == INTERSECTED)
+//		assign_intersection_disc(1, &ic);
+//	if (ic.itsct->state != INTERSECTED)
+//	{
+//		ic.itsct->state = MISSED;
+//		ic.itsct->distance = DBL_MAX;
+//	}
+//	ic.itsct->colour = NULL;
+    if(ic.itsct_shaft->state == MISSED && ic.itsct_disc_top->state == MISSED && ic.itsct_disc_base->state == MISSED)
+    {
+        itsct->state = MISSED;
+        itsct->point = NULL;
+        itsct->normal = NULL;
+        itsct->distance = DBL_MAX;
+        itsct->colour = NULL;
+    }
+    else if (ic.itsct_disc_top->distance < ic.itsct_shaft->distance  && ic.itsct_disc_top->distance < ic.itsct_disc_base->distance)
+    {
+        itsct->state = INTERSECTED;
+        itsct->normal = direction_copy(ic.itsct_disc_top->normal);
+        itsct->point = point_copy(ic.itsct_disc_top->point);
+        itsct->distance = ic.itsct_disc_top->distance ;
+        itsct->colour = colour_copy(cylinder->colour);
+    }
+    else if (ic.itsct_disc_base->distance < ic.itsct_shaft->distance  && ic.itsct_disc_base->distance < ic.itsct_disc_top->distance)
+    {
+        itsct->state = INTERSECTED;
+        itsct->point = point_copy(ic.itsct_disc_base->point);
+        itsct->normal = direction_copy(ic.itsct_disc_base->normal);
+        itsct->distance = ic.itsct_disc_base->distance ;
+        itsct->colour = colour_copy(cylinder->colour);
+    }
+    else if(ic.itsct_shaft->point == NULL || ic.itsct_shaft->normal == NULL || ic.itsct_shaft->normal == NULL)
+    {
+        itsct->state = MISSED;
+        itsct->point = NULL;
+        itsct->normal = NULL;
+        itsct->distance = DBL_MAX;
+        itsct->colour = NULL;
+    }
+    else if (ic.itsct_shaft->distance <  ic.itsct_disc_top->distance && ic.itsct_shaft->distance < ic.itsct_disc_base->distance)
+    {
+        itsct->state = INTERSECTED;
+        itsct->point = point_copy(ic.itsct_shaft->point);
+        itsct->normal = direction_copy(ic.itsct_shaft->normal);
+        itsct->distance = ic.itsct_shaft->distance;
+        itsct->colour = colour_copy(cylinder->colour);
+    }
+
 	free_ic(&ic);
-	return (ic.itsct);
+	return (itsct);
 }

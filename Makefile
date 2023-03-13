@@ -16,7 +16,7 @@ NAME	:= minirt
 # Compiler options
 CC		:= cc
 CFLAGS	:= -Wall -Werror -Wextra
-COPT	:= #-g #-fsanitize=address
+COPT	:= -g -fsanitize=address
 
 # Make executable output an image file. Usage: make all FILEOUT=1
 ifeq ($(FILEOUT), 1)
