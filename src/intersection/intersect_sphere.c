@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 22:22:24 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/13 17:42:26 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/14 00:36:10 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,15 +48,12 @@ static void	sphere_intersection_two(t_ray ray, t_sphere sphere, \
 	sphere_intersection_point_normal(ray, sphere, itsct);
 }
 
-//Function performs a sign change and assigns solutions to intersect solution.
-static void	modify_sphere_quad(t_quad_cof quad, t_quad_sol *sol, \
-															t_itsct_sphere *is)
-{
-	sol->first *= -1;
-	sol->second *= -1;
-	is->quad = quad;
-	is->soln = *sol;
-}
+// //Function performs a sign change and assigns solutions to intersect solution.
+// static void	modify_sphere_quad(t_quad_sol *sol, t_itsct_sphere *is)
+// {
+// 	sol->first *= -1;
+// 	sol->second *= -1;
+// }
 
 //Function works out the intersection between a ray and a sphere.
 t_intersect	intersection_ray_sphere(t_ray ray, t_sphere sphere)
@@ -70,16 +67,16 @@ t_intersect	intersection_ray_sphere(t_ray ray, t_sphere sphere)
 	is.vec_ray_dir = vector_scale_direction(1, ray.ray_dir);
 	quad.squared = vector_dot(is.vec_ray_dir, is.vec_ray_dir);
 	quad.linear = 2 * vector_dot(is.vec_ray_dir, is.ray_to_ctr);
-	quad.constant = fabs(vector_dot(is.ray_to_ctr, is.ray_to_ctr)) - \
-						pow(sphere.radius, 2);
+	quad.constant = fabs(vector_dot(is.ray_to_ctr, is.ray_to_ctr)) - pow(sphere.radius, 2);
 	soln = solve_quadratic(quad);
-	modify_sphere_quad(quad, &soln, &is);
+	soln.first *= -1;
+	soln.second *= -1;
 	if (soln.sol == NO_REAL)
 		itsct.state = MISSED;
 	else if (soln.sol == ONE)
 	{
 		itsct.state = INTERSECTED;
-		itsct.distance = -quad.linear / (2 * quad.squared);
+		itsct.distance = soln.first;
 		sphere_intersection_point_normal(ray, sphere, &itsct);
 	}
 	else
