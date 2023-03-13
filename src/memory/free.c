@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 17:47:39 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/17 14:38:32 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/13 02:16:46 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	*free_void_null(void *ptr)
 void	free_point(t_point *point)
 {
 	free(point);
+	point = NULL;
 }
 
 //Function frees all the allocations belonging to a point object, returns NULL.

@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 18:53:38 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/12 23:05:10 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/13 02:40:22 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,14 @@
 //Function frees the program struct.
 void	free_program(t_program *program)
 {
-	// free_list(program->objlist);
+	if (program->mldt)
+	{
+		if (program->mldt->imdt)
+			free(program->mldt->imdt);
+		free(program->mldt);
+	}
+	if (program->objlist)
+		free_list(program->objlist);
 	free(program);
 }
 

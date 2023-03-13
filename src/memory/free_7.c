@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/12 14:51:50 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/03/12 22:09:25 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/13 01:15:48 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ void	free_colour(t_colour *colour)
 void	free_ic(t_itsct_cyl *ic)
 {
 	// (void) ic;
+	free_intersection(ic->itsct_disc_base);
+	free_intersection(ic->itsct_disc_top);
 	if (ic->proj_cent)
 		free_point(ic->proj_cent);
 	if (ic->proj_centre)
