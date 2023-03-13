@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 22:33:54 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/12 23:04:26 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/13 02:36:47 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,9 @@ void	mlx_initialise(t_program *program)
 {
 	t_mlxdata	*mxdt;
 
-	mxdt = (t_mlxdata *)malloc(sizeof(t_mlxdata));
+	program->mldt = (t_mlxdata *)malloc(sizeof(t_mlxdata));
+	mxdt = program->mldt;
+	mxdt->imdt = NULL;
 	mxdt->imdt = (t_imgdata *)malloc(sizeof(t_imgdata));
 	mxdt->mlx = mlx_init();
 	mxdt->window = mlx_new_window(mxdt->mlx, WIN_WIDTH, WIN_HEIGHT, "miniRT");
@@ -59,7 +61,6 @@ void	mlx_initialise(t_program *program)
 	if (!mxdt->mlx || !mxdt->window || !mxdt->imdt->image || \
 			!mxdt->imdt->address)
 		error_mlx_exit(program);
-	program->mldt = mxdt;
 }
 
 //Function groups the MLX looping functions. Operates hooks and main loop.
