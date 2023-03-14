@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 19:13:29 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/13 01:52:33 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/14 11:20:27 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	check_valid_line(const char *line)
 
 	split = ft_split(line, ' ');
 	if (split_size(split) == 2)
-		return(free_split_ret_int_zero(split));
+		return (free_split_ret_int_zero(split));
 	ret = 1;
 	if (ft_strncmp(split[0], "A", 2) == 0)
 		ret = valid_ambient(line);
