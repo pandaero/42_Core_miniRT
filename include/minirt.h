@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/14 10:40:53 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/14 11:40:41 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ typedef struct s_quad_sol	t_quad_sol;
 
 // =================================== CALCULATION =============================
 //Typedef enumerates type of solution to a quadratic equation.
-typedef enum quad
+typedef enum e_quad
 {
 	NO_REAL,
 	ONE,
@@ -133,7 +133,7 @@ typedef struct s_colour
 
 // =================================== 3D ELEMENTS =============================
 //Typedef defines different types of elements for a 3D scene.
-typedef enum element
+typedef enum e_element
 {
 	INVALID,
 	EMPTY,
@@ -223,8 +223,8 @@ typedef struct s_cylinder
 }				t_cylinder;
 
 // ================================= 3D COMPOSITES =============================
-
-enum	scr_pts
+//Enumerates screen points.
+enum	e_scr_pts
 {
 	CTR,
 	TCTR,
@@ -232,14 +232,16 @@ enum	scr_pts
 	FSTPX
 };
 
-enum	scr_dir
+//Enumerates screen directions.
+enum	e_scr_dir
 {
 	NML,
 	SCRUP,
 	SCRRGT
 };
 
-enum	scr_vecs
+//Enumerates screen vectors.
+enum	e_scr_vecs
 {
 	UP,
 	DN,
@@ -444,12 +446,14 @@ typedef struct s_sec_itsct_pass
 	t_intersect	temp;
 }				t_sec_itsct_pass;
 
-//Typedef defines a struct for refactoring in the secondary intersection pass.
+//Typedef defines a struct for refactoring in the primary intersection pass.
 typedef struct s_itsct_pass
 {
 	int			unren;
 	t_obj		*obj;
-	t_direction	dir;
+	t_direction	dir[2];
+	double		difac;
+	t_colour	amb;
 	t_ray		ray;
 	t_intersect	temp;
 }				t_itsct_pass;
