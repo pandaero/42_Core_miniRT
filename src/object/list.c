@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 12:02:10 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/13 19:42:45 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/14 10:10:59 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,6 @@ void	list_remove_object(t_objlist *list, t_obj *object)
 		object->next->prev = object->prev;
 		object->prev->next = object->next;
 	}
-	free_object(object);
+	free_void(object);
 	list->num_objects--;
 }
