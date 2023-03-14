@@ -23,5 +23,8 @@ minilibx-linux/Makefile.gen
 # MLX OpenGL (Mac) non-source files
 minilibx_opengl_20191021/libmlx.a
 
+# VS Code
+.vscode/
+
 # developer ignores
 *.txt
