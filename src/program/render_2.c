@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 13:19:09 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/14 11:36:37 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/14 11:44:23 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ void	primary_intersection_pass(t_program *program, t_pixel *pixel)
 		stct.difac = fmax(0, direction_dot(pixel->itsct.normal, stct.dir[1])) \
 					* diffuse_objlist(program->objlist).ratio * DIFF_INTENSITY;
 		pixel->itsct.colour = colour_factor(stct.difac, pixel->itsct.colour);
-		stct.amb = colour_factor(0.5, colour_amb_cont(ambient_objlist(program->objlist)));
-		stct.amb = colour_add(pixel->itsct.colour, stct.amb);
-		pixel->itsct.colour = colour_copy(stct.amb);
+		stct.amb = \
+		colour_factor(0.5, colour_amb_cont(ambient_objlist(program->objlist)));
+		pixel->istct.colour = colour_add(pixel->itsct.colour, stct.amb);
 	}
 }
