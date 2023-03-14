@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/14 00:04:30 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/14 03:08:33 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@
 # endif
 
 // Screen resolution
-# define WIN_WIDTH 160
-# define WIN_HEIGHT 120
+# define WIN_WIDTH 800
+# define WIN_HEIGHT 600
 // Factor for screen-pixel coordinate sizing. 
 # define VIEW_SCALING 0.001
 // Factor for diffuse lighting effect
@@ -853,12 +853,6 @@ t_colour		colour_object(t_obj *object);
 //Function works out the lighting of an intersection based on objects.
 void			colour_itsct_lighting(t_objlist *objlist, \
 														t_intersect *intersect);
-// //Function works out the lighting effect of a diffuse light on a point. Linear.
-// void			colour_diffuse_linear(t_colour colour, t_diffuse difflight, \
-// 										t_point point);
-// //Function works out the lighting effect of a diffuse light on a point. Inv. Sq.
-// void			colour_diffuse_inverse_square(t_diffuse difflight, \
-// 												t_intersect intersect);
 
 // -------------------------------- MLX OPERATIONS -----------------------------
 //Function places a pixel in an image more quickly than with the pixel_put fn.

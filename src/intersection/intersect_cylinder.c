@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 16:39:14 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/03/13 21:36:30 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/14 03:04:01 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,15 +82,23 @@ t_intersect	intersection_ray_cylinder(t_ray ray, t_cylinder cylinder)
 	ic.distance = DBL_MAX;
 	if (ic.itsct.state == INTERSECTED)
 		ic.distance = ic.itsct.distance;
-	if (ic.itsct_disc_top.distance < ic.distance && ic.itsct_disc_top.state == INTERSECTED)
+	if (ic.itsct_disc_top.state == INTERSECTED && ic.itsct_disc_top.distance < ic.distance)
 	{
 		ic.distance = ic.itsct_disc_top.distance;
-		ic.itsct = ic.itsct_disc_top;
+		ic.itsct = intersect_copy(ic.itsct_disc_top);
 	}	
-	else if (ic.itsct_disc_base.distance < ic.distance && ic.itsct_disc_base.state == INTERSECTED)
+	if (ic.itsct_disc_base.state == INTERSECTED && ic.itsct_disc_base.distance < ic.distance)
 	{
 		ic.distance = ic.itsct_disc_base.distance;
-		ic.itsct = ic.itsct_disc_base;
+		ic.itsct = intersect_copy(ic.itsct_disc_base);
+	}
+	if (ic.itsct_disc_base.state == INTERSECTED && ic.itsct_disc_top.state == INTERSECTED)
+	{
+		ic.distance = fmin(ic.itsct_disc_base.distance, ic.itsct_disc_top.distance);
+		if (ic.itsct_disc_base.distance < ic.itsct_disc_top.distance)
+			ic.itsct = intersect_copy(ic.itsct_disc_base);
+		else
+			ic.itsct = intersect_copy(ic.itsct_disc_top);
 	}
 	if (ic.itsct.state != INTERSECTED)
 	{

@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 13:24:52 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/14 02:01:38 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/14 02:47:15 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,15 @@ void	secondary_intersection_pass(t_program *program, t_pixel *pixel)
 {
 	t_sec_itsct_pass	stct;
 
+	t_pixel *lastpix = screen_program(program)->pixels[WIN_HEIGHT - 1][WIN_WIDTH - 1];
 	stct.sec_unren = program->objlist->num_sec_unren;
 	stct.obj = object_first_list(program->objlist);
 	stct.dir = direction_two_points(pixel->itsct.point, diffuse_objlist(program->objlist).position);
 	stct.ray = ray_start_dir(pixel->itsct.point, stct.dir);
 	while (stct.obj && stct.sec_unren > 0)
 	{
+		while (stct.obj->elem != PLANE && stct.obj->elem != SPHERE && stct.obj->elem != CYLINDER)
+			stct.obj = stct.obj->next;
 		if (stct.obj && stct.obj == pixel->itsct.object)
 		{
 			stct.obj = stct.obj->next;
@@ -38,6 +41,9 @@ void	secondary_intersection_pass(t_program *program, t_pixel *pixel)
 			pixel->sec_itsct.state = INTERSECTED;
 			pixel->sec_itsct.distance = stct.temp.distance;
 			pixel->sec_itsct.shadow = colour_full(SHADOW);
+			if (pixel == lastpix)
+				program->objlist->num_sec_unren--;
+			return ;
 		}
 		else
 		{
@@ -45,7 +51,6 @@ void	secondary_intersection_pass(t_program *program, t_pixel *pixel)
 			pixel->sec_itsct.distance = -DBL_MAX;
 		}
 		stct.sec_unren--;
-		t_pixel * lastpix = screen_program(program)->pixels[WIN_HEIGHT - 1][WIN_WIDTH - 1];
 		if (pixel == lastpix)
 			program->objlist->num_sec_unren--;
 		stct.obj = stct.obj->next;
