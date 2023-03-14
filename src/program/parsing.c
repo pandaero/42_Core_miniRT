@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 19:54:58 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/14 02:13:28 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/14 10:57:29 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,19 +69,6 @@ void	parse_input_file(t_program *program, const char *filename)
 	if (valid_file_formatting(filename) == 0)
 		error_file_exit(program, "FORMATTING");
 	fill_objects_file(program, filename);
-
-	// t_obj	*curr;
-	// curr = program->objlist->first;
-	// ft_printf("Curr: %p\n", curr);
-	// ft_printf("Curr->next: %p\n", curr->next);
-	// int i = 0;
-	// while (curr)
-	// {
-	// 	ft_printf("OBJ %i, ELEM: %i\n", i, curr->elem);
-	// 	curr = curr->next;
-	// 	i++;
-	// }
-
 	if (valid_elements(program->objlist) == 0)
 		error_file_exit(program, "ELEMENTS");
 }

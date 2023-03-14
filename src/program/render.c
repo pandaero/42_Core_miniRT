@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 02:55:08 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/14 02:30:04 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/14 10:55:53 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,13 @@ void	render_empty_scene(t_program *program)
 void	render_pixel(t_program *program, t_pixel *pixel)
 {
 	primary_intersection_pass(program, pixel);
-	if (objlist_count_diffuse(program->objlist) && pixel->itsct.state == INTERSECTED)
+	if (objlist_count_diffuse(program->objlist) && \
+		pixel->itsct.state == INTERSECTED)
 		secondary_intersection_pass(program, pixel);
 	if (pixel->sec_itsct.state == INTERSECTED)
 	{
-		pixel->colour = colour_subtract(pixel->itsct.colour, pixel->sec_itsct.shadow);
-		// pixel->colour = colour_add(colour_ambient_list(program->objlist), pixel->colour);
+		pixel->colour = colour_subtract(pixel->itsct.colour, \
+													pixel->sec_itsct.shadow);
 	}
 	else
 	{
@@ -81,6 +82,8 @@ void	render_object_scene(t_program *program)
 			ft_printf("Rendering... %i%%\r", perc[0]);
 		ii[0]++;
 	}
+	if (STATUS)
+		ft_printf("Rendering... 100%%\n");
 }
 
 //Function creates a screen from camera, then loops rendering through objlist.

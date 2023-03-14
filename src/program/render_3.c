@@ -1,60 +1,58 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   render_3.c                                         :+:      :+:    :+:   */
+/*   render_4.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/20 13:19:09 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/14 01:58:51 by pandalaf         ###   ########.fr       */
+/*   Created: 2023/02/20 13:24:52 by pandalaf          #+#    #+#             */
+/*   Updated: 2023/03/14 02:47:15 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minirt.h"
-#include <float.h>
+#include <stdlib.h>
 #include <math.h>
+#include <float.h>
 
-//Function calculates a primary intersection for a pixel.
-void	primary_intersection_pass(t_program *program, t_pixel *pixel)
+//Function calculates a secondary intersection for a pixel.
+void	secondary_intersection_pass(t_program *program, t_pixel *pixel)
 {
-	t_itsct_pass	stct;
+	t_sec_itsct_pass	stct;
 
-	stct.unren = program->objlist->num_unren;
+	t_pixel *lastpix = screen_program(program)->pixels[WIN_HEIGHT - 1][WIN_WIDTH - 1];
+	stct.sec_unren = program->objlist->num_sec_unren;
 	stct.obj = object_first_list(program->objlist);
-	stct.dir = direction_two_points(camera_program(program).location, pixel->point);
-	stct.ray = ray_start_dir(pixel->point, stct.dir);
-	while (stct.obj && stct.unren > 0)
+	stct.dir = direction_two_points(pixel->itsct.point, diffuse_objlist(program->objlist).position);
+	stct.ray = ray_start_dir(pixel->itsct.point, stct.dir);
+	while (stct.obj && stct.sec_unren > 0)
 	{
-		if (stct.obj && stct.obj == object_first_list(program->objlist))
-		{
-			pixel->itsct.distance = -DBL_MAX;
-			pixel->itsct = intersection_ray_obj(stct.ray, stct.obj);
-			if (pixel->itsct.state == MISSED)
-				pixel->itsct.colour = colour_ambient_list(program->objlist);
-			else
-				pixel->itsct.colour = colour_ambient(colour_object(pixel->itsct.object), ambient_objlist(program->objlist));
-			stct.unren--;
+		while (stct.obj->elem != PLANE && stct.obj->elem != SPHERE && stct.obj->elem != CYLINDER)
 			stct.obj = stct.obj->next;
+		if (stct.obj && stct.obj == pixel->itsct.object)
+		{
+			stct.obj = stct.obj->next;
+			stct.sec_unren--;
 			continue ;
 		}
 		stct.temp = intersection_ray_obj(stct.ray, stct.obj);
-		if (stct.temp.state == INTERSECTED && stct.temp.distance > 0 && stct.temp.distance < pixel->itsct.distance)
-			pixel->itsct = intersect_copy(stct.temp);
-		stct.unren--;
+		if (stct.temp.state == INTERSECTED && stct.temp.distance <= distance_two_points(pixel->itsct.point, diffuse_objlist(program->objlist).position))
+		{
+			pixel->sec_itsct.state = INTERSECTED;
+			pixel->sec_itsct.distance = stct.temp.distance;
+			pixel->sec_itsct.shadow = colour_full(SHADOW);
+			if (pixel == lastpix)
+				program->objlist->num_sec_unren--;
+			return ;
+		}
+		else
+		{
+			pixel->sec_itsct.state = MISSED;
+			pixel->sec_itsct.distance = -DBL_MAX;
+		}
+		stct.sec_unren--;
+		if (pixel == lastpix)
+			program->objlist->num_sec_unren--;
 		stct.obj = stct.obj->next;
-	}
-	if (pixel->itsct.state != INTERSECTED)
-		pixel->itsct.colour = colour_ambient_list(program->objlist);
-	else
-	{
-		pixel->itsct.colour = colour_object(pixel->itsct.object);
-		pixel->itsct.colour = colour_ambient(pixel->itsct.colour, ambient_objlist(program->objlist));
-		t_direction	dir = direction_two_points(pixel->itsct.point, diffuse_objlist(program->objlist).position);
-		double	difffac = fmax(0, direction_dot(pixel->itsct.normal, dir)) * diffuse_objlist(program->objlist).ratio * DIFF_INTENSITY;
-		pixel->itsct.colour = colour_factor(difffac, pixel->itsct.colour);
-		t_colour	amb;
-		amb = colour_factor(0.5, colour_amb_cont(ambient_objlist(program->objlist)));
-		amb = colour_add(pixel->itsct.colour, amb);
-		pixel->itsct.colour = colour_copy(amb);
 	}
 }
