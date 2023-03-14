@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 22:22:24 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/14 20:01:03 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/14 20:01:47 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	sphere_single(t_ray ray, t_sphere sphere, t_intersect *itsct, \
 }
 
 //Function works out an intersection in the case of two solutions.
-static void	sphere_single(t_ray ray, t_sphere sphere, t_intersect *itsct, \
+static void	sphere_double(t_ray ray, t_sphere sphere, t_intersect *itsct, \
 																t_quad_sol soln)
 {
 	if (soln.first < 0 && soln.second < 0)
