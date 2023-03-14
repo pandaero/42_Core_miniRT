@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:54:59 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/03/14 01:38:57 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/14 15:45:15 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ t_intersect	intersection_ray_plane(t_ray ray, t_plane plane)
 
 	ip.ray_dir_vec = vector_mag_dir(1, ray.ray_dir);
 	ip.plane_norm_vec = vector_mag_dir(1, plane.normal);
-	ip.denominator = vector_dot(ip.plane_norm_vec, ip.ray_dir_vec);
+	ip.denom = vector_dot(ip.plane_norm_vec, ip.ray_dir_vec);
 	ip.itsct.distance = -DBL_MAX;
 	ip.itsct.state = UNCALCULATED;
-	if (fabs(ip.denominator) >= DBL_EPSILON)
+	if (fabs(ip.denom) > DBL_EPSILON)
 	{
 		ip.ray_to_plane = vector_two_points(ray.ray_orig, plane.point);
-		ip.dist = vector_dot(ip.ray_to_plane, ip.plane_norm_vec) / ip.denominator;
+		ip.dist = vector_dot(ip.ray_to_plane, ip.plane_norm_vec) / ip.denom;
 		if (ip.dist > 0)
 		{
 			ip.itsct.state = INTERSECTED;
