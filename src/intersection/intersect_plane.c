@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:54:59 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/03/14 15:45:15 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/14 19:53:53 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,17 @@
 #include <math.h>
 #include <stdlib.h>
 #include <float.h>
+
+//Function assigns properties to intersection.
+static void	intersection_assignment(t_ray ray, t_plane plane, t_itsct_plane *ip)
+{
+	ip->itsct.state = INTERSECTED;
+	ip->itsct.point = point_ray_distance(ray, ip->dist);
+	ip->itsct.distance = ip->dist;
+	ip->itsct.normal = direction_copy(plane.normal);
+	if (direction_dot(ip->itsct.normal, ray.ray_dir) > -DBL_EPSILON)
+		ip->itsct.normal = direction_reverse(plane.normal);
+}
 
 //Function checks for intersection between plane and ray
 t_intersect	intersection_ray_plane(t_ray ray, t_plane plane)
@@ -30,14 +41,7 @@ t_intersect	intersection_ray_plane(t_ray ray, t_plane plane)
 		ip.ray_to_plane = vector_two_points(ray.ray_orig, plane.point);
 		ip.dist = vector_dot(ip.ray_to_plane, ip.plane_norm_vec) / ip.denom;
 		if (ip.dist > 0)
-		{
-			ip.itsct.state = INTERSECTED;
-			ip.itsct.point = point_ray_distance(ray, ip.dist);
-			ip.itsct.distance = ip.dist;
-			ip.itsct.normal = direction_copy(plane.normal);
-			if (direction_dot(ip.itsct.normal, ray.ray_dir) > -DBL_EPSILON)
-				ip.itsct.normal = direction_reverse(plane.normal);
-		}
+			intersection_assignment(ray, plane, &ip);
 		else
 			ip.itsct.state = MISSED;
 	}
