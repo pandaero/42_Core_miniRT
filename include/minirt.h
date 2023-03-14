@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/14 11:40:41 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/14 11:52:35 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@
 # define BLUE 0x000000FF
 
 // ================================= TYPE PROTOTYPES ===========================
-typedef enum element		t_element;
+typedef enum e_element		t_element;
 typedef struct s_point		t_point;
 typedef struct s_direction	t_direction;
 typedef struct s_vector		t_vector;
