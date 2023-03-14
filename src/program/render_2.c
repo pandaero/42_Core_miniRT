@@ -5,35 +5,78 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/08 16:52:23 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/20 13:28:37 by pandalaf         ###   ########.fr       */
+/*   Created: 2023/02/20 13:19:09 by pandalaf          #+#    #+#             */
+/*   Updated: 2023/03/14 19:48:29 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minirt.h"
+#include <float.h>
+#include <math.h>
 
-//Function gives colour to a pixel.
-void	pixel_colouring(t_program *program, t_pixel *pixel)
+static void	primary_intersection_loop(t_program *program, t_pixel *pixel, \
+															t_itsct_pass *stct)
 {
-	if (pixel->sec_itsct)
+	if (stct->obj && stct->obj == object_first_list(program->objlist))
 	{
-		if (pixel->sec_itsct->state == INTERSECTED)
-			pixel->colour = colour_subtract(pixel->itsct->colour, \
-							pixel->sec_itsct->shadow);
+		pixel->itsct.distance = DBL_MAX;
+		pixel->itsct = intersection_ray_obj(stct->ray, stct->obj);
+		if (pixel->itsct.state == MISSED)
+			pixel->itsct.colour = colour_ambient_list(program->objlist);
 		else
-			pixel->colour = colour_copy(pixel->itsct->colour);
+		{
+			pixel->itsct.colour = \
+			colour_ambient(colour_object(pixel->itsct.object), \
+			ambient_objlist(program->objlist));
+		}
+		stct->unren--;
+		stct->obj = stct->obj->next;
+		return ;
 	}
-	else if (pixel->itsct->state == INTERSECTED)
-		pixel->colour = colour_copy(pixel->itsct->colour);
-	else
-		pixel->colour = colour_ambient_list(program->objlist);
+	stct->temp = intersection_ray_obj(stct->ray, stct->obj);
+	if (stct->temp.state == INTERSECTED && stct->temp.distance > 0 && \
+	((pixel->itsct.state == INTERSECTED && stct->temp.distance < \
+					pixel->itsct.distance) || pixel->itsct.state == MISSED))
+		pixel->itsct = intersect_copy(stct->temp);
+	stct->unren--;
+	stct->obj = stct->obj->next;
 }
 
-//Function renders a single pixel fully, regarding all possible intersections.
-void	render_pixel(t_program *program, t_pixel *pixel)
+//Function performs the colour calculation according to surface normals.
+static void	diffuse_factor_calc(t_program *program, t_itsct_pass *stct, \
+																t_pixel *pixel)
 {
-	primary_intersection_pass(program, pixel);
-	if (diffuse_objlist(program->objlist) && pixel->itsct->state == INTERSECTED)
-		secondary_intersection_pass(program, pixel);
-	pixel_colouring(program, pixel);
+	stct->dir[1] = direction_two_points(pixel->itsct.point, \
+									diffuse_objlist(program->objlist).position);
+	stct->difac = \
+		fmax(0, direction_dot(pixel->itsct.normal, stct->dir[1])) \
+					* diffuse_objlist(program->objlist).ratio * DIFF_INTENSITY;
+	pixel->itsct.colour = colour_factor(stct->difac, pixel->itsct.colour);
+	stct->amb = \
+		colour_factor(0.5, colour_amb_cont(ambient_objlist(program->objlist)));
+	pixel->itsct.colour = colour_add(pixel->itsct.colour, stct->amb);
+}
+
+//Function calculates a primary intersection for a pixel.
+void	primary_intersection_pass(t_program *program, t_pixel *pixel)
+{
+	t_itsct_pass	stct;
+
+	stct.unren = program->objlist->num_unren;
+	stct.obj = object_first_list(program->objlist);
+	stct.dir[0] = direction_two_points(camera_program(program).location, \
+																pixel->point);
+	stct.ray = ray_start_dir(pixel->point, stct.dir[0]);
+	while (stct.obj && stct.unren > 0)
+		primary_intersection_loop(program, pixel, &stct);
+	if (pixel->itsct.state == INTERSECTED)
+	{
+		pixel->itsct.colour = \
+			colour_ambient(colour_object(pixel->itsct.object), \
+											ambient_objlist(program->objlist));
+		if (objlist_count_diffuse(program->objlist))
+			diffuse_factor_calc(program, &stct, pixel);
+	}
+	else
+		pixel->itsct.colour = colour_ambient_list(program->objlist);
 }

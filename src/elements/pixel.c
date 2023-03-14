@@ -6,36 +6,21 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 16:15:56 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/19 21:21:42 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/13 22:19:23 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minirt.h"
 #include <stdlib.h>
 
-//Function creates and initialises a pixel.
-t_pixel	*pixel_create(void)
-{
-	t_pixel	*new;
-
-	new = (t_pixel *)malloc(sizeof(t_pixel));
-	if (!new)
-		return (NULL);
-	new->point = NULL;
-	new->itsct = NULL;
-	new->colour = NULL;
-	new->sec_itsct = NULL;
-	return (new);
-}
-
 //Function creates a pixel with its point coordinates.
-t_pixel	*pixel_point(t_point *point)
+t_pixel	*pixel_point(t_point point)
 {
 	t_pixel	*pixel;
 
-	pixel = pixel_create();
-	if (!pixel)
-		return (NULL);
+	pixel = (t_pixel *)malloc(sizeof(t_pixel));
 	pixel->point = point_copy(point);
+	pixel->itsct.state = UNCALCULATED;
+	pixel->sec_itsct.state = UNCALCULATED;
 	return (pixel);
 }

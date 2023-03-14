@@ -5,50 +5,57 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/13 00:29:56 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/13 15:32:24 by pandalaf         ###   ########.fr       */
+/*   Created: 2023/03/14 09:02:14 by pandalaf          #+#    #+#             */
+/*   Updated: 2023/03/14 09:06:33 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minirt.h"
-#include <stdlib.h>
 
-//Function frees all the allocations belonging to a vector object.
-void	free_vector(t_vector *vector)
+//Function frees a screen.
+void	free_screen(t_screen *screen)
 {
-	free_direction(vector->dir);
-	free(vector);
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < WIN_HEIGHT)
+	{
+		j = 0;
+		while (j < WIN_WIDTH)
+		{
+			free_void(screen->pixels[i][j]);
+			j++;
+		}
+		free_void(screen->pixels[i]);
+		i++;
+	}
+	free_void(screen->pixels);
 }
 
-//Function frees all the allocations belonging to a vector object, returns null.
-void	*free_vector_null(t_vector *vector)
+//Function frees an entire object linked list.
+void	free_list(t_objlist *list)
 {
-	free_direction(vector->dir);
-	free(vector);
-	return (NULL);
+	t_obj	*curr;
+	t_obj	*next;
+
+	curr = list->first;
+	while (curr != NULL)
+	{
+		next = curr->next;
+		free_void(curr);
+		curr = next;
+	}
+	free_void(list);
 }
 
-//Function frees all the allocations belonging to a ray object.
-void	free_ray(t_ray *ray)
+//Function frees the program struct.
+void	free_program(t_program *program)
 {
-	free_point(ray->ray_orig);
-	free_direction(ray->ray_dir);
-	free(ray);
-}
-
-//Function frees all the allocations belonging to a ray, returns null.
-void	*free_ray_null(t_ray *ray)
-{
-	free_point(ray->ray_orig);
-	free_direction(ray->ray_dir);
-	free(ray);
-	return (NULL);
-}
-
-//Function frees all the allocations belonging to a camera.
-void	free_camera(t_camera *camera)
-{
-	free_point(camera->location);
-	free_direction(camera->view_dir);
-	free(camera);
+	if (program->objlist)
+	{
+		if (screen_program(program))
+			free_screen(screen_program(program));
+		free_list(program->objlist);
+	}
 }

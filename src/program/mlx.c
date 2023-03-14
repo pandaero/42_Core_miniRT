@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/15 22:33:54 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/01/21 03:07:30 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/13 18:55:43 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,20 @@
 #include <stdlib.h>
 
 //Function handles the window closing action.
-int	closing(t_mlxdata *mlxvars)
+int	closing(t_program *program)
 {
-	mlx_destroy_window(mlxvars->mlx, mlxvars->window);
-	exit(0);
+	mlx_destroy_image(program->mldt->mlx, program->mldt->imdt.image);
+	mlx_clear_window(program->mldt->mlx, program->mldt->window);
+	mlx_destroy_window(program->mldt->mlx, program->mldt->window);
+	free_program(program);
+	exit(EXIT_SUCCESS);
 }
 
 //Function handles key releases.
-int	keys(int key, t_mlxdata *mlxvars)
+int	keys(int key, t_program *program)
 {
 	if (key == ESCAPE)
-		closing(mlxvars);
+		closing(program);
 	return (0);
 }
 
@@ -46,25 +49,24 @@ void	mlx_initialise(t_program *program)
 {
 	t_mlxdata	*mxdt;
 
-	mxdt = (t_mlxdata *)malloc(sizeof(t_mlxdata));
-	mxdt->imdt = (t_imgdata *)malloc(sizeof(t_imgdata));
+	program->mldt = (t_mlxdata *)malloc(sizeof(t_mlxdata));
+	mxdt = program->mldt;
 	mxdt->mlx = mlx_init();
 	mxdt->window = mlx_new_window(mxdt->mlx, WIN_WIDTH, WIN_HEIGHT, "miniRT");
-	mxdt->imdt->image = mlx_new_image(mxdt->mlx, WIN_WIDTH, WIN_HEIGHT);
-	mxdt->imdt->address = mlx_get_data_addr(mxdt->imdt->image, \
-			&mxdt->imdt->bits_pp, &mxdt->imdt->line_len, &mxdt->imdt->endian);
-	if (!mxdt->mlx || !mxdt->window || !mxdt->imdt->image || \
-			!mxdt->imdt->address)
+	mxdt->imdt.image = mlx_new_image(mxdt->mlx, WIN_WIDTH, WIN_HEIGHT);
+	mxdt->imdt.address = mlx_get_data_addr(mxdt->imdt.image, \
+			&mxdt->imdt.bits_pp, &mxdt->imdt.line_len, &mxdt->imdt.endian);
+	if (!mxdt->mlx || !mxdt->window || !mxdt->imdt.image || \
+			!mxdt->imdt.address)
 		error_mlx_exit(program);
-	program->mldt = mxdt;
 }
 
 //Function groups the MLX looping functions. Operates hooks and main loop.
 void	mlx_looping(t_program *program)
 {
 	mlx_put_image_to_window(program->mldt->mlx, program->mldt->window, \
-							program->mldt->imdt->image, 0, 0);
-	mlx_hook(program->mldt->window, 17, NO_EVENT, closing, program->mldt);
-	mlx_hook(program->mldt->window, 3, KEY_RELEASE, keys, program->mldt);
+							program->mldt->imdt.image, 0, 0);
+	mlx_hook(program->mldt->window, 17, NO_EVENT, closing, program);
+	mlx_hook(program->mldt->window, 3, KEY_RELEASE, keys, program);
 	mlx_loop(program->mldt->mlx);
 }

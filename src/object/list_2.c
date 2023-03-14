@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 02:41:02 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/11 23:09:09 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/13 17:55:25 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,46 +61,4 @@ int	objlist_count_camera(t_objlist *objlist)
 		curr = curr->next;
 	}
 	return (ct);
-}
-
-//Function cycles through plane objects checking that direction is non-null.
-int	objlist_plane_check_dir(t_objlist *objlist)
-{
-	t_obj	*curr;
-
-	curr = objlist->first;
-	while (curr)
-	{
-		if (curr->elem == PLANE)
-		{
-			if (curr->plane)
-			{
-				if (!curr->plane->normal)
-					return (0);
-			}			
-		}
-		curr = curr->next;
-	}
-	return (1);
-}
-
-//Function cycles through cylinder objects checking that direction is non-null.
-int	objlist_cylinder_check_dir(t_objlist *objlist)
-{
-	t_obj	*curr;
-
-	curr = objlist->first;
-	while (curr)
-	{
-		if (curr->elem == CYLINDER)
-		{
-			if (curr->cylinder)
-			{
-				if (!curr->cylinder->orientation)
-					return (0);
-			}
-		}
-		curr = curr->next;
-	}
-	return (1);
 }

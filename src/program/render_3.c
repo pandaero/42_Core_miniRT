@@ -5,87 +5,64 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/20 13:19:09 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/20 16:32:55 by pandalaf         ###   ########.fr       */
+/*   Created: 2023/02/20 13:24:52 by pandalaf          #+#    #+#             */
+/*   Updated: 2023/03/14 18:33:22 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minirt.h"
+#include <stdlib.h>
+#include <math.h>
+#include <float.h>
 
-//Function performs steps that happen only first time for intersection.
-static void	first_itsct_loop(t_program *program, t_pixel *pixel, \
-								t_itsct_pass *stct)
+static int	sec_int_loop(t_sec_itsct_pass *stct, t_pixel *pixel, \
+															t_program *program)
 {
-	pixel->itsct = intersection_ray_obj(stct->ray, stct->obj);
-	if (pixel->itsct->state == MISSED)
-		pixel->itsct->colour = colour_ambient_list(program->objlist);
-	else
-		pixel->itsct->colour = \
-		colour_ambient(colour_object(pixel->itsct->object), \
-			ambient_objlist(program->objlist));
-	stct->unren--;
-	stct->obj = stct->obj->next;
-	free_intersection(stct->temp);
-}
-
-//Function performs the steps that definitely happen when calculating intersect.
-static void	later_itsct_loop(t_pixel *pixel, t_itsct_pass *stct)
-{
-	if (stct->temp->distance < pixel->itsct->distance && \
-			stct->temp->distance > 0)
+	stct->temp = intersection_ray_obj(stct->ray, stct->obj);
+	if (stct->temp.state == INTERSECTED && stct->temp.distance <= \
+		distance_two_points(pixel->itsct.point, \
+									diffuse_objlist(program->objlist).position))
 	{
-		free_intersection(pixel->itsct);
-		pixel->itsct = stct->temp;
+		pixel->sec_itsct.state = INTERSECTED;
+		pixel->sec_itsct.distance = stct->temp.distance;
+		pixel->sec_itsct.shadow = colour_full(SHADOW);
+		if (pixel == stct->lastpix)
+			program->objlist->num_sec_unren--;
+		return (1);
 	}
 	else
-		free_intersection(stct->temp);
-	stct->unren--;
+	{
+		pixel->sec_itsct.state = MISSED;
+		pixel->sec_itsct.distance = DBL_MAX;
+	}
+	stct->sec_unren--;
+	if (pixel == stct->lastpix)
+		program->objlist->num_sec_unren--;
 	stct->obj = stct->obj->next;
+	return (0);
 }
 
-//Function applies colour to an intersection during a pass.
-static void	itsct_pass_colouring(t_program *program, \
-									t_intersect *itsct, int n)
+//Function calculates a secondary intersection for a pixel.
+void	secondary_intersection_pass(t_program *program, t_pixel *pixel)
 {
-	if (n == 1)
-	{
-		if (itsct->state == MISSED)
-			itsct->colour = colour_ambient_list(program->objlist);
-		else
-			itsct->colour = colour_ambient(colour_object(itsct->object), \
-										ambient_objlist(program->objlist));
-	}
-	if (n == 2)
-	{
-		if (itsct->state == MISSED)
-			itsct->colour = colour_ambient_list(program->objlist);
-		else
-			colour_itsct_lighting(program->objlist, itsct);
-	}
-}
+	t_sec_itsct_pass	stct;
 
-//Function calculates a primary intersection for a pixel.
-void	primary_intersection_pass(t_program *program, t_pixel *pixel)
-{
-	t_itsct_pass	stct;
-
-	stct.unren = program->objlist->num_unren;
+	stct.lastpix = \
+				screen_program(program)->pixels[WIN_HEIGHT - 1][WIN_WIDTH - 1];
+	stct.sec_unren = program->objlist->num_sec_unren;
 	stct.obj = object_first_list(program->objlist);
-	stct.dir = direction_two_points(camera_program(program)->location, \
-										pixel->point);
-	stct.ray = ray_start_dir(pixel->point, stct.dir);
-	while (stct.obj && stct.unren > 0)
+	stct.dir = direction_two_points(pixel->itsct.point, \
+									diffuse_objlist(program->objlist).position);
+	stct.ray = ray_start_dir(pixel->itsct.point, stct.dir);
+	while (stct.obj && stct.sec_unren > 0)
 	{
-		stct.temp = intersection_ray_obj(stct.ray, stct.obj);
-		itsct_pass_colouring(program, stct.temp, 1);
-		if (stct.obj == object_first_list(program->objlist))
+		if (stct.obj && stct.obj == pixel->itsct.object)
 		{
-			first_itsct_loop(program, pixel, &stct);
+			stct.obj = stct.obj->next;
+			stct.sec_unren--;
 			continue ;
 		}
-		later_itsct_loop(pixel, &stct);
+		if (sec_int_loop(&stct, pixel, program))
+			return ;
 	}
-	free_ray(stct.ray);
-	free_direction(stct.dir);
-	itsct_pass_colouring(program, pixel->itsct, 2);
 }

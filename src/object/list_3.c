@@ -6,16 +6,17 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/24 16:22:23 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/11 23:08:42 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/13 15:55:37 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minirt.h"
 
 //Function finds the ambient light object in an object list.
-t_ambient	*ambient_objlist(t_objlist *objlist)
+t_ambient	ambient_objlist(t_objlist *objlist)
 {
-	t_obj	*curr;
+	t_obj		*curr;
+	t_ambient	bad;
 
 	curr = objlist->first;
 	while (curr)
@@ -24,11 +25,12 @@ t_ambient	*ambient_objlist(t_objlist *objlist)
 			return (curr->ambient);
 		curr = curr->next;
 	}
-	return (NULL);
+	bad = ambient_input(colour_full(BLACK), 0);
+	return (bad);
 }
 
 //Function finds a diffuse point-light object in an object list.
-t_diffuse	*diffuse_objlist(t_objlist *objlist)
+t_diffuse	diffuse_objlist(t_objlist *objlist)
 {
 	t_obj	*curr;
 
@@ -39,7 +41,7 @@ t_diffuse	*diffuse_objlist(t_objlist *objlist)
 			return (curr->diffuse);
 		curr = curr->next;
 	}
-	return (NULL);
+	return (diffuse_line("L 0,0,0 0"));
 }
 
 //Function counts the number of plane objects in an object list.

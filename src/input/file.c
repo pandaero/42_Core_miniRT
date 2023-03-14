@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/18 17:52:52 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/02/20 00:10:43 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/14 11:19:52 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ void	fill_objects_file(t_program *program, const char *filename)
 			continue ;
 		}
 		clean = replace_spacing(line);
-		list_add_object(program->objlist, object_from_line(program, clean));
+		if (check_valid_line(clean))
+			list_add_object(program->objlist, object_from_line(clean));
 		free(clean);
 		free(line);
 		line = get_next_line(fd);
