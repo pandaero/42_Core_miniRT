@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 13:24:52 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/14 13:06:49 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/14 18:33:22 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	sec_int_loop(t_sec_itsct_pass *stct, t_pixel *pixel, \
 	else
 	{
 		pixel->sec_itsct.state = MISSED;
-		pixel->sec_itsct.distance = -DBL_MAX;
+		pixel->sec_itsct.distance = DBL_MAX;
 	}
 	stct->sec_unren--;
 	if (pixel == stct->lastpix)
