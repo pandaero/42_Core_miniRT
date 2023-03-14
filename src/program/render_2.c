@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 13:19:09 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/14 11:52:55 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/14 19:25:48 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	primary_intersection_loop(t_program *program, t_pixel *pixel, \
 {
 	if (stct->obj && stct->obj == object_first_list(program->objlist))
 	{
-		pixel->itsct.distance = -DBL_MAX;
+		pixel->itsct.distance = DBL_MAX;
 		pixel->itsct = intersection_ray_obj(stct->ray, stct->obj);
 		if (pixel->itsct.state == MISSED)
 			pixel->itsct.colour = colour_ambient_list(program->objlist);
@@ -35,7 +35,7 @@ static void	primary_intersection_loop(t_program *program, t_pixel *pixel, \
 	}
 	stct->temp = intersection_ray_obj(stct->ray, stct->obj);
 	if (stct->temp.state == INTERSECTED && \
-		stct->temp.distance > 0 && stct->temp.distance < pixel->itsct.distance)
+		stct->temp.distance > 0 && ((pixel->itsct.state == INTERSECTED && stct->temp.distance < pixel->itsct.distance) || pixel->itsct.state == MISSED))
 		pixel->itsct = intersect_copy(stct->temp);
 	stct->unren--;
 	stct->obj = stct->obj->next;
@@ -53,20 +53,23 @@ void	primary_intersection_pass(t_program *program, t_pixel *pixel)
 	stct.ray = ray_start_dir(pixel->point, stct.dir[0]);
 	while (stct.obj && stct.unren > 0)
 		primary_intersection_loop(program, pixel, &stct);
-	if (pixel->itsct.state != INTERSECTED)
-		pixel->itsct.colour = colour_ambient_list(program->objlist);
-	else
+	if (pixel->itsct.state == INTERSECTED)
 	{
 		pixel->itsct.colour = colour_object(pixel->itsct.object);
 		pixel->itsct.colour = colour_ambient(pixel->itsct.colour, \
 											ambient_objlist(program->objlist));
-		stct.dir[1] = direction_two_points(pixel->itsct.point, \
-								diffuse_objlist(program->objlist).position);
-		stct.difac = fmax(0, direction_dot(pixel->itsct.normal, stct.dir[1])) \
-					* diffuse_objlist(program->objlist).ratio * DIFF_INTENSITY;
-		pixel->itsct.colour = colour_factor(stct.difac, pixel->itsct.colour);
-		stct.amb = \
-		colour_factor(0.5, colour_amb_cont(ambient_objlist(program->objlist)));
-		pixel->itsct.colour = colour_add(pixel->itsct.colour, stct.amb);
+		if (objlist_count_diffuse(program->objlist))
+		{
+			stct.dir[1] = direction_two_points(pixel->itsct.point, \
+									diffuse_objlist(program->objlist).position);
+			stct.difac = fmax(0, direction_dot(pixel->itsct.normal, stct.dir[1])) \
+						* diffuse_objlist(program->objlist).ratio * DIFF_INTENSITY;
+			pixel->itsct.colour = colour_factor(stct.difac, pixel->itsct.colour);
+			stct.amb = \
+			colour_factor(0.5, colour_amb_cont(ambient_objlist(program->objlist)));
+			pixel->itsct.colour = colour_add(pixel->itsct.colour, stct.amb);
+		}
 	}
+	else
+		pixel->itsct.colour = colour_ambient_list(program->objlist);
 }
