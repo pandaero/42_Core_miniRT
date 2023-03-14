@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 22:26:40 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/14 10:35:17 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/14 10:46:40 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ t_screen	screen_copy(t_screen other)
 	new.vec[RGT] = vector_copy(other.vec[RGT]);
 	new.vec[CNRUP] = vector_copy(other.vec[CNRUP]);
 	new.vec[CNRLFT] = vector_copy(other.vec[CNRLFT]);
-	new.vec[SCRRD]= vector_copy(other.vec[SCRRD]);
-	new.vec[SCRRD0]= vector_copy(other.vec[SCRRD0]);
+	new.vec[SCRRD] = vector_copy(other.vec[SCRRD]);
+	new.vec[SCRRD0] = vector_copy(other.vec[SCRRD0]);
 	new.pixels = other.pixels;
 	return (new);
 }
@@ -70,4 +70,30 @@ t_direction	screen_up(t_camera camera)
 	horiz = direction_two_points(origin, p_horiz);
 	screen_up = direction_cross_up(camera.view_dir, horiz);
 	return (screen_up);
+}
+
+//Function defines a screen based on a camera element.
+t_screen	screen_camera(int width, int height, t_camera camera)
+{
+	t_screen	new;
+
+	new.width = width;
+	new.height = height;
+	screen_pixel_centres(width, height, camera, &new);
+	return (new);
+}
+
+//Function locates the screen from the program structure.
+t_screen	*screen_program(t_program *program)
+{
+	t_obj		*curr;
+
+	curr = program->objlist->first;
+	while (curr)
+	{
+		if (curr->elem == SCREEN)
+			return (&curr->screen);
+		curr = curr->next;
+	}
+	return (NULL);
 }

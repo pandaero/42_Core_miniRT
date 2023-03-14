@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 15:21:12 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/14 10:40:25 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/14 10:44:31 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,27 @@
 void	define_screen_pts_vecs(int width, int height, t_camera camera, \
 								t_screen *screen)
 {
-    screen->pt[CTR] = screen_centre(width, camera);
-    screen->dir[NML] = direction_copy(camera.view_dir);
-    screen->dir[SCRUP] = screen_up(camera);
-    screen->dir[SCRRGT] = direction_cross(screen->dir[NML], screen->dir[SCRUP]);
-    screen->vec[UP] = vector_scale_direction(VIEW_SCALING, screen->dir[SCRUP]);
-    screen->vec[DN] = vector_scale_direction(-1 * VIEW_SCALING, screen->dir[SCRUP]);
-    screen->vec[LFT] = vector_scale_direction(-1 * VIEW_SCALING, screen->dir[SCRRGT]);
-    screen->vec[RGT] = vector_scale_direction(VIEW_SCALING, screen->dir[SCRRGT]);
-    screen->vec[CNRUP] = vector_scale(height / 2, screen->vec[UP]);
-    screen->vec[CNRLFT] = vector_scale(width / 2, screen->vec[LFT]);
-    screen->pt[TCTR] = point_point_vector(screen->pt[CTR], screen->vec[CNRUP]);
-    screen->pt[TLCNR] = point_point_vector(screen->pt[TCTR], screen->vec[CNRLFT]);
-    screen->vec[SCRRD] = vector_add(screen->vec[RGT], screen->vec[DN]);
-    screen->vec[SCRRD0] = vector_scale(0.5, screen->vec[SCRRD]);
-    screen->pt[FSTPX] = point_point_vector(screen->pt[TLCNR], screen->vec[SCRRD0]);
+	screen->pt[CTR] = screen_centre(width, camera);
+	screen->dir[NML] = direction_copy(camera.view_dir);
+	screen->dir[SCRUP] = screen_up(camera);
+	screen->dir[SCRRGT] = direction_cross(screen->dir[NML], screen->dir[SCRUP]);
+	screen->vec[UP] = vector_scale_direction(VIEW_SCALING, screen->dir[SCRUP]);
+	screen->vec[DN] = vector_scale_direction(-1 * VIEW_SCALING, \
+															screen->dir[SCRUP]);
+	screen->vec[LFT] = vector_scale_direction(-1 * VIEW_SCALING, \
+														screen->dir[SCRRGT]);
+	screen->vec[RGT] = vector_scale_direction(VIEW_SCALING, \
+														screen->dir[SCRRGT]);
+	screen->vec[CNRUP] = vector_scale(height / 2, screen->vec[UP]);
+	screen->vec[CNRLFT] = vector_scale(width / 2, screen->vec[LFT]);
+	screen->pt[TCTR] = point_point_vector(screen->pt[CTR], \
+															screen->vec[CNRUP]);
+	screen->pt[TLCNR] = point_point_vector(screen->pt[TCTR], \
+														screen->vec[CNRLFT]);
+	screen->vec[SCRRD] = vector_add(screen->vec[RGT], screen->vec[DN]);
+	screen->vec[SCRRD0] = vector_scale(0.5, screen->vec[SCRRD]);
+	screen->pt[FSTPX] = point_point_vector(screen->pt[TLCNR], \
+														screen->vec[SCRRD0]);
 }
 
 //Function allocates memory for a 2D array of pixels.
