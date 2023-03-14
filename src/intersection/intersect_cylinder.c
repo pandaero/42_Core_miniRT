@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 16:39:14 by pbiederm          #+#    #+#             */
-/*   Updated: 2023/03/14 03:04:01 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/14 20:06:09 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,51 +55,46 @@ static t_intersect	intersection_ray_disc(t_ray ray, t_disc disc)
 	return (itsct);
 }
 
-// //Function assigns the intersections for the disc cases.
-// static void	assign_intersection_disc(int sw, t_itsct_cyl *ic)
-// {
-// 	if (sw == 0)
-// 	{
-// 		ic->distance = ic->itsct_disc_top.distance;
-// 		ic->itsct = ic->itsct_disc_top;
-// 	}
-// 	else
-// 	{
-// 		ic->distance = ic->itsct_disc_base.distance;
-// 		ic->itsct = ic->itsct_disc_base;
-// 	}
-// }
+//Function assigns the intersections for the disc cases.
+static void	assign_intersection_disc(t_itsct_cyl *ic)
+{
+	if (ic->itsct.state == INTERSECTED)
+		ic->distance = ic->itsct.distance;
+	if (ic->itsct_disc_top.state == INTERSECTED && \
+		ic->itsct_disc_top.distance < ic->distance)
+	{
+		ic->distance = ic->itsct_disc_top.distance;
+		ic->itsct = intersect_copy(ic->itsct_disc_top);
+	}	
+	if (ic->itsct_disc_base.state == INTERSECTED && \
+		ic->itsct_disc_base.distance < ic->distance)
+	{
+		ic->distance = ic->itsct_disc_base.distance;
+		ic->itsct = intersect_copy(ic->itsct_disc_base);
+	}
+	if (ic->itsct_disc_base.state == INTERSECTED && \
+		ic->itsct_disc_top.state == INTERSECTED)
+	{
+		ic->distance = fmin(ic->itsct_disc_base.distance, \
+												ic->itsct_disc_top.distance);
+		if (ic->itsct_disc_base.distance < ic->itsct_disc_top.distance)
+			ic->itsct = intersect_copy(ic->itsct_disc_base);
+		else
+			ic->itsct = intersect_copy(ic->itsct_disc_top);
+	}
+}
 
 //Function determines the intersection between a ray and a cylinder.
 t_intersect	intersection_ray_cylinder(t_ray ray, t_cylinder cylinder)
 {
 	t_itsct_cyl	ic;
 	t_intersect	itsct;
-	
+
 	ic.itsct = intersection_ray_shaft(ray, cylinder, &ic);
 	ic.itsct_disc_top = intersection_ray_disc(ray, cylinder.top_cap);
 	ic.itsct_disc_base = intersection_ray_disc(ray, cylinder.base_cap);
 	ic.distance = DBL_MAX;
-	if (ic.itsct.state == INTERSECTED)
-		ic.distance = ic.itsct.distance;
-	if (ic.itsct_disc_top.state == INTERSECTED && ic.itsct_disc_top.distance < ic.distance)
-	{
-		ic.distance = ic.itsct_disc_top.distance;
-		ic.itsct = intersect_copy(ic.itsct_disc_top);
-	}	
-	if (ic.itsct_disc_base.state == INTERSECTED && ic.itsct_disc_base.distance < ic.distance)
-	{
-		ic.distance = ic.itsct_disc_base.distance;
-		ic.itsct = intersect_copy(ic.itsct_disc_base);
-	}
-	if (ic.itsct_disc_base.state == INTERSECTED && ic.itsct_disc_top.state == INTERSECTED)
-	{
-		ic.distance = fmin(ic.itsct_disc_base.distance, ic.itsct_disc_top.distance);
-		if (ic.itsct_disc_base.distance < ic.itsct_disc_top.distance)
-			ic.itsct = intersect_copy(ic.itsct_disc_base);
-		else
-			ic.itsct = intersect_copy(ic.itsct_disc_top);
-	}
+	assign_intersection_disc(&ic);
 	if (ic.itsct.state != INTERSECTED)
 	{
 		itsct.state = MISSED;
