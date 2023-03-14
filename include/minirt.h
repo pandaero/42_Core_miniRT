@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/14 09:07:17 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/14 10:40:53 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,38 +223,42 @@ typedef struct s_cylinder
 }				t_cylinder;
 
 // ================================= 3D COMPOSITES =============================
-//Typedef describes points required to define the pixels composing a screen.
-typedef struct s_scr_pts
-{
-	t_point	centre;
-	t_point	top_centre;
-	t_point	tl_corner;
-	t_point	first_px;
-}			t_scr_pts;
 
-//Typedef describes vectors required to define a screen.
-typedef struct s_scr_vec
+enum	scr_pts
 {
-	t_direction	normal;
-	t_direction	screen_up;
-	t_direction	screen_right;
-	t_vector	vec_up;
-	t_vector	vec_down;
-	t_vector	vec_left;
-	t_vector	vec_right;
-	t_vector	vec_corner_up;
-	t_vector	vec_corner_left;
-	t_vector	vec_screen_rd;
-	t_vector	vec_screen_rd_0th;
-}				t_scr_vec;
+	CTR,
+	TCTR,
+	TLCNR,
+	FSTPX
+};
+
+enum	scr_dir
+{
+	NML,
+	SCRUP,
+	SCRRGT
+};
+
+enum	scr_vecs
+{
+	UP,
+	DN,
+	LFT,
+	RGT,
+	CNRUP,
+	CNRLFT,
+	SCRRD,
+	SCRRD0
+};
 
 //Typedef describes a pixel screen.
 typedef struct s_screen
 {
 	int			width;
 	int			height;
-	t_scr_pts	pts;
-	t_scr_vec	vecs;
+	t_point		pt[4];
+	t_direction	dir[3];
+	t_vector	vec[8];
 	t_pixel		***pixels;
 }				t_screen;
 

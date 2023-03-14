@@ -6,43 +6,12 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 22:26:40 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/13 18:29:04 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/14 10:35:17 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minirt.h"
 #include <math.h>
-
-//Function copies screen points from another struct.
-t_scr_pts	scr_pts_copy(t_scr_pts other)
-{
-	t_scr_pts	new;
-
-	new.centre = point_copy(other.centre);
-	new.first_px = point_copy(other.first_px);
-	new.tl_corner = point_copy(other.tl_corner);
-	new.top_centre = point_copy(other.top_centre);
-	return (new);
-}
-
-//Function copies screen vectors from another struct.
-t_scr_vec	scr_vecs_copy(t_scr_vec other)
-{
-	t_scr_vec	new;
-
-	new.normal = direction_copy(other.normal);
-	new.screen_up = direction_copy(other.screen_up);
-	new.screen_right = direction_copy(other.screen_right);
-	new.vec_up = vector_copy(other.vec_up);
-	new.vec_down = vector_copy(other.vec_down);
-	new.vec_left = vector_copy(other.vec_left);
-	new.vec_right = vector_copy(other.vec_right);
-	new.vec_corner_up = vector_copy(other.vec_corner_up);
-	new.vec_corner_left = vector_copy(other.vec_corner_left);
-	new.vec_screen_rd = vector_copy(other.vec_screen_rd);
-	new.vec_screen_rd_0th = vector_copy(other.vec_screen_rd_0th);
-	return (new);
-}
 
 //Function creates a new screen element from another.
 t_screen	screen_copy(t_screen other)
@@ -51,8 +20,21 @@ t_screen	screen_copy(t_screen other)
 
 	new.width = other.width;
 	new.height = other.height;
-	new.pts = scr_pts_copy(other.pts);
-	new.vecs = scr_vecs_copy(other.vecs);
+	new.pt[CTR] = point_copy(other.pt[CTR]);
+	new.pt[FSTPX] = point_copy(other.pt[FSTPX]);
+	new.pt[TLCNR] = point_copy(other.pt[TLCNR]);
+	new.pt[TCTR] = point_copy(other.pt[TCTR]);
+	new.dir[NML] = direction_copy(other.dir[NML]);
+	new.dir[SCRUP] = direction_copy(other.dir[SCRUP]);
+	new.dir[SCRRGT] = direction_copy(other.dir[SCRRGT]);
+	new.vec[UP] = vector_copy(other.vec[UP]);
+	new.vec[DN] = vector_copy(other.vec[DN]);
+	new.vec[LFT] = vector_copy(other.vec[LFT]);
+	new.vec[RGT] = vector_copy(other.vec[RGT]);
+	new.vec[CNRUP] = vector_copy(other.vec[CNRUP]);
+	new.vec[CNRLFT] = vector_copy(other.vec[CNRLFT]);
+	new.vec[SCRRD]= vector_copy(other.vec[SCRRD]);
+	new.vec[SCRRD0]= vector_copy(other.vec[SCRRD0]);
 	new.pixels = other.pixels;
 	return (new);
 }
