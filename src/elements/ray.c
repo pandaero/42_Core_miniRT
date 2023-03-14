@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 19:12:21 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/13 16:28:41 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/14 10:49:02 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ t_ray	ray_start_vector(t_point start, t_vector vector)
 	t_ray	new;
 
 	if (vector.mag == 0)
-		return (ray_start_dir(point_copy(start), direction_components(0, 0, 0)));
+		return (ray_start_dir(point_copy(start), \
+											direction_components(0, 0, 0)));
 	new.ray_orig = point_copy(start);
 	new.ray_dir = direction_copy(vector.dir);
 	return (new);

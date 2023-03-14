@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 22:36:44 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/13 18:25:39 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/14 10:48:22 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ t_camera	camera_objlist(t_objlist *objlist)
 {
 	t_obj		*curr;
 	t_camera	bad;
-
 
 	curr = objlist->first;
 	while (curr)
