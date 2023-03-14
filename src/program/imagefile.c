@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 11:48:53 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/14 12:31:38 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/14 12:35:37 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,5 +85,4 @@ void	image_draw(t_program *program)
 		draw[0]++;
 	}
 	close(draw[2]);
-	print_status(draw[3], draw[4]);
 }
