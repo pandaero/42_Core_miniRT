@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/14 03:08:33 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/14 09:07:17 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ typedef struct s_imgdata	t_imgdata;
 typedef struct s_mlxdata	t_mlxdata;
 typedef struct s_quad_cof	t_quad_cof;
 typedef struct s_quad_sol	t_quad_sol;
-
 
 // =================================== CALCULATION =============================
 //Typedef enumerates type of solution to a quadratic equation.
@@ -333,7 +332,6 @@ typedef struct s_intersect
 {
 	t_state		state;
 	double		distance;
-	// double		angle;
 	t_colour	colour;
 	t_point		point;
 	t_direction	normal;
@@ -653,10 +651,8 @@ t_ambient		ambient_input(t_colour colour, double ratio);
 //Function creates an ambient light from a valid input line.
 t_ambient		ambient_line(const char *str);
 // -------------------------------- GENERIC OBJECT -----------------------------
-//Function creates a new empty object.
-t_obj			*object_null(void);
-//Function copies an object's properties to a new one.
-t_obj			*object_copy(t_obj object);
+//Function creates a new initialised object.
+t_obj			*object_create(void);
 //Function makes an ambient light object.
 t_obj			*object_ambient(t_ambient ambient);
 //Function creates an ambient light object from an input line.
@@ -688,85 +684,32 @@ t_obj			*object_from_line(const char *line);
 //Function finds the first renderable object in the object linked list.
 t_obj			*object_first_list(t_objlist *objlist);
 // ================================ MEMORY FREEING =============================
-//Function frees a pointer, and returns a double -1.
-double			free_ret_double_minusone(void *ptr);
-//Function frees a 2D char array made from ft_split.
-void			free_split(char **charr);
-//Function frees a 2D char array made from ft_split. Returns zero.
-int				free_split_ret_int_zero(char **charr);
+//Function frees a pointer.
+void			free_void(void *object);
 //Function frees a pointer and returns NULL.
 void			*free_void_null(void *ptr);
-//Function frees an ambient light.
-void			free_ambient(t_ambient *ambient);
-//Function frees a light.
-void			free_diffuse(t_diffuse *light);
-//Function frees all the allocations belonging to a point object.
-void			free_point(t_point *point);
-//Function frees all the allocations belonging to a point object, returns NULL.
-void			*free_point_null(t_point *point);
-//Function frees all the allocations belonging to a direction object.
-void			free_direction(t_direction *direction);
-//Function frees all the allocations in a direction object, returns NULL.
-void			*free_direction_null(t_direction *direction);
-//Function frees all the allocations belonging to a vector object.
-void			free_vector(t_vector *vector);
-//Function frees all the allocations belonging to a vector object, returns null.
-void			*free_vector_null(t_vector *vector);
-//Function frees all the allocations belonging to a ray object.
-void			free_ray(t_ray *ray);
-//Function frees all the allocations belonging to a ray object, returns null.
-void			*free_ray_null(t_ray *ray);
-//Function frees an intersection.
-void			free_intersection(t_intersect *intersection);
-//Function frees all the allocations belonging to a camera.
-void			free_camera(t_camera *camera);
-//Function frees a pixel.
-void			free_pixel(t_pixel *pixel);
+//Function frees a pointer, and returns a double -1.
+double			free_ret_double_minusone(void *ptr);
+//Function frees a 2D char array made from ft_split. Returns zero.
+int				free_split_ret_int_zero(char **charr);
+//Function frees a 2D char array made from ft_split.
+void			free_split(char **charr);
 //Function frees a screen.
 void			free_screen(t_screen *screen);
-//Function frees an ambient light.
-void			free_ambient(t_ambient *ambient);
-//Function frees a plane.
-void			free_plane(t_plane *plane);
-//Function frees a sphere.
-void			free_sphere(t_sphere *sphere);
-//Function frees a disc element.
-void			free_disc(t_disc *disc);	
-//Function frees a cylinder.
-void			free_cylinder(t_cylinder *cylinder);
-//Function frees a cylinder and returns NULL;
-void			*free_cylinder_ret_null(t_cylinder *cylinder);
-//Function frees the program struct.
-void			free_program(t_program *program);
-//Function frees all the object linked lists.
-void			free_obj_lists(t_objlist *first);
 //Function frees an entire object linked list.
 void			free_list(t_objlist *list);
-//Function frees an object.
-void			free_object(t_obj *object);
-//Function frees a secondary intersection.
-void			free_sec_intersection(t_sec_itsct *sec);
-//Function frees the intermediate results of the ray-sphere intersect calc.
-void			free_is(t_itsct_sphere *is);
-//Function frees the intermediate results of the ray-cylinder intersect calc.
-void			free_ic(t_itsct_cyl *ic);
-//Function frees a colour.
-void			free_colour(t_colour *colour);
+//Function frees the program struct.
+void			free_program(t_program *program);
 
 // ================================== LINKED LISTS =============================
-//Function creates a new program data structure.
-t_program		*program_create(void);
-//Function adds an object linked list to the program data structure.
-void			program_add_obj_list(t_program *program, t_objlist *objlist);
 //Function creates and initialises a new object linked list in the program.
 t_objlist		*list_create(void);
 //Function adds an object to a linked list.
 void			list_add_object(t_objlist *list, t_obj *object);
 //Function removes an object from a linked list, freeing its memory.
 void			list_remove_object(t_objlist *list, t_obj *object);
-
-//Function creates a new initialised object.
-t_obj	*object_create(void);
+//Function adds an object linked list to the program data structure.
+void			program_add_obj_list(t_program *program, t_objlist *objlist);
 
 // =================================== OPERATIONS ==============================
 //Function that converts a string's contents to a double type variable.
