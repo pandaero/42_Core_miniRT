@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 13:24:52 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/14 12:54:51 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/14 12:55:37 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <math.h>
 #include <float.h>
 
-static int	blah(t_sec_itsct_pass *stct, t_pixel *pixel, t_program *program)
+static int	sec_int_loop(t_sec_itsct_pass *stct, t_pixel *pixel, t_program *program)
 {
 	stct->temp = intersection_ray_obj(stct->ray, stct->obj);
 	if (stct->temp.state == INTERSECTED && stct->temp.distance <= \
@@ -74,7 +74,7 @@ void	secondary_intersection_pass(t_program *program, t_pixel *pixel)
 			stct.sec_unren--;
 			continue ;
 		}
-		if (blah(&stct, pixel, program))
+		if (sec_int_loop(&stct, pixel, program))
 			return ;
 	}
 }
