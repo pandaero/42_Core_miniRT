@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 16:16:35 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/14 11:52:35 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/14 13:10:57 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -383,7 +383,7 @@ typedef struct s_itsct_plane
 	t_vector	ray_to_plane;
 	t_vector	plane_norm_vec;
 	double		dist;
-	double		denominator;
+	double		denom;
 }				t_itsct_plane;
 
 //Typedef contains several variables for the ray-sphere intersection operation.
@@ -440,10 +440,11 @@ typedef struct s_valid_formatting
 typedef struct s_sec_itsct_pass
 {
 	int			sec_unren;
-	t_obj		*obj;
+	t_intersect	temp;
 	t_direction	dir;
 	t_ray		ray;
-	t_intersect	temp;
+	t_obj		*obj;
+	t_pixel		*lastpix;
 }				t_sec_itsct_pass;
 
 //Typedef defines a struct for refactoring in the primary intersection pass.
