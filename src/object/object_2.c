@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   object_4.c                                         :+:      :+:    :+:   */
+/*   object_3.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 20:44:12 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/14 02:19:02 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/14 11:04:29 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,19 +61,6 @@ t_obj	*object_unrendered_list(t_objlist *objlist)
 			curr = curr->next;
 	}
 	return (NULL);
-}
-
-//Function makes an ambient light object.
-t_obj	*object_ambient(t_ambient ambient)
-{
-	t_obj	*new;
-
-	new = object_create();
-	new->ren = 1;
-	new->sec_ren = 1;
-	new->elem = AMBIENT;
-	new->ambient = ambient_copy(ambient);
-	return (new);
 }
 
 //Function finds the first renderable object in the object linked list.
