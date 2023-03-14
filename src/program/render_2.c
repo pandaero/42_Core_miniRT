@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 13:19:09 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/14 19:25:48 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/14 19:48:29 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,27 @@ static void	primary_intersection_loop(t_program *program, t_pixel *pixel, \
 		return ;
 	}
 	stct->temp = intersection_ray_obj(stct->ray, stct->obj);
-	if (stct->temp.state == INTERSECTED && \
-		stct->temp.distance > 0 && ((pixel->itsct.state == INTERSECTED && stct->temp.distance < pixel->itsct.distance) || pixel->itsct.state == MISSED))
+	if (stct->temp.state == INTERSECTED && stct->temp.distance > 0 && \
+	((pixel->itsct.state == INTERSECTED && stct->temp.distance < \
+					pixel->itsct.distance) || pixel->itsct.state == MISSED))
 		pixel->itsct = intersect_copy(stct->temp);
 	stct->unren--;
 	stct->obj = stct->obj->next;
+}
+
+//Function performs the colour calculation according to surface normals.
+static void	diffuse_factor_calc(t_program *program, t_itsct_pass *stct, \
+																t_pixel *pixel)
+{
+	stct->dir[1] = direction_two_points(pixel->itsct.point, \
+									diffuse_objlist(program->objlist).position);
+	stct->difac = \
+		fmax(0, direction_dot(pixel->itsct.normal, stct->dir[1])) \
+					* diffuse_objlist(program->objlist).ratio * DIFF_INTENSITY;
+	pixel->itsct.colour = colour_factor(stct->difac, pixel->itsct.colour);
+	stct->amb = \
+		colour_factor(0.5, colour_amb_cont(ambient_objlist(program->objlist)));
+	pixel->itsct.colour = colour_add(pixel->itsct.colour, stct->amb);
 }
 
 //Function calculates a primary intersection for a pixel.
@@ -55,20 +71,11 @@ void	primary_intersection_pass(t_program *program, t_pixel *pixel)
 		primary_intersection_loop(program, pixel, &stct);
 	if (pixel->itsct.state == INTERSECTED)
 	{
-		pixel->itsct.colour = colour_object(pixel->itsct.object);
-		pixel->itsct.colour = colour_ambient(pixel->itsct.colour, \
+		pixel->itsct.colour = \
+			colour_ambient(colour_object(pixel->itsct.object), \
 											ambient_objlist(program->objlist));
 		if (objlist_count_diffuse(program->objlist))
-		{
-			stct.dir[1] = direction_two_points(pixel->itsct.point, \
-									diffuse_objlist(program->objlist).position);
-			stct.difac = fmax(0, direction_dot(pixel->itsct.normal, stct.dir[1])) \
-						* diffuse_objlist(program->objlist).ratio * DIFF_INTENSITY;
-			pixel->itsct.colour = colour_factor(stct.difac, pixel->itsct.colour);
-			stct.amb = \
-			colour_factor(0.5, colour_amb_cont(ambient_objlist(program->objlist)));
-			pixel->itsct.colour = colour_add(pixel->itsct.colour, stct.amb);
-		}
+			diffuse_factor_calc(program, &stct, pixel);
 	}
 	else
 		pixel->itsct.colour = colour_ambient_list(program->objlist);
