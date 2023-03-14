@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 19:54:58 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/13 19:52:06 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/14 02:13:28 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_obj	*object_from_line(const char *line)
 
 	elem = element_line(line);
 	if (elem == INVALID || elem == EMPTY)
-		return (object_null());
+		return (object_create());
 	if (elem == AMBIENT)
 		return (object_ambient_line(line));
 	if (elem == CAMERA)
@@ -56,7 +56,7 @@ t_obj	*object_from_line(const char *line)
 		return (object_sphere_line(line));
 	if (elem == CYLINDER)
 		return (object_cylinder_line(line));
-	return (object_null());
+	return (object_create());
 }
 
 //Function performs the input file parsing to create program objects.

@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:17:22 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/13 19:39:19 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/14 02:18:29 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,25 +26,50 @@ t_obj	*object_create(void)
 	return (new);
 }
 
-//Function creates a new empty object.
-t_obj	*object_null(void)
-{
-	return (object_create());
-}
-
-//Function copies an object's properties to a new one.
-t_obj	*object_copy(t_obj object)
+//Function creates a camera object.
+t_obj	*object_camera(t_camera camera)
 {
 	t_obj	*new;
 
 	new = object_create();
-	new->ren = object.ren;
-	new->sec_ren = object.sec_ren;
-	new->elem = object.elem;
-	new->ambient = ambient_copy(object.ambient);
-	new->diffuse = diffuse_copy(object.diffuse);
-	new->camera = camera_copy(object.camera);
-	new->prev = object.prev;
-	new->next = object.next;
+	new->ren = 1;
+	new->sec_ren = 1;
+	new->elem = CAMERA;
+	new->camera = camera_copy(camera);
+	return (new);
+}
+
+//Function creates a screen object.
+t_obj	*object_screen(t_screen screen)
+{
+	t_obj	*new;
+
+	new = object_create();
+	new->ren = 1;
+	new->sec_ren = 1;
+	new->elem = SCREEN;
+	new->screen = screen_copy(screen);
+	return (new);
+}
+
+//Function creates a plane object.
+t_obj	*object_plane(t_plane plane)
+{
+	t_obj	*new;
+
+	new = object_create();
+	new->elem = PLANE;
+	new->plane = plane_copy(plane);
+	return (new);
+}
+
+//Function creates a sphere object.
+t_obj	*object_sphere(t_sphere sphere)
+{
+	t_obj	*new;
+
+	new = object_create();
+	new->elem = SPHERE;
+	new->sphere = sphere_copy(sphere);
 	return (new);
 }

@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 02:55:08 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/14 00:07:12 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/14 02:30:04 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,13 @@ void	render_empty_scene(t_program *program)
 void	render_pixel(t_program *program, t_pixel *pixel)
 {
 	primary_intersection_pass(program, pixel);
-	if (objlist_count_diffuse(program->objlist) && pixel->itsct.state != MISSED)
+	if (objlist_count_diffuse(program->objlist) && pixel->itsct.state == INTERSECTED)
 		secondary_intersection_pass(program, pixel);
 	if (pixel->sec_itsct.state == INTERSECTED)
+	{
 		pixel->colour = colour_subtract(pixel->itsct.colour, pixel->sec_itsct.shadow);
+		// pixel->colour = colour_add(colour_ambient_list(program->objlist), pixel->colour);
+	}
 	else
 	{
 		if (pixel->itsct.state == INTERSECTED)
@@ -80,45 +83,12 @@ void	render_object_scene(t_program *program)
 	}
 }
 
-// #include <stdlib.h>
-// char	*str_point(t_point point)
-// {
-// 	char	*new;
-// 	char	*temp;
-// 	char	*num;
-
-// 	temp = ft_strjoin("", "(");
-// 	num = ft_itoa((int) round(point.x_co));
-// 	new = ft_strjoin(temp, num);
-// 	free(num);
-// 	free(temp);
-// 	temp = ft_strjoin(new, ", ");
-// 	free(new);
-// 	num = ft_itoa((int) round(point.y_co));
-// 	new = ft_strjoin(temp, num);
-// 	free(num);
-// 	free(temp);
-// 	temp = ft_strjoin(new, ", ");
-// 	num = ft_itoa((int) round(point.z_co));
-// 	free(new);
-// 	new = ft_strjoin(temp, num);
-// 	free(num);
-// 	free(temp);
-// 	temp = ft_strjoin(new, ")");
-// 	free(new);
-// 	return (temp);
-// }
-
 //Function creates a screen from camera, then loops rendering through objlist.
 void	render_screen(t_program *program)
 {
 	t_screen	screen;
 
 	screen = screen_camera(WIN_WIDTH, WIN_HEIGHT, camera_program(program));
-	// ft_printf("SCREEN\n");
-	// char *ctr = str_point(screen.pts.centre);
-	// ft_printf("Width: %i, Height: %i, Location: %s\n", screen.width, screen.height, ctr);
-	// free(ctr);
 	list_add_object(program->objlist, object_screen(screen));
 	if (program->objlist->num_unren == 0)
 		render_empty_scene(program);

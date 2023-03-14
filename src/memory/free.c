@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 17:47:39 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/14 00:16:47 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/14 02:17:20 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,12 @@ void	free_split(char **charr)
 //Function frees the program struct.
 void	free_program(t_program *program)
 {
-	free_screen(screen_program(program));
 	if (program->objlist)
+	{
+		if (screen_program(program))
+			free_screen(screen_program(program));
 		free_list(program->objlist);
+	}
 }
 
 //Function frees an entire object linked list.
