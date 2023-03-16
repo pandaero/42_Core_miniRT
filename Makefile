@@ -6,7 +6,7 @@
 #    By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/16 18:36:19 by pandalaf          #+#    #+#              #
-#    Updated: 2023/03/13 12:52:25 by pandalaf         ###   ########.fr        #
+#    Updated: 2023/03/16 09:28:25 by pandalaf         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -94,6 +94,29 @@ vpath %.c $(SRC_ROOT)
 # Make desired target
 all: directory $(NAME)
 
+# Perform testing battery
+test: all
+	./$(NAME) test/input/box_simple_light.rt
+	mv out.ppm test/output/20230316_0930/box_simple_light.ppm
+	./$(NAME) test/input/box_simple.rt
+	mv out.ppm test/output/20230316_0930/box_simple.ppm
+	./$(NAME) test/input/full_mix_1.rt
+	mv out.ppm test/output/20230316_0930/full_mix_1.ppm
+	./$(NAME) test/input/full_mix_2.rt
+	mv out.ppm test/output/20230316_0930/full_mix_2.ppm
+	./$(NAME) test/input/full_mix_3.rt
+	mv out.ppm test/output/20230316_0930/full_mix_3.ppm
+	./$(NAME) test/input/full_mix_box_1.rt
+	mv out.ppm test/output/20230316_0930/full_mix_box_1.ppm
+	./$(NAME) test/input/full_mix_box_2.rt
+	mv out.ppm test/output/20230316_0930/full_mix_box_2.ppm
+	./$(NAME) test/input/many_spheres_inside.rt
+	mv out.ppm test/output/20230316_0930/many_spheres_inside.ppm
+	./$(NAME) test/input/one_cylinder_inside_2.rt
+	mv out.ppm test/output/20230316_0930/one_cylinder_inside_2.ppm
+	./$(NAME) test/input/one_cylinder_inside.rt
+	mv out.ppm test/output/20230316_0930/one_cylinder_inside.ppm
+
 # Make required directory
 directory: $(OBJ_DIR)
 
@@ -148,4 +171,4 @@ fclean:
 re: fclean all
 
 # Make sure these aren't treated as files
-.PHONY: all directory clean fclean re
+.PHONY: all test directory clean fclean re

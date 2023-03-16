@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 13:24:52 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/14 18:33:22 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/16 09:02:12 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,34 @@ static int	sec_int_loop(t_sec_itsct_pass *stct, t_pixel *pixel, \
 	return (0);
 }
 
+static int	self_sec_itsct_loop(t_program *program, t_pixel *pixel, \
+														t_sec_itsct_pass *stct)
+{
+	t_vector	selfvec;
+	t_point		selfraypt;
+	t_ray		selfray;
+	t_intersect	tempy;
+
+	selfvec = vector_scale_direction(0.1, stct->dir);
+	selfraypt = point_point_vector(pixel->itsct.point, selfvec);
+	selfray = ray_start_dir(selfraypt, stct->dir);
+	tempy = intersection_ray_obj(selfray, stct->obj);
+	if (tempy.state == INTERSECTED && tempy.distance < \
+						distance_two_points(selfraypt, \
+									diffuse_objlist(program->objlist).position))
+	{
+		pixel->sec_itsct.state = INTERSECTED;
+		pixel->sec_itsct.distance = tempy.distance;
+		pixel->sec_itsct.shadow = colour_full(SHADOW);
+		if (pixel == stct->lastpix)
+			program->objlist->num_sec_unren--;
+		return (1);
+	}
+	stct->obj = stct->obj->next;
+	stct->sec_unren--;
+	return (0);
+}
+
 //Function calculates a secondary intersection for a pixel.
 void	secondary_intersection_pass(t_program *program, t_pixel *pixel)
 {
@@ -58,8 +86,8 @@ void	secondary_intersection_pass(t_program *program, t_pixel *pixel)
 	{
 		if (stct.obj && stct.obj == pixel->itsct.object)
 		{
-			stct.obj = stct.obj->next;
-			stct.sec_unren--;
+			if (self_sec_itsct_loop(program, pixel, &stct))
+				return ;
 			continue ;
 		}
 		if (sec_int_loop(&stct, pixel, program))
