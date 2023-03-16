@@ -6,7 +6,7 @@
 /*   By: pandalaf <pandalaf@student.42wolfsburg.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/17 18:51:09 by pandalaf          #+#    #+#             */
-/*   Updated: 2023/03/13 23:21:55 by pandalaf         ###   ########.fr       */
+/*   Updated: 2023/03/16 14:30:29 by pandalaf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,16 +57,4 @@ t_intersect	intersection_ray_obj(t_ray ray, t_obj *obj)
 		out = intersection_ray_cylinder(ray, obj->cylinder);
 	out.object = obj;
 	return (out);
-}
-
-//Produces the distance between the point of origin to the point of intersection
-t_point	get_intersection_point(t_ray ray, double distance)
-{
-	t_point	point;
-
-	point = point_coords \
-			(ray.ray_orig.x_co + distance * ray.ray_dir.x_comp, \
-			ray.ray_orig.y_co + distance * ray.ray_dir.y_comp, \
-			ray.ray_orig.z_co + distance * ray.ray_dir.z_comp);
-	return (point);
 }
